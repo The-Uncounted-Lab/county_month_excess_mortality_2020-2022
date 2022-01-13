@@ -1,0 +1,512 @@
+---
+title: "County-Level Mortality Model - Performance"
+author: "Eugenio Paglino"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: html_document
+---
+
+```{r, echo=F, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(matrixStats)
+library(patchwork)
+library(knitr)
+library(here)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+rm(list=ls())
+
+here::i_am('R/exMortPerformance.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+# Import historical county-monthly data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-quarters with < 10 deaths are censored in these data
+
+ACData <- list.files(
+  here::here(inDir,'Data_CDC_Wonder','Deaths_by_county_and_month'),
+  pattern = "*.txt",
+  full.names = TRUE
+) %>%
+  map_dfr(
+    ~ data.table::fread(
+      .x,
+      na.strings = c("Missing", "Suppressed", "Not Applicable"),
+      keepLeadingZeros = TRUE,
+      colClasses = c("character")
+    )
+  )
+
+# Setting intuitive names
+
+names(ACData) <-c('notes','countyName','FIPSCode',
+                  'month','monthCode','deaths',
+                  'population','CMR','countyName2021','FIPSCode2021')
+
+ACData <- ACData %>% mutate(FIPSCode = if_else(is.na(FIPSCode),FIPSCode2021,FIPSCode),
+                            countyName = if_else(is.na(countyName),countyName2021,countyName))
+
+# Keeping only the variables we need
+
+ACData <- ACData[,c('FIPSCode','monthCode','deaths')]
+
+# Converting deaths from characters to integers
+
+ACData <- ACData[ , deaths := as.integer(deaths)]
+
+# We extract month and year from the monthCode variable and then
+# create a monthYear date variable.
+
+ACData <- ACData %>% 
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(year = as.integer(year),
+         month = as.integer(month),
+         monthYear = make_date(year=year,month=month,day=1))
+
+```
+
+```{r, echo=F}
+
+# Import population counts and information on county sets (groups of 
+# counties created by the Census Bureau to have geographical units with
+# at least 50.000 residents).
+
+# We do not have yet population estimated for 2021, we thus use the 2020 values.
+# This is not ideal but it is not worse compared to other more complex strategies
+
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+countySets <- read.csv(here::here(inDir,'geo','countySets.csv'), colClasses = 'character')
+
+```
+
+```{r, echo=F}
+
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+
+ACData <- ACData %>% left_join(popData, by = c('FIPSCode','year','month'))
+ACData <- ACData %>% left_join(countySets, by = c('FIPSCode'))
+
+```
+
+```{r, echo=F}
+
+# We compute the monthly Crude Death Rate (CDR) for every 100.000 residents
+
+ACData <- ACData %>% mutate(CDR=(deaths/pop)*100000,
+                            logCDR = log(CDR))
+
+# We keep only data from 2010 onwards
+
+ACData <- ACData %>% filter(year>2009)
+
+```
+
+```{r, echo=F}
+
+# We load the pre-trained models
+
+load(here::here('R','RObjects','modelBaseT.RData'))
+load(here::here('R','RObjects','modelBaseFlexT.RData'))
+load(here::here('R','RObjects','modelGeoT.RData'))
+load(here::here('R','RObjects','modelGeoFlexT.RData'))
+load(here::here('R','RObjects','modelRandomTimeT.RData'))
+
+```
+
+## Methods
+
+To model monthly county-level Crude Death Rates, I estimated three different hierarchical linear models. I could experiment with more alternatives and more complex model structures, but having only three years of data (two used for fitting the model and one for testing), limits the possibilities. All models try to predict the logarithm of the monthly Crude Death Rate (for 100.000 individuals) at the county level. I decided to use the logarithm because: 1) it ensures that we only have positive mortality rates, 2) it is simpler than estimating a count model (such as Poisson or negative binomial).
+
+The first model (Base Model) models the logarithm of the CDR with a random intercept model for each county, a linear time trend for years, and fixed effects for months. The linear trend aims to capture overall trends in mortality while monthly fixed effects should capture seasonality. The model can be expressed as follows:
+
+\begin{align}
+\text{Level 1: } &log(CDR_{c,t})  = \pi_{0c} + \gamma_{1} Year_{c,t} + \sum_{m=1}^{12} \theta_{m} Month_{c,t} + \varepsilon_{c,t} \\
+\text{Level 2: } &\pi_{0c} \sim \mathcal{N}\left(\gamma_{00},\sigma^2_{0}\right)
+\end{align}
+
+Where:
+
+\begin{align}
+\varepsilon_{c,t}  &\sim \mathcal{N}\left(0,\sigma^2_{\varepsilon}\right)
+\end{align}
+
+The subscript $c$ indicates counties, the subscript $t$ indicates the point in time (month) when the county was observed (e.g. January 2000), finally, the subscript $m$ indicates the month of the year when the county was observed (January). The second model (Geo Model) has the same structure as the Base Model but adds a more complex random effects component. We now have three different random intercepts, at the county, county-set, and state levels. These three levels are nested so that the intercept for a given county depends on the intercept for the county-set of which it is part, and the county-set intercept depends on the state where the county-set is located. The model can be expressed as follows:
+
+\begin{align}
+\text{Level 1: } &log(CDR_{c,cs,s,t})  = \pi_{0c} + \pi_{0cs} + \pi_{0s} + \gamma_{1} Year_{c,t} + \sum_{m=1}^{12} \theta_{m} Month_{c,t} + \varepsilon_{c,cs,s,t} \\
+\text{Level 2: } &\pi_{0c} \sim \mathcal{N}\left(\gamma_{0c},\sigma^2_{0c}\right) \\
+\text{Level 3: } &\pi_{0cs} \sim \mathcal{N}\left(\gamma_{0cs},\sigma^2_{0cs}\right) \\
+\text{Level 4: } &\pi_{0s} \sim \mathcal{N}\left(\gamma_{0s},\sigma^2_{0s}\right)
+\end{align}
+
+Where:
+
+\begin{align}
+\varepsilon_{c,cs,s,t} &\sim \mathcal{N}\left(0,\sigma^2_{\varepsilon}\right)
+\end{align}
+
+The notation is now a bit more complex. The additional subscript $cs$ refers to county-sets, and the new subscript $s$ refers to the county's state. The third and fourth models (Base Flex and Geo Flex) are identical to the Base Model and the Geo model respectively but introduce a quadratic term for time. Finally, the Random Time model starts from the Geo model but introduces a random term for time at the county-set level. The model can be expressed as follows:
+
+\begin{align}
+\text{Level 1: } &log(CDR_{c,cs,s,t})  = \pi_{0c} + \pi_{0cs} + \pi_{0s} + \pi_{1cs} Year_{c,t} + \sum_{m=1}^{12} \theta_{m} Month_{c,t} + \varepsilon_{c,cs,s,t} \\
+\text{Level 2: } &\pi_{0c} \sim \mathcal{N}\left(\gamma_{0c},\sigma^2_{0c}\right) \\
+\text{Level 3: } &\begin{bmatrix} 
+\pi_{0cs} \\ 
+\pi_{1cs}
+\end{bmatrix} \sim \mathcal{N}\left(\begin{bmatrix} 
+                                  \gamma_{0cs} \\ 
+                                  \gamma_{1cs} 
+                                  \end{bmatrix}, 
+                                  \begin{bmatrix} 
+                                  \sigma^2_{0cs} & \sigma_{01cs} \\ 
+                                  \sigma_{10cs} & \sigma^2_{1cs} \\
+                                  \end{bmatrix} \right) \\
+\text{Level 4: } &\pi_{0s} \sim \mathcal{N}\left(\gamma_{0s},\sigma^2_{0s}\right)
+\end{align}
+
+Where:
+
+\begin{align}
+\varepsilon_{c,cs,s,t}  &\sim \mathcal{N}\left(0,\sigma^2_{\varepsilon}\right)
+\end{align}
+
+Notice that the random intercept and the random slope are allowed to be correlated. This feature allows the model to capture relationships between the time trend and the value in the first time point. For example, it may be that counties with higher mortality see steeper declines over time compared to counties that start from lower mortality levels.
+
+## Performance
+
+I've trained the models on data for 1999-2018 and tested them with data for 2019. To get an idea regarding the models' relative performance, I computed the Root Mean Squared Error (RMSE) for each model and separately for training and test data.
+
+```{r, echo=F}
+
+smallNFIPS <- ACData %>%
+  group_by(FIPSCode) %>%
+  mutate(nObs = n()) %>%
+  filter(nObs < 10)
+
+set.seed(42)
+
+FIPSCodes <- as.character(unique(smallNFIPS$FIPSCode))
+someFIPS <- sample(FIPSCodes,size=40)
+nFIPS <- length(someFIPS)
+
+noPooling <- lm(logCDR ~ as.factor(FIPSCode),
+                data = filter(smallNFIPS,FIPSCode %in% someFIPS))
+
+partialPooling <- lmer(logCDR ~ (1 | FIPSCode),
+                       data = filter(smallNFIPS,FIPSCode %in% someFIPS))
+  
+intercepts <- tibble(FIPSCode = someFIPS,
+                     interceptCP = rep(0,nFIPS), 
+                     interceptNP = rep(0,nFIPS),
+                     lwrNP = rep(0,nFIPS),
+                     uprNP = rep(0,nFIPS),
+                     interceptPP = rep(0,nFIPS))
+
+intercepts <- intercepts %>% 
+                left_join(smallNFIPS %>%
+                            drop_na() %>%
+                            filter(FIPSCode %in% someFIPS) %>% 
+                            group_by(FIPSCode) %>% 
+                            summarise(nObs = n()), 
+                          by = 'FIPSCode')
+
+intercepts[,'interceptCP'] <- mean(filter(smallNFIPS,FIPSCode %in% someFIPS)$logCDR)
+intercepts[,c('interceptNP','lwrNP','uprNP')] <- predict(noPooling,intercepts,interval = 'confidence')
+intercepts[,'interceptPP'] <- predict(partialPooling,intercepts)
+
+```
+
+```{r, echo=F, fig.width=10, fig.height=4}
+
+NPPlot <- ggplot(data=intercepts) +
+  geom_pointrange(mapping=aes(x=nObs,y=interceptNP,ymin=lwrNP,ymax=uprNP), 
+                  position='jitter', size=0.3) +
+  geom_line(mapping = aes(x=nObs,y=interceptCP)) +
+  coord_cartesian(ylim=c(4.7,6.5)) + 
+  scale_x_continuous(trans='log2') +
+  labs(title='No Pooling Model (Fixed Effects)',
+       x='Number of Observations',
+       y='Estimated Intercept')
+
+PPPlot <- ggplot(data=intercepts) +
+  geom_jitter(mapping=aes(x=nObs,y=interceptPP)) +
+  geom_line(mapping = aes(x=nObs,y=interceptCP)) +
+  coord_cartesian(ylim=c(4.7,6.5)) + 
+  scale_x_continuous(trans='log2') +
+  labs(title='Partial Pooling Model (Multi-Level)',
+       x='Number of Observations',
+       y='Estimated Intercept')
+
+NPPlot + PPPlot
+
+```
+
+```{r, echo=FALSE}
+
+# Function to compute the Root Mean Squared Error (RMSE) between two series
+
+RMSE <- function(series1,series2) {
+  
+  return(sqrt(mean((series1 - series2)^2)))
+  
+}
+
+# We compute the RMSE for the three models and store the result in a data.frame
+
+RMSEs <- data.frame(Performance=c('Training Data (2010-2018)',
+                                  'Test Data (2019)',
+                                  'Overall'),
+                    modelBase=c(RMSE(filter(drop_na(ACData),year<2019)$logCDR,
+                                     predict(modelBaseT)),
+                                RMSE(filter(drop_na(ACData),year==2019)$logCDR,
+                                     predict(modelBaseT,filter(drop_na(ACData),year==2019),
+                                             allow.new.levels=T)),
+                                RMSE(filter(drop_na(ACData),year<=2019)$logCDR,
+                                     predict(modelBaseT,filter(drop_na(ACData),year<=2019),
+                                             allow.new.levels=T))),
+                    modelBaseFlex=c(RMSE(filter(drop_na(ACData),year<2019)$logCDR,
+                                         predict(modelBaseFlexT)),
+                                    RMSE(filter(drop_na(ACData),year==2019)$logCDR,
+                                         predict(modelBaseFlexT,filter(drop_na(ACData),year==2019),
+                                                 allow.new.levels=T)),
+                                    RMSE(filter(drop_na(ACData),year<=2019)$logCDR,
+                                         predict(modelBaseFlexT,filter(drop_na(ACData),year<=2019),
+                                                 allow.new.levels=T))),
+                    modelGeo=c(RMSE(filter(drop_na(ACData),year<2019)$logCDR,
+                                      predict(modelGeoT)),
+                                 RMSE(filter(drop_na(ACData),year==2019)$logCDR,
+                                      predict(modelGeoT,filter(drop_na(ACData),year==2019),
+                                              allow.new.levels=T)),
+                                 RMSE(filter(drop_na(ACData),year<=2019)$logCDR,
+                                      predict(modelGeoT,filter(drop_na(ACData),year<=2019),
+                                              allow.new.levels=T))),
+                    modelGeoFlex=c(RMSE(filter(drop_na(ACData),year<2019)$logCDR,
+                                        predict(modelGeoFlexT)),
+                                     RMSE(filter(drop_na(ACData),year==2019)$logCDR,
+                                          predict(modelGeoFlexT,filter(drop_na(ACData),year==2019),
+                                                  allow.new.levels=T)),
+                                     RMSE(filter(drop_na(ACData),year<=2019)$logCDR,
+                                          predict(modelGeoFlexT,filter(drop_na(ACData),year<=2019),
+                                                  allow.new.levels=T))),
+                    modelRandomTime=c(RMSE(filter(drop_na(ACData),year<2019)$logCDR,
+                                           predict(modelRandomTimeT)),
+                                      RMSE(filter(drop_na(ACData),year==2019)$logCDR,
+                                           predict(modelRandomTimeT,filter(drop_na(ACData),year==2019),
+                                                   allow.new.levels=T)),
+                                      RMSE(filter(drop_na(ACData),year<=2019)$logCDR,
+                                           predict(modelRandomTimeT,filter(drop_na(ACData),year<=2019),
+                                                   allow.new.levels=T))))
+
+```
+
+
+```{r, echo=F}
+
+kable(RMSEs,
+      col.names=c('Performance','Base Model','Base Flex Model','Geo Model','Geo Flex Model','Random Time Model'))
+
+```
+
+The Base and the Geo models have a similar performance, suggesting that the more complex multilevel structure in the former may not be needed in this case. Adding a quadratic term for time does not significantly improve the models' performance. This is likely the result of the relatively short time period we are using. However, this is not necessarily a disadvantage. Starting from the Geo model and including a random term for the time slope (at the county-set level) leads to a better performance both on the training and the testing data. Based on these results I decided to move forward only with the Random Time model for a more careful examination of its performance, keeping the Base model as a benchmark.
+
+The set of graphs below shows the actual rates versus the rates predicted by the models. I created two different graphs for each model: one for the training period (2010-2018), the second for the test period (2019).  
+
+Overall the performance of the model seems similar and broadly satisfying. The fact that most points fall along or near the diagonal slope-1 line means that the predictions are a good approximation of the actual mortality rate. Moreover, the points seem evenly distributed above and below the line, suggesting that there is no systematic bias in the models. 
+
+```{r simulation, cache=TRUE, echo=F}
+
+# We simulate prediction from the models. Simulating, rather than predicting, 
+# allows us to easily get a sense of the uncertainty around our estimates
+
+n.sim = 500
+
+FIPSCodes <- as.character(unique(ACData$FIPSCode))
+
+simulations <- as.matrix(simulate(modelBaseFlexT,newdata=ACData,allow.new.levels=T,nsim=n.sim,re.form=NULL,seed=42))
+simulatedQuants <- data.frame(rowQuantiles(simulations,probs=c(0.025,0.5,0.975)))
+names(simulatedQuants) <- c('low','med','up')
+ACData[,c('lowBase','medBase','upBase')] <- simulatedQuants
+ACData[,'meanBase'] <- rowMeans(simulations)
+
+simulations <- as.matrix(simulate(modelRandomTimeT,newdata=ACData,allow.new.levels=T,nsim=n.sim,re.form=NULL,seed=42))
+simulatedQuants <- data.frame(rowQuantiles(simulations,probs=c(0.025,0.5,0.975)))
+names(simulatedQuants) <- c('low','med','up')
+ACData[,c('lowFlex','medFlex','upFlex')] <- simulatedQuants
+ACData[,'meanFlex'] <- rowMeans(simulations)
+
+```
+
+
+```{r creatingFigures, echo=F, fig.width=7,fig.height=21}
+
+# Let us plot the predicted values versus the actual ones for 1999-2002
+# and for 2001 separately
+
+transparency = 0.05
+
+basePlotTrain <- ggplot(data = filter(ACData,year<2019)) +
+  geom_point(mapping=aes(x=logCDR,y=meanBase),
+             alpha=transparency) +
+  geom_abline(mapping=aes(slope=1,intercept=0),color='red') +
+  coord_cartesian(xlim=c(2.5,6.5),ylim=c(2.5,6.5)) +
+  labs(title='Base Model 2010-2018',
+       x='log(CDR)',
+       y='Predicted log(CDR)')
+
+basePlotTest <- ggplot(data = filter(ACData,year==2019)) +
+  geom_point(mapping=aes(x=logCDR,y=meanBase),
+             alpha=transparency) +
+  geom_abline(mapping=aes(slope=1,intercept=0),color='red') +
+  coord_cartesian(xlim=c(2.5,6.5),ylim=c(2.5,6.5)) +
+  labs(title='Base Model 2019',
+       x='log(CDR)',
+       y='Predicted log(CDR)')
+
+geoPlotTrain <- ggplot(data = filter(ACData,year<2019)) +
+  geom_point(mapping=aes(x=logCDR,y=meanFlex),
+             alpha=transparency) +
+  geom_abline(mapping=aes(slope=1,intercept=0),color='red') +
+  coord_cartesian(xlim=c(2.5,6.5),ylim=c(2.5,6.5)) +
+  labs(title='Flex Model 2010-2018',
+       x='log(CDR)',
+       y='Predicted log(CDR)')
+
+geoPlotTest <- ggplot(data = filter(ACData,year==2019)) +
+  geom_point(mapping=aes(x=logCDR,y=meanFlex),
+             alpha=transparency) +
+  geom_abline(mapping=aes(slope=1,intercept=0),color='red') +
+  coord_cartesian(xlim=c(2.5,6.5),ylim=c(2.5,6.5)) +
+  labs(title='Flex Model 2019',
+       x='log(CDR)',
+       y='Predicted log(CDR)')
+
+```
+
+
+```{r, cache=T,echo=F, fig.align='center',fig.width=8, fig.height=8, fig.cap='Predicted versus Actual Values for the Two Models', message=F, warning=F}
+
+(basePlotTrain + basePlotTest) / (geoPlotTrain + geoPlotTest)
+
+```
+
+Aside from assessing the models' performance, it is important to understand how much uncertainty we have around the model estimates. In the context of hierarchical linear models, the uncertainty comes from three different sources: The fixed effects estimates, the random effects estimates, and the error term. To combine these three sources and see how the uncertainty propagates, I've run 500 simulations from the models each time drawing a new value for fixed and random effects from their respective distributions. From these 500 simulations it is then straightforward to compute confidence intervals, means, as I have done, but even more complex functions (such as the probability that a rate exceeds a given threshold).
+
+In this way I built the following graph showing the average national monthly CDR versus its predicted value with 95% confidence intervals.
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.cap='Predicting the National Average Monthly CDR', fig.width=8}
+
+ACData %>% 
+  filter(year<2020) %>%
+  group_by(monthYear) %>% 
+  summarize(meanBase = exp(mean(meanFlex)),
+            lowBase = exp(mean(lowFlex)),
+            upBase = exp(mean(upFlex)),
+            logCDR = exp(mean(logCDR, na.rm=T))) %>%
+  ggplot() +
+    geom_line(mapping=aes(x=monthYear,y=meanBase,color='Simulated-Flex')) +
+    geom_ribbon(mapping=aes(x=monthYear,ymin=lowBase,ymax=upBase,fill='95% Confidence Interval'),
+                alpha=0.3) +
+    geom_line(mapping=aes(x=monthYear,y=logCDR,color='Actual')) +
+    scale_color_manual(values=c('red2','dodgerblue4')) + 
+    scale_fill_manual(values=c('red2')) + 
+    labs(x='Time',
+         y='CDR',
+         colour='',
+         fill='') +
+    theme(legend.position="bottom")
+
+```
+
+We can see that the Base model does a fairly good job but the uncertainty is quite large. We should have smaller intervals once we have more data, but it is important to understand that this uncertainty will propagate to the estimates of excess mortality. Another important point, is that the quality of the predictions is not the same across all counties. To demonstrate this point, the graph below shows the model's performance for 8 urban counties. Despite some errors, the model performs fairly well. This was predictable because urban counties, with their large populations, tend to have stable death rates, which are thus easier to predict.
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=12, fig.height=6, fig.cap='Predicting the Monthly CDR for 8 Urban Counties'}
+
+cityFIPS <- c('Kings County (NY)' = '36047',
+              'New Orleans'='22071',
+              'Miami'='12086',
+              'Los Angeles'='06075',
+              'San Francisco'='06037',
+              'Houston'='48201',
+              'Chicago'='17031',
+              'Chicago'='17043')
+
+ACData %>% 
+  filter(FIPSCode %in% cityFIPS, year < 2020) %>%
+  group_by(monthYear,countyName) %>% 
+  summarize(meanBase = mean(meanFlex),
+            lowBase = mean(lowFlex),
+            upBase = mean(upFlex),
+            logCDR = mean(logCDR)) %>%
+  ggplot() +
+    geom_line(mapping=aes(x=monthYear,y=meanBase,color='Simulated-Base')) +
+    geom_ribbon(mapping=aes(x=monthYear,ymin=lowBase,ymax=upBase,fill='95% Confidence Interval'),
+                alpha=0.3) +
+    geom_line(mapping=aes(x=monthYear,y=logCDR,color='Actual')) +
+    scale_color_manual(values=c('red2','dodgerblue4')) + 
+    scale_fill_manual(values=c('red2')) + 
+    labs(x='Time',
+         y='log(CDR)',
+         colour='',
+         fill='') +
+    facet_wrap(~countyName,ncol=4,nrow=2) +
+    theme(legend.position="bottom",
+          axis.text.x = element_text(angle = 330))
+
+```
+In contrast, rural counties (as the ones represented in the graph below) have very unstable death rates which are thus more difficult to predict.
+
+```{r, echo=F, message=F, warning=F, fig.align='center', fig.width=13, fig.height=6, fig.cap='Predicting the Monthly CDR for 8 Rural Counties'}
+
+lowPopcounties <- ACData %>%
+  group_by(FIPSCode) %>%
+  summarize(averagePop = mean(pop,na.rm=T),
+            numObs = n()) %>%
+  filter(numObs==143) %>%
+  filter(min_rank(averagePop)<=8)
+
+ruralFIPS <- as.character(unique(lowPopcounties$FIPSCode))
+
+ACData %>% 
+  filter(FIPSCode %in% ruralFIPS, year < 2020) %>%
+  group_by(monthYear,countyName) %>% 
+  summarize(meanBase = mean(meanFlex),
+            lowBase = mean(lowFlex),
+            upBase = mean(upFlex),
+            logCDR = mean(logCDR)) %>%
+  ggplot() +
+    geom_line(mapping=aes(x=monthYear,y=meanBase,color='Simulated-Flex')) +
+    geom_ribbon(mapping=aes(x=monthYear,ymin=lowBase,ymax=upBase,fill='95% Confidence Interval'),
+                alpha=0.3) +
+    geom_line(mapping=aes(x=monthYear,y=logCDR,color='Actual')) +
+    scale_color_manual(values=c('red2','dodgerblue4')) + 
+    scale_fill_manual(values=c('red2')) + 
+    labs(x='Time',
+         y='log(CDR)',
+         colour='',
+         fill='') +
+    facet_wrap(~countyName,ncol=4,nrow=2) +
+    theme(legend.position="bottom",
+          axis.text.x = element_text(angle = 330))
+
+
+
+```
+
+An implication of this pattern is that we will likely have more extreme excess mortality values for rural counties (due to the randomness in their death rates). Luckily, even if we are not very good at predicting mortality for rural counties, this should not affect our ability to estimate the proportion of excess mortality not explained by COVID deaths.
+
+[//]: # You can access the project's repository here: https://github.com/eugeniopaglino/excessMortality.
+

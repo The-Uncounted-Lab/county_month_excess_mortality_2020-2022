@@ -1,0 +1,219 @@
+---
+title: "County-Level Mortality Model - Estimation (Test)"
+author: "Eugenio Paglino"
+date: "\today"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(matrixStats)
+library(patchwork)
+library(here)
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+rm(list=ls())
+
+here::i_am('R/exMortModelsTest.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, message=F, warning=F}
+
+# Import historical county-monthly data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-quarters with < 10 deaths are censored in these data
+
+ACData <- list.files(
+  here::here(inDir,'Data_CDC_Wonder','Deaths_by_county_and_month'),
+  pattern = "*.txt",
+  full.names = TRUE
+) %>%
+  map_dfr(
+    ~ data.table::fread(
+      .x,
+      na.strings = c("Missing", "Suppressed", "Not Applicable"),
+      keepLeadingZeros = TRUE,
+      colClasses = c("character")
+    )
+  )
+
+# Setting intuitive names
+
+names(ACData) <-c('notes','countyName','FIPSCode',
+                  'month','monthCode','deaths',
+                  'population','CMR','countyName2021','FIPSCode2021')
+
+ACData <- ACData %>% mutate(FIPSCode = if_else(is.na(FIPSCode),FIPSCode2021,FIPSCode),
+                            countyName = if_else(is.na(countyName),countyName2021,countyName))
+
+# Keeping only the variables we need
+
+ACData <- ACData[,c('FIPSCode','monthCode','deaths')]
+
+# Converting deaths from characters to integers
+
+ACData <- ACData[ , deaths := as.integer(deaths)]
+
+# We extract month and year from the monthCode variable and then
+# create a monthYear date variable.
+
+ACData <- ACData %>% 
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(year = as.integer(year),
+         month = as.integer(month),
+         monthYear = make_date(year=year,month=month,day=1))
+
+# We keep only data from 2010 onwards
+
+ACData <- ACData %>% filter(year>2009)
+
+```
+
+```{r}
+
+# Import population counts and information on county sets (groups of 
+# counties created by the Census Bureau to have geographical units with
+# at least 50.000 residents).
+
+# We do not have yet population estimated for 2021, we thus use the 2020 values.
+# This is not ideal but it is not worse compared to other more complex strategies
+
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+countySets <- read.csv(here::here(inDir,'geo','countySets.csv'), colClasses = 'character')
+
+```
+
+```{r}
+
+# For convenience, let us keep a list of state groupings based on Census regions
+
+northEast <- c('9','23','25','33','44','50','34','36','42')
+midWest <- c('18','17','26','39','55','19','31','20','38','27','46','29')
+south <- c('10','11','12','13','24','37','45','51','54','1','21','28','47','5','22','40','48')
+west <- c('4','8','16','35','30','49','32','56','2','6','15','41','53')
+
+newEngland <- c('9','23','25','33','44','50')
+middleAtlantic <- c('34','36','42')
+eastNorthCentral <- c('18','17','26','39','55')
+westNorthCentral <- c('19','31','20','38','27','46','29')
+southAtlantic <- c('10','11','12','13','24','37','45','51','54')
+eastSouthCentral <- c('1','21','28','47')
+westSouthCentral <- c('5','22','40','48')
+mountain <- c('4','8','16','35','30','49','32','56')
+pacific <- c('2','6','15','41','53')
+
+```
+
+```{r}
+
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+
+ACData <- ACData %>% left_join(popData, by = c('FIPSCode','year','month'))
+ACData <- ACData %>% left_join(countySets, by = c('FIPSCode'))
+
+ACData <- ACData %>% mutate(stateFIPS = if_else(stateFIPS == '11', '24', stateFIPS)) # Assign DC to Maryland
+
+ACData <- ACData %>% drop_na()
+
+```
+
+```{r}
+
+# We compute the monthly Crude Death Rate (CDR) for every 100.000 residents
+
+ACData <- ACData %>% mutate(CDR=(deaths/pop)*100000,
+                            logCDR = log(CDR))
+
+# We keep only data from 2010 onwards
+
+ACData <- ACData %>% filter(year>2009)
+
+```
+
+```{r}
+
+# We estimate the base model withb random intercepts for each county,
+# fixed-effects for months and a linear time trend
+
+modelBaseT <- lmer(log(CDR) ~ 1 + I(year-2009) + as.factor(month) + (1 | FIPSCode),
+                   data=filter(ACData,year<2019))
+
+```
+
+```{r}
+
+# We complicate the base model by adding random intercepts for states and 
+# county-sets 
+
+modelGeoT <- lmer(log(CDR) ~ 1 + I(year-2009) + as.factor(month) + 
+                  (1 | stateFIPS) + 
+                  (1 | csCode) +
+                  (1 | FIPSCode),
+                  data=filter(ACData,year<2019), 
+                  control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+# This time we complicate the base model by adding a quadratic time trend
+
+modelBaseFlexT <- lmer(log(CDR) ~ 1 + I(year-2009) + I((year-2009)^2) + as.factor(month) +
+                       (1 | FIPSCode),
+                       data=filter(ACData,year<2019), 
+                       control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+# This time we complicate the Geo model by adding a quadratic time trend
+
+modelGeoFlexT <- lmer(log(CDR) ~ 1 + I(year-2009) + I((year-2009)^2) + as.factor(month) +
+                        (1 | stateFIPS) +
+                        (1 | csCode) +
+                        (1 | FIPSCode),
+                        data=filter(ACData,year<2019), 
+                        control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+modelRandomTimeT <- lmer(log(CDR) ~ 1 + as.factor(month) +
+                       (1 | FIPSCode) +
+                       (1 + I(year-2009) | csCode) +
+                       (1 | stateFIPS),
+                       data=filter(ACData,year<2019),
+                       control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+# We save our models so that we can easily load them where and when we
+# need them without having to fit them again.
+
+save(modelBaseT,file = here::here('R','RObjects','modelBaseT.RData'))
+save(modelGeoT,file = here::here('R','RObjects','modelGeoT.RData'))
+save(modelBaseFlexT,file = here::here('R','RObjects','modelBaseFlexT.RData'))
+save(modelGeoFlexT,file = here::here('R','RObjects','modelGeoFlexT.RData'))
+save(modelRandomTimeT,file = here::here('R','RObjects','modelRandomTimeT.RData'))
+
+```
+

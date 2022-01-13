@@ -1,2 +1,2 @@
-# monthly_county_level_excess_mortality
-Estimating monthly excess mortality at the county level for the United States
+# excessMortality
+The aim of this project is to build a model to estimate monthly Crude Death Rates (CDR) at the county level for the United States.
