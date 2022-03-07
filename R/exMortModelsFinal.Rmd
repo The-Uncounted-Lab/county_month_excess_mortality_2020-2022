@@ -1,0 +1,103 @@
+---
+title: "County-Level Mortality Model - Estimation (Final)"
+author: "Eugenio Paglino"
+date: "\today"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(nlme)
+library(matrixStats)
+library(patchwork)
+library(here)
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+rm(list=ls())
+
+here::i_am('R/exMortModelsFinal.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+ACData <- ACData %>% filter(year>2014)
+
+ACData <- ACData %>% drop_na()
+
+```
+
+```{r}
+
+# We estimate the base model with random intercepts for each county,
+# fixed-effects for months and a linear time trend
+
+modelBaseLT <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) + (1 | FIPSCode),
+                   data=filter(ACData,year>2014,year<2019))
+
+```
+
+```{r}
+
+# We estimate the base model with random intercepts for each county,
+# fixed-effects for months and a linear time trend
+
+modelBaseLF <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) + (1 | FIPSCode),
+                   data=filter(ACData,year>2014,year<2020))
+
+```
+
+```{r}
+
+# We add random intercepts for county-sets and states and a random slope for
+# county-sets
+
+modelRandomTimeLT <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) +
+                         (1 | FIPSCode) +
+                         (1 + I(year-2015) | csCode) +
+                         (1 | stateFIPS),
+                         data=filter(ACData,year>2014,year<2019),
+                         control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+# We add random intercepts for county-sets and states and a random slope for
+# county-sets
+
+modelRandomTimeLF <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) +
+                         (1 | FIPSCode) +
+                         (1 + I(year-2015) | csCode) +
+                         (1 | stateFIPS),
+                         data=filter(ACData,year>2014,year<2020),
+                         control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+# We save our models so that we can easily load them where and when we
+# need them without having to fit them again.
+
+save(modelBaseLT,file = here::here('R','RObjects','modelBaseLT.RData'))
+save(modelBaseLF,file = here::here('R','RObjects','modelBaseLF.RData'))
+save(modelRandomTimeLT,file = here::here('R','RObjects','modelRandomTimeLT.RData'))
+save(modelRandomTimeLF,file = here::here('R','RObjects','modelRandomTimeLF.RData'))
+
+```
+

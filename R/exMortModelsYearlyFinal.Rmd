@@ -1,0 +1,62 @@
+---
+title: "County-Level Mortality Model - Estimation (Final)"
+author: "Eugenio Paglino"
+date: "\today"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(nlme)
+library(matrixStats)
+library(patchwork)
+library(here)
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+rm(list=ls())
+
+here::i_am('R/exMortModelsYearlyFinal.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F}
+
+ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
+
+ACYearlyData <- ACYearlyData %>% filter(year>2014,year<2020)
+ACYearlyData <- ACYearlyData %>% drop_na()
+
+```
+
+```{r}
+
+# We estimate the base model with random intercepts for each county,
+# fixed-effects for months and a linear time trend
+
+modelRandomTimeYearlyLF <- lmer(CDR ~ 1 + I(year-2015) + (1 | FIPSCode) + (1 + I(year-2015) | csCode),
+                                data=ACYearlyData)
+
+```
+
+```{r}
+
+# We save our models so that we can easily load them where and when we
+# need them without having to fit them again.
+
+save(modelRandomTimeYearlyLF,file = here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+
+```
+
