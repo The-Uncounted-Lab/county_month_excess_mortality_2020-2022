@@ -1,0 +1,377 @@
+---
+title: "Trend Graphs and Stacked Bars"
+author: "Eugenio Paglino"
+date: \today
+output: pdf_document
+---
+
+```{r, echo=F, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(patchwork)
+library(here)
+library(scico)
+library(grid)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+rm(list=ls())
+
+here::i_am('R/trendsGraph.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
+countySets <- tibble(arrow::read_feather(here::here(outDir,'countySetsFinal.feather')))
+states <- read_csv(here::here(inDir,'utilities','states.csv'),
+                   col_types = cols(state=col_character(),
+                                    stateStr=col_character(),
+                                    stateFIPS=col_integer()))
+
+```
+
+```{r, echo=F}
+
+# We load the pre-trained models
+
+load(here::here('R','RObjects','modelRandomTimeLF.RData'))
+
+```
+
+```{r simulation, cache=TRUE, echo=F}
+
+# We simulate prediction from the models. Simulating, rather than predicting, 
+# allows us to easily get a sense of the uncertainty around our estimates
+
+#set.seed(42)
+n.sim = 1000
+
+FIPSCodes <- as.character(unique(ACData$FIPSCode))
+numFIPS <- length(FIPSCodes)
+firstMonth <- 1
+lastMonth <- 12
+years <- seq(2015,2021)
+numYears <- length(years)
+numObs <- numYears*12 - (12-lastMonth)
+
+simDataMonthly <- tibble(year=rep(c(rep(years[-numYears],each=12),rep(2021,lastMonth)),numFIPS),
+                         month=rep(c(rep(seq(1,12),numYears-1),seq(1,lastMonth)),numFIPS),
+                         FIPSCode=rep(rep(FIPSCodes,each=numObs)))
+
+simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
+simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
+simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
+
+simDataMonthly <- simDataMonthly %>% 
+  mutate(monthYear = make_date(year=year,month=month,day=1),
+         CDR = predict(modelRandomTimeLF,newdata=simDataMonthly,allow.new.levels=T)) %>%
+  drop_na()
+
+simDataMonthly <- simDataMonthly %>%
+  mutate(expDeaths = (pop/100000)*CDR) %>%
+  select(FIPSCode,year,month,expDeaths)
+  
+```
+
+```{r, echo=F}
+
+# We load the pre-trained models
+
+load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+
+```
+
+```{r}
+
+# Computing overall distribution of deaths by month
+
+monthWeights <- ACData %>%
+  filter(year<2020) %>%
+  group_by(FIPSCode) %>%
+  filter(n()==max(n())) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
+  ungroup() %>%
+  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
+  select(month,monthWeight)
+
+monthWeights <- as.numeric(monthWeights$monthWeight)
+
+```
+
+```{r simulation, cache=TRUE, echo=F}
+
+# We simulate prediction from the models. Simulating, rather than predicting, 
+# allows us to easily get a sense of the uncertainty around our estimates
+
+#set.seed(42)
+
+simDataYearly <- tibble(year=rep(years,numFIPS),
+                        FIPSCode=rep(FIPSCodes,each=numYears))
+
+simDataYearly <- simDataYearly %>% left_join(countySets, by = c('FIPSCode'))
+simDataYearly <- simDataYearly %>% left_join(states, by = c('stateFIPS'))
+simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','year'))
+
+simDataYearly <- simDataYearly %>% drop_na()
+
+simDataYearly <- simDataYearly %>% 
+  mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T)) %>%
+  drop_na()
+
+simDataYearly <- simDataYearly %>%
+  mutate(expDeaths = (pop/100000)*CDR)
+
+# I bet there's a way to set this up in a vectorized way
+
+simDataYearly <- simDataYearly %>%
+  mutate(expDeaths1 = expDeaths*monthWeights[1],
+         expDeaths2 = expDeaths*monthWeights[2],
+         expDeaths3 = expDeaths*monthWeights[3],
+         expDeaths4 = expDeaths*monthWeights[4],
+         expDeaths5 = expDeaths*monthWeights[5],
+         expDeaths6 = expDeaths*monthWeights[6],
+         expDeaths7 = expDeaths*monthWeights[7],
+         expDeaths8 = expDeaths*monthWeights[8],
+         expDeaths9 = expDeaths*monthWeights[9],
+         expDeaths10 = expDeaths*monthWeights[10],
+         expDeaths11 = expDeaths*monthWeights[11],
+         expDeaths12 = expDeaths*monthWeights[12])
+
+simDataYearly <- simDataYearly %>%
+  gather(expDeaths1:expDeaths12, key='month', value='expDeathsSC') %>%
+  mutate(month = as.integer(str_sub(month,10,12)),
+         monthYear = make_date(year,month,1)) %>%
+  select(FIPSCode,year,month,expDeathsSC)
+
+```
+
+```{r}
+
+problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
+                                col_types = cols(FIPSCode = col_character(),
+                                                 meanDifference = col_double()))
+  
+```
+
+```{r}
+
+simulations <- simDataMonthly %>%
+  left_join(simDataYearly,by=c('FIPSCode','year','month')) %>%
+  left_join(ACData,by=c('FIPSCode','year','month')) %>%
+  left_join(states,by=c('state','stateFIPS')) %>%
+  left_join(problematicFIPSData,by='FIPSCode') %>%
+  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
+         expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths),
+         excDeaths = deaths-expDeaths,
+         excDeathRate = (excDeaths/pop)*100000,
+         monthYear = make_date(year,month,1)) %>%
+  select(FIPSCode,countyName,state,stateStr,censusReg1,censusReg2,
+         year,month,monthYear,
+         pop,expDeaths,deaths,excDeaths,excDeathRate)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroName = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
+                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroName == 'Lg central metro' ~ 'Large Central Metro'))
+  
+
+simulations <- simulations %>%
+  left_join(metro, by = 'FIPSCode')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## BEA regions
+BEARegions <- read_rds(here::here(inDir,'utilities','stateBEARegionCrosswalk.rds'))
+BEARegions <- BEARegions %>%
+  select(stateStr = state_abb,
+         BEARegion = region_bea)
+
+simulations <- simulations %>%
+  left_join(BEARegions, by = 'stateStr')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+simulations <- simulations %>%
+  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Nonmetro",
+                               FIPSCode %in% addLgFringeMetro ~ "Lg fringe metro",
+                               FIPSCode %in% addMdSmMetro ~ "Md/Sm metro",
+                               TRUE ~ metroName))
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+stateMeans <- simulations %>%
+  drop_na() %>%
+  filter(monthYear>=make_date(2019,1,1)) %>%
+  group_by(state,BEARegion,monthYear) %>%
+  summarize(excDeathRate = ((sum(deaths)-sum(expDeaths))/sum(pop))*100000) %>%
+  ungroup()
+
+trendPlots <- simulations %>%
+  drop_na() %>%
+  filter(monthYear>=make_date(2019,1,1)) %>%
+  group_by(metroName,BEARegion,monthYear) %>%
+  summarize(excDeathRate = ((sum(deaths)-sum(expDeaths))/sum(pop))*100000) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_line(data = stateMeans,
+            mapping=aes(x=monthYear,y=excDeathRate,group=state),
+            color='grey50', alpha=0.1) +
+  geom_line(mapping=aes(x=monthYear,y=excDeathRate,group=metroName,color=metroName)) +
+  scale_color_brewer(palette = "RdYlBu") +
+  coord_cartesian(ylim=c(-25,160)) + 
+  facet_wrap(~ BEARegion,ncol = 2) +
+  labs(x='',
+       y='Excess Death Rate (for 100,000 residents)',
+       color='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+png(here::here('figures','trendPlots.png'), width = 3300, height = 2500, res = 300, pointsize=4)
+
+trendPlots
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','trendPlots.pdf'),width=10, height = 14)
+
+trendPlots
+
+dev.off()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+stackBarsBEAPlot <- simulations %>%
+  drop_na() %>%
+  filter(year>=2020) %>%
+  group_by(metroName,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroName),
+           position='stack',stat='identity') +
+  scale_fill_brewer(palette = "RdYlBu") +
+  labs(x='',
+       y='Excess Deaths',
+       fill='Metro Status') +
+  facet_wrap(~year,ncol=1) +
+  theme_minimal() +
+  theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+pdf(here::here('figures','stackBarsBEAPlot.pdf'), width=8, height = 10)
+
+stackBarsBEAPlot
+
+dev.off()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F, fig.height=16, fig.width=10}
+
+stackBarsStatesPlot <- simulations %>%
+  drop_na() %>%
+  filter(year>=2020) %>%
+  group_by(state,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths)) %>%
+  arrange(desc(excDeaths), by_group=T) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  mutate(stateNum = row_number(),
+         state = if_else(excDeaths<4200,'',state)) %>%
+  ungroup() %>%
+  ggplot(mapping=aes(x=BEARegion,y=excDeaths,group=stateNum,fill=excDeaths,label=state)) +
+  geom_bar(position='stack',stat='identity') +
+  geom_text(size = 2.7, position = position_stack(vjust=0.5)) + 
+  scale_fill_scico(palette='nuuk') + 
+  labs(x='',
+       y='Excess Deaths',
+       fill='Excess Deaths') +
+  facet_wrap(~year,ncol=1) +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.key.width = unit(2,'cm'))
+
+```
+
+```{r}
+
+pdf(here::here('figures','stackBarsStatesPlot.pdf'), width=8, height = 16)
+
+stackBarsStatesPlot
+
+dev.off()
+
+```
+
+
+```{r}
+
+png(here::here('figures','stackBarsPlot.png'), width = 2150, height = 4000, res = 300, pointsize=4)
+
+stackBarsBEAPlot/stackBarsStatesPlot
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','stackBarsPlot.pdf'), width=16, height = 12)
+
+stackBarsBEAPlot + stackBarsStatesPlot
+
+dev.off()
+
+```

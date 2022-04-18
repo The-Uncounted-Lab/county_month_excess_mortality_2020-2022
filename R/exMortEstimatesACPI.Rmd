@@ -1,5 +1,5 @@
 ---
-title: "Estimates of Excess Deaths (Paper Version)"
+title: "Estimates of Excess Deaths"
 author: "Eugenio Paglino"
 date: \today
 output: pdf_document
@@ -58,16 +58,12 @@ load(here::here('R','RObjects','modelRandomTimeLF.RData'))
 
 ```{r simulation, cache=TRUE, echo=F}
 
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
 n.sim = 1000
 
 FIPSCodes <- as.character(unique(ACData$FIPSCode))
 numFIPS <- length(FIPSCodes)
-firstMonth <- 1
-lastMonth <- 10
+firstMonth <- 3
+lastMonth <- 12
 years <- seq(2020,2021)
 numYears <- length(years)
 numObs <- numYears*12 - (12-lastMonth)
@@ -80,14 +76,12 @@ simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
 simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
 simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
 
-#simDataMonthly <- simDataMonthly[1:100,]
-#simDataMonthly <- filter(simDataMonthly,FIPSCode=='08059')
-
 simValsM <- merTools::predictInterval(modelRandomTimeLF,
                                       newdata = simDataMonthly,
                                       level=0.95,
                                       include.resid.var = F,
-                                      which = c("fixed"))
+                                      which = c("fixed"),
+                                      seed=42)
 
 simDataMonthly <- simDataMonthly %>% 
   mutate(monthYear = make_date(year=year,month=month,day=1),
@@ -159,11 +153,6 @@ monthWeights <- as.numeric(monthWeights$monthWeight)
 
 ```{r simulation, cache=TRUE, echo=F}
 
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
-
 simDataYearly <- tibble(year=rep(years,numFIPS),
                         FIPSCode=rep(FIPSCodes,each=numYears))
 
@@ -173,13 +162,12 @@ simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','y
 
 simDataYearly <- simDataYearly %>% drop_na()
 
-#simDataYearly <- simDataYearly[1:100,]
-
 simValsY <- merTools::predictInterval(modelRandomTimeYearlyLF,
                                       newdata = simDataYearly,
                                       level=0.95,
                                       include.resid.var = F,
-                                      which = c("fixed"))
+                                      which = c("fixed"),
+                                      seed=42)
 
 simDataYearly <- simDataYearly %>% 
   mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T),

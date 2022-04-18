@@ -1,0 +1,903 @@
+---
+title: "Final Graphs"
+author: "Eugenio Paglino"
+date: "2/28/2022"
+output: html_document
+---
+
+```{r, echo=F, message=F,warning=F}
+
+# Loading necessary packages
+library(tidyverse)
+library(USAboundaries)
+library(sf)
+library(ggthemes)
+library(RColorBrewer)
+library(patchwork)
+library(scales)
+library(scico)
+library(cartography)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+rm(list=ls())
+
+here::i_am('R/finalGraphs.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+exMortData <- read_csv(here::here(outDir,'exMortEstimatesACPI.csv'))
+FIPSFixes <- read_csv(here::here(inDir,'FIPSHarmonization','FIPSFixes.csv'))
+
+```
+
+```{r}
+
+FIPSFixes <- FIPSFixes %>%
+  rename(oldFIPSCode = FIPSCode,
+         FIPSCode = newFIPSCode)
+
+exMortData <- exMortData %>%
+  left_join(FIPSFixes,by='FIPSCode') %>%
+  mutate(altFIPSCode = if_else(is.na(oldFIPSCode),FIPSCode,oldFIPSCode)) %>%
+  select(-oldFIPSCode)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+lastMonth <- 12
+firstMonth <- 3
+adj2021 <- lastMonth/12
+adj2020 <- (13-firstMonth)/12
+
+exMortData <- exMortData %>% 
+  mutate(excDeathRateMed2020 = excDeathsMed2020/(pop2020*adj2020),
+         excDeathRateMed2021 = excDeathsMed2021/(pop2021*adj2021),
+         excDeathRateLow2020 = excDeathsLow2020/(pop2020*adj2020),
+         excDeathRateLow2021 = excDeathsLow2021/(pop2021*adj2021),
+         excDeathRateUp2020 = excDeathsUp2020/(pop2020*adj2020),
+         excDeathRateUp2021 = excDeathsUp2021/(pop2021*adj2021),
+         COVIDDeathRate2020 = COVIDDeaths2020/(pop2020*adj2020),
+         COVIDDeathRate2021 = COVIDDeaths2021/(pop2021*adj2021))
+
+exMortData <- exMortData %>%
+  mutate(countyName = if_else(FIPSCode == '35013','Dona Ana',countyName),
+         countyStateName = paste0(countyName,' (',stateStr,')'))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroName = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
+                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroName == 'Lg central metro' ~ 'Large Central Metro'))
+  
+
+exMortData <- exMortData %>%
+  left_join(metro, by = 'FIPSCode')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## BEA regions
+BEARegions <- read_rds(here::here(inDir,'utilities','stateBEARegionCrosswalk.rds'))
+BEARegions <- BEARegions %>%
+  select(stateStr = state_abb,
+         BEARegion = region_bea)
+
+exMortData <- exMortData %>%
+  left_join(BEARegions, by = 'stateStr')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+exMortData <- exMortData %>%
+  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Nonmetro",
+                               FIPSCode %in% addLgFringeMetro ~ "Lg fringe metro",
+                               FIPSCode %in% addMdSmMetro ~ "Md/Sm metro",
+                               TRUE ~ metroName))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+counties <- us_counties()
+# Transform to Albers for making map of US
+counties <- st_transform(counties, 5070)
+
+counties <- counties %>%
+  select(geoid,stusps,geometry) %>%
+  filter(stusps != 'PR') %>%
+  select(-stusps) %>%
+  rename(FIPSCodeGeo = geoid) 
+
+counties <- tigris::shift_geometry(counties)
+
+```
+
+```{r, echo=F}
+
+states <- us_states()
+states <- states %>% filter(stusps!='PR')
+states <- tigris::shift_geometry(states)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+exMortData <- counties %>%
+  left_join(exMortData,by=c('FIPSCodeGeo'='altFIPSCode'))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 1 Map 2020
+
+allExcDeathRates <- c(as.vector(exMortData$excDeathRateMed2020),as.vector(exMortData$excDeathRateMed2021))
+quants <- quantile(allExcDeathRates,probs=c(0.25,0.5,0.75))
+
+fig1Map2020 <- exMortData %>%
+  mutate(excDeathRateQ = factor(case_when(excDeathRateMed2020 < quants['25%'] ~ 1,
+                                          between(excDeathRateMed2020,quants['25%'],quants['50%']) ~ 2,
+                                          between(excDeathRateMed2020,quants['50%'],quants['75%']) ~ 3,
+                                                  excDeathRateMed2020 > quants['75%'] ~ 4),
+                                        levels = c(1,2,3,4),
+                                        labels = c('<25th percentile',
+                                                   '25-50th percentile',
+                                                   '50-75th percentile',
+                                                   '>75th percentile'))) %>%
+  ggplot() +
+    geom_sf(mapping=aes(fill = excDeathRateQ),
+            color = "gray30", size = 0.05) +
+    geom_sf(data = states, color = "black", fill='transparent', size = 0.05) +
+    scale_fill_discrete(type=carto.pal('blue.pal',n1=7)[seq(1,7,2)],na.value = 'gray50') +
+    labs(fill='Excess Death Rate') +
+    coord_sf() +
+    theme_map() +
+    theme(legend.position = 'bottom')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 1 Map 2021
+
+fig1Map2021 <- exMortData %>%
+  mutate(excDeathRateQ = factor(case_when(excDeathRateMed2021 < quants['25%'] ~ 1,
+                                          between(excDeathRateMed2021,quants['25%'],quants['50%']) ~ 2,
+                                          between(excDeathRateMed2021,quants['50%'],quants['75%']) ~ 3,
+                                                  excDeathRateMed2021 > quants['75%'] ~ 4),
+                                        levels = c(1,2,3,4),
+                                        labels = c('<25th percentile',
+                                                   '25-50th percentile',
+                                                   '50-75th percentile',
+                                                   '>75th percentile'))) %>%
+  ggplot() +
+    geom_sf(mapping=aes(fill = excDeathRateQ),
+            color = "gray30", size = 0.05) +
+    geom_sf(data = states, color = "black", fill='transparent', size = 0.05) +
+    scale_fill_discrete(type=carto.pal('blue.pal',n1=7)[seq(1,7,2)],na.value = 'gray50') +
+    labs(fill='Excess Death Rate') +
+    coord_sf() +
+    theme_map() +
+    theme(legend.position = 'bottom')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 2 Map 2020
+
+fig2Map2020 <- exMortData %>%
+  mutate(COVIDExcessGroups = factor(case_when(COVIDExcRatio2020 > .90 ~ 1,
+                                              COVIDExcRatio2020 <= .90 & COVIDExcRatio2020 >= .75 ~ 2,
+                                              COVIDExcRatio2020 <= .75 & COVIDExcRatio2020 >= .60 ~ 3,
+                                              COVIDExcRatio2020 < .60 ~ 4),
+                                    levels = c(1,2,3,4),
+                                    labels = c('Low: < 10%',
+                                               'Moderate: 10% to 25%',
+                                               'High: 25% to 40%',
+                                               'Very High: > 40%'))) %>%
+  ggplot() +
+    geom_sf(mapping=aes(fill = COVIDExcessGroups),
+            color = "gray30", size = 0.05) +
+    geom_sf(data = states, color = "black", fill='transparent', size = 0.05) +
+    scale_fill_discrete(type=carto.pal('blue.pal',n1=7)[seq(1,7,2)],na.value = 'gray50') +
+    labs(fill='Excess Deaths not Assigned to Covid') +
+    coord_sf() +
+    theme_map() +
+    theme(legend.position = 'bottom')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 2 Map 2021
+
+fig2Map2021 <- exMortData %>%
+  mutate(COVIDExcessGroups = factor(case_when(COVIDExcRatio2021 > .90 ~ 1,
+                                              COVIDExcRatio2021 <= .90 & COVIDExcRatio2021 >= .75 ~ 2,
+                                              COVIDExcRatio2021 <= .75 & COVIDExcRatio2021 >= .60 ~ 3,
+                                              COVIDExcRatio2021 < .60 ~ 4),
+                                    levels = c(1,2,3,4),
+                                    labels = c('Low: < 10%',
+                                               'Moderate: 10% to 25%',
+                                               'High: 25% to 40%',
+                                               'Very High: > 40%'))) %>%
+  ggplot() +
+    geom_sf(mapping=aes(fill = COVIDExcessGroups),
+            color = "gray30", size = 0.05) +
+    geom_sf(data = states, color = "black", fill='transparent', size = 0.05) +
+    scale_fill_discrete(type=carto.pal('blue.pal',n1=7)[seq(1,7,2)],na.value = 'gray50') +
+    labs(fill='Excess Deaths not Assigned to Covid') +
+    coord_sf() +
+    theme_map() +
+    theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+exMortData <- exMortData %>%
+  distinct(FIPSCode,.keep_all = TRUE)
+
+```
+
+```{r}
+
+## Fig 1 Bars Parameters
+
+popCutoff <- 30000
+nBars <- 20
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12}
+
+## Fig 1 Bars 2020
+
+fig1Bars2020 <- exMortData %>%
+  filter(pop2020 > popCutoff,
+         excDeathsLow2020>0,
+         COVIDDeaths2020 + COVIDDeaths2021 > 30) %>%
+  slice_max(order_by = excDeathRateMed2020, n = nBars) %>%
+  arrange(desc(excDeathRateMed2020)) %>%
+  select(countyStateName,
+         excDeathRateMed2020,excDeathRateLow2020,excDeathRateUp2020,
+         COVIDDeathRate2020) %>%
+  mutate(excDeathRateMed2020 = excDeathRateMed2020*100000,
+         excDeathRateLow2020 = excDeathRateLow2020*100000,
+         excDeathRateUp2020 = excDeathRateUp2020*100000,
+         COVIDDeathRate2020 = COVIDDeathRate2020*100000) %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                       y=excDeathRateMed2020, 
+                       fill='Excess Deaths Not Assigned to COVID'),
+           stat = "identity", width = 0.8) +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                       y=COVIDDeathRate2020, 
+                       fill='Excess Deaths Assigned to COVID'),
+           stat = "identity", width = 0.8) +
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                            ymin=excDeathRateLow2020, 
+                            ymax=excDeathRateUp2020),
+                width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
+  scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
+  coord_cartesian(ylim=c(0,900)) + 
+  labs(
+    x = "", 
+    y = "Deaths (Per 100,000 Person-Years)",
+    title = "Highest Excess Death Rate (2020)",
+    fill='') +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, margin = margin(t=15)),
+    legend.position = c(0.8, 0.9)
+  )
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12}
+
+## Fig 1 Bars 2021
+
+fig1Bars2021 <- exMortData %>%
+  filter(pop2021 > popCutoff, 
+         excDeathsLow2021>0,
+         COVIDDeaths2020 + COVIDDeaths2021 > 30) %>%
+  slice_max(order_by = excDeathRateMed2021, n = nBars) %>%
+  arrange(desc(excDeathRateMed2021)) %>%
+  select(countyStateName,
+         excDeathRateMed2021,excDeathRateLow2021,excDeathRateUp2021,
+         COVIDDeathRate2021) %>%
+  mutate(excDeathRateMed2021 = excDeathRateMed2021*100000,
+         excDeathRateLow2021 = excDeathRateLow2021*100000,
+         excDeathRateUp2021 = excDeathRateUp2021*100000,
+         COVIDDeathRate2021 = COVIDDeathRate2021*100000) %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                       y=(excDeathRateMed2021), 
+                       fill='Excess Deaths Not Assigned to COVID'),
+           stat = "identity", width = 0.8) +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                       y=COVIDDeathRate2021, 
+                       fill='Excess Deaths Assigned to COVID'),
+           stat = "identity", width = 0.8) +
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                            ymin=excDeathRateLow2021, 
+                            ymax=excDeathRateUp2021),
+                width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
+  scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
+  coord_cartesian(ylim=c(0,900)) + 
+  labs(
+    x = "", 
+    y = "Deaths (Per 100,000 Person-Years)",
+    title = "Highest Excess Death Rate (2021)",
+    fill='') +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, margin = margin(t=15)),
+    legend.position = c(0.8, 0.9)
+  )
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 2 Bars 2020
+
+fig2Bars2020 <- exMortData %>%
+  filter(pop2020 > popCutoff, 
+         excDeathRateLow2020 > COVIDDeathRate2020,
+         COVIDDeaths2020 + COVIDDeaths2021 > 60) %>%
+  mutate(COVIDExcRatio2020 = if_else(COVIDExcRatio2020<0,0,COVIDExcRatio2020)) %>%
+  slice_min(order_by = COVIDExcRatio2020, n = nBars) %>%
+  arrange(desc(excDeathRateMed2020)) %>%
+  select(countyStateName,
+         excDeathRateMed2020,excDeathRateLow2020,excDeathRateUp2020,
+         COVIDDeathRate2020) %>%
+  mutate(excDeathRateMed2020 = excDeathRateMed2020*100000,
+         excDeathRateLow2020 = excDeathRateLow2020*100000,
+         excDeathRateUp2020 = excDeathRateUp2020*100000,
+         COVIDDeathRate2020 = COVIDDeathRate2020*100000) %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                       y=excDeathRateMed2020, 
+                       fill='Excess Deaths Not Assigned to COVID'),
+           stat = "identity", position = "stack", width = 0.8) +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                       y=COVIDDeathRate2020, 
+                       fill='Excess Deaths Assigned to COVID'),
+           stat = "identity", position = "stack", width = 0.8) +
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2020)), 
+                            ymin=excDeathRateLow2020, 
+                            ymax=excDeathRateUp2020),
+                width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
+  scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
+  coord_cartesian(ylim=c(0,500)) + 
+  labs(
+    x = '', 
+    y = 'Deaths (Per 100,000 Person-Years)',
+    title = 'Lowest COVID to Excess Ratio (2020)',
+    fill='') +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, margin = margin(t=27)),
+    legend.position = c(0.8, 0.9)
+  )
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 2 Bars 2021
+
+fig2Bars2021 <- exMortData %>%
+  filter(pop2021 > popCutoff, 
+         excDeathRateLow2021 > COVIDDeathRate2021,
+         COVIDDeaths2020 + COVIDDeaths2021 > 60) %>%
+  mutate(COVIDExcRatio2021 = if_else(COVIDExcRatio2021<0,0,COVIDExcRatio2021)) %>%
+  slice_min(order_by = COVIDExcRatio2021, n = nBars) %>%
+  arrange(desc(excDeathRateMed2021)) %>%
+  select(countyStateName,
+         excDeathRateMed2021,excDeathRateLow2021,excDeathRateUp2021,
+         COVIDDeathRate2021) %>%
+  mutate(excDeathRateMed2021 = excDeathRateMed2021*100000,
+         excDeathRateLow2021 = excDeathRateLow2021*100000,
+         excDeathRateUp2021 = excDeathRateUp2021*100000,
+         COVIDDeathRate2021 = COVIDDeathRate2021*100000) %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                       y=excDeathRateMed2021, 
+                       fill='Excess Deaths Not Assigned to COVID'),
+           stat = "identity", position = "stack", width = 0.8) +
+  geom_bar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                       y=COVIDDeathRate2021, 
+                       fill='Excess Deaths Assigned to COVID'),
+           stat = "identity", position = "stack", width = 0.8) +
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,-(excDeathRateMed2021)), 
+                            ymin=excDeathRateLow2021, 
+                            ymax=excDeathRateUp2021),
+                width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
+  scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
+  coord_cartesian(ylim=c(0,500)) + 
+  labs(
+    x = '', 
+    y = 'Deaths (Per 100,000 Person-Years)',
+    title = 'Lowest COVID to Excess Ratio (2021)',
+    fill='') +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 45, margin = margin(t=27)),
+    legend.position = c(0.8, 0.9)
+  )
+
+```
+
+
+```{r}
+
+pdf(here::here('figures','fig1_2020.pdf'),width=10,height = 11)
+
+fig1Map2020/fig1Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig1_2020.png'), width = 2500, height = 2500, res = 300, pointsize=4)
+
+fig1Map2020/fig1Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig1_2021.pdf'),width=10,height = 11)
+
+fig1Map2021/fig1Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig1_2021.png'), width = 2500, height = 2500, res = 300, pointsize=4)
+
+fig1Map2021/fig1Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+fig1Maps <- fig1Map2020 + fig1Map2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
+fig1Bars <- fig1Bars2020 + fig1Bars2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+png(here::here('figures','fig1.png'), width = 4000, height = 2500, res = 300, pointsize=4)
+
+fig1Maps / fig1Bars + plot_layout(heights = c(3,1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig1.pdf'), width=14, height = 10)
+
+fig1Maps / fig1Bars + plot_layout(heights = c(4,3)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig2_2020.pdf'),width=10,height = 11)
+
+fig2Map2020/fig2Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig2_2020.png'), width = 2500, height = 2500, res = 300, pointsize=4)
+
+fig2Map2020/fig2Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig2_2021.pdf'),width=10,height = 11)
+
+fig2Map2021/fig2Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig2_2021.png'), width = 2500, height = 2500, res = 300, pointsize=4)
+
+fig2Map2021/fig2Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+fig2Maps <- fig2Map2020 + fig2Map2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
+fig2Bars <- fig2Bars2020 + fig2Bars2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+png(here::here('figures','fig2.png'), width = 4000, height = 2500, res = 300, pointsize=4)
+
+fig2Maps / fig2Bars + plot_layout(heights = c(3,1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig2.pdf'), width=14, height = 10)
+
+fig2Maps / fig2Bars + plot_layout(heights = c(4,3)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 3 2020
+
+popCutoff <- 30000
+
+fig32020 <- exMortData %>%
+  filter(excDeathRateMed2020 < quantile(excDeathRateMed2020,0.95),
+         excDeathRateMed2020 > quantile(excDeathRateMed2020,0.05),
+         pop2020 > popCutoff) %>%
+  drop_na(metroName) %>% 
+  ggplot() +
+  geom_abline(intercept = 0, slope = 1, size = 0.5, linetype = "dashed", color = "gray50") +
+  geom_smooth(mapping=aes(x=COVIDDeathRate2020*100000, y=excDeathRateMed2020*100000,
+                          weight=pop2020),
+              method='lm', color = "gray50") +
+  geom_point(mapping=aes(x=COVIDDeathRate2020*100000, y=excDeathRateMed2020*100000,
+                         color = metroName, size = pop2020), alpha = 0.7) +
+  scale_color_brewer(palette = "RdYlBu",guide = guide_legend(ncol=2)) +
+  coord_cartesian(xlim=c(0,400),ylim=c(-20,450)) +
+  facet_wrap(~BEARegion, ncol = 2) +
+  labs(x = "2020 COVID-19 Deaths per 100,000 Person-Years",
+       y = "Excess Deaths per 100,000 Person-Years ",
+       size='Population',
+       color='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.box="vertical")
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Fig 3 2021
+
+fig32021 <- exMortData %>%
+  filter(excDeathRateMed2021 < quantile(excDeathRateMed2021,0.95),
+         excDeathRateMed2021 > quantile(excDeathRateMed2021,0.05),
+         pop2021 > popCutoff) %>%
+  drop_na(metroName) %>% 
+  ggplot() +
+  geom_abline(intercept = 0, slope = 1, size = 0.5, linetype = "dashed", color = "gray50") +
+  geom_smooth(mapping=aes(x=COVIDDeathRate2021*100000, y=excDeathRateMed2021*100000,
+                          weight=pop2021),
+              method='lm', color = "gray50") +
+  geom_point(mapping=aes(x=COVIDDeathRate2021*100000, y=excDeathRateMed2021*100000,
+                         color = metroName, size = pop2021), alpha = 0.7) +
+  scale_color_brewer(palette = "RdYlBu",guide = guide_legend(ncol=2)) +
+  coord_cartesian(xlim=c(0,400),ylim=c(-20,450)) +
+  facet_wrap(~BEARegion, ncol = 2) +
+  labs(x = "2021 COVID-19 Deaths per 100,000 Person-Years",
+       y = "Excess Deaths per 100,000 Person-Years ",
+       size='Population',
+       color='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.box="vertical")
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig3_2020.pdf'),width=10,height = 14)
+
+fig32020
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig3_2020.png'), width = 2000, height = 2500, res = 300, pointsize=4)
+
+fig32020
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','fig3_2021.pdf'),width=10,height = 14)
+
+fig32021
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig3_2021.png'), width = 2000, height = 2500, res = 300, pointsize=4)
+
+fig32021
+
+dev.off()
+
+```
+
+```{r}
+
+fig32021 <- fig32021 + theme(legend.position = 'none')
+
+pdf(here::here('figures','fig3.pdf'),width=14,height = 14)
+
+fig32020 + fig32021 + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r}
+
+png(here::here('figures','fig3.png'), width = 3000, height = 3500, res = 300, pointsize=4)
+
+fig32020 + fig32021 + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12}
+
+## Fig 4 Bars Top 2020
+
+popCutoff <- 100000
+nBars <- 30
+
+fig4BarsTop2020 <- exMortData %>%
+  filter(pop2020 > popCutoff) %>%
+  slice_max(order_by = nonCovidExcCDRMed2020, n = nBars) %>%
+  arrange(desc(nonCovidExcCDRMed2020)) %>%
+  select(countyStateName,nonCovidExcCDRMed2020,
+         nonCovidExcCDRLow2020,nonCovidExcCDRUp2020) %>%
+  ggplot() +
+  geom_point(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2020)),
+                         y = nonCovidExcCDRMed2020*100),
+             color = brewer.pal(5, 'Blues')[5]) + 
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2020)),
+                            ymin = nonCovidExcCDRLow2020*100, 
+                            ymax = nonCovidExcCDRUp2020*100),
+                width = 0.3, size = 0.8, color = brewer.pal(5, 'Blues')[5]) +
+  scale_y_continuous(labels = comma_format(big.mark = ',',decimal.mark = '.')) + 
+  coord_flip(ylim=c(0,300)) +
+  labs(x = "", 
+       y = "Excess Death Rate Net of COVID (Per 100,000 Person-Years)",
+       title = "Highest Excess Death Rate Net of COVID (2020)",
+       fill='') +
+  theme_minimal()
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12, eval=F}
+
+## Fig 4 Bars Bottom 2020
+
+popCutoff <- 100000
+nBars <- 20
+
+fig4BarsBottom2020 <- exMortData %>%
+  filter(pop2020 > popCutoff) %>%
+  slice_min(order_by = nonCovidExcCDRMed2020, n = nBars) %>%
+  arrange(desc(nonCovidExcCDRMed2020)) %>%
+  select(countyStateName,nonCovidExcCDRMed2020,
+         nonCovidExcCDRLow2020,nonCovidExcCDRUp2020) %>%
+  ggplot() +
+  geom_point(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2020)),
+                         y = nonCovidExcCDRMed2020*100),
+             color = brewer.pal(5, 'Blues')[5]) + 
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2020)),
+                            ymin = nonCovidExcCDRLow2020*100, 
+                            ymax = nonCovidExcCDRUp2020*100),
+                width = 0.3, size = 0.8, color = brewer.pal(5, 'Blues')[5]) +
+  scale_y_continuous(labels = comma_format(big.mark = ',',decimal.mark = '.')) + 
+  coord_flip(ylim=c(-200,50)) +
+  labs(x = "", 
+       y = "Excess Death Rate Net of COVID (Per 100,000 Person-Years)",
+       title = "Lowest Excess Death Rate Net of COVID (2020)",
+       fill='') +
+  theme_minimal()
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12}
+
+## Fig 4 Bars Top 2021
+
+popCutoff <- 100000
+nBars <- 30
+
+fig4BarsTop2021 <- exMortData %>%
+  filter(pop2021 > popCutoff) %>%
+  slice_max(order_by = nonCovidExcCDRMed2021, n = nBars) %>%
+  arrange(desc(nonCovidExcCDRMed2021)) %>%
+  select(countyStateName,nonCovidExcCDRMed2021,
+         nonCovidExcCDRLow2021,nonCovidExcCDRUp2021) %>%
+  ggplot() +
+  geom_point(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2021)),
+                         y = nonCovidExcCDRMed2021*100),
+             color = brewer.pal(5, 'Blues')[5]) + 
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2021)),
+                            ymin = nonCovidExcCDRLow2021*100, 
+                            ymax = nonCovidExcCDRUp2021*100),
+                width = 0.3, size = 0.8, color = brewer.pal(5, 'Blues')[5]) +
+  scale_y_continuous(labels = comma_format(big.mark = ',',decimal.mark = '.')) + 
+  coord_flip(ylim=c(0,300)) +
+  labs(x = "", 
+       y = "Excess Death Rate Net of COVID (Per 100,000 Person-Years)",
+       title = "Highest Excess Death Rate Net of COVID (2021)",
+       fill='') +
+  theme_minimal()
+
+```
+
+```{r, echo=FALSE, warning=F, message=F, fig.width=12, eval=F}
+
+## Fig 4 Bars Bottom 2021
+
+popCutoff <- 100000
+nBars <- 20
+
+fig4BarsBottom2021 <- exMortData %>%
+  filter(pop2021 > popCutoff) %>%
+  slice_min(order_by = nonCovidExcCDRMed2021, n = nBars) %>%
+  arrange(desc(nonCovidExcCDRMed2021)) %>%
+  select(countyStateName,nonCovidExcCDRMed2021,
+         nonCovidExcCDRLow2021,nonCovidExcCDRUp2021) %>%
+  ggplot() +
+  geom_point(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2021)),
+                         y = nonCovidExcCDRMed2021*100),
+             color = brewer.pal(5, 'Blues')[5]) + 
+  geom_errorbar(mapping=aes(x=reorder(countyStateName,(nonCovidExcCDRMed2021)),
+                            ymin = nonCovidExcCDRLow2021*100, 
+                            ymax = nonCovidExcCDRUp2021*100),
+                width = 0.3, size = 0.8, color = brewer.pal(5, 'Blues')[5]) +
+  scale_y_continuous(labels = comma_format(big.mark = ',',decimal.mark = '.')) + 
+  coord_flip(ylim=c(-200,50)) +
+  labs(x = "", 
+       y = "Excess Death Rate Net of COVID (Per 100,000 Person-Years)",
+       title = "Lowest Excess Death Rate Net of COVID (2021)",
+       fill='') +
+  theme_minimal()
+
+```
+
+```{r, eval=F}
+
+pdf(here::here('figures','fig4_2020.pdf'),width=10,height = 14)
+
+fig4BarsTop2020/fig4BarsBottom2020 + plot_layout(heights = c(1, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, eval=F}
+
+png(here::here('figures','fig4_2020.png'), width = 2000, height = 3000, res = 300, pointsize=4)
+
+fig4BarsTop2020/fig4BarsBottom2020 + plot_layout(heights = c(1, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, eval=F}
+
+pdf(here::here('figures','fig4_2021.pdf'),width=10,height = 14)
+
+fig4BarsTop2021/fig4BarsBottom2021 + plot_layout(heights = c(1, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, eval=F}
+
+png(here::here('figures','fig4_2021.png'), width = 2000, height = 3000, res = 300, pointsize=4)
+
+fig4BarsTop2021/fig4BarsBottom2021 + plot_layout(heights = c(1, 1)) + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+
+```{r}
+
+pdf(here::here('figures','fig4.pdf'),width=12,height = 14)
+
+fig4BarsTop2020 + fig4BarsTop2021 + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```
+
+```{r, eval=F}
+
+png(here::here('figures','fig4.png'), width = 3000, height = 3000, res = 300, pointsize=4)
+
+fig4BarsTop2020 + fig4BarsTop2021 + plot_annotation(tag_levels = 'A')
+
+dev.off()
+
+```

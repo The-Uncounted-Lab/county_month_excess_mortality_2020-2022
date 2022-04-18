@@ -16,6 +16,7 @@ library(matrixStats)
 library(patchwork)
 library(knitr)
 library(here)
+library(ggthemes)
 
 ```
 
@@ -64,6 +65,8 @@ load(here::here('R','RObjects','modelRandomTimeLT.RData'))
 load(here::here('R','RObjects','modelBaseLF.RData'))
 load(here::here('R','RObjects','modelRandomTimeLF.RData'))
 load(here::here('R','RObjects','modelRandomTimePlusLT.RData'))
+load(here::here('R','RObjects','modelRandomTimePlusLF.RData'))
+load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
 
 ```
 
@@ -97,28 +100,33 @@ RMSEs <- tibble(Performance=c('Training Data (2014-2018)',
                                                    allow.new.levels=T)),
                                       RMSE(filter(drop_na(ACData),year<=2019)$CDR,
                                            predict(modelRandomTimeLT,filter(drop_na(ACData),year<=2019),
-                                                   allow.new.levels=T))))
+                                                   allow.new.levels=T))),
+                   modelRandomTimePlus=c(RMSE(filter(drop_na(ACData),year<2019)$CDR,
+                                              predict(modelRandomTimePlusLT)),
+                                         RMSE(filter(drop_na(ACData),year==2019)$CDR,
+                                              predict(modelRandomTimePlusLT,filter(drop_na(ACData),year==2019),
+                                                      allow.new.levels=T)),
+                                         RMSE(filter(drop_na(ACData),year<=2019)$CDR,
+                                              predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),
+                                                      allow.new.levels=T))))
 
 ```
 
 ```{r, echo=F}
 
 kable(RMSEs,
-      col.names=c('Performance','Base Model','Random Time Model'))
+      col.names=c('Performance','Base Model','Random Time Model','Random Time Model Plus'))
 
 ```
 
+
 ```{r simulation, cache=TRUE, echo=F}
 
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
 n.sim = 1000
 
 FIPSCodes <- as.character(unique(ACData$FIPSCode))
 numFIPS <- length(FIPSCodes)
-lastMonth <- 10
+lastMonth <- 12
 years <- seq(2015,2021)
 numYears <- length(years)
 numObs <- numYears*12 - (12-lastMonth)
@@ -131,9 +139,6 @@ simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
 simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
 simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
 
-#simDataMonthly <- simDataMonthly[1:100,]
-#simDataMonthly <- filter(simDataMonthly,FIPSCode=='08059')
-
 simDataMonthly <- simDataMonthly %>% 
   mutate(monthYear = make_date(year=year,month=month,day=1),
          CDR = predict(modelRandomTimeLF,newdata=simDataMonthly,allow.new.levels=T),
@@ -141,7 +146,7 @@ simDataMonthly <- simDataMonthly %>%
 
 ```
 
-```{r}
+```{r, echo=F}
 
 yearlyData <- simDataMonthly %>% 
   group_by(FIPSCode,year) %>%
@@ -157,8 +162,7 @@ yearlyData %>%
 
 ```
 
-
-```{r}
+```{r, echo=F}
 
 # Computing overall distribution of deaths by month
 
@@ -179,11 +183,6 @@ monthWeights <- as.numeric(monthWeights$monthWeight)
 
 ```{r simulation, cache=TRUE, echo=F}
 
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
-
 simDataYearly <- tibble(year=rep(years,numFIPS),
                         FIPSCode=rep(FIPSCodes,each=numYears))
 
@@ -192,8 +191,6 @@ simDataYearly <- simDataYearly %>% left_join(states, by = c('stateFIPS'))
 simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','year'))
 
 simDataYearly <- simDataYearly %>% drop_na()
-
-#simDataYearly <- simDataYearly[1:100,]
 
 simDataYearly <- simDataYearly %>% 
   mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T),
@@ -226,7 +223,7 @@ simDataYearly <- simDataYearly %>%
 
 ```
 
-```{r}
+```{r, echo=F}
 
 problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
                                 col_types = cols(FIPSCode = col_character(),
@@ -234,7 +231,7 @@ problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
   
 ```
 
-```{r}
+```{r, echo=F}
 
 simulations <- simDataMonthly %>%
   left_join(dplyr::select(simDataYearly,FIPSCode,year,month,expDeathsSC),
@@ -248,13 +245,10 @@ simulations <- simDataMonthly %>%
 
 ```
 
-```{r, echo=F, message=F, warning=F, fig.align='center', fig.cap='Predicting the National Average Monthly CDR', fig.width=8}
+```{r, echo=F, message=F, warning=F}
 
-# The prediction intervals in this graph are wrong
-
-simulations %>% 
+nationalTrend <- simulations %>% 
   drop_na(expDeaths,deaths) %>%
-  filter(year<2020) %>%
   group_by(monthYear) %>% 
   summarize(expDeaths = sum(expDeaths),
             deaths = sum(deaths)) %>%
@@ -264,11 +258,22 @@ simulations %>%
     labs(x='Time',
          y='Deaths',
          colour='') +
+    theme_tufte() +
     theme(legend.position="bottom")
 
 ```
 
-```{r, echo=F, eval=F, message=F, warning=F, fig.align='center', fig.width=15, fig.height=8}
+```{r, eval=F}
+
+png(here::here('figures','nationalTrend.png'), width = 3000, height = 2000, res = 300, pointsize=4)
+
+nationalTrend
+
+dev.off()
+
+```
+
+```{r, echo=F, eval=F, message=F, warning=F}
 
 # Creating a plot with predicted vs actual rates for each county in groups of
 # 12 (ordered by FIPS code.
@@ -294,6 +299,7 @@ for (countyGroup in countyGroups) {
            y='Deaths',
            colour='') +
       facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
+      theme_minimal() +
       theme(legend.position="bottom",
             axis.text.x = element_text(angle = 330))
   
@@ -306,7 +312,7 @@ for (countyGroup in countyGroups) {
 
 ```
 
-```{r}
+```{r, echo=F}
 
 countiesIndex <- ''
 i <- 1
