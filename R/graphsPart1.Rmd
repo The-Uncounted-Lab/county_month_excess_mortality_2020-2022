@@ -1,5 +1,5 @@
 ---
-title: "Final Graphs"
+title: "Graphs Part 1"
 author: "Eugenio Paglino"
 date: "2/28/2022"
 output: html_document
@@ -24,7 +24,7 @@ library(cartography)
 
 rm(list=ls())
 
-here::i_am('R/finalGraphs.Rmd')
+here::i_am('R/graphsPart1.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -460,61 +460,10 @@ fig2Bars2021 <- exMortData %>%
 
 ```
 
-
-```{r}
-
-pdf(here::here('figures','fig1_2020.pdf'),width=10,height = 11)
-
-fig1Map2020/fig1Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig1_2020.png'), width = 2500, height = 2500, res = 300, pointsize=4)
-
-fig1Map2020/fig1Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-pdf(here::here('figures','fig1_2021.pdf'),width=10,height = 11)
-
-fig1Map2021/fig1Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig1_2021.png'), width = 2500, height = 2500, res = 300, pointsize=4)
-
-fig1Map2021/fig1Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
 ```{r}
 
 fig1Maps <- fig1Map2020 + fig1Map2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
 fig1Bars <- fig1Bars2020 + fig1Bars2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
-
-```
-
-```{r}
-
-png(here::here('figures','fig1.png'), width = 4000, height = 2500, res = 300, pointsize=4)
-
-fig1Maps / fig1Bars + plot_layout(heights = c(3,1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
 
 ```
 
@@ -530,58 +479,8 @@ dev.off()
 
 ```{r}
 
-pdf(here::here('figures','fig2_2020.pdf'),width=10,height = 11)
-
-fig2Map2020/fig2Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig2_2020.png'), width = 2500, height = 2500, res = 300, pointsize=4)
-
-fig2Map2020/fig2Bars2020 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-pdf(here::here('figures','fig2_2021.pdf'),width=10,height = 11)
-
-fig2Map2021/fig2Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig2_2021.png'), width = 2500, height = 2500, res = 300, pointsize=4)
-
-fig2Map2021/fig2Bars2021 + plot_layout(heights = c(3, 1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
 fig2Maps <- fig2Map2020 + fig2Map2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
 fig2Bars <- fig2Bars2020 + fig2Bars2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom')
-
-```
-
-```{r}
-
-png(here::here('figures','fig2.png'), width = 4000, height = 2500, res = 300, pointsize=4)
-
-fig2Maps / fig2Bars + plot_layout(heights = c(3,1)) + plot_annotation(tag_levels = 'A')
-
-dev.off()
 
 ```
 
@@ -657,59 +556,9 @@ fig32021 <- exMortData %>%
 
 ```{r}
 
-pdf(here::here('figures','fig3_2020.pdf'),width=10,height = 14)
-
-fig32020
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig3_2020.png'), width = 2000, height = 2500, res = 300, pointsize=4)
-
-fig32020
-
-dev.off()
-
-```
-
-```{r}
-
-pdf(here::here('figures','fig3_2021.pdf'),width=10,height = 14)
-
-fig32021
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig3_2021.png'), width = 2000, height = 2500, res = 300, pointsize=4)
-
-fig32021
-
-dev.off()
-
-```
-
-```{r}
-
 fig32021 <- fig32021 + theme(legend.position = 'none')
 
 pdf(here::here('figures','fig3.pdf'),width=14,height = 14)
-
-fig32020 + fig32021 + plot_annotation(tag_levels = 'A')
-
-dev.off()
-
-```
-
-```{r}
-
-png(here::here('figures','fig3.png'), width = 3000, height = 3500, res = 300, pointsize=4)
 
 fig32020 + fig32021 + plot_annotation(tag_levels = 'A')
 

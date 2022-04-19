@@ -1,10 +1,10 @@
 ---
-title: "Summary Tables"
-author: "Eugenio Paglino"
-date: \today
-output: 
+title: "Summary Table"
+output:
+  html_document:
+    df_print: paged
   pdf_document:
-    keep_tex:  true
+    keep_tex: yes
 ---
 
 ```{r, echo=F, message=F,warning=F}
@@ -30,8 +30,7 @@ outDir <- here::here('data','output')
 
 ```{r, echo=F, message=F, warning=F}
 
-exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimatesACPI.csv'))
-exMortEstimatesNC <- read_csv(here::here(outDir,'exMortEstimatesNCPI.csv'))
+exMortEstimates <- read_csv(here::here(outDir,'exMortEstimates.csv'))
 
 ```
 
@@ -49,10 +48,7 @@ metro <- metro %>%
                                metroName == 'Lg central metro' ~ 'Large Central'))
   
 
-exMortEstimatesAC <- exMortEstimatesAC %>%
-  left_join(metro, by = 'FIPSCode')
-
-exMortEstimatesNC <- exMortEstimatesNC %>%
+exMortEstimates <- exMortEstimates %>%
   left_join(metro, by = 'FIPSCode')
 
 ```
@@ -67,16 +63,10 @@ addLgFringeMetro <- c('08001','08014')
 addMdSmMetro <- c('08013','08123','51515')
 
 ## fill out missing metro
-exMortEstimatesAC <- exMortEstimatesAC %>%
+exMortEstimates <- exMortEstimates %>%
   mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
                                FIPSCode %in% addLgFringeMetro ~ "Large Fringe",
                                FIPSCode %in% addMdSmMetro ~ "Medium Small",
-                               TRUE ~ metroName))
-
-exMortEstimatesNC <- exMortEstimatesNC %>%
-  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
-                               FIPSCode %in% addLgFringeMetro ~ "Large Fringe",
-                               FIPSCode %in% addMdSmMetro ~ "Medium/Small",
                                TRUE ~ metroName))
 
 ```
@@ -89,10 +79,7 @@ BEARegions <- BEARegions %>%
   select(stateStr = state_abb,
          BEARegion = region_bea)
 
-exMortEstimatesAC <- exMortEstimatesAC %>%
-  left_join(BEARegions, by = 'stateStr')
-
-exMortEstimatesNC <- exMortEstimatesNC %>%
+exMortEstimates <- exMortEstimates %>%
   left_join(BEARegions, by = 'stateStr')
 
 ```
@@ -103,7 +90,7 @@ popOffset <- 100000
 adj2020 <- 10/12
 adj2021 <- 12/12
 
-tableDataAC <- exMortEstimatesAC %>%
+tableDataAC <- exMortEstimates %>%
   drop_na() %>%
   group_by(BEARegion,metroName) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -118,7 +105,7 @@ tableDataAC <- exMortEstimatesAC %>%
             COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
   ungroup()
 
-tableDataAC <- exMortEstimatesAC %>%
+tableDataAC <- exMortEstimates %>%
   drop_na() %>%
   group_by(BEARegion) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -135,7 +122,7 @@ tableDataAC <- exMortEstimatesAC %>%
   ungroup() %>%
   bind_rows(tableDataAC)
 
-tableDataAC <- exMortEstimatesAC %>%
+tableDataAC <- exMortEstimates %>%
   drop_na() %>%
   group_by(metroName) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -152,7 +139,7 @@ tableDataAC <- exMortEstimatesAC %>%
   ungroup() %>%
   bind_rows(tableDataAC)
   
-tableDataAC <- exMortEstimatesAC %>%
+tableDataAC <- exMortEstimates %>%
   drop_na() %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
             COVIDDeaths2020 = sum(COVIDDeaths2020),
@@ -178,83 +165,6 @@ tableDataAC <- tableDataAC %>%
 
 ```
 
-```{r, echo=FALSE, message=F, warning=F}
-
-tableDataNC <- exMortEstimatesNC %>%
-  drop_na() %>%
-  group_by(BEARegion,metroName) %>%
-  summarize(excDeaths2020 = sum(excDeathsMed2020),
-            COVIDDeaths2020 = sum(COVIDDeaths2020),
-            COVIDExcRatio2020 = COVIDDeaths2020/excDeaths2020,
-            excDeathRate2020 = popOffset*excDeaths2020/(sum(pop2020)*adj2020),
-            COVIDDeathRate2020 = popOffset*COVIDDeaths2020/(sum(pop2020)*adj2020),
-            excDeaths2021 = sum(excDeathsMed2021),
-            COVIDDeaths2021 = sum(COVIDDeaths2021),
-            COVIDExcRatio2021 = COVIDDeaths2021/excDeaths2021,
-            excDeathRate2021 = popOffset*excDeaths2021/(sum(pop2021)*adj2021),
-            COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
-  ungroup()
-
-tableDataNC <- exMortEstimatesNC %>%
-  drop_na() %>%
-  group_by(BEARegion) %>%
-  summarize(excDeaths2020 = sum(excDeathsMed2020),
-            COVIDDeaths2020 = sum(COVIDDeaths2020),
-            COVIDExcRatio2020 = COVIDDeaths2020/excDeaths2020,
-            excDeathRate2020 = popOffset*excDeaths2020/(sum(pop2020)*adj2020),
-            COVIDDeathRate2020 = popOffset*COVIDDeaths2020/(sum(pop2020)*adj2020),
-            excDeaths2021 = sum(excDeathsMed2021),
-            COVIDDeaths2021 = sum(COVIDDeaths2021),
-            COVIDExcRatio2021 = COVIDDeaths2021/excDeaths2021,
-            excDeathRate2021 = popOffset*excDeaths2021/(sum(pop2021)*adj2021),
-            COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
-  mutate(metroName = 'Region Total') %>%
-  ungroup() %>%
-  bind_rows(tableDataNC)
-
-tableDataNC <- exMortEstimatesNC %>%
-  drop_na() %>%
-  group_by(metroName) %>%
-  summarize(excDeaths2020 = sum(excDeathsMed2020),
-            COVIDDeaths2020 = sum(COVIDDeaths2020),
-            COVIDExcRatio2020 = COVIDDeaths2020/excDeaths2020,
-            excDeathRate2020 = popOffset*excDeaths2020/(sum(pop2020)*adj2020),
-            COVIDDeathRate2020 = popOffset*COVIDDeaths2020/(sum(pop2020)*adj2020),
-            excDeaths2021 = sum(excDeathsMed2021),
-            COVIDDeaths2021 = sum(COVIDDeaths2021),
-            COVIDExcRatio2021 = COVIDDeaths2021/excDeaths2021,
-            excDeathRate2021 = popOffset*excDeaths2021/(sum(pop2021)*adj2021),
-            COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
-  mutate(BEARegion = 'Total') %>%
-  ungroup() %>%
-  bind_rows(tableDataNC)
-  
-tableDataNC <- exMortEstimatesNC %>%
-  drop_na() %>%
-  summarize(excDeaths2020 = sum(excDeathsMed2020),
-            COVIDDeaths2020 = sum(COVIDDeaths2020),
-            COVIDExcRatio2020 = COVIDDeaths2020/excDeaths2020,
-            excDeathRate2020 = popOffset*excDeaths2020/(sum(pop2020)*adj2020),
-            COVIDDeathRate2020 = popOffset*COVIDDeaths2020/(sum(pop2020)*adj2020),
-            excDeaths2021 = sum(excDeathsMed2021),
-            COVIDDeaths2021 = sum(COVIDDeaths2021),
-            COVIDExcRatio2021 = COVIDDeaths2021/excDeaths2021,
-            excDeathRate2021 = popOffset*excDeaths2021/(sum(pop2021)*adj2021),
-            COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
-  mutate(BEARegion = 'Total',
-         metroName = 'Total') %>%
-  bind_rows(tableDataNC)
-
-tableDataNC <- tableDataNC %>%
-  arrange(BEARegion,metroName) %>%
-  slice(45,41:44,5,1:4,
-        10,6:9,15,11:14,
-        20,16:19,25,21:24,
-        30,26:29,35,31:34,
-        40,36:39)
-
-```
-
 ```{r, echo=F}
 
 tableDataAC %>%
@@ -266,23 +176,6 @@ tableDataAC %>%
         linesep=c('\\addlinespace[2pt]',rep('',3),'\\addlinespace[5pt]'),
         format.args = list(big.mark = ','),
         caption = 'Summary Table - All Causes') %>%
-  add_header_above(c(" " = 2, rep(c("Number of Deaths" = 3, "Rates per 100,000 PY" = 2),2))) %>%
-  add_header_above(c(" " = 2, "2020" = 5, "2021" = 5)) %>%
-  kable_styling(font_size = 7.5)
-
-```
-
-```{r, echo=F}
-
-tableDataNC %>%
-  relocate(BEARegion,metroName) %>%
-  kable(col.names = c(c('BEA Region','Metro Status'),
-                      rep(c('Excess','COVID','Ratio','Excess','COVID'),2)),
-        digits = c(0,0,rep(c(0,0,3,0,0),2)),
-        booktabs=T,
-        linesep=c(rep('',3),'\\addlinespace[2pt]','\\addlinespace[5pt]'),
-        format.args = list(big.mark = ','),
-        caption = 'Summary Table - Natural Causes') %>%
   add_header_above(c(" " = 2, rep(c("Number of Deaths" = 3, "Rates per 100,000 PY" = 2),2))) %>%
   add_header_above(c(" " = 2, "2020" = 5, "2021" = 5)) %>%
   kable_styling(font_size = 7.5)

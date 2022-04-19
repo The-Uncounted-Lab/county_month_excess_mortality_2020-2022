@@ -22,7 +22,7 @@ library(here)
 
 rm(list=ls())
 
-here::i_am('R/finalDataCreation.Rmd')
+here::i_am('R/dataCreation.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -43,7 +43,7 @@ FIPSFixes <- read_csv(here::here(inDir,'FIPSHarmonization','FIPSFixes.csv'))
 # NOTE: County-quarters with < 10 deaths are censored in these data
 
 ACData <- list.files(
-  here::here(inDir,'Data_CDC_Wonder','AllCausesMonthly'),
+  here::here(inDir,'CDC','AllCausesMonthly'),
   pattern = "*.txt",
   full.names = TRUE
 ) %>%
@@ -98,7 +98,7 @@ ACData <- ACData %>%
 # NOTE: County-quarters with < 10 deaths are censored in these data
 
 ACYearlyData <- list.files(
-  here::here(inDir,'Data_CDC_Wonder','AllCausesYearly'),
+  here::here(inDir,'CDC','AllCausesYearly'),
   pattern = "*.txt",
   full.names = TRUE
 ) %>%
@@ -149,7 +149,7 @@ ACYearlyData <- ACYearlyData %>%
 # NOTE: County-quarters with < 10 deaths are censored in these data
 
 COVIDYearlyData <- list.files(
-  here::here(inDir,'Data_CDC_Wonder','COVIDUCDYearly'),
+  here::here(inDir,'CDC','COVIDUCDYearly'),
   pattern = "*.txt",
   full.names = TRUE
 ) %>%

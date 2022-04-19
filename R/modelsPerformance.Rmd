@@ -24,7 +24,7 @@ library(ggthemes)
 
 rm(list=ls())
 
-here::i_am('R/exMortPerformanceAC.Rmd')
+here::i_am('R/modelsPerformance.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -214,9 +214,9 @@ monthlyModelErrors <- simDataMonthly %>%
   summarise(expDeaths = sum(expDeaths)) %>%
   left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
   group_by(FIPSCode) %>%
-  summarize(meanExpDeathsM = mean(expDeaths,na.rm=T),
-            meanDeathsM = mean(deaths,na.rm=T),
-            meanDifferenceM = abs(meanExpDeathsM - meanDeathsM)/meanDeathsM)
+  summarize(meanExpDeaths = mean(expDeaths,na.rm=T),
+            meanDeaths = mean(deaths,na.rm=T),
+            meanDifference = abs(meanExpDeaths - meanDeaths)/meanDeaths)
 
 yearlyModelErrors <- simDataYearly %>% 
   group_by(FIPSCode,year) %>%
@@ -289,7 +289,7 @@ dev.off()
 
 ```
 
-```{r, echo=F, eval=F, message=F, warning=F}
+```{r, echo=F, message=F, warning=F}
 
 # Creating a plot with predicted vs actual rates for each county in groups of
 # 12 (ordered by FIPS code.

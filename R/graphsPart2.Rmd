@@ -23,7 +23,7 @@ library(grid)
 
 rm(list=ls())
 
-here::i_am('R/trendsGraph.Rmd')
+here::i_am('R/graphsPart2.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -269,16 +269,6 @@ trendPlots <- simulations %>%
 
 ```{r}
 
-png(here::here('figures','trendPlots.png'), width = 3300, height = 2500, res = 300, pointsize=4)
-
-trendPlots
-
-dev.off()
-
-```
-
-```{r}
-
 pdf(here::here('figures','trendPlots.pdf'),width=10, height = 14)
 
 trendPlots
@@ -308,16 +298,6 @@ stackBarsBEAPlot <- simulations %>%
 
 ```
 
-```{r}
-
-pdf(here::here('figures','stackBarsBEAPlot.pdf'), width=8, height = 10)
-
-stackBarsBEAPlot
-
-dev.off()
-
-```
-
 ```{r, echo=FALSE, message=F, warning=F, fig.height=16, fig.width=10}
 
 stackBarsStatesPlot <- simulations %>%
@@ -342,27 +322,6 @@ stackBarsStatesPlot <- simulations %>%
   theme_minimal() +
   theme(legend.position = 'bottom',
         legend.key.width = unit(2,'cm'))
-
-```
-
-```{r}
-
-pdf(here::here('figures','stackBarsStatesPlot.pdf'), width=8, height = 16)
-
-stackBarsStatesPlot
-
-dev.off()
-
-```
-
-
-```{r}
-
-png(here::here('figures','stackBarsPlot.png'), width = 2150, height = 4000, res = 300, pointsize=4)
-
-stackBarsBEAPlot/stackBarsStatesPlot
-
-dev.off()
 
 ```
 
