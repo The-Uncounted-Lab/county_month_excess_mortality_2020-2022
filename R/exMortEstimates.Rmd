@@ -24,9 +24,11 @@ library(sf)
 
 ```{r, echo=FALSE, warning=F, message=F}
 
+# Setting working directories
+
 rm(list=ls())
 
-here::i_am('R/exMortEstimatesACPI.Rmd')
+here::i_am('R/exMortEstimates.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -34,6 +36,8 @@ outDir <- here::here('data','output')
 ```
 
 ```{r, echo=F, message=F, warning=F}
+
+# Reading data
 
 ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
 ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
@@ -57,6 +61,8 @@ load(here::here('R','RObjects','modelRandomTimeLF.RData'))
 ```
 
 ```{r simulation, cache=TRUE, echo=F}
+
+# We compute expected deaths (and their confidence intervals) with monthly frequency 
 
 n.sim = 1000
 
@@ -132,7 +138,7 @@ load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
 
 ```
 
-```{r}
+```{r, echo=F}
 
 # Computing overall distribution of deaths by month
 
@@ -152,6 +158,10 @@ monthWeights <- as.numeric(monthWeights$monthWeight)
 ```
 
 ```{r simulation, cache=TRUE, echo=F}
+
+# We compute expected deaths (and their confidence intervals) with yearly frequency.
+# We then convert the yearly estimates into monthly ones using the weights we 
+# just computed
 
 simDataYearly <- tibble(year=rep(years,numFIPS),
                         FIPSCode=rep(FIPSCodes,each=numYears))
@@ -247,7 +257,10 @@ simDataYearly <- simDataYearly %>%
 
 ```
 
-```{r}
+```{r, echo=F}
+
+# We load the data on counties for which the yearly model should perform
+# better than the monthly model
 
 problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
                                 col_types = cols(FIPSCode = col_character(),
@@ -255,7 +268,9 @@ problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
   
 ```
 
-```{r}
+```{r, echo=F}
+
+# We set which estimate to used based on the relative average error of the 
 
 simulations <- simDataMonthly %>%
   select(-c(deaths,COVIDDeaths)) %>%
@@ -362,7 +377,7 @@ excDeaths <- excDeaths2020 %>%
 
 ```{r, echo=F}
 
-excDeaths %>% write_csv(here::here(outDir,'exMortEstimatesACPI.csv'))
+excDeaths %>% write_csv(here::here(outDir,'exMortEstimates.csv'))
 
 ```
 

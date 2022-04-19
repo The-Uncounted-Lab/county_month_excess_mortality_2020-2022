@@ -148,22 +148,6 @@ simDataMonthly <- simDataMonthly %>%
 
 ```{r, echo=F}
 
-yearlyData <- simDataMonthly %>% 
-  group_by(FIPSCode,year) %>%
-  summarise(expDeaths = sum(expDeaths)) %>%
-  left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
-  group_by(FIPSCode) %>%
-  summarize(meanExpDeaths = mean(expDeaths,na.rm=T),
-            meanDeaths = mean(deaths,na.rm=T),
-            meanDifference = abs(meanExpDeaths - meanDeaths)/meanDeaths)
-
-yearlyData %>%
-  write_csv(file=here::here(outDir,'problematicFIPSData.csv'))
-
-```
-
-```{r, echo=F}
-
 # Computing overall distribution of deaths by month
 
 monthWeights <- ACData %>%
@@ -220,6 +204,38 @@ simDataYearly <- simDataYearly %>%
 
 simDataYearly <- simDataYearly %>%
   rename(expDeathsSC = expDeaths)
+
+```
+
+```{r, echo=F}
+
+monthlyModelErrors <- simDataMonthly %>% 
+  group_by(FIPSCode,year) %>%
+  summarise(expDeaths = sum(expDeaths)) %>%
+  left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
+  group_by(FIPSCode) %>%
+  summarize(meanExpDeathsM = mean(expDeaths,na.rm=T),
+            meanDeathsM = mean(deaths,na.rm=T),
+            meanDifferenceM = abs(meanExpDeathsM - meanDeathsM)/meanDeathsM)
+
+yearlyModelErrors <- simDataYearly %>% 
+  group_by(FIPSCode,year) %>%
+  summarise(expDeaths = sum(expDeathsSC)) %>%
+  left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
+  group_by(FIPSCode) %>%
+  summarize(meanExpDeathsY = mean(expDeaths,na.rm=T),
+            meanDeathsY = mean(deaths,na.rm=T),
+            meanDifferenceY = abs(meanExpDeathsY - meanDeathsY)/meanDeathsY)
+
+modelErrors <- monthlyModelErrors %>%
+  left_join(yearlyModelErrors,by=c('FIPSCode'))
+
+```
+
+```{r, echo=F}
+
+monthlyModelErrors %>%
+  write_csv(file=here::here(outDir,'problematicFIPSData.csv'))
 
 ```
 
@@ -303,7 +319,7 @@ for (countyGroup in countyGroups) {
       theme(legend.position="bottom",
             axis.text.x = element_text(angle = 330))
   
-  ggsave(here::here('figures',paste0('countyPlots',as.character(i),'.pdf')),
+  ggsave(here::here('figures','countyPlots',paste0('countyPlots',as.character(i),'.pdf')),
          device = 'pdf',width = 12,height = 7)
   
   i <- i + 1
@@ -313,6 +329,9 @@ for (countyGroup in countyGroups) {
 ```
 
 ```{r, echo=F}
+
+# Creating the plot directories to make it easier to find which file contains a
+# given county
 
 countiesIndex <- ''
 i <- 1
@@ -333,7 +352,7 @@ for (countyGroup in countyGroups) {
   
 }
 
-cat(countiesIndex, file = here::here('figures','plotIndex.txt'))
+cat(countiesIndex, file = here::here('figures','countyPlots','plotIndex.txt'))
 
 ```
 
