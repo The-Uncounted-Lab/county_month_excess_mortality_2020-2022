@@ -4,10 +4,12 @@ The aim of this project is to build a model to estimate monthly death rates (num
 The project consists of 8 main RMarkdown files:
 
 - dataCreation.Rmd: Cleans the data for All-Causes deaths.
-- modelsFitMonthlu.Rmd: Estimates the monthly level models for All-Causes deaths.
+- modelsFitMonthly.Rmd: Estimates the monthly level models for All-Causes deaths.
 - modelsFitYearly.Rmd: Estimates the yearly level models for All-Causes deaths.
 - modelsPerformance.Rmd: Assesses the models performance and creates diagnosic plots for All-Causes deaths.
 - exMortEstimates.Rmd: Generates excess deaths estimates for All-Causes mortality for two separate periods, Mar-Dec 2020 and Jan-Dec 2021.
 - graphsPart1.Rmd: Produces figures 1, 2, and 3.
 - graphsPart2.Rmd: Produces figures 4 and 5.
 - summaryTable: Produces table 1.
+
+The files are intended to be run in the order in which they appear on the list. We cannot provide mortality data from the CDC WONDER platform but all the other data is given.
