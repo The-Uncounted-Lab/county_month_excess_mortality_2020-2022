@@ -1,10 +1,10 @@
 ---
 title: "Summary Table"
-output:
-  html_document:
-    df_print: paged
+author: "Eugenio Paglino"
+date: \today
+output: 
   pdf_document:
-    keep_tex: yes
+    keep_tex:  true
 ---
 
 ```{r, echo=F, message=F,warning=F}
@@ -30,7 +30,7 @@ outDir <- here::here('data','output')
 
 ```{r, echo=F, message=F, warning=F}
 
-exMortEstimates <- read_csv(here::here(outDir,'exMortEstimates.csv'))
+exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimates.csv'))
 
 ```
 
@@ -48,7 +48,7 @@ metro <- metro %>%
                                metroName == 'Lg central metro' ~ 'Large Central'))
   
 
-exMortEstimates <- exMortEstimates %>%
+exMortEstimatesAC <- exMortEstimatesAC %>%
   left_join(metro, by = 'FIPSCode')
 
 ```
@@ -63,7 +63,7 @@ addLgFringeMetro <- c('08001','08014')
 addMdSmMetro <- c('08013','08123','51515')
 
 ## fill out missing metro
-exMortEstimates <- exMortEstimates %>%
+exMortEstimatesAC <- exMortEstimatesAC %>%
   mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
                                FIPSCode %in% addLgFringeMetro ~ "Large Fringe",
                                FIPSCode %in% addMdSmMetro ~ "Medium Small",
@@ -79,7 +79,7 @@ BEARegions <- BEARegions %>%
   select(stateStr = state_abb,
          BEARegion = region_bea)
 
-exMortEstimates <- exMortEstimates %>%
+exMortEstimatesAC <- exMortEstimatesAC %>%
   left_join(BEARegions, by = 'stateStr')
 
 ```
@@ -90,7 +90,7 @@ popOffset <- 100000
 adj2020 <- 10/12
 adj2021 <- 12/12
 
-tableDataAC <- exMortEstimates %>%
+tableDataAC <- exMortEstimatesAC %>%
   drop_na() %>%
   group_by(BEARegion,metroName) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -105,7 +105,7 @@ tableDataAC <- exMortEstimates %>%
             COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
   ungroup()
 
-tableDataAC <- exMortEstimates %>%
+tableDataAC <- exMortEstimatesAC %>%
   drop_na() %>%
   group_by(BEARegion) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -122,7 +122,7 @@ tableDataAC <- exMortEstimates %>%
   ungroup() %>%
   bind_rows(tableDataAC)
 
-tableDataAC <- exMortEstimates %>%
+tableDataAC <- exMortEstimatesAC %>%
   drop_na() %>%
   group_by(metroName) %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
@@ -139,7 +139,7 @@ tableDataAC <- exMortEstimates %>%
   ungroup() %>%
   bind_rows(tableDataAC)
   
-tableDataAC <- exMortEstimates %>%
+tableDataAC <- exMortEstimatesAC %>%
   drop_na() %>%
   summarize(excDeaths2020 = sum(excDeathsMed2020),
             COVIDDeaths2020 = sum(COVIDDeaths2020),
