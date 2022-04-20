@@ -272,7 +272,7 @@ nationalTrend <- simulations %>%
     labs(x='Time',
          y='Deaths',
          colour='') +
-    theme_tufte() +
+    theme_minimal() +
     theme(legend.position="bottom")
 
 ```
