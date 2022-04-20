@@ -317,7 +317,7 @@ fig1Bars2020 <- exMortData %>%
     fill='') +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, margin = margin(t=15)),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = c(0.8, 0.9)
   )
 
@@ -362,7 +362,7 @@ fig1Bars2021 <- exMortData %>%
     fill='') +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, margin = margin(t=15)),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = c(0.8, 0.9)
   )
 
@@ -408,7 +408,7 @@ fig2Bars2020 <- exMortData %>%
     fill='') +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, margin = margin(t=27)),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = c(0.8, 0.9)
   )
 
@@ -454,7 +454,7 @@ fig2Bars2021 <- exMortData %>%
     fill='') +
   theme_minimal() +
   theme(
-    axis.text.x = element_text(angle = 45, margin = margin(t=27)),
+    axis.text.x = element_text(angle = 45, hjust = 1),
     legend.position = c(0.8, 0.9)
   )
 
@@ -469,9 +469,9 @@ fig1Bars <- fig1Bars2020 + fig1Bars2021 + plot_layout(guides='collect') & theme(
 
 ```{r}
 
-pdf(here::here('figures','fig1.pdf'), width=14, height = 10)
+pdf(here::here('figures','fig1.pdf'), width=12, height = 10)
 
-fig1Maps / fig1Bars + plot_layout(heights = c(4,3)) + plot_annotation(tag_levels = 'A')
+fig1Maps / fig1Bars + plot_layout(heights = c(5,3)) + plot_annotation(tag_levels = 'A')
 
 dev.off()
 
@@ -486,9 +486,9 @@ fig2Bars <- fig2Bars2020 + fig2Bars2021 + plot_layout(guides='collect') & theme(
 
 ```{r}
 
-pdf(here::here('figures','fig2.pdf'), width=14, height = 10)
+pdf(here::here('figures','fig2.pdf'), width=12, height = 10)
 
-fig2Maps / fig2Bars + plot_layout(heights = c(4,3)) + plot_annotation(tag_levels = 'A')
+fig2Maps / fig2Bars + plot_layout(heights = c(5,3)) + plot_annotation(tag_levels = 'A')
 
 dev.off()
 

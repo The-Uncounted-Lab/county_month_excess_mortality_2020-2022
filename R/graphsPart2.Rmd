@@ -162,9 +162,9 @@ simDataYearly <- simDataYearly %>%
 
 ```{r}
 
-problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
-                                col_types = cols(FIPSCode = col_character(),
-                                                 meanDifference = col_double()))
+monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
+                                               col_types = cols(FIPSCode = col_character(),
+                                               meanDifference = col_double()))
   
 ```
 
@@ -174,7 +174,7 @@ simulations <- simDataMonthly %>%
   left_join(simDataYearly,by=c('FIPSCode','year','month')) %>%
   left_join(ACData,by=c('FIPSCode','year','month')) %>%
   left_join(states,by=c('state','stateFIPS')) %>%
-  left_join(problematicFIPSData,by='FIPSCode') %>%
+  left_join(monthlyModelPerformance,by='FIPSCode') %>%
   mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
          expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths),
          excDeaths = deaths-expDeaths,
