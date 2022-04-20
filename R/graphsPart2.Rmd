@@ -334,3 +334,44 @@ stackBarsBEAPlot + stackBarsStatesPlot
 dev.off()
 
 ```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+largestCounties <- simulations %>%
+  drop_na() %>%
+  group_by(BEARegion,FIPSCode,metroName) %>%
+  summarize(popMean = mean(pop)) %>%
+  ungroup() %>%
+  group_by(BEARegion,metroName) %>%
+  slice(which.max(popMean)) %>%
+  pull(FIPSCode)
+
+largestCountiesData <- simulations %>%
+  filter(FIPSCode %in% largestCounties) %>%
+  mutate(deathRate= (deaths/pop)*100000,
+         expDeathRate = (expDeaths/pop)*100000)
+
+largestCountiesPlots <- largestCountiesData %>%
+  ggplot() +
+  geom_line(mapping=aes(x=monthYear,y=deathRate,color='Actual Deaths')) +
+  geom_line(mapping=aes(x=monthYear,y=expDeathRate,color='Expected Deaths')) +
+  geom_label(mapping=aes(x=make_date(2018,6,1),y=175,label=paste0(countyName,' (',stateStr,')')),size=3) +
+  coord_cartesian(ylim=c(20,200)) +
+  facet_grid(rows = vars(BEARegion), cols=vars(metroName)) +
+  labs(x='',
+       y='Actual and Expected Number of Deaths (for 100,000 residents)',
+       color='') +
+  theme_minimal() +
+  theme(legend.position = 'bottom')
+
+```
+
+```{r}
+
+pdf(here::here('figures','largestCountiesPlots.pdf'),width=12, height = 14)
+
+largestCountiesPlots
+
+dev.off()
+
+```

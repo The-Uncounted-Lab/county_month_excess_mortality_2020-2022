@@ -110,6 +110,8 @@ RMSEs <- tibble(Performance=c('Training Data (2014-2018)',
                                               predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),
                                                       allow.new.levels=T))))
 
+RMSEs %>% write_csv(here::here(outDir,'RMSEs.csv'))
+
 ```
 
 ```{r, echo=F}
@@ -293,7 +295,7 @@ dev.off()
 # 12 (ordered by FIPS code.
 
 simulations <- simulations %>%
-  mutate(countyNameState = paste(countyName,' (',stateStr,')'))
+  mutate(countyNameState = paste0(countyName,' (',stateStr,')'))
 
 countyNames <- as.character(unique(simulations$countyNameState))
 countyGroups <- split(countyNames, ceiling(seq_along(countyNames)/12))
@@ -305,12 +307,14 @@ for (countyGroup in countyGroups) {
   countyPlot <- simulations %>%
     filter(countyNameState %in% countyGroup,
            monthYear < make_date(2021,10,1)) %>%
+    mutate(deaths=(deaths/pop)*100000,
+           expDeaths=(expDeaths/pop)*100000) %>%
     ggplot() +
       geom_vline(xintercept = make_date(2020,3,1)) +
       geom_line(mapping=aes(x=monthYear,y=deaths,color='Actual')) +
       geom_line(mapping=aes(x=monthYear,y=expDeaths,color='Simulated-RT')) +
-      labs(x='Time',
-           y='Deaths',
+      labs(x='',
+           y='Actual and Expected Number of Deaths (for 100,000 residents)',
            colour='') +
       facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
       theme_minimal() +
@@ -353,5 +357,4 @@ for (countyGroup in countyGroups) {
 cat(countiesIndex, file = here::here('figures','countyPlots','plotIndex.txt'))
 
 ```
-
 
