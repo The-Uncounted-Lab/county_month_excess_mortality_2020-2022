@@ -275,7 +275,7 @@ monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.c
 simulations <- simDataMonthly %>%
   select(-c(deaths,COVIDDeaths)) %>%
   left_join(simDataYearly,by=c('csCode','FIPSCode','year')) %>%
-  left_join(problematicFIPSData,by='FIPSCode') %>%
+  left_join(monthlyModelPerformance,by='FIPSCode') %>%
   mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
          expDeathsMed = if_else(meanDifference>0.1,expDeathsMedSC,expDeathsMed),
          expDeathsLow = if_else(meanDifference>0.1,expDeathsLowSC,expDeathsLow),
@@ -311,7 +311,8 @@ simulations <- simulations %>%
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-adjF2021 = 10/12
+adjF2020 = firstMonth/12
+adjF2021 = lastMonth/12
 
 excDeaths2020 <- simulations %>%
   ungroup() %>%
@@ -323,6 +324,9 @@ excDeaths2020 <- simulations %>%
          COVIDDeaths,
          nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
          COVIDExcRatio) %>%
+  mutate(nonCovidExcCDRLow = nonCovidExcCDRLow/adjF2020,
+         nonCovidExcCDRMed = nonCovidExcCDRMed/adjF2020,
+         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2020) %>%
   rename(expDeathsLow2020 = expDeathsLow,
          expDeathsMed2020 = expDeathsMed,
          expDeathsUp2020 = expDeathsUp,
