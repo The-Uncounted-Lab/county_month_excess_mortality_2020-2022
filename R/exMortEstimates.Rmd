@@ -262,9 +262,9 @@ simDataYearly <- simDataYearly %>%
 # We load the data on counties for which the yearly model should perform
 # better than the monthly model
 
-problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
-                                col_types = cols(FIPSCode = col_character(),
-                                                 meanDifference = col_double()))
+monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
+                                    col_types = cols(FIPSCode = col_character(),
+                                                     meanDifference = col_double()))
   
 ```
 

@@ -279,7 +279,7 @@ nationalTrend <- simulations %>%
 
 ```{r}
 
-png(here::here('figures','nationalTrend.png'), width = 3000, height = 2000, res = 300, pointsize=4)
+pdf(here::here('figures','nationalTrend.pdf'), width = 12, height = 8)
 
 nationalTrend
 
