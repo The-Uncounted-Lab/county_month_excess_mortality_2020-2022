@@ -235,15 +235,15 @@ modelErrors <- monthlyModelErrors %>%
 ```{r, echo=F}
 
 monthlyModelErrors %>%
-  write_csv(file=here::here(outDir,'problematicFIPSData.csv'))
+  write_csv(file=here::here(outDir,'monthlyModelPerformance.csv'))
 
 ```
 
 ```{r, echo=F}
 
-problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
-                                col_types = cols(FIPSCode = col_character(),
-                                                 meanDifference = col_double()))
+monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
+                                    col_types = cols(FIPSCode = col_character(),
+                                                     meanDifference = col_double()))
   
 ```
 
@@ -252,12 +252,10 @@ problematicFIPSData <- read_csv(here::here(outDir,'problematicFIPSData.csv'),
 simulations <- simDataMonthly %>%
   left_join(dplyr::select(simDataYearly,FIPSCode,year,month,expDeathsSC),
             by=c('FIPSCode','year','month')) %>%
-  left_join(problematicFIPSData,by='FIPSCode') %>%
+  left_join(monthlyModelPerformance,by='FIPSCode') %>%
   left_join(dplyr::select(ACData,FIPSCode,month,year,deaths), 
                                  by = c('FIPSCode','month','year')) %>%
-  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
-         expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths),
-         monthYear = make_date(year,month,day=1))
+  mutate(monthYear = make_date(year,month,day=1))
 
 ```
 
@@ -279,7 +277,7 @@ nationalTrend <- simulations %>%
 
 ```
 
-```{r, eval=F}
+```{r}
 
 png(here::here('figures','nationalTrend.png'), width = 3000, height = 2000, res = 300, pointsize=4)
 

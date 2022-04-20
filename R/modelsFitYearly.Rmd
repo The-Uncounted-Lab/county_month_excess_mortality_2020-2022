@@ -25,7 +25,7 @@ library(here)
 
 rm(list=ls())
 
-here::i_am('R/exMortModelsYearlyFinal.Rmd')
+here::i_am('R/modelsFitYearly.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')

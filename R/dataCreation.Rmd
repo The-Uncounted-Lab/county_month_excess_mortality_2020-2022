@@ -202,12 +202,6 @@ COVIDYearlyData <- COVIDYearlyData %>%
 
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
 
-popData <- popData %>%
-  group_by(FIPSCode) %>%
-  mutate(pop = if_else(year>2019,NA_real_,pop)) %>%
-  fill(pop) %>%
-  ungroup()
-
 countySets <- read_csv(here::here(inDir,'geo','countySets.csv'), 
                        col_types = cols(csCode=col_character(),
                                         csName=col_character(),
