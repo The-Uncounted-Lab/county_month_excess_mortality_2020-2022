@@ -5,6 +5,8 @@ date: \today
 output: 
   pdf_document:
     keep_tex:  true
+header-includes:
+  - \AtBeginDocument{\let\maketitle\relax}
 ---
 
 ```{r, echo=F, message=F,warning=F}
@@ -175,9 +177,48 @@ tableDataAC %>%
         booktabs=T,
         linesep=c('\\addlinespace[2pt]',rep('',3),'\\addlinespace[5pt]'),
         format.args = list(big.mark = ','),
-        caption = 'Summary Table - All Causes') %>%
+        caption = 'Summary Table - All Causes - BEA Region and Metro Status') %>%
   add_header_above(c(" " = 2, rep(c("Number of Deaths" = 3, "Rates per 100,000 PY" = 2),2))) %>%
   add_header_above(c(" " = 2, "2020" = 5, "2021" = 5)) %>%
+  kable_styling(font_size = 7.5)
+
+```
+
+```{r, echo=F}
+
+popOffset <- 100000
+adj2020 <- 10/12
+adj2021 <- 12/12
+
+tableDataAC <- exMortEstimatesAC %>%
+  drop_na() %>%
+  group_by(state) %>%
+  summarize(excDeaths2020 = sum(excDeathsMed2020),
+            COVIDDeaths2020 = sum(COVIDDeaths2020),
+            COVIDExcRatio2020 = COVIDDeaths2020/excDeaths2020,
+            excDeathRate2020 = popOffset*excDeaths2020/(sum(pop2020)*adj2020),
+            COVIDDeathRate2020 = popOffset*COVIDDeaths2020/(sum(pop2020)*adj2020),
+            excDeaths2021 = sum(excDeathsMed2021),
+            COVIDDeaths2021 = sum(COVIDDeaths2021),
+            COVIDExcRatio2021 = COVIDDeaths2021/excDeaths2021,
+            excDeathRate2021 = popOffset*excDeaths2021/(sum(pop2021)*adj2021),
+            COVIDDeathRate2021 = popOffset*COVIDDeaths2021/(sum(pop2021)*adj2021)) %>%
+  ungroup()
+
+```
+
+```{r, echo=F}
+
+tableDataAC %>%
+  relocate(state) %>%
+  kable(col.names = c(c('State'),
+                      rep(c('Excess','COVID','Ratio','Excess','COVID'),2)),
+        digits = c(0,rep(c(0,0,3,0,0),2)),
+        booktabs=T,
+        format.args = list(big.mark = ','),
+        caption = 'Summary Table - All Causes - States') %>%
+  add_header_above(c(" " = 1, rep(c("Number of Deaths" = 3, "Rates per 100,000 PY" = 2),2))) %>%
+  add_header_above(c(" " = 1, "2020" = 5, "2021" = 5)) %>%
   kable_styling(font_size = 7.5)
 
 ```
