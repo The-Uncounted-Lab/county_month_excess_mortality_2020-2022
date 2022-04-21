@@ -110,7 +110,7 @@ RMSEs <- tibble(Performance=c('Training Data (2014-2018)',
                                               predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),
                                                       allow.new.levels=T))))
 
-RMSEs %>% write_csv(here::here(outDir,'RMSEs.csv'))
+RMSEs %>% write_csv(here::here('tables','RMSEs.csv'))
 
 ```
 
