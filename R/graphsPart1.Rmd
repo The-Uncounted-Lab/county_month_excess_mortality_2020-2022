@@ -400,7 +400,7 @@ fig2Bars2020 <- exMortData %>%
                             ymax=excDeathRateUp2020),
                 width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
   scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
-  coord_cartesian(ylim=c(0,600)) + 
+  coord_cartesian(ylim=c(0,650)) + 
   labs(
     x = '', 
     y = 'Deaths (Per 100,000 Person-Years)',
@@ -446,7 +446,7 @@ fig2Bars2021 <- exMortData %>%
                             ymax=excDeathRateUp2021),
                 width = 0.3, size = 0.8, color=brewer.pal(5, 'Blues')[5]) +
   scale_fill_manual(values = carto.pal('blue.pal',n1=3)[3:2]) +
-  coord_cartesian(ylim=c(0,600)) + 
+  coord_cartesian(ylim=c(0,650)) + 
   labs(
     x = '', 
     y = 'Deaths (Per 100,000 Person-Years)',

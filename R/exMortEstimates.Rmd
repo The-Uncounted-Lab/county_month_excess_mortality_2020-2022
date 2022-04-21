@@ -313,7 +313,7 @@ simulations <- simulations %>%
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-adjF2020 = firstMonth/12
+adjF2020 = (13-firstMonth)/12
 adjF2021 = lastMonth/12
 
 excDeaths2020 <- simulations %>%
