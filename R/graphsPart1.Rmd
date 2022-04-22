@@ -313,7 +313,7 @@ fig1Bars2020 <- exMortData %>%
   labs(
     x = "", 
     y = "Deaths (Per 100,000 Person-Years)",
-    title = "Highest Excess Death Rate (2020)",
+    title = "Counties with Highest Excess Death Rate (2020)",
     fill='') +
   theme_minimal() +
   theme(
@@ -358,7 +358,7 @@ fig1Bars2021 <- exMortData %>%
   labs(
     x = "", 
     y = "Deaths (Per 100,000 Person-Years)",
-    title = "Highest Excess Death Rate (2021)",
+    title = "Counties with Highest Excess Death Rate (2021)",
     fill='') +
   theme_minimal() +
   theme(
@@ -404,7 +404,7 @@ fig2Bars2020 <- exMortData %>%
   labs(
     x = '', 
     y = 'Deaths (Per 100,000 Person-Years)',
-    title = 'Lowest COVID to Excess Ratio (2020)',
+    title = 'Counties with Lowest COVID to Excess Ratios (2020)',
     fill='') +
   theme_minimal() +
   theme(
@@ -450,7 +450,7 @@ fig2Bars2021 <- exMortData %>%
   labs(
     x = '', 
     y = 'Deaths (Per 100,000 Person-Years)',
-    title = 'Lowest COVID to Excess Ratio (2021)',
+    title = 'Counties with Lowest COVID to Excess Ratios (2021)',
     fill='') +
   theme_minimal() +
   theme(

@@ -122,9 +122,9 @@ simDataMonthly <- simDataMonthly %>%
          nonCovidExcCDRMed = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.5),
          nonCovidExcCDRLow = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.025),
          nonCovidExcCDRUp = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.975),
-         nonCovidExcCDRMed = nonCovidExcCDRMed*1000,
-         nonCovidExcCDRLow = nonCovidExcCDRLow*1000,
-         nonCovidExcCDRUp = nonCovidExcCDRUp*1000,
+         nonCovidExcCDRMed = nonCovidExcCDRMed*100000,
+         nonCovidExcCDRLow = nonCovidExcCDRLow*100000,
+         nonCovidExcCDRUp = nonCovidExcCDRUp*100000,
          COVIDExcRatio = COVIDDeaths/(excDeathsMed+1)) %>%
   ungroup()
   
@@ -236,9 +236,9 @@ simDataYearly <- simDataYearly %>%
          nonCovidExcCDRMed = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.5),
          nonCovidExcCDRLow = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.025),
          nonCovidExcCDRUp = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.975),
-         nonCovidExcCDRMed = nonCovidExcCDRMed*1000,
-         nonCovidExcCDRLow = nonCovidExcCDRLow*1000,
-         nonCovidExcCDRUp = nonCovidExcCDRUp*1000,
+         nonCovidExcCDRMed = nonCovidExcCDRMed*100000,
+         nonCovidExcCDRLow = nonCovidExcCDRLow*100000,
+         nonCovidExcCDRUp = nonCovidExcCDRUp*100000,
          COVIDExcRatio = COVIDDeaths/(excDeathsMed+1)) %>%
   ungroup()
 
