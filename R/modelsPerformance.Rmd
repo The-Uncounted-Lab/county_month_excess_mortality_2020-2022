@@ -255,6 +255,8 @@ simulations <- simDataMonthly %>%
   left_join(dplyr::select(simDataYearly,FIPSCode,year,month,expDeathsSC),
             by=c('FIPSCode','year','month')) %>%
   left_join(monthlyModelPerformance,by='FIPSCode') %>%
+  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
+         expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths)) %>%
   left_join(dplyr::select(ACData,FIPSCode,month,year,deaths), 
                                  by = c('FIPSCode','month','year')) %>%
   mutate(monthYear = make_date(year,month,day=1))
