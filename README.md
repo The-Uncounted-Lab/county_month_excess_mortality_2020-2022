@@ -16,3 +16,12 @@ The project consists of 8 main RMarkdown files:
 The files are intended to be run in the order in which they appear on the list. We cannot provide mortality data from the CDC WONDER platform but all the other data are given. Detailed instructions on the steps we used to download data from the CDC WONDER platform are given in the CDCWONDERDataDetails.md file within the data/output folder.
 
 Aside from the RMarkdown files within the R folder, we also provide the Python code we used to create monthly population estimates at the county level by interpolating yearly intercensal estimates from the Census Bureau. The Python code is in the form of a Jupyter Notebook. The final population estimates are stored in the output folder.
+
+Here is a brief description of the content of the repository:
+
+- Python: Contains the Python code used to generate monthly population estimates.
+- R: Contains the R code used to prepare the data, train the models, assess the models' perfomance, produce the estimates of excess mortality, and produce the figures and tables for the paper.
+- data/input: Contains all the data needed to train the models and produce estimates of excess deaths. As mentioned above, the CDC data is not included but instructions on how to download it are given. To reconcile inconsistencies across the various data sources we are using, and to accomodate further analysis with a longer backward time frame (i.e. we trained our final models on data for 2015-2019 but initially considered a wider window), we harmonized county FIPS code following the schema in the FIPSFixes.csv file.
+- data/output: Contains all the data generated as a product of the project. This includes monthly population estimates, excess deaths and other related quantities, and a performance file comparing predicted yearly deaths from the monthly model to the actual counts used to decide whether the yearly or monthly model should be used.
+- figures: contains all the figures appearing in the paper. Plots of expected versus actual deaths for each county are given in the countyPlots subfolder. An index file (plotIndex.txt) in the same folder can be used to trace each county to the corresponding file.
+- tables: contains all the tables in the paper.
