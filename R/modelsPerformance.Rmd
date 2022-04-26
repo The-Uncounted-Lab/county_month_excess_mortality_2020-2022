@@ -82,35 +82,45 @@ RMSE <- function(series1,series2) {
 
 # We compute the RMSE for the three models and store the result in a data.frame
 
-RMSEs <- tibble(Performance=c('Training Data (2014-2018)',
-                                  'Test Data (2019)',
-                                  'Overall'),
-                    modelBase=c(RMSE(filter(drop_na(ACData),year<2019)$CDR,
-                                     predict(modelBaseLT)),
-                                RMSE(filter(drop_na(ACData),year==2019)$CDR,
-                                     predict(modelBaseLT,filter(drop_na(ACData),year==2019),
-                                             allow.new.levels=T)),
-                                RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-                                     predict(modelBaseLT,filter(drop_na(ACData),year<=2019),
-                                             allow.new.levels=T))),
-                    modelRandomTime=c(RMSE(filter(drop_na(ACData),year<2019)$CDR,
-                                           predict(modelRandomTimeLT)),
-                                      RMSE(filter(drop_na(ACData),year==2019)$CDR,
-                                           predict(modelRandomTimeLT,filter(drop_na(ACData),year==2019),
-                                                   allow.new.levels=T)),
-                                      RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-                                           predict(modelRandomTimeLT,filter(drop_na(ACData),year<=2019),
-                                                   allow.new.levels=T))),
-                   modelRandomTimePlus=c(RMSE(filter(drop_na(ACData),year<2019)$CDR,
-                                              predict(modelRandomTimePlusLT)),
-                                         RMSE(filter(drop_na(ACData),year==2019)$CDR,
-                                              predict(modelRandomTimePlusLT,filter(drop_na(ACData),year==2019),
-                                                      allow.new.levels=T)),
-                                         RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-                                              predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),
-                                                      allow.new.levels=T))))
+RMSEs <- tibble(
+  Performance=c('RMSE - Training Data (2014-2018)',
+                'RMSE - Test Data (2019)',
+                'RMSE - Overall',
+                'BIC','AIC'),
+  modelBase=c(
+    RMSE(filter(drop_na(ACData),year<2019)$CDR,
+         predict(modelBaseLT)),
+    RMSE(filter(drop_na(ACData),year==2019)$CDR,
+         predict(modelBaseLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
+    RMSE(filter(drop_na(ACData),year<=2019)$CDR,
+         predict(modelBaseLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
+    BIC(modelBaseLT),
+    AIC(modelBaseLT)),
+  modelRandomTime=c(
+    RMSE(filter(drop_na(ACData),year<2019)$CDR,
+         predict(modelRandomTimeLT)),
+    RMSE(filter(drop_na(ACData),year==2019)$CDR,
+         predict(modelRandomTimeLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
+    RMSE(filter(drop_na(ACData),year<=2019)$CDR,
+         predict(modelRandomTimeLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
+    BIC(modelRandomTimeLT),
+    AIC(modelRandomTimeLT)
+    ),
+ modelRandomTimePlus=c(
+   RMSE(filter(drop_na(ACData),year<2019)$CDR,predict(modelRandomTimePlusLT)),
+   RMSE(filter(drop_na(ACData),year==2019)$CDR,
+        predict(modelRandomTimePlusLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
+   RMSE(filter(drop_na(ACData),year<=2019)$CDR,
+        predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
+    BIC(modelRandomTimePlusLT),
+    AIC(modelRandomTimePlusLT)
+   )
+ )
 
-RMSEs %>% write_csv(here::here('tables','RMSEs.csv'))
+RMSEs %>% 
+  rename('Base Model'=modelBase,'Random Time Model'=modelRandomTime,
+         'Random Time Model Plus'=modelRandomTimePlus) %>%
+  write_csv(here::here('tables','modelComparison.csv'))
 
 ```
 
