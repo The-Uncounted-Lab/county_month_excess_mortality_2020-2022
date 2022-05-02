@@ -1,4 +1,4 @@
-# Excess all-cause mortality across counties in the United States, March 2020 to December 2021
+# Monthly County Level Excess Mortality
 
 This repo includes data and code required to replicate the results in the paper "Excess all-cause mortality across counties in the United States, March 2020 to December 2021". [[Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v1.full.pdf)
 
