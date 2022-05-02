@@ -1,6 +1,6 @@
 # Monthly County Level Excess Mortality
 
-This repo includes data and code required to replicate the results in the paper "Excess all-cause mortality across counties in the United States, March 2020 to December 2021". [[Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v1.full.pdf)
+This repo includes data and code required to replicate the results in the paper "Excess all-cause mortality across counties in the United States, March 2020 to December 2021". [[Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v1)
 
 
 The aim of this project is to build a model to estimate monthly death rates (number of deaths divided by population) at the county level for the United States. We do so with two different set of models, on using yearly data and the other using monthly data. The yearly model has an advantage over the monthly model when there is a substantial amount of suppression due to the presence of too few deaths (less than 10) in some small counties. The yearly data, by aggregating the information over several months, reduces the chances of suppression and let us build a model that takes advantage of all the available information.
