@@ -1,9 +1,2 @@
 /data/input
-ACData.feather
-ACYearlyData.feather
-COVIDYearlyData.feather
-popDataMonthlyAlt.feather
-countySetsFinal.feather
-monthlyModelPerformance.csv
-modelRandomTimeYearlyINLALF.RData
-modelRandomTimeINLALF.RData
+*.Rhistory
