@@ -1,0 +1,125 @@
+---
+title: "County-Level Mortality Models - Estimation"
+author: "Eugenio Paglino"
+date: "\today"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(INLA)
+library(merTools)
+library(here)
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+rm(list=ls())
+
+here::i_am('R/modelsFitMonthly.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+ACData <- ACData %>% filter(year>2014)
+
+ACData <- ACData %>% drop_na()
+
+```
+
+```{r}
+
+testData <- ACData %>%
+  filter(year>2014,
+         year<2020) %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(csCode) %>%
+  mutate(csCode = cur_group_id(),
+         csCode2 = csCode) %>%
+  ungroup() %>%
+  group_by(stateFIPS) %>%
+  mutate(stateFIPS = cur_group_id())
+
+```
+
+```{r}
+
+modelRandomTimeLF <- lmer(CDR ~ 1 + year + as.factor(month) +
+                        (1 | FIPSCode) +
+                        (1 + year | csCode) +
+                        (1 | stateFIPS),
+                        data = testData,
+                        control = lmerControl(optimizer = 'Nelder_Mead'))
+
+```
+
+```{r}
+
+library(rstanarm)
+
+model.stan <- stan_lmer(CDR ~ 1 + I(year-2015) +
+                        (1 | FIPSCode) +
+                        (0 + year | FIPSCode),
+                        data = testData)
+
+y.post.samp <- posterior_predict(model.stan)
+
+```
+
+
+
+```{r}
+
+N = 1000
+
+y.n <- nrow(testData)
+
+
+
+sim <- inla.posterior.sample(N, model.random.time.INLA)
+model.names <- row.names(sim[[1]]$latent)
+y.names <- model.names[1:y.n]
+param.names <- model.names[-c(1:y.n)]
+param.names <- param.names[c(length(param.names),1:(length(param.names)-1))]
+
+y.post.samp.inla <- t(sapply(sim,function(x) x$latent[y.names,1]))
+params.samp.inla <- t(sapply(sim,function(x) x$latent[param.names,1]))
+sigma_y.samp.inla <- 1/sqrt(sapply(sim,function(x) x$hyperpar[1]))
+y.post.samp.inla.alt <- apply(y.post.samp.inla,
+                              M=2,
+                              FUN=function(x) rnorm(N,x,sigma_y.samp.inla))
+
+```
+
+```{r}
+
+lmer.sims.pred <- merTools::predictInterval(modelRandomTimeLF,newdata=testData[1:10],returnSims = TRUE,n.sims = 1000)
+sim.results.pred <- attr(lmer.sims.pred,'sim.results')
+sim.results.pred <- t(sim.results.pred)
+
+```
+
+
+```{r}
+
+print('lmer')
+quantile(sim.results.pred[,1],probs=c(0.1,0.5,0.9))
+print('inla')
+quantile(y.post.samp.inla.alt[,1],probs=c(0.1,0.5,0.9))
+
+```

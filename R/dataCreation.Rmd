@@ -3,22 +3,38 @@ title: "Creating the Final Data"
 author: "Eugenio Paglino"
 date: "\today"
 output:
-  html_document:
-    df_print: paged
+  html_document
 ---
 
-```{r, message=F,warning=F}
+
+```{r, echo=F, include=F}
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+```
+
+```{r}
 
 # Loading necessary packages
 
 library(tidyverse)
 library(lubridate)
-library(patchwork)
 library(here)
+
+# Set seed for the Rmd
+
+set.seed(42)
 
 ```
 
 ```{r, echo=FALSE, message=F, warning=F}
+
+# Do not rely on this to completely clean your environment
+# Better to do a full restart of R before running
 
 rm(list=ls())
 
@@ -36,11 +52,11 @@ FIPSFixes <- read_csv(here::here(inDir,'FIPSHarmonization','FIPSFixes.csv'))
 ```
 
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 
-# Import historical county-monthly data downloaded from CDC WONDER
+# Import historical county-month data downloaded from CDC WONDER
 # https://wonder.cdc.gov/ucd-icd10.html
-# NOTE: County-quarters with < 10 deaths are censored in these data
+# NOTE: County-months with < 10 deaths are censored in these data
 
 ACData <- list.files(
   here::here(inDir,'CDC','AllCausesMonthly'),
@@ -65,9 +81,9 @@ names(ACData) <-c('notes','countyName','FIPSCode',
                   'population','CMR','countyName2021','FIPSCode2021',
                   'year','yearCode')
 
-ACData <- ACData %>% mutate(FIPSCode = if_else(is.na(FIPSCode),FIPSCode2021,FIPSCode),
-                            countyName = if_else(is.na(countyName),countyName2021,countyName))
-
+ACData <- ACData %>% 
+  mutate(FIPSCode = coalesce(FIPSCode, FIPSCode2021),
+         countyName = coalesce(countyName,countyName2021))
 
 # Keeping only the variables we need
 
@@ -78,9 +94,7 @@ ACData <- ACData %>% select(FIPSCode,monthCode,deaths)
 
 ACData <- ACData %>% 
   separate(monthCode, into=c('year','month')) %>%
-  mutate(deaths = as.integer(deaths),
-         year = as.integer(year),
-         month = as.integer(month))
+  mutate(across(c(deaths,year,month),as.integer))
 
 # We harmonize the FIPS codes
 
@@ -91,11 +105,11 @@ ACData <- ACData %>%
 
 ```
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 
-# Import historical county-monthly data downloaded from CDC WONDER
+# Import historical county-year data downloaded from CDC WONDER
 # https://wonder.cdc.gov/ucd-icd10.html
-# NOTE: County-quarters with < 10 deaths are censored in these data
+# NOTE: County-years with < 10 deaths are censored in these data
 
 ACYearlyData <- list.files(
   here::here(inDir,'CDC','AllCausesYearly'),
@@ -113,25 +127,20 @@ ACYearlyData <- list.files(
 
 ACYearlyData <- as.tibble(ACYearlyData)
 
-names(ACYearlyData) <-c('notes','countyName','FIPSCode',
-                        'yearStr','year','deaths',
-                        'population','CMR','countyName2021','FIPSCode2021')
+names(ACYearlyData) <- c('notes','countyName','FIPSCode',
+                         'yearStr','year','deaths',
+                         'population','CMR','countyName2021','FIPSCode2021')
 
-ACYearlyData <- ACYearlyData %>% mutate(FIPSCode = if_else(is.na(FIPSCode),FIPSCode2021,FIPSCode),
-                                        countyName = if_else(is.na(countyName),countyName2021,countyName))
+ACYearlyData <- ACYearlyData %>% 
+  mutate(FIPSCode = coalesce(FIPSCode,FIPSCode2021),
+         countyName = coalesce(countyName,countyName2021))
 
 # Keeping only the variables we need
 
 ACYearlyData <- ACYearlyData %>% select(FIPSCode,year,deaths)
 
-# We extract month and year from the monthCode variable and then
-# create a monthYear date variable.
-
-set.seed(42)
-
 ACYearlyData <- ACYearlyData %>% 
-  mutate(deaths = as.integer(deaths),
-         year = as.integer(year))
+  mutate(across(c(deaths,year),as.integer))
 
 # We harmonize the FIPS codes
 
@@ -142,11 +151,11 @@ ACYearlyData <- ACYearlyData %>%
 
 ```
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 
-# Import historical county-monthly data downloaded from CDC WONDER
+# Import historical county-month data downloaded from CDC WONDER
 # https://wonder.cdc.gov/ucd-icd10.html
-# NOTE: County-quarters with < 10 deaths are censored in these data
+# NOTE: County-months with < 10 deaths are censored in these data
 
 COVIDYearlyData <- list.files(
   here::here(inDir,'CDC','COVIDUCDYearly'),
@@ -170,19 +179,15 @@ names(COVIDYearlyData) <-c('notes','countyName','FIPSCode',
 
 # Keeping only the variables we need
 
-COVIDYearlyData <- COVIDYearlyData[,c('FIPSCode','year','deaths')]
-
-# We extract month and year from the monthCode variable and then
-# create a monthYear date variable.
-
-set.seed(42)
+COVIDYearlyData <- COVIDYearlyData %>%
+  select(FIPSCode,year,deaths)
 
 COVIDYearlyData <- COVIDYearlyData %>% 
   mutate(COVIDDeaths = as.integer(deaths),
          year = as.integer(year)) %>%
   select(-c('deaths'))
 
-# We harmozie the FIPS codes
+# We harmonize the FIPS codes
 
 COVIDYearlyData <- COVIDYearlyData %>%
   left_join(FIPSFixes,by='FIPSCode') %>%
@@ -191,14 +196,11 @@ COVIDYearlyData <- COVIDYearlyData %>%
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # Import population counts and information on county sets (groups of 
 # counties created by the Census Bureau to have geographical units with
 # at least 50.000 residents).
-
-# We do not have yet population estimated for 2021, we thus use the 2020 values.
-# This is not ideal but it is not worse compared to other more complex strategies
 
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
 
@@ -261,57 +263,67 @@ countySets <- countySets %>%
 
 ```{r}
 
+# We create two tibbles needed to create complete datasets with all
+# county-months or county-years even when the original data is missing
+# or suppressed. To fill the missing data when we wish to do so, we 
+# create an imputedDeaths variable sampled from a Beta distribution 
+# with parameters alpha=2, and beta=2. We multiply each realization from
+# this distribution by 9 so that it ranges from 0 to 9 (the potential
+# values for suppressed deaths). We apply rounding to the result to
+# ensure that we have an integer value.
+
 FIPSCodes <- as.character(unique(countySets$FIPSCode))
-numFIPS <- length(FIPSCodes)
-lastMonth = 12
-years <- seq(2015,2021)
-numYears <- length(years)
-numObs <- numYears*12 - (12-lastMonth)
 
-set.seed(42)
+simData <- crossing(year=2015:2021,
+                    month=1:12,
+                    FIPSCode=FIPSCodes)
 
-simData <- tibble(year=rep(c(rep(years[-numYears],each=12),rep(2021,lastMonth)),numFIPS),
-                  month=rep(c(rep(seq(1,12),numYears-1),seq(1,lastMonth)),numFIPS),
-                  FIPSCode=rep(FIPSCodes,each=numObs),
-                  imputedDeaths = round(rbeta(numObs*numFIPS,2,2)*9))
+simData <- simData %>%
+  mutate(imputedDeaths = round(rbeta(nrow(simData),2,2)*9))
+
+simDataYearly <- crossing(year=2010:2021,
+                          FIPSCode=FIPSCodes)
+
+simDataYearly <- simDataYearly %>%
+  mutate(imputedDeaths = round(rbeta(nrow(simDataYearly),2,2)*9))
 
 ```
 
 ```{r}
 
-FIPSCodes <- as.character(unique(countySets$FIPSCode))
-numFIPS <- length(FIPSCodes)
-years <- seq(2015,2021)
-numYears <- length(years)
-
-set.seed(42)
-
-simDataYearly <- tibble(year=rep(years,numFIPS),
-                        FIPSCode=rep(FIPSCodes,each=numYears),
-                        imputedDeaths = round(rbeta(numYears*numFIPS,2,2)*9))
-
-```
-
-```{r}
-
-ACData <- simData %>%
+ACDataComplete <- simData %>%
   left_join(ACData,by=c('FIPSCode','year','month')) %>%
   mutate(imputedDeaths = if_else(is.na(deaths),imputedDeaths,as.double(deaths)),
          monthYear = make_date(year=year,month=month,day=1)) 
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # We add population counts to our data and assign each county to the 
 # corresponding county set.
 
-ACData <- ACData %>% 
+ACDataComplete <- ACDataComplete %>% 
   left_join(popData, by = c('FIPSCode','year','month')) %>% 
   left_join(countySets, by = c('FIPSCode')) %>%
   left_join(states, by = c('stateFIPS'))
 
-ACData <- ACData %>%
+# The step below is needed to collapse multiple counties with the same
+# harmonized FIPS code into one. So far, the data still contains counties
+# assigned to the same harmonized FIPS as separate observations.
+
+# Sum is the appropriate aggregation unit for deaths and inputedDeaths
+# because those have a different value for each of these counties.
+# Mean is the appropriate aggregation unit for the population because the 
+# popData file already uses harmonized counties so that the multiple
+# counties with the same harmonized FIPS code already share the same
+# population value (corresponding to the sum of the population of all 
+# the counties with the same FIPS).
+
+# The same rational applies for the similar cells dealing with the
+# yearly all-cause death data and the COVID data
+
+ACDataComplete <- ACDataComplete %>%
   group_by(FIPSCode,countyName,csCode,csName,stateFIPS,state,year,month) %>%
   summarize(deaths = sum(deaths),
             imputedDeaths = sum(imputedDeaths),
@@ -320,75 +332,59 @@ ACData <- ACData %>%
 
 ```
 
-```{r, echo=F}
+```{r}
 
-# For convenience, let us keep a list of state groupings based on Census regions
-
-northEast <- c('9','23','25','33','44','50','34','36','42')
-midWest <- c('18','17','26','39','55','19','31','20','38','27','46','29')
-south <- c('10','11','12','13','24','37','45','51','54','1','21','28','47','5','22','40','48')
-west <- c('4','8','16','35','30','49','32','56','2','6','15','41','53')
-
-newEngland <- c('9','23','25','33','44','50')
-middleAtlantic <- c('34','36','42')
-eastNorthCentral <- c('18','17','26','39','55')
-westNorthCentral <- c('19','31','20','38','27','46','29')
-southAtlantic <- c('10','11','12','13','24','37','45','51','54')
-eastSouthCentral <- c('1','21','28','47')
-westSouthCentral <- c('5','22','40','48')
-mountain <- c('4','8','16','35','30','49','32','56')
-pacific <- c('2','6','15','41','53')
-
-```
-
-```{r, echo=F}
-
-ACData <- ACData %>% 
-  mutate(censusReg1 = case_when(stateFIPS %in% northEast ~ 'North East',
-                                stateFIPS %in% midWest ~ 'Mid West',
-                                stateFIPS %in% south ~ 'South',
-                                stateFIPS %in% west ~ 'West'),
-         censusReg2 = case_when(stateFIPS %in% newEngland ~ 'New England',
-                                stateFIPS %in% middleAtlantic ~ 'Middle Atlantic',
-                                stateFIPS %in% eastNorthCentral ~ 'East North Central',
-                                stateFIPS %in% westNorthCentral ~ 'West North Central',
-                                stateFIPS %in% southAtlantic ~ 'South Atlantic',
-                                stateFIPS %in% eastSouthCentral ~ 'East South Central',
-                                stateFIPS %in% westSouthCentral ~ 'West South Central',
-                                stateFIPS %in% mountain ~ 'Mountain',
-                                stateFIPS %in% pacific ~ 'Pacific'))
-
-```
-
-```{r, echo=F}
-
-# We compute the monthly Crude Death Rate (CDR) for every 100.000 residents
-
-ACData <- ACData %>% mutate(CDR=(deaths/pop)*100000,
-                            logCDR = log(CDR))
+# Construct data frame of state abbreviations + divisions, plus DC
+census_divisions <- tibble(
+  state = state.name,
+  census_division = state.division,
+  census_region = state.region
+) %>%
+  add_row(
+    state = "District of Columbia",
+    census_division = "South Atlantic",
+    census_region = "South"
+  )
 
 ```
 
 ```{r}
 
-ACYearlyData <- simDataYearly %>%
+ACDataComplete <- ACDataComplete %>% 
+  left_join(census_divisions,by='state')
+
+```
+
+```{r}
+
+# We compute the monthly Crude Death Rate (CDR) for every 100.000 residents
+
+ACDataComplete <- ACDataComplete %>% 
+  mutate(CDR=(deaths/pop)*100000,
+         logCDR = log(CDR))
+
+```
+
+```{r}
+
+ACYearlyDataComplete <- simDataYearly %>%
   left_join(ACYearlyData,by=c('FIPSCode','year')) %>%
   mutate(imputedDeaths = if_else(is.na(deaths),imputedDeaths,as.double(deaths))) 
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # We add population counts to our data and assign each county to the 
 # corresponding county set.
 
-ACYearlyData <- ACYearlyData %>% 
+ACYearlyDataComplete <- ACYearlyDataComplete %>% 
   left_join(popDataYearly, by = c('FIPSCode','year')) %>% 
   left_join(countySets, by = c('FIPSCode')) %>%
   left_join(states, by = c('stateFIPS'))
 
 
-ACYearlyData <- ACYearlyData %>%
+ACYearlyDataComplete <- ACYearlyDataComplete %>%
   group_by(FIPSCode,countyName,csCode,csName,stateFIPS,state,year) %>%
   summarize(deaths = sum(deaths),
             imputedDeaths = sum(imputedDeaths),
@@ -397,53 +393,42 @@ ACYearlyData <- ACYearlyData %>%
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # We compute the monthly Crude Death Rate (CDR) for every 100.000 residents
 
-ACYearlyData <- ACYearlyData %>% mutate(CDR=(deaths/pop)*100000,
-                                        logCDR = log(CDR))
-
-```
-
-```{r, echo=F}
-
-ACYearlyData <- ACYearlyData %>% 
-  mutate(censusReg1 = case_when(stateFIPS %in% northEast ~ 'North East',
-                                stateFIPS %in% midWest ~ 'Mid West',
-                                stateFIPS %in% south ~ 'South',
-                                stateFIPS %in% west ~ 'West'),
-         censusReg2 = case_when(stateFIPS %in% newEngland ~ 'New England',
-                                stateFIPS %in% middleAtlantic ~ 'Middle Atlantic',
-                                stateFIPS %in% eastNorthCentral ~ 'East North Central',
-                                stateFIPS %in% westNorthCentral ~ 'West North Central',
-                                stateFIPS %in% southAtlantic ~ 'South Atlantic',
-                                stateFIPS %in% eastSouthCentral ~ 'East South Central',
-                                stateFIPS %in% westSouthCentral ~ 'West South Central',
-                                stateFIPS %in% mountain ~ 'Mountain',
-                                stateFIPS %in% pacific ~ 'Pacific'))
+ACYearlyDataComplete <- ACYearlyDataComplete %>% 
+  mutate(CDR=(deaths/pop)*100000,
+  logCDR = log(CDR))
 
 ```
 
 ```{r}
 
-COVIDYearlyData <- filter(simDataYearly,year>2019) %>%
+ACYearlyDataComplete <- ACYearlyDataComplete %>% 
+  left_join(census_divisions,by='state')
+
+```
+
+```{r}
+
+COVIDYearlyDataComplete <- filter(simDataYearly,year>2019) %>%
   left_join(COVIDYearlyData,by=c('FIPSCode','year')) %>%
   mutate(imputedCOVIDDeaths = if_else(is.na(COVIDDeaths),imputedDeaths,as.double(COVIDDeaths))) 
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # We add population counts to our data and assign each county to the 
 # corresponding county set.
 
-COVIDYearlyData <- COVIDYearlyData %>% 
+COVIDYearlyDataComplete <- COVIDYearlyDataComplete %>% 
   left_join(popDataYearly, by = c('FIPSCode','year')) %>% 
   left_join(countySets, by = c('FIPSCode')) %>%
   left_join(states, by = c('stateFIPS'))
 
-COVIDYearlyData <- COVIDYearlyData %>%
+COVIDYearlyDataComplete <- COVIDYearlyDataComplete %>%
   group_by(FIPSCode,countyName,csCode,csName,stateFIPS,state,year) %>%
   summarize(COVIDDeaths = sum(COVIDDeaths),
             imputedCOVIDDeaths = sum(imputedCOVIDDeaths),
@@ -452,26 +437,46 @@ COVIDYearlyData <- COVIDYearlyData %>%
 
 ```
 
-```{r, echo=F}
+```{r}
 
-COVIDYearlyData <- COVIDYearlyData %>% 
-  mutate(censusReg1 = case_when(stateFIPS %in% northEast ~ 'North East',
-                                stateFIPS %in% midWest ~ 'Mid West',
-                                stateFIPS %in% south ~ 'South',
-                                stateFIPS %in% west ~ 'West'),
-         censusReg2 = case_when(stateFIPS %in% newEngland ~ 'New England',
-                                stateFIPS %in% middleAtlantic ~ 'Middle Atlantic',
-                                stateFIPS %in% eastNorthCentral ~ 'East North Central',
-                                stateFIPS %in% westNorthCentral ~ 'West North Central',
-                                stateFIPS %in% southAtlantic ~ 'South Atlantic',
-                                stateFIPS %in% eastSouthCentral ~ 'East South Central',
-                                stateFIPS %in% westSouthCentral ~ 'West South Central',
-                                stateFIPS %in% mountain ~ 'Mountain',
-                                stateFIPS %in% pacific ~ 'Pacific'))
+COVIDYearlyDataComplete <- COVIDYearlyDataComplete %>% 
+  left_join(census_divisions,by='state')
+
+```
+
+```{r}
+
+ACDataYearly <- ACData %>%
+  filter(year<2020) %>%
+  group_by(FIPSCode,year) %>%
+  summarize(deaths = sum(deaths,na.rm = T)) %>%
+  ungroup() %>%
+  rename(deathsMonthly=deaths)
+
+suppressionData <- ACYearlyData %>%
+  filter(between(year,2015,2019)) %>%
+  left_join(ACDataYearly,by=c('FIPSCode','year')) %>%
+  group_by(FIPSCode) %>%
+  summarize(deathsDiffPct = max((deaths/deathsMonthly)-1),
+            deathsDiffAbs = max(deaths-deathsMonthly),
+            across(c(deaths,deathsMonthly), ~ sum(.x))) %>%
+  ungroup() %>%
+  select(FIPSCode,
+         deathsTotal=deaths,
+         deathsTotalMonthly=deathsMonthly,
+         deathsDiffAbs,
+         deathsDiffPct)
 
 ```
 
 ```{r, echo=F}
+
+suppressionData %>%
+  write_csv(file=here::here(outDir,'suppressionData.csv'))
+
+```
+
+```{r}
 
 # We save all the data so that we do not have to repeat this set of 
 # operations each time
@@ -479,8 +484,8 @@ COVIDYearlyData <- COVIDYearlyData %>%
 arrow::write_feather(countySets, here::here(outDir,'countySetsFinal.feather'))
 arrow::write_feather(popData, here::here(outDir,'popDataMonthlyAlt.feather'))
 arrow::write_feather(popDataYearly, here::here(outDir,'popDataYearly.feather'))
-arrow::write_feather(ACData, here::here(outDir,'ACData.feather'))
-arrow::write_feather(ACYearlyData, here::here(outDir,'ACYearlyData.feather'))
-arrow::write_feather(COVIDYearlyData, here::here(outDir,'COVIDYearlyData.feather'))
+arrow::write_feather(ACDataComplete, here::here(outDir,'ACData.feather'))
+arrow::write_feather(ACYearlyDataComplete, here::here(outDir,'ACYearlyData.feather'))
+arrow::write_feather(COVIDYearlyDataComplete, here::here(outDir,'COVIDYearlyData.feather'))
 
 ```

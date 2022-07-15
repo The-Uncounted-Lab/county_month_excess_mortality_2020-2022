@@ -1,0 +1,294 @@
+---
+title: "Ridge Graph"
+author: "Eugenio Paglino"
+date: \today
+output: pdf_document
+---
+
+```{r, echo=F, message=F,warning=F}
+
+# Loading necessary packages
+
+library(tidyverse)
+library(lubridate)
+library(lme4)
+library(patchwork)
+library(here)
+library(scico)
+library(grid)
+library(ggridges)
+library(tidytext)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+rm(list=ls())
+
+here::i_am('R/ridgesGraph.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
+COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
+
+```
+
+```{r}
+
+load(here('R','RObjects','simulations.RData'))
+
+```
+
+```{r, echo=F}
+
+# Computing overall distribution of deaths by month
+
+monthWeights <- ACData %>%
+  filter(year<2020) %>%
+  group_by(FIPSCode) %>%
+  filter(n()==max(n())) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
+  ungroup() %>%
+  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
+  select(month,monthWeight)
+
+monthWeights <- monthWeights %>% pull(monthWeight)
+
+```
+
+```{r}
+
+n.sim <- 1000
+years <- 2015:2021
+FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
+
+death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
+death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
+
+monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
+monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
+
+death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
+
+```
+
+```{r}
+
+death.draws <- as.list(as.data.frame(death.draws))
+death.draws.y.aug <- as.list(as.data.frame(t(death.draws.y.aug)))
+
+rm(list=c('death.draws.y','death.draws.y.partial','monthWeights.matrix'))
+
+```
+
+```{r, echo=F}
+
+suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
+  
+```
+
+```{r, echo=F}
+
+# We set which estimate to used based on the relative average error of the
+
+diffTreshold <- 0.05
+
+ACData <- ACData %>%
+  left_join(suppressionData,by='FIPSCode') %>%
+  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct))
+
+death.draws <- if_else(pull(ACData,deathsDiffPct) > diffTreshold,
+                       death.draws.y.aug,
+                       death.draws)
+
+rm(list=c('death.draws.y.aug'))
+
+```
+
+```{r}
+
+simulationsDF <- as_tibble(matrix(unlist(death.draws), ncol = n.sim, byrow = TRUE))
+
+simulationsDF <- simulationsDF %>% 
+  mutate(FIPSCode = ACData %>% pull(FIPSCode),
+         year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1)) %>%
+  relocate(FIPSCode,year,month,monthYear)
+
+```
+
+```{r}
+
+plotData <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(state,census_division,monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(state,census_division,monthYear) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed)
+
+divisionTotals <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(census_division,monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(census_division,monthYear) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed,
+         state='Division Total')
+
+nationTotals <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(monthYear) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed,
+         state='Nation Total',
+         census_division = 'Nation Total')
+
+```
+
+```{r}
+
+plotData <- plotData %>%
+  add_row(divisionTotals) %>%
+  add_row(nationTotals)
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+plotData <- plotData %>%
+  filter(monthYear >= make_date(2020,1,1)) %>%
+  mutate(relativeExc = (deaths/expDeathsMed)-1,
+         fill = if_else(excDeathsLow > 0,relativeExc,NA_real_),
+         time = as.numeric(monthYear) - min(as.numeric(monthYear)))
+
+sortedStates <- plotData %>% 
+  filter(!(state %in% c('Division Total','Nation Total'))) %>%
+  group_by(state) %>%
+  summarize(relativeExc = max(relativeExc,na.rm=T)) %>% 
+  ungroup() %>%
+  arrange(relativeExc) %>%
+  pull(state)
+
+sortedStates <- c(sortedStates,c('Division Total','Nation Total'))
+sortedLetters <- sort(c(letters,LETTERS),decreasing = T)[1:53]
+
+sortedDivisions <- plotData %>%
+  filter(census_division != 'Nation Total') %>%
+  arrange(census_division) %>%
+  pull(census_division) %>%
+  unique()
+
+sortedDivisions <- c(sortedDivisions,'Nation Total')
+
+plotData <- plotData %>%
+  mutate(state = factor(state,
+                        levels=sortedStates,
+                        labels=sortedLetters),
+         census_division = factor(census_division,
+                                  levels = sortedDivisions))
+
+```
+
+```{r, fig.height=10, fig.width=6}
+
+fillScale <- 5
+fillMax <- max(plotData$fill,na.rm=T)
+fillMin <- min(plotData$fill,na.rm=T)
+fillBreaksRaw <- seq(fillMin*fillScale,fillMax*fillScale,length.out=5)
+fillLabels <- sapply(fillBreaksRaw/fillScale,function(x) round(x*100,-1))
+
+ridgesGraph <- plotData %>%
+  ggplot() +
+  #geom_tile(mapping=aes(x=monthYear,y=state,width=31,fill=deaths/expDeathsMed)) +
+  geom_ridgeline_gradient(mapping=aes(x=monthYear,
+                                      height=relativeExc,
+                                      y=state,
+                                      fill=fill*fillScale),
+                               stat='identity',
+                               scale=1.5) +
+  geom_vline(xintercept=make_date(2020,3,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2020,9,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2020,10,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2021,2,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2021,8,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2021,10,1),linetype='dotted') +
+  annotate('text',x=make_date(2020,6,1),y=1,label='Initial Wave',size=3) +
+  annotate('text',x=make_date(2020,12,1),y=1,label='Winter Peak',size=3) +
+  annotate('text',x=make_date(2021,9,1),y=1,label='Delta',size=3) +
+  scale_y_discrete(breaks=sortedLetters,labels=sortedStates) +
+  scale_fill_distiller(palette='Oranges',direction = 1,na.value = 'grey90', trans = "log",
+                       breaks=fillBreaksRaw,
+                       labels=fillLabels,
+                       limits=c(fillMin*fillScale,fillMax*fillScale)) +
+  labs(y='',
+       x = '',
+       fill='Relative\nExcess (%)') +
+  facet_grid(census_division~.,scales = "free_y", space = "free_y") +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position = 'bottom',
+        legend.key.width = unit(2,'cm'),
+        legend.title = element_text(hjust=0.5),
+        strip.text.y = element_text(angle = 0))
+
+ridgesGraph
+
+```
+
+```{r}
+
+pdf(here::here('figures','ridgesGraph.pdf'), width = 8, height = 14)
+
+ridgesGraph
+
+dev.off()
+
+```

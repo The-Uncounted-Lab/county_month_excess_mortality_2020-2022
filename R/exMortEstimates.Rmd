@@ -9,16 +9,10 @@ output: pdf_document
 
 # Loading necessary packages
 
-library(tidyverse)
+library(INLA)
 library(lubridate)
-library(lme4)
-library(matrixStats)
-library(patchwork)
-library(knitr)
 library(here)
-library(kableExtra)
-library(USAboundaries)
-library(sf)
+library(tidyverse)
 
 ```
 
@@ -32,6 +26,8 @@ here::i_am('R/exMortEstimates.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
+
+set.seed(42)
 
 ```
 
@@ -56,85 +52,147 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 
 # We load the pre-trained models
 
-load(here::here('R','RObjects','modelRandomTimeLF.RData'))
+load(here::here('R','RObjects','modelBYMLinearTimeINLA.RData'))
 
 ```
 
-```{r simulation, cache=TRUE, echo=F}
+```{r}
 
-# We compute expected deaths (and their confidence intervals) with monthly frequency 
+simDataMonthly <- ACData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id(),
+         FIPSCode2 = FIPSCode) %>%
+  ungroup() %>%
+  group_by(year,month) %>%
+  mutate(timeID = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR),
+         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  arrange(FIPSCode,year,month)
 
-n.sim = 1000
+```
 
-FIPSCodes <- as.character(unique(ACData$FIPSCode))
-numFIPS <- length(FIPSCodes)
+```{r}
+
+n.sim <- 1000
+
+draws <- inla.posterior.sample(n.sim, model.BYM.LinearTime.INLA)
+model.names <- row.names(draws[[1]]$latent)
+y.names <- grep("Predictor", model.names)
+
+rate.draws <- sapply(draws, function(x) exp(x$latent[y.names]))
+death.draws <- apply(rate.draws,M=1,function(x) rpois(n.sim,x))
+mean.deaths <- apply(death.draws,M=2,function(x) mean(x))
+up.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.95))
+low.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.05))
+
+```
+
+```{r}
+
+testData <- tibble(deaths = pull(ACData,deaths),
+                   CDR = pull(ACData,CDR),
+                   pop = pull(ACData,pop),
+                   FIPSCode = pull(ACData,FIPSCode),
+                   year = pull(ACData,year),
+                   month = pull(ACData,month))
+
+testData <- testData %>% 
+  mutate(expDeathsMean = mean.deaths,
+         expDeathsUp = up.deaths,
+         expDeathsLow = low.deaths,
+         monthYear = make_date(year,month,1))
+
+```
+
+```{r}
+
+# Good for overfitting: c(12,15,21,47,86,13)
+# Good for trend: c(1,17,63,71,75,91)
+# Hard to predict: 37,64
+# To examine: c(85)
+
+# Examples: c(1,58,89,93)
+
+numFIPS <- length(unique(pull(ACData,FIPSCode)))
+
+testFigure <- testData %>%
+  filter(FIPSCode %in% sample(unique(pull(ACData,FIPSCode)),6)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=monthYear,y=deaths,color='Observed')) +
+  geom_line(mapping=aes(x=monthYear,y=expDeathsMean,color='Expected')) +
+  geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow,ymax=expDeathsUp,
+                          fill='Expected'),alpha=0.3) +
+  labs(x='Deaths',
+       y='',
+       color='',
+       fill='') +
+  facet_wrap(~FIPSCode) +
+  guides(fill='none')
+
+testFigure
+
+```
+
+```{r}
+
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1),
+         FIPSCode = ACData %>% pull(FIPSCode),
+         csCode = ACData %>% pull(csCode),
+         stateFIPS = ACData %>% pull(stateFIPS),
+         pop = ACData %>% pull(pop)) %>%
+  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
+
+```
+
+```{r}
+
 firstMonth <- 3
 lastMonth <- 12
-years <- seq(2020,2021)
-numYears <- length(years)
-numObs <- numYears*12 - (12-lastMonth)
 
-simDataMonthly <- tibble(year=rep(c(rep(years[-numYears],each=12),rep(2021,lastMonth)),numFIPS),
-                         month=rep(c(rep(seq(1,12),numYears-1),seq(1,lastMonth)),numFIPS),
-                         FIPSCode=rep(rep(FIPSCodes,each=numObs)))
+simulationsFIPSMonthly <- simulationsMonthly %>%
+  filter(monthYear >= make_date(2020,firstMonth,1),
+         monthYear <= make_date(2021,lastMonth,1)) %>%
+  group_by(year,FIPSCode,csCode,stateFIPS) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() 
 
-simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
-simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
-simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
+simulationsFIPSMonthly <- simulationsFIPSMonthly %>%
+  left_join(ACYearlyData,by=c('FIPSCode','csCode','stateFIPS','year')) %>%
+  left_join(select(COVIDYearlyData,
+                   FIPSCode,year,
+                   COVIDDeaths,imputedCOVIDDeaths),
+            by=c('FIPSCode','year')) %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths,
+         nonCOVIDexcess = excDeaths-imputedCOVIDDeaths) %>%
+  group_by(year,FIPSCode,csCode,stateFIPS) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95)),
+            nonCovidExcCDRLow = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.05)),
+            nonCovidExcCDRMed = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.5)),
+            nonCovidExcCDRUp = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.95)),
+            COVIDExcRatio = quantile(imputedCOVIDDeaths/excDeaths,probs=c(0.5),na.rm=T))
 
-simValsM <- merTools::predictInterval(modelRandomTimeLF,
-                                      newdata = simDataMonthly,
-                                      level=0.95,
-                                      include.resid.var = F,
-                                      which = c("fixed"),
-                                      seed=42)
-
-simDataMonthly <- simDataMonthly %>% 
-  mutate(monthYear = make_date(year=year,month=month,day=1),
-         CDR = predict(modelRandomTimeLF,newdata=simDataMonthly,allow.new.levels=T),
-         CDRSD = ((simValsM$upr-simValsM$fit) + (simValsM$fit-simValsM$lwr))/(2*1.96)) %>%
-  drop_na()
-
-simDataMonthly <- simDataMonthly %>%
-  mutate(expDeaths = (pop/100000)*CDR,
-         expDeathsSD = (pop/100000)*CDRSD) %>%
-  filter(monthYear>= make_date(2020,firstMonth,1)) %>%
-  group_by(csCode,FIPSCode,year) %>%
-  summarize(expDeaths = sum(expDeaths),
-            expDeathsSD = sum(expDeathsSD)) %>%
-  ungroup() %>%
-  left_join(ACYearlyData,by=c('FIPSCode','csCode','year')) %>%
-  left_join(select(COVIDYearlyData,FIPSCode,year,COVIDDeaths,imputedCOVIDDeaths),
-            by=c('FIPSCode','year'))
-
-simDataMonthly <- simDataMonthly %>%
-  group_by(csCode,FIPSCode,year) %>%
-  mutate(expDeathsMed = expDeaths,
-         expDeathsLow = expDeaths - 1.96*expDeathsSD,
-         expDeathsLow = if_else(expDeathsLow>0,expDeathsLow,0),
-         expDeathsUp = expDeaths + 1.96*expDeathsSD,
-         deaths = round(imputedDeaths),
-         excDeathsMed = deaths - expDeathsMed,
-         excDeathsLow = deaths - expDeathsUp,
-         excDeathsUp = deaths - expDeathsLow,
-         COVIDDeaths = round(imputedCOVIDDeaths),
-         pop = round(pop),
-         nonCovidExcCDRMed = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.5),
-         nonCovidExcCDRLow = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.025),
-         nonCovidExcCDRUp = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.975),
-         nonCovidExcCDRMed = nonCovidExcCDRMed*100000,
-         nonCovidExcCDRLow = nonCovidExcCDRLow*100000,
-         nonCovidExcCDRUp = nonCovidExcCDRUp*100000,
-         COVIDExcRatio = COVIDDeaths/(excDeathsMed+1)) %>%
-  ungroup()
-  
 ```
 
 ```{r, echo=F}
 
 # We load the pre-trained models
 
-load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+load(here::here('R','RObjects','modelYBYMLinearTimeINLA.RData'))
 
 ```
 
@@ -153,118 +211,93 @@ monthWeights <- ACData %>%
   mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
   select(month,monthWeight)
 
-monthWeights <- as.numeric(monthWeights$monthWeight)
+monthWeights <- monthWeights %>% pull(monthWeight)
 
 ```
 
-```{r simulation, cache=TRUE, echo=F}
+```{r}
 
-# We compute expected deaths (and their confidence intervals) with yearly frequency.
-# We then convert the yearly estimates into monthly ones using the weights we 
-# just computed
+simDataYearly <- ACYearlyData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id(),
+         FIPSCode2 = FIPSCode) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR),
+         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  arrange(FIPSCode,year)
 
-simDataYearly <- tibble(year=rep(years,numFIPS),
-                        FIPSCode=rep(FIPSCodes,each=numYears))
+```
 
-simDataYearly <- simDataYearly %>% left_join(countySets, by = c('FIPSCode'))
-simDataYearly <- simDataYearly %>% left_join(states, by = c('stateFIPS'))
-simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','year'))
+```{r}
 
-simDataYearly <- simDataYearly %>% drop_na()
+n.sim <- 1000
 
-simValsY <- merTools::predictInterval(modelRandomTimeYearlyLF,
-                                      newdata = simDataYearly,
-                                      level=0.95,
-                                      include.resid.var = F,
-                                      which = c("fixed"),
-                                      seed=42)
+draws.y <- inla.posterior.sample(n.sim, model.Y.BYM.LinearTime.INLA)
+model.names <- row.names(draws.y[[1]]$latent)
+y.names <- grep("Predictor", model.names)
 
-simDataYearly <- simDataYearly %>% 
-  mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T),
-         CDRSD = ((simValsY$upr-simValsY$fit) + (simValsY$fit-simValsY$lwr))/(2*1.96)) %>%
-  drop_na()
+rate.draws.y <- sapply(draws.y, function(x) exp(x$latent[y.names]))
+death.draws.y <- apply(rate.draws.y,M=1,function(x) rpois(n.sim,x))
 
-simDataYearly <- simDataYearly %>%
-  mutate(expDeaths = (pop/100000)*CDR,
-         expDeathsSD = (pop/100000)*CDRSD) %>%
-  left_join(ACYearlyData,by=c('FIPSCode','csCode','year')) %>%
-  left_join(select(COVIDYearlyData,FIPSCode,year,COVIDDeaths,imputedCOVIDDeaths),
+```
+
+```{r}
+
+simulationsYearly <- as_tibble(t(death.draws.y))
+
+simulationsYearly <- simulationsYearly %>% 
+  mutate(year = ACYearlyData %>% pull(year),
+         FIPSCode = ACYearlyData %>% pull(FIPSCode),
+         csCode = ACYearlyData %>% pull(csCode),
+         stateFIPS = ACYearlyData %>% pull(stateFIPS),
+         pop = ACYearlyData %>% pull(pop))
+
+```
+
+```{r}
+
+simulationsFIPSYearly <- simulationsYearly %>%
+  filter(year >= 2020,
+         year <= 2021)
+
+simulationsFIPSYearly <- simulationsFIPSYearly %>%
+  mutate(across(V1:V1000, ~ if_else(year == 2020,
+                                    .x*sum(monthWeights[firstMonth:12]),
+                                    .x*sum(monthWeights[1:lastMonth])))) %>%
+  select(-pop)
+
+simulationsFIPSYearly <- simulationsFIPSYearly %>%
+  left_join(ACYearlyData,by=c('FIPSCode','csCode','stateFIPS','year')) %>%
+  left_join(select(COVIDYearlyData,
+                   FIPSCode,year,
+                   COVIDDeaths,imputedCOVIDDeaths),
             by=c('FIPSCode','year')) %>%
-  ungroup()
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths,
+         nonCOVIDexcess = excDeaths-imputedCOVIDDeaths) %>%
+  group_by(year,FIPSCode,csCode,stateFIPS) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95)),
+            nonCovidExcCDRLow = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.05)),
+            nonCovidExcCDRMed = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.5)),
+            nonCovidExcCDRUp = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.95)),
+            COVIDExcRatio = quantile(imputedCOVIDDeaths/excDeaths,probs=c(0.5),na.rm=T))
 
-# I bet there's a way to set this up in a vectorized way
-
-simDataYearly <- simDataYearly %>%
-  mutate(expDeaths1 = expDeaths*monthWeights[1],
-         expDeaths2 = expDeaths*monthWeights[2],
-         expDeaths3 = expDeaths*monthWeights[3],
-         expDeaths4 = expDeaths*monthWeights[4],
-         expDeaths5 = expDeaths*monthWeights[5],
-         expDeaths6 = expDeaths*monthWeights[6],
-         expDeaths7 = expDeaths*monthWeights[7],
-         expDeaths8 = expDeaths*monthWeights[8],
-         expDeaths9 = expDeaths*monthWeights[9],
-         expDeaths10 = expDeaths*monthWeights[10],
-         expDeaths11 = expDeaths*monthWeights[11],
-         expDeaths12 = expDeaths*monthWeights[12])
-
-simDataYearly <- simDataYearly %>%
-  gather(expDeaths1:expDeaths12, key='month', value='expDeaths') %>%
-  mutate(month = as.integer(str_sub(month,10,12)),
-         monthYear = make_date(year,month,1)) %>%
-  filter(monthYear >= make_date(2020,firstMonth,1), monthYear <= make_date(2021,lastMonth,1)) %>%
-  group_by(csCode,FIPSCode,year) %>%
-  summarise(expDeaths = sum(expDeaths),
-            expDeathsSD = mean(expDeathsSD)*(n()/12)) %>%
-  left_join(ACYearlyData,by=c('FIPSCode','csCode','year')) %>%
-  left_join(select(COVIDYearlyData,FIPSCode,year,COVIDDeaths,imputedCOVIDDeaths),
-            by=c('FIPSCode','year')) %>%
-  ungroup()
-
-simDataYearly <- simDataYearly %>%
-  group_by(csCode,FIPSCode,year) %>%
-  mutate(expDeathsMed = expDeaths,
-         expDeathsLow = expDeaths - 1.96*expDeathsSD,
-         expDeathsLow = if_else(expDeathsLow>0,expDeathsLow,0),
-         expDeathsUp = expDeaths + 1.96*expDeathsSD,
-         deaths = round(imputedDeaths),
-         excDeathsMed = deaths - expDeathsMed,
-         excDeathsLow = deaths - expDeathsUp,
-         excDeathsUp = deaths - expDeathsLow,
-         COVIDDeaths = round(imputedCOVIDDeaths),
-         pop = round(pop),
-         nonCovidExcCDRMed = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.5),
-         nonCovidExcCDRLow = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.025),
-         nonCovidExcCDRUp = quantile((rnorm(n.sim,excDeathsMed,expDeathsSD)-COVIDDeaths)/pop,0.975),
-         nonCovidExcCDRMed = nonCovidExcCDRMed*100000,
-         nonCovidExcCDRLow = nonCovidExcCDRLow*100000,
-         nonCovidExcCDRUp = nonCovidExcCDRUp*100000,
-         COVIDExcRatio = COVIDDeaths/(excDeathsMed+1)) %>%
-  ungroup()
-
-simDataYearly <- simDataYearly %>%
-  rename(expDeathsMedSC = expDeathsMed,
-         expDeathsLowSC = expDeathsLow,
-         expDeathsUpSC = expDeathsUp,
-         excDeathsMedSC = excDeathsMed,
-         excDeathsLowSC =excDeathsLow,
-         excDeathsUpSC = excDeathsUp,
-         popSC = pop,
-         nonCovidExcCDRMedSC = nonCovidExcCDRMed,
-         nonCovidExcCDRLowSC = nonCovidExcCDRLow,
-         nonCovidExcCDRUpSC = nonCovidExcCDRUp,
-         COVIDExcRatioSC = COVIDExcRatio)
+simulationsFIPSYearly <- simulationsFIPSYearly %>%
+  rename_with(~ paste0(.x,'SC'), expDeathsLow:COVIDExcRatio)
 
 ```
 
 ```{r, echo=F}
 
-# We load the data on counties for which the yearly model should perform
-# better than the monthly model
-
-monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
-                                    col_types = cols(FIPSCode = col_character(),
-                                                     meanDifference = col_double()))
+suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
   
 ```
 
@@ -272,28 +305,32 @@ monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.c
 
 # We set which estimate to used based on the relative average error of the 
 
-simulations <- simDataMonthly %>%
-  select(-c(deaths,COVIDDeaths)) %>%
-  left_join(simDataYearly,by=c('csCode','FIPSCode','year')) %>%
-  left_join(monthlyModelPerformance,by='FIPSCode') %>%
-  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
-         expDeathsMed = if_else(meanDifference>0.1,expDeathsMedSC,expDeathsMed),
-         expDeathsLow = if_else(meanDifference>0.1,expDeathsLowSC,expDeathsLow),
-         expDeathsUp = if_else(meanDifference>0.1,expDeathsUpSC,expDeathsUp),
-         excDeathsMed = if_else(meanDifference>0.1,excDeathsMedSC,excDeathsMed),
-         excDeathsLow = if_else(meanDifference>0.1,excDeathsLowSC,excDeathsLow),
-         excDeathsUp = if_else(meanDifference>0.1,excDeathsUpSC,excDeathsUp),
-         excCDR = (excDeathsMed/pop)*100000,
-         COVIDCDR = (COVIDDeaths/pop)*100000,
-         nonCovidExcCDRMed = if_else(meanDifference>0.1,nonCovidExcCDRMedSC,nonCovidExcCDRMed),
-         nonCovidExcCDRLow = if_else(meanDifference>0.1,nonCovidExcCDRLowSC,nonCovidExcCDRLow),
-         nonCovidExcCDRUp = if_else(meanDifference>0.1,nonCovidExcCDRUpSC,nonCovidExcCDRUp),
-         COVIDExcRatio = if_else(meanDifference>0.1,COVIDExcRatioSC,COVIDExcRatio)) %>%
+diffTreshold <- 0.05
+
+finalSimsFIPS <- simulationsFIPSMonthly  %>%
+  left_join(simulationsFIPSYearly,by=c('csCode','FIPSCode','year')) %>%
+  left_join(ACYearlyData,by=c('FIPSCode','csCode','year')) %>%
+  left_join(select(COVIDYearlyData,
+                   FIPSCode,year,
+                   COVIDDeaths,imputedCOVIDDeaths),
+            by=c('FIPSCode','year')) %>%
+  left_join(suppressionData,by='FIPSCode') %>%
+  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct),
+         expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
+         expDeathsLow = if_else(deathsDiffPct>diffTreshold,expDeathsLowSC,expDeathsLow),
+         expDeathsUp = if_else(deathsDiffPct>diffTreshold,expDeathsUpSC,expDeathsUp),
+         excDeathsMed = if_else(deathsDiffPct>diffTreshold,excDeathsMedSC,excDeathsMed),
+         excDeathsLow = if_else(deathsDiffPct>diffTreshold,excDeathsLowSC,excDeathsLow),
+         excDeathsUp = if_else(deathsDiffPct>diffTreshold,excDeathsUpSC,excDeathsUp),
+         nonCovidExcCDRMed = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRMedSC,nonCovidExcCDRMed),
+         nonCovidExcCDRLow = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRLowSC,nonCovidExcCDRLow),
+         nonCovidExcCDRUp = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRUpSC,nonCovidExcCDRUp),
+         COVIDExcRatio = if_else(deathsDiffPct>diffTreshold,COVIDExcRatioSC,COVIDExcRatio)) %>%
   select(csCode,FIPSCode,year,
          expDeathsLow,expDeathsMed,expDeathsUp,
-         deaths,
-         excDeathsLow,excDeathsMed,excDeathsUp,excCDR,
-         COVIDDeaths,COVIDCDR,
+         imputedDeaths,
+         excDeathsLow,excDeathsMed,excDeathsUp,
+         imputedCOVIDDeaths,
          nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
          COVIDExcRatio)
 
@@ -301,13 +338,15 @@ simulations <- simDataMonthly %>%
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-simulations <- simulations %>%
-  mutate(expDeathsMed = round(expDeathsMed),
-         expDeathsLow = round(expDeathsLow),
+finalSimsFIPS <- finalSimsFIPS %>%
+  mutate(expDeathsLow = round(expDeathsLow),
+         expDeathsMed = round(expDeathsMed),
          expDeathsUp = round(expDeathsUp),
-         excDeathsMed = round(excDeathsMed),
          excDeathsLow = round(excDeathsLow),
-         excDeathsUp = round(excDeathsUp))
+         excDeathsMed = round(excDeathsMed),
+         excDeathsUp = round(excDeathsUp)) %>%
+  rename(deaths = imputedDeaths,
+         COVIDDeaths = imputedCOVIDDeaths)
   
 ```
 
@@ -316,65 +355,35 @@ simulations <- simulations %>%
 adjF2020 = (13-firstMonth)/12
 adjF2021 = lastMonth/12
 
-excDeaths2020 <- simulations %>%
+excDeaths2020 <- finalSimsFIPS %>%
   ungroup() %>%
   filter(year == 2020) %>%
   select(FIPSCode,csCode,
-         expDeathsMed,expDeathsLow,expDeathsUp,
+         expDeathsLow,expDeathsMed,expDeathsUp,
          deaths,
-         excDeathsLow,excDeathsMed,excDeathsUp,excCDR,
-         COVIDDeaths,COVIDCDR,
+         excDeathsLow,excDeathsMed,excDeathsUp,
+         COVIDDeaths,
          nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
          COVIDExcRatio) %>%
   mutate(nonCovidExcCDRLow = nonCovidExcCDRLow/adjF2020,
          nonCovidExcCDRMed = nonCovidExcCDRMed/adjF2020,
-         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2020,
-         excCDR = excCDR/adjF2020,
-         COVIDCDR = COVIDCDR/adjF2020) %>%
-  rename(expDeathsLow2020 = expDeathsLow,
-         expDeathsMed2020 = expDeathsMed,
-         expDeathsUp2020 = expDeathsUp,
-         deaths2020 = deaths,
-         excDeathsLow2020 = excDeathsLow,
-         excDeathsMed2020 = excDeathsMed,
-         excDeathsUp2020 = excDeathsUp,
-         excCDR2020 = excCDR,
-         COVIDDeaths2020 = COVIDDeaths,
-         COVIDCDR2020 = COVIDCDR,
-         nonCovidExcCDRLow2020 = nonCovidExcCDRLow,
-         nonCovidExcCDRMed2020 = nonCovidExcCDRMed,
-         nonCovidExcCDRUp2020 = nonCovidExcCDRUp,
-         COVIDExcRatio2020 = COVIDExcRatio)
+         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2020) %>%
+  rename_with(~ paste0(.x,'2020'),expDeathsLow:COVIDExcRatio)
 
-excDeaths2021 <- simulations %>%
+excDeaths2021 <- finalSimsFIPS %>%
   ungroup() %>%
   filter(year == 2021) %>%
   select(FIPSCode,csCode,
-         expDeathsMed,expDeathsLow,expDeathsUp,
+         expDeathsLow,expDeathsMed,expDeathsUp,
          deaths,
-         excDeathsLow,excDeathsMed,excDeathsUp,excCDR,
-         COVIDDeaths,COVIDCDR,
+         excDeathsLow,excDeathsMed,excDeathsUp,
+         COVIDDeaths,
          nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
          COVIDExcRatio) %>%
   mutate(nonCovidExcCDRLow = nonCovidExcCDRLow/adjF2021,
          nonCovidExcCDRMed = nonCovidExcCDRMed/adjF2021,
-         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2021,
-         excCDR = excCDR/adjF2021,
-         COVIDCDR = COVIDCDR/adjF2021) %>%
-  rename(expDeathsLow2021 = expDeathsLow,
-         expDeathsMed2021 = expDeathsMed,
-         expDeathsUp2021 = expDeathsUp,
-         deaths2021 = deaths,
-         excDeathsLow2021 = excDeathsLow,
-         excDeathsMed2021 = excDeathsMed,
-         excDeathsUp2021 = excDeathsUp,
-         excCDR2021 = excCDR,
-         COVIDDeaths2021 = COVIDDeaths,
-         COVIDCDR2021 = COVIDCDR,
-         nonCovidExcCDRLow2021 = nonCovidExcCDRLow,
-         nonCovidExcCDRMed2021 = nonCovidExcCDRMed,
-         nonCovidExcCDRUp2021 = nonCovidExcCDRUp,
-         COVIDExcRatio2021 = COVIDExcRatio)
+         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2021) %>%
+  rename_with(~ paste0(.x,'2021'),expDeathsLow:COVIDExcRatio)
 
 excDeaths <- excDeaths2020 %>%
   left_join(excDeaths2021,by=c('FIPSCode','csCode')) %>%
@@ -391,12 +400,6 @@ excDeaths <- excDeaths2020 %>%
 
 ```{r, echo=F}
 
-excDeaths %>% write_csv(here::here(outDir,'exMortEstimates.csv'))
-
-```
-
-```{r, echo=F}
-
 ## Basic Checks
 
 sum(excDeaths$excDeathsMed2020)
@@ -405,5 +408,17 @@ sum(excDeaths$COVIDDeaths2020)
 sum(excDeaths$COVIDDeaths2021)
 sum(excDeaths$COVIDDeaths2020)/sum(excDeaths$excDeathsMed2020)
 sum(excDeaths$COVIDDeaths2021)/sum(excDeaths$excDeathsMed2021)
+
+```
+
+```{r, echo=F}
+
+excDeaths %>% write_csv(here::here(outDir,'exMortEstimatesINLA.csv'))
+
+```
+
+```{r}
+
+save(death.draws,death.draws.y,file=here::here('R','RObjects','simulations.RData'))
 
 ```

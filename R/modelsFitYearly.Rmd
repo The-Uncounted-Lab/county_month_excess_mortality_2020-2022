@@ -11,13 +11,9 @@ output:
 
 # Loading necessary packages
 
-library(tidyverse)
-library(lubridate)
-library(lme4)
-library(nlme)
-library(matrixStats)
-library(patchwork)
+library(INLA)
 library(here)
+library(tidyverse)
 
 ```
 
@@ -32,22 +28,123 @@ outDir <- here::here('data','output')
 
 ```
 
-```{r, echo=F}
+```{r}
 
 ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
-
-ACYearlyData <- ACYearlyData %>% filter(year>2014,year<2020)
-ACYearlyData <- ACYearlyData %>% drop_na()
 
 ```
 
 ```{r}
 
-# We estimate the base model with random intercepts for each county,
-# fixed-effects for months and a linear time trend
+inla.graph <- inla.read.graph(here::here(outDir,'neighbors.graph'))
+adj.matrix <- inla.graph2matrix(inla.graph)
 
-modelRandomTimeYearlyLF <- lmer(CDR ~ 1 + I(year-2015) + (1 | FIPSCode) + (1 + I(year-2015) | csCode),
-                                data=ACYearlyData)
+```
+
+```{r, echo=F}
+
+ACYearlyData <- ACYearlyData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id(),
+         FIPSCode2 = FIPSCode) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id(),
+         yearID2 = yearID,
+         yearID3 = yearID) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR),
+         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  arrange(FIPSCode,year)
+
+```
+
+```{r}
+
+# INLA SET UP
+# priors
+hyper.bym <- list(prec.unstruct=list(param=c(1,0.1)),
+                        prec.spatial=list(param=c(1,0.1)))
+hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
+
+formula <- deathsCensored ~ 1 + offset(log(pop)) + 
+                                f(FIPSCode, model='bym', hyper=hyper.bym, 
+                                  graph=inla.graph, scale.model=T) +
+                                f(yearID,model='iid',hyper=hyper.iid,
+                                  constr=T) +
+                                f(yearID2,model='rw2',hyper=hyper.iid,
+                                  scale.model=T) +
+                                f(FIPSCode2,model='besag',graph=inla.graph,
+                                  group = yearID3,scale.model = T,
+                                  control.group = list(model='rw2'))
+                                
+# Under Poisson uses default set up
+control.family=inla.set.control.family.default()
+
+```
+
+```{r}
+
+# We re-estimated the last model with INLA so that we can use it to 
+# build posterior intervals for the predictions.
+
+model.Y.BYM.LinearTime.INLA <- ACYearlyData %>%
+  inla(formula,
+       data = .,
+       family = "poisson",
+       num.threads = round(parallel::detectCores()*0.7),
+       control.family=control.family,
+       control.compute=list(config = TRUE))
+
+# Note: INLA is a bit tricky, error messages are not very informative.
+
+```
+
+```{r,eval=F}
+
+n.sim <- 100
+draws <- inla.posterior.sample(n.sim, model.Y.BYM.LinearTime.INLA)
+model.names <- row.names(draws[[1]]$latent)
+y.names <- grep("Predictor", model.names)
+
+death.draws.raw <- sapply(draws, function(x) exp(x$latent[y.names]))
+death.draws <- t(apply(death.draws.raw,M=1,function(x) rpois(n.sim,x)))
+mean.deaths <- apply(death.draws,M=1,function(x) mean(x))
+up.deaths <- apply(death.draws,M=1,function(x) quantile(x,0.95))
+low.deaths <- apply(death.draws,M=1,function(x) quantile(x,0.05))
+
+```
+
+```{r,eval=F}
+
+testData <- tibble(deaths = pull(ACYearlyData,deaths),
+                   CDR = pull(ACYearlyData,CDR),
+                   pop = pull(ACYearlyData,pop),
+                   FIPSCode = pull(ACYearlyData,FIPSCode),
+                   year = pull(ACYearlyData,year))
+
+testData <- testData %>% 
+  mutate(expDeathsMean = mean.deaths,
+         expDeathsUp = up.deaths,
+         expDeathsLow = low.deaths)
+
+```
+
+```{r,eval=F}
+
+# Good for overfitting: c(1816,1837,1854)
+# Good for trend: c(1,17,63,71,75,91)
+# Hard to predict: 37,64
+# To examine: c(85)
+
+testData %>%
+  filter(FIPSCode %in% sample(1:3000,6)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=year,y=deaths,color='Observed')) +
+  geom_line(mapping=aes(x=year,y=expDeathsMean,color='Expected')) +
+  geom_ribbon(mapping=aes(x=year,ymin=expDeathsLow,ymax=expDeathsUp,
+                          fill='Expected'),alpha=0.3) +
+  facet_wrap(~FIPSCode)
 
 ```
 
@@ -56,7 +153,7 @@ modelRandomTimeYearlyLF <- lmer(CDR ~ 1 + I(year-2015) + (1 | FIPSCode) + (1 + I
 # We save our models so that we can easily load them where and when we
 # need them without having to fit them again.
 
-save(modelRandomTimeYearlyLF,file = here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+save(model.Y.BYM.LinearTime.INLA, file = here::here('R','RObjects','modelYBYMLinearTimeINLA.RData'))
 
 ```
 

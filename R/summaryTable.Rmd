@@ -3,10 +3,7 @@ title: "Summary Table"
 author: "Eugenio Paglino"
 date: \today
 output: 
-  pdf_document:
-    keep_tex:  true
-header-includes:
-  - \AtBeginDocument{\let\maketitle\relax}
+  html_document
 ---
 
 ```{r, echo=F, message=F,warning=F}
@@ -32,7 +29,7 @@ outDir <- here::here('data','output')
 
 ```{r, echo=F, message=F, warning=F}
 
-exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimates.csv'))
+exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimatesINLA.csv'))
 
 ```
 

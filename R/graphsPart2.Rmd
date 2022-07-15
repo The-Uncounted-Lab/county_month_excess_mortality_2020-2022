@@ -11,11 +11,11 @@ output: pdf_document
 
 library(tidyverse)
 library(lubridate)
-library(lme4)
 library(patchwork)
 library(here)
 library(scico)
 library(grid)
+library(tidytext)
 
 ```
 
@@ -43,213 +43,62 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 
 ```
 
-```{r, echo=F}
+```{r}
 
-# We load the pre-trained models
-
-load(here::here('R','RObjects','modelRandomTimeLF.RData'))
-
-```
-
-```{r simulation, cache=TRUE, echo=F}
-
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
-n.sim = 1000
-
-FIPSCodes <- as.character(unique(ACData$FIPSCode))
-numFIPS <- length(FIPSCodes)
-firstMonth <- 1
-lastMonth <- 12
-years <- seq(2015,2021)
-numYears <- length(years)
-numObs <- numYears*12 - (12-lastMonth)
-
-simDataMonthly <- tibble(year=rep(c(rep(years[-numYears],each=12),rep(2021,lastMonth)),numFIPS),
-                         month=rep(c(rep(seq(1,12),numYears-1),seq(1,lastMonth)),numFIPS),
-                         FIPSCode=rep(rep(FIPSCodes,each=numObs)))
-
-simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
-simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
-simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
-
-simDataMonthly <- simDataMonthly %>% 
-  mutate(monthYear = make_date(year=year,month=month,day=1),
-         CDR = predict(modelRandomTimeLF,newdata=simDataMonthly,allow.new.levels=T)) %>%
-  drop_na()
-
-simDataMonthly <- simDataMonthly %>%
-  mutate(expDeaths = (pop/100000)*CDR) %>%
-  select(FIPSCode,year,month,expDeaths)
-  
-```
-
-```{r, echo=F}
-
-# We load the pre-trained models
-
-load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+finalSimsFIPS <- read_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
 
 ```
 
 ```{r}
 
-# Computing overall distribution of deaths by month
-
-monthWeights <- ACData %>%
-  filter(year<2020) %>%
-  group_by(FIPSCode) %>%
-  filter(n()==max(n())) %>%
-  ungroup() %>%
-  group_by(month) %>%
-  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
-  ungroup() %>%
-  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
-  select(month,monthWeight)
-
-monthWeights <- as.numeric(monthWeights$monthWeight)
+finalSimsFIPS <- finalSimsFIPS %>%
+  mutate(year = year(monthYear),
+         excDeaths = deaths - expDeathsMed) 
 
 ```
 
-```{r simulation, cache=TRUE, echo=F}
+```{r, echo=F, message=F, warning=F}
 
-# We simulate prediction from the models. Simulating, rather than predicting, 
-# allows us to easily get a sense of the uncertainty around our estimates
-
-#set.seed(42)
-
-simDataYearly <- tibble(year=rep(years,numFIPS),
-                        FIPSCode=rep(FIPSCodes,each=numYears))
-
-simDataYearly <- simDataYearly %>% left_join(countySets, by = c('FIPSCode'))
-simDataYearly <- simDataYearly %>% left_join(states, by = c('stateFIPS'))
-simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','year'))
-
-simDataYearly <- simDataYearly %>% drop_na()
-
-simDataYearly <- simDataYearly %>% 
-  mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T)) %>%
-  drop_na()
-
-simDataYearly <- simDataYearly %>%
-  mutate(expDeaths = (pop/100000)*CDR)
-
-# I bet there's a way to set this up in a vectorized way
-
-simDataYearly <- simDataYearly %>%
-  mutate(expDeaths1 = expDeaths*monthWeights[1],
-         expDeaths2 = expDeaths*monthWeights[2],
-         expDeaths3 = expDeaths*monthWeights[3],
-         expDeaths4 = expDeaths*monthWeights[4],
-         expDeaths5 = expDeaths*monthWeights[5],
-         expDeaths6 = expDeaths*monthWeights[6],
-         expDeaths7 = expDeaths*monthWeights[7],
-         expDeaths8 = expDeaths*monthWeights[8],
-         expDeaths9 = expDeaths*monthWeights[9],
-         expDeaths10 = expDeaths*monthWeights[10],
-         expDeaths11 = expDeaths*monthWeights[11],
-         expDeaths12 = expDeaths*monthWeights[12])
-
-simDataYearly <- simDataYearly %>%
-  gather(expDeaths1:expDeaths12, key='month', value='expDeathsSC') %>%
-  mutate(month = as.integer(str_sub(month,10,12)),
-         monthYear = make_date(year,month,1)) %>%
-  select(FIPSCode,year,month,expDeathsSC)
+nationalTrend <- finalSimsFIPS %>% 
+  drop_na(expDeathsMed,deaths) %>%
+  group_by(monthYear) %>% 
+  summarize(expDeaths = sum(expDeathsMed),
+            deaths = sum(deaths)) %>%
+  ggplot() +
+    geom_line(mapping=aes(x=monthYear,y=deaths,color='Observed')) +
+    geom_line(mapping=aes(x=monthYear,y=expDeaths,color='Predicted')) +
+    labs(x='Time',
+         y='Deaths',
+         colour='') +
+    theme_minimal() +
+    theme(legend.position="bottom")
 
 ```
 
 ```{r}
 
-monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
-                                               col_types = cols(FIPSCode = col_character(),
-                                               meanDifference = col_double()))
-  
-```
+pdf(here::here('figures','nationalTrend.pdf'), width = 8, height = 6)
 
-```{r}
+nationalTrend
 
-simulations <- simDataMonthly %>%
-  left_join(simDataYearly,by=c('FIPSCode','year','month')) %>%
-  left_join(ACData,by=c('FIPSCode','year','month')) %>%
-  left_join(states,by=c('state','stateFIPS')) %>%
-  left_join(monthlyModelPerformance,by='FIPSCode') %>%
-  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
-         expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths),
-         excDeaths = deaths-expDeaths,
-         excDeathRate = (excDeaths/pop)*100000,
-         monthYear = make_date(year,month,1)) %>%
-  select(FIPSCode,countyName,state,stateStr,censusReg1,censusReg2,
-         year,month,monthYear,
-         pop,expDeaths,deaths,excDeaths,excDeathRate)
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
-## Metropolitan status
-metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
-metro <- metro %>%
-  select(FIPSCode = fips,
-         metroName = metroname) %>%
-  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
-         metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
-                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
-                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
-                               metroName == 'Lg central metro' ~ 'Large Central Metro'))
-  
-
-simulations <- simulations %>%
-  left_join(metro, by = 'FIPSCode')
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
-## BEA regions
-BEARegions <- read_rds(here::here(inDir,'utilities','stateBEARegionCrosswalk.rds'))
-BEARegions <- BEARegions %>%
-  select(stateStr = state_abb,
-         BEARegion = region_bea)
-
-simulations <- simulations %>%
-  left_join(BEARegions, by = 'stateStr')
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
-addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
-                 '02013','02016','02164','02270','46113','02130',
-                 '02188','02290','04012','30067')
-
-addLgFringeMetro <- c('08001','08014')
-addMdSmMetro <- c('08013','08123','51515')
-
-## fill out missing metro
-simulations <- simulations %>%
-  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Nonmetro",
-                               FIPSCode %in% addLgFringeMetro ~ "Lg fringe metro",
-                               FIPSCode %in% addMdSmMetro ~ "Md/Sm metro",
-                               TRUE ~ metroName))
+dev.off()
 
 ```
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-stateMeans <- simulations %>%
+stateMeans <- finalSimsFIPS %>%
   drop_na() %>%
   filter(monthYear>=make_date(2019,1,1)) %>%
   group_by(state,BEARegion,monthYear) %>%
-  summarize(excDeathRate = ((sum(deaths)-sum(expDeaths))/sum(pop))*100000) %>%
+  summarize(excDeathRate = ((sum(deaths)-sum(expDeathsMed))/sum(pop))*100000) %>%
   ungroup()
 
-trendPlots <- simulations %>%
+trendPlots <- finalSimsFIPS %>%
   drop_na() %>%
   filter(monthYear>=make_date(2019,1,1)) %>%
   group_by(metroName,BEARegion,monthYear) %>%
-  summarize(excDeathRate = ((sum(deaths)-sum(expDeaths))/sum(pop))*100000) %>%
+  summarize(excDeathRate = ((sum(deaths)-sum(expDeathsMed))/sum(pop))*100000) %>%
   ungroup() %>%
   ggplot() +
   geom_line(data = stateMeans,
@@ -279,57 +128,237 @@ dev.off()
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-stackBarsBEAPlot <- simulations %>%
+BEABarsData2020 <- finalSimsFIPS %>%
   drop_na() %>%
-  filter(year>=2020) %>%
+  filter(year==2020) %>%
   group_by(metroName,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths)) %>%
   ungroup() %>%
+  group_by(BEARegion) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),) %>%
+  ungroup()
+
+BEABarsData2021 <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2021) %>%
+  group_by(metroName,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),) %>%
+  ungroup()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+stackBarsBEAPlot2020 <- BEABarsData2020 %>%
   ggplot() +
   geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroName),
            position='stack',stat='identity') +
   scale_fill_brewer(palette = "RdYlBu") +
+  coord_cartesian(ylim=c(0,175000)) +
   labs(x='',
        y='Excess Deaths',
-       fill='Metro Status') +
-  facet_wrap(~year,ncol=1) +
+       fill='Metro Status',
+       title='2020') +
   theme_minimal() +
-  theme(legend.position = 'bottom')
+  theme(legend.position = 'bottom',
+        axis.text.x = element_text(angle=25,size=12))
+
+stackBarsBEAPlot2021 <- BEABarsData2021 %>%
+  ggplot() +
+  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroName),
+           position='stack',stat='identity') +
+  scale_fill_brewer(palette = "RdYlBu") +
+  coord_cartesian(ylim=c(0,175000)) +
+  labs(x='',
+       y='Excess Deaths',
+       fill='Metro Status',
+       title='2021') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        axis.text.x = element_text(angle=25,size=12))
 
 ```
 
 ```{r, echo=FALSE, message=F, warning=F, fig.height=16, fig.width=10}
 
-stackBarsStatesPlot <- simulations %>%
+statesBarsData2020 <- finalSimsFIPS %>%
   drop_na() %>%
-  filter(year>=2020) %>%
+  filter(year==2020) %>%
   group_by(state,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths)) %>%
   arrange(desc(excDeaths), by_group=T) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
-  mutate(stateNum = row_number(),
-         state = if_else(excDeaths<4200,'',state)) %>%
+  arrange(excDeaths,.by_group = T) %>%
+  mutate(state = if_else(excDeaths<4200,'',state),
+         BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),
+         excDeathsCum = cumsum(excDeaths)) %>%
+  arrange(desc(excDeaths),.by_group = T) %>%
+  mutate(stateNum = row_number()) %>%
+  ungroup()
+
+statesBarsData2021 <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2021) %>%
+  group_by(state,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths)) %>%
+  arrange(desc(excDeaths), by_group=T) %>%
   ungroup() %>%
+  group_by(BEARegion) %>%
+  arrange(excDeaths,.by_group = T) %>%
+  mutate(state = if_else(excDeaths<4200,'',state),
+         BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),
+         excDeathsCum = cumsum(excDeaths)) %>%
+  arrange(desc(excDeaths),.by_group = T) %>%
+  mutate(stateNum = row_number()) %>%
+  ungroup()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F, fig.height=16, fig.width=10}
+
+stackBarsStatesPlot2020 <- statesBarsData2020 %>%
   ggplot(mapping=aes(x=BEARegion,y=excDeaths,group=stateNum,fill=excDeaths,label=state)) +
   geom_bar(position='stack',stat='identity') +
-  geom_text(size = 2.7, position = position_stack(vjust=0.5)) + 
-  scale_fill_scico(palette='nuuk') + 
+  geom_text(size = 4, position = position_stack(vjust=0.5)) + 
+  coord_cartesian(ylim=c(0,175000)) +
+  scale_fill_scico(palette='nuuk',limits=c(0,60000)) + 
   labs(x='',
        y='Excess Deaths',
        fill='Excess Deaths') +
-  facet_wrap(~year,ncol=1) +
   theme_minimal() +
   theme(legend.position = 'bottom',
-        legend.key.width = unit(2,'cm'))
+        legend.key.width = unit(2,'cm'),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(size=12))
+
+stackBarsStatesPlot2021 <- statesBarsData2021 %>%
+  ggplot(mapping=aes(x=BEARegion,y=excDeaths,group=stateNum,fill=excDeaths,label=state)) +
+  geom_bar(position='stack',stat='identity') +
+  geom_text(size = 4, position = position_stack(vjust=0.5)) + 
+  coord_cartesian(ylim=c(0,175000)) +
+  scale_fill_scico(palette='nuuk',limits=c(0,60000)) + 
+  labs(x='',
+       y='Excess Deaths',
+       fill='Excess Deaths') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.key.width = unit(2,'cm'),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(size=12),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+```
+
+```{r, echo=F}
+
+stackBarsPlot2020 <- ggplot() +
+  geom_col(data = BEABarsData2020, 
+           mapping=aes(x = BEARegionNum - 0.7, 
+                       y = excDeaths,
+                       fill= metroName), 
+           width = .4) +
+  scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status', 
+                    guide = guide_legend(order = 1)) +
+  scale_x_continuous(breaks = seq(1,8*2,2), 
+                     labels = unique(BEABarsData2020$BEARegion)) +
+  ggnewscale::new_scale_fill() +
+  geom_col(data = statesBarsData2020, 
+           mapping=aes(x = BEARegionNum + 0.2, 
+                       y = excDeaths,
+                       fill = excDeaths,
+                       group = stateNum), 
+           width = 1.5) +
+  geom_text(data = statesBarsData2020, 
+            mapping=aes(x = BEARegionNum + 0.2,
+                        y = excDeathsCum - excDeaths/2,
+                        label = state),
+            size = 3) + 
+  scale_fill_scico(palette='nuuk',limits=c(0,60000),
+                   name = 'Excess Deaths', 
+                   guide = guide_legend(order = 2)) +
+  coord_cartesian(ylim=c(0,175000)) +
+  labs(title='2020',
+       x='',
+       y='Excess Deaths') + 
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.title.y = element_text(size=14),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
+
+```
+
+```{r, echo=F}
+
+stackBarsPlot2021 <- ggplot() +
+  geom_col(data = BEABarsData2021, 
+           mapping=aes(x = BEARegionNum - 0.7, 
+                       y = excDeaths,
+                       fill= metroName), 
+           width = .4) +
+    scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status', 
+                      guide = guide_legend(order = 1)) +
+  scale_x_continuous(breaks = seq(1,8*2,2), 
+                     labels = unique(BEABarsData2021$BEARegion)) +
+  ggnewscale::new_scale_fill() +
+  geom_col(data = statesBarsData2021, 
+           mapping=aes(x = BEARegionNum + 0.2, 
+                       y = excDeaths,
+                       fill = excDeaths,
+                       group = stateNum), 
+           width = 1.5) +
+  geom_text(data = statesBarsData2021, 
+            mapping=aes(x = BEARegionNum + 0.2,
+                        y = excDeathsCum - excDeaths/2,
+                        label = state),
+            size = 3) + 
+  scale_fill_scico(palette='nuuk',limits=c(0,60000),
+                   name = 'Excess Deaths', 
+                   guide = guide_legend(order = 2)) +
+  coord_cartesian(ylim=c(0,175000)) +
+  labs(title='2021',
+       x='',
+       y='Excess Deaths') + 
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        axis.text.x = element_text(size=12),
+        axis.text.y = element_text(size=12),
+        axis.title.y = element_text(size=14),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank())
 
 ```
 
 ```{r}
 
-pdf(here::here('figures','stackBarsPlot.pdf'), width=16, height = 12)
+pdf(here::here('figures','stackBarsPlot.pdf'), width=14, height = 14)
 
-stackBarsBEAPlot + stackBarsStatesPlot
+(stackBarsBEAPlot2020 + stackBarsStatesPlot2020 +
+stackBarsBEAPlot2021 + stackBarsStatesPlot2021) +
+plot_layout(widths=c(1,3), guides='collect') & theme(legend.position = 'bottom')
+
+dev.off()
+
+```
+
+```{r}
+
+pdf(here::here('figures','stackBarsPlotAlt.pdf'), width=12, height = 14)
+
+stackBarsPlot2020 / stackBarsPlot2021 + plot_layout(guides='collect') & theme(legend.position = 'bottom',legend.box="vertical", legend.margin=margin())
 
 dev.off()
 
@@ -337,7 +366,182 @@ dev.off()
 
 ```{r, echo=FALSE, message=F, warning=F}
 
-largestCounties <- simulations %>%
+BEABarsData2020PC <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2020) %>%
+  group_by(metroName,BEARegion,FIPSCode,year) %>%
+  summarize(pop = mean(pop),
+            excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  group_by(metroName,BEARegion,year) %>%
+  mutate(excDeaths = sum(excDeaths),
+         pop = sum(pop),
+         excDeathsPC = (excDeaths/pop)*100000) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),) %>%
+  ungroup()
+
+BEABarsData2021PC <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2021) %>%
+  group_by(metroName,BEARegion,FIPSCode,year) %>%
+  summarize(pop = mean(pop),
+            excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  group_by(metroName,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths),
+            pop = sum(pop),
+            excDeathsPC = (excDeaths/pop)*100000) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),) %>%
+  ungroup()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F, fig.height=16, fig.width=10}
+
+statesBarsData2020PC <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2020) %>%
+  group_by(BEARegion,state,FIPSCode,year) %>%
+  summarize(pop = mean(pop),
+            excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  group_by(state,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths),
+            pop = sum(pop),
+            excDeathsPC = (excDeaths/pop)*100000) %>%
+  arrange(desc(excDeathsPC), by_group=T) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  arrange(excDeathsPC,.by_group = T) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),
+         excDeathsCumPC = cumsum(excDeathsPC)) %>%
+  arrange(desc(excDeathsPC),.by_group = T) %>%
+  mutate(stateNum = row_number()) %>%
+  ungroup()
+
+statesBarsData2021PC <- finalSimsFIPS %>%
+  drop_na() %>%
+  filter(year==2021) %>%
+  group_by(BEARegion,state,FIPSCode,year) %>%
+  summarize(pop = mean(pop),
+            excDeaths = sum(excDeaths)) %>%
+  ungroup() %>%
+  group_by(state,BEARegion,year) %>%
+  summarize(excDeaths = sum(excDeaths),
+            pop = sum(pop),
+            excDeathsPC = (excDeaths/pop)*100000) %>%
+  arrange(desc(excDeathsPC), by_group=T) %>%
+  ungroup() %>%
+  group_by(BEARegion) %>%
+  arrange(excDeathsPC,.by_group = T) %>%
+  mutate(BEARegionNum = cur_group_id(),
+         BEARegionNum = BEARegionNum + (BEARegionNum-1),
+         excDeathsCumPC = cumsum(excDeathsPC)) %>%
+  arrange(desc(excDeathsPC),.by_group = T) %>%
+  mutate(stateNum = row_number()) %>%
+  ungroup()
+
+```
+
+```{r, echo=F}
+
+BEAHBarsPlot2020 <- ggplot() +
+  geom_col(data = BEABarsData2020PC, 
+           mapping=aes(x = BEARegion, 
+                       y = excDeathsPC,
+                       fill= metroName), 
+           position = position_dodge()) +
+  scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status') +
+  labs(title='2020',
+       x='',
+       y='Excess Deaths per 100,000 Residents') + 
+  theme_minimal() +
+  coord_flip(ylim=c(0,310)) + 
+  theme(legend.position = 'bottom',
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+BEAHBarsPlot2021 <- ggplot() +
+  geom_col(data = BEABarsData2021PC, 
+           mapping=aes(x = BEARegion, 
+                       y = excDeathsPC,
+                       fill= metroName), 
+           position = position_dodge()) +
+  scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status') +
+  labs(title='2021',
+       x='',
+       y='Excess Deaths per 100,000 Residents') + 
+  coord_flip(ylim=c(0,310)) + 
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+```
+
+```{r, echo=F}
+
+stateHBarsPlot2020 <- ggplot(data = statesBarsData2020PC) +
+  geom_col(mapping=aes(x = reorder_within(x=state, by=-excDeathsPC,within=BEARegion), 
+                       y = excDeathsPC,
+                       fill = excDeathsPC), 
+           position = position_dodge()) +
+  scale_fill_scico(palette='nuuk',limits=c(0,310),
+                   name = 'Excess Deaths per 100,000 Residents') +
+  scale_x_reordered() +
+  coord_flip(ylim=c(0,310)) + 
+  labs(title='2020',
+       x='',
+       y='Excess Deaths per 100,000 Residents') + 
+  facet_grid(BEARegion~.,scales = "free_y", space = "free_y") +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+stateHBarsPlot2021 <- ggplot(data = statesBarsData2021PC) +
+  geom_col(mapping=aes(x = reorder_within(x=state, by=-excDeathsPC,within=BEARegion), 
+                       y = excDeathsPC,
+                       fill = excDeathsPC), 
+           position = position_dodge()) +
+  scale_fill_scico(palette='nuuk',limits=c(0,310),
+                   name = 'Excess Deaths per 100,000 Residents') +
+  scale_x_reordered() +
+  coord_flip(ylim=c(0,310)) + 
+  labs(title='2021',
+       x='',
+       y='Excess Deaths per 100,000 Residents') + 
+  facet_grid(BEARegion~.,scales = "free_y", space = "free_y") +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.y = element_blank())
+
+```
+
+```{r}
+
+pdf(here::here('figures','HBarsPlotPC.pdf'), width=12, height = 16)
+
+(stateHBarsPlot2020 + stateHBarsPlot2021 +
+ BEAHBarsPlot2020 + BEAHBarsPlot2021) + 
+plot_layout(guides='collect',heights = c(5,2)) & 
+theme(legend.position = 'bottom',legend.box="vertical", legend.margin=margin())
+
+dev.off()
+
+```
+
+```{r, echo=FALSE, message=F, warning=F}
+
+largestCounties <- finalSimsFIPS %>%
   drop_na() %>%
   group_by(BEARegion,FIPSCode,metroName) %>%
   summarize(popMean = mean(pop)) %>%
@@ -346,21 +550,35 @@ largestCounties <- simulations %>%
   slice(which.max(popMean)) %>%
   pull(FIPSCode)
 
-largestCountiesData <- simulations %>%
+largestCountiesData <- finalSimsFIPS %>%
   filter(FIPSCode %in% largestCounties) %>%
   mutate(deathRate= (deaths/pop)*100000,
-         expDeathRate = (expDeaths/pop)*100000)
+         expDeathRateLow = (expDeathsLow/pop)*100000,
+         expDeathRateMed = (expDeathsMed/pop)*100000,
+         expDeathRateUp = (expDeathsUp/pop)*100000)
 
 largestCountiesPlots <- largestCountiesData %>%
   ggplot() +
-  geom_line(mapping=aes(x=monthYear,y=deathRate,color='Actual Deaths')) +
-  geom_line(mapping=aes(x=monthYear,y=expDeathRate,color='Expected Deaths')) +
-  geom_label(mapping=aes(x=make_date(2018,6,1),y=175,label=paste0(countyName,' (',stateStr,')')),size=3) +
+  geom_line(mapping=aes(x=monthYear,y=deathRate,color='Observed')) +
+  geom_line(mapping=aes(x=monthYear,y=expDeathRateMed,color='Expected')) +
+  geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathRateLow,ymax=expDeathRateUp,
+                          fill='90% Posterior Interval'),alpha=0.2) +
+  geom_label(mapping=aes(x=make_date(2018,6,1),y=175,
+                         label=paste0(countyName,' (',stateStr,')')),size=3) +
+  scale_color_manual(name='',
+                     breaks=c('Observed', 
+                              'Expected'),
+                     values=c('Observed'='red', 
+                              'Expected'='black')) + 
+  scale_fill_manual(name='',
+                    breaks=c('90% Posterior Interval'),
+                    values=c('90% Posterior Interval'='black')) + 
   coord_cartesian(ylim=c(20,200)) +
   facet_grid(rows = vars(BEARegion), cols=vars(metroName)) +
   labs(x='',
-       y='Actual and Expected Number of Deaths (for 100,000 residents)',
-       color='') +
+       y='Observed and Expected Number of Deaths (for 100,000 residents)',
+       color='',
+       fill='') +
   theme_minimal() +
   theme(legend.position = 'bottom')
 
@@ -375,3 +593,83 @@ largestCountiesPlots
 dev.off()
 
 ```
+
+```{r, echo=F, message=F, warning=F}
+
+# Creating a plot with predicted vs actual rates for each county in groups of
+# 12 (ordered by FIPS code.
+
+finalSimsFIPS <- finalSimsFIPS %>%
+  mutate(countyNameState = paste0(countyName,' (',state,')'))
+
+countyNames <- as.character(unique(finalSimsFIPS$countyNameState))
+countyGroups <- split(countyNames, ceiling(seq_along(countyNames)/12))
+
+i <- 1
+
+for (countyGroup in countyGroups) {
+  
+  countyPlot <- finalSimsFIPS %>%
+    filter(countyNameState %in% countyGroup) %>%
+    mutate(deaths=(deaths/pop)*100000,
+           expDeathsLow=(expDeathsLow/pop)*100000,
+           expDeathsMed=(expDeathsMed/pop)*100000,
+           expDeathsUp=(expDeathsUp/pop)*100000) %>%
+    ggplot() +
+      geom_vline(xintercept = make_date(2020,3,1)) +
+      geom_line(mapping=aes(x=monthYear,y=expDeathsMed,color='Predicted')) +
+      geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow,ymax=expDeathsUp,
+                              fill='80% Posterior Intervals'),alpha=0.2) +
+      geom_line(mapping=aes(x=monthYear,y=deaths,color='Observed')) +
+      scale_color_manual(name='',
+                         breaks=c('Observed', 'Predicted'),
+                         values=c('Observed'='red', 'Predicted'='black')) + 
+      scale_fill_manual(name='',
+                        breaks=c('90% Posterior Intervals'),
+                        values=c('90% Posterior Intervals'='black')) + 
+      labs(x='',
+           y='Observed and Expected Number of Deaths (for 100,000 residents)',
+           colour='',
+           fill='') +
+      facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
+      theme_minimal() +
+      theme(legend.position="bottom",
+            axis.text.x = element_text(angle = 330))
+  
+  ggsave(here::here('figures','countyPlots',paste0('countyPlots',as.character(i),'.pdf')),
+         device = 'pdf',width = 12,height = 7)
+  
+  i <- i + 1
+
+}
+
+```
+
+```{r, echo=F}
+
+# Creating the plot directories to make it easier to find which file contains a
+# given county
+
+countiesIndex <- ''
+i <- 1
+
+for (countyGroup in countyGroups) {
+  
+  countiesIndex <- paste(countiesIndex,i,'\n')
+  
+  for (county in countyGroup) {
+    
+    countiesIndex <- paste(countiesIndex,county,'\n')
+    
+  }
+  
+  countiesIndex <- paste(countiesIndex,'\n')
+  
+  i <- i+1
+  
+}
+
+cat(countiesIndex, file = here::here('figures','countyPlots','plotIndex.txt'))
+
+```
+

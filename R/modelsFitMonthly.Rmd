@@ -11,13 +11,13 @@ output:
 
 # Loading necessary packages
 
-library(tidyverse)
 library(lubridate)
-library(lme4)
-library(nlme)
-library(matrixStats)
-library(patchwork)
+library(USAboundaries)
+library(sf)
+library(spdep)
+library(INLA)
 library(here)
+library(tidyverse)
 
 ```
 
@@ -30,104 +30,125 @@ here::i_am('R/modelsFitMonthly.Rmd')
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
 
+set.seed(42)
+
 ```
 
 ```{r, echo=F}
 
 ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
-ACData <- ACData %>% filter(year>2014)
 
-ACData <- ACData %>% drop_na()
-
-```
-
-```{r}
-
-# We estimate the base model with random intercepts for each county,
-# fixed-effects for months and a linear time trend
-
-modelBaseLT <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) + (1 | FIPSCode),
-                   data=filter(ACData,year>2014,year<2019))
+allFIPS <- ACData %>% pull(FIPSCode) %>% unique()
+allStates <- ACData %>% pull(stateFIPS) %>% unique()
 
 ```
 
 ```{r}
 
-# We estimate the base model with random intercepts for each county,
-# fixed-effects for months and a linear time trend
+counties <- us_counties()
+# Transform to Albers for making map of US
+counties <- st_transform(counties, 5070)
 
-modelBaseLF <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) + (1 | FIPSCode),
-                   data=filter(ACData,year>2014,year<2020))
-
-```
-
-```{r}
-
-# We add random intercepts for county-sets and states and a random slope for
-# county-sets
-
-modelRandomTimeLT <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) +
-                         (1 | FIPSCode) +
-                         (1 + I(year-2015) | csCode) +
-                         (1 | stateFIPS),
-                         data=filter(ACData,year>2014,year<2019),
-                         control = lmerControl(optimizer = 'Nelder_Mead'))
+counties <- counties %>%
+  select(geoid,geometry) %>%
+  rename(FIPSCode = geoid) %>%
+  mutate(FIPSCode = case_when(FIPSCode == '02013' ~ '02010',
+                              FIPSCode == '02188' ~ '02140',
+                              FIPSCode == '02230' ~ '02232',
+                              FIPSCode == '02063' ~ '02261',
+                              TRUE ~ FIPSCode)) %>%
+  filter(FIPSCode %in% unique(ACData %>% pull(FIPSCode))) %>%
+  arrange(FIPSCode)
 
 ```
 
 ```{r}
 
-# We add random intercepts for county-sets and states and a random slope for
-# county-sets
+neighbors <- poly2nb(counties)
 
-modelRandomTimeLF <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month) +
-                         (1 | FIPSCode) +
-                         (1 + I(year-2015) | csCode) +
-                         (1 | stateFIPS),
-                         data=filter(ACData,year>2014,year<2020),
-                         control = lmerControl(optimizer = 'Nelder_Mead'))
+# We can edit neighbors manually but we need to be very careful because
+# neighborhood is here a symmetric relationship so that everything breaks
+# (in INLA) if A is B's neighbor. but B is not A's neighbor.
+
+neighbors[[68]] <- as.integer(c(70))
+neighbors[[71]] <- as.integer(c(70))
+neighbors[[70]] <- sort(as.integer(c(neighbors[[70]], 68, 71)))
+
+nb2INLA(here::here(outDir,'neighborsEx.graph'),neighbors)
+inla.graph <- inla.read.graph(here::here(outDir,'neighborsEx.graph'))
+adj.matrix <- inla.graph2matrix(inla.graph)
+
+```
+
+```{r, echo=F}
+
+ACData <- ACData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id(),
+         FIPSCode2 = FIPSCode,
+         FIPSCode3 = FIPSCode,
+         FIPSCode4 = FIPSCode) %>%
+  ungroup() %>%
+  group_by(year,month) %>%
+  mutate(timeID = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(quarter = floor((timeID -1)/ 4) + 1) %>%
+  group_by(census_division) %>%
+  mutate(divisionID = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id(),
+         yearID2 = yearID) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR),
+         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  arrange(FIPSCode,year,month)
 
 ```
 
 ```{r}
 
-# We add random intercepts for county-sets and states and a random slope for
-# county-sets. We also estimated separate seasonality dummies by census region
+# INLA SET UP
+# priors
+hyper.bym <- list(prec.unstruct=list(param=c(1,0.1)),
+                  prec.spatial=list(param=c(1,0.1)))
+hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
 
-modelRandomTimePlusLT <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month):censusReg1 +
-                         (1 | FIPSCode) +
-                         (1 + I(year-2015) | csCode) +
-                         (1 | stateFIPS),
-                         data=filter(ACData,year>2014,year<2019),
-                         control = lmerControl(optimizer = 'Nelder_Mead'))
-
-```
-
-```{r}
-
-# We add random intercepts for county-sets and states and a random slope for
-# county-sets. We also estimated separate seasonality dummies by census region
-
-modelRandomTimePlusLF <- lmer(CDR ~ 1 + I(year-2015) + as.factor(month):censusReg1 +
-                         (1 | FIPSCode) +
-                         (1 + I(year-2015) | csCode) +
-                         (1 | stateFIPS),
-                         data=filter(ACData,year>2014,year<2020),
-                         control = lmerControl(optimizer = 'Nelder_Mead'))
+formula <- deathsCensored ~ 1 + offset(log(pop)) + as.factor(month) +
+                                f(FIPSCode, model='bym', hyper=hyper.bym,
+                                  graph=inla.graph, scale.model=T) +
+                                f(yearID, model='iid',hyper=hyper.iid) +
+                                f(FIPSCode2,yearID2,model='iid',hyper = hyper.iid) +
+                                f(quarter, model='rw1',hyper=hyper.iid,scale.model = T)
+                                
+# Under Poisson uses default set up
+control.family=inla.set.control.family.default()
 
 ```
 
 ```{r}
 
+# We re-estimated the last model with INLA so that we can use it to 
+# build posterior intervals for the predictions.
+
+model.BYM.LinearTime.INLA <- ACData %>%
+  inla(formula,
+       data = .,
+       family = "poisson",
+       num.threads = round(parallel::detectCores()*0.7),
+       control.family=control.family,
+       control.compute=list(config = TRUE))
+
+# Note: INLA is a bit tricky, error messages are not very informative.
+
+```
+
+```{r}
 # We save our models so that we can easily load them where and when we
 # need them without having to fit them again.
 
-save(modelBaseLT,file = here::here('R','RObjects','modelBaseLT.RData'))
-save(modelBaseLF,file = here::here('R','RObjects','modelBaseLF.RData'))
-save(modelRandomTimeLT,file = here::here('R','RObjects','modelRandomTimeLT.RData'))
-save(modelRandomTimeLF,file = here::here('R','RObjects','modelRandomTimeLF.RData'))
-save(modelRandomTimePlusLT,file = here::here('R','RObjects','modelRandomTimePlusLT.RData'))
-save(modelRandomTimePlusLF,file = here::here('R','RObjects','modelRandomTimePlusLF.RData'))
+save(model.BYM.LinearTime.INLA,
+     file = here::here('R','RObjects','modelBYMLinearTimeINLA.RData'))
 
 ```
 

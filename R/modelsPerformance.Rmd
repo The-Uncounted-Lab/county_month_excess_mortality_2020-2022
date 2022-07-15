@@ -9,14 +9,12 @@ output: html_document
 
 # Loading necessary packages
 
-library(tidyverse)
 library(lubridate)
-library(lme4)
-library(matrixStats)
-library(patchwork)
+library(INLA)
 library(knitr)
 library(here)
 library(ggthemes)
+library(tidyverse)
 
 ```
 
@@ -52,109 +50,49 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 ACData <- ACData %>%
   mutate(monthYear = make_date(year=year,month=month,day=1)) 
 
-ACData <- ACData %>% filter(year>2014)
-
 ```
 
 ```{r, echo=F}
 
 # We load the pre-trained models
 
-load(here::here('R','RObjects','modelBaseLT.RData'))
-load(here::here('R','RObjects','modelRandomTimeLT.RData'))
-load(here::here('R','RObjects','modelBaseLF.RData'))
-load(here::here('R','RObjects','modelRandomTimeLF.RData'))
-load(here::here('R','RObjects','modelRandomTimePlusLT.RData'))
-load(here::here('R','RObjects','modelRandomTimePlusLF.RData'))
-load(here::here('R','RObjects','modelRandomTimeYearlyLF.RData'))
+load(here::here('R','RObjects','simulations.RData'))
 
 ```
 
-```{r, echo=FALSE}
+```{r}
 
-# Function to compute the Root Mean Squared Error (RMSE) between two series
-
-RMSE <- function(series1,series2) {
-  
-  return(sqrt(mean((series1 - series2)^2)))
-  
-}
-
-# We compute the RMSE for the three models and store the result in a data.frame
-
-RMSEs <- tibble(
-  Performance=c('RMSE - Training Data (2014-2018)',
-                'RMSE - Test Data (2019)',
-                'RMSE - Overall',
-                'BIC','AIC'),
-  modelBase=c(
-    RMSE(filter(drop_na(ACData),year<2019)$CDR,
-         predict(modelBaseLT)),
-    RMSE(filter(drop_na(ACData),year==2019)$CDR,
-         predict(modelBaseLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
-    RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-         predict(modelBaseLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
-    BIC(modelBaseLT),
-    AIC(modelBaseLT)),
-  modelRandomTime=c(
-    RMSE(filter(drop_na(ACData),year<2019)$CDR,
-         predict(modelRandomTimeLT)),
-    RMSE(filter(drop_na(ACData),year==2019)$CDR,
-         predict(modelRandomTimeLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
-    RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-         predict(modelRandomTimeLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
-    BIC(modelRandomTimeLT),
-    AIC(modelRandomTimeLT)
-    ),
- modelRandomTimePlus=c(
-   RMSE(filter(drop_na(ACData),year<2019)$CDR,predict(modelRandomTimePlusLT)),
-   RMSE(filter(drop_na(ACData),year==2019)$CDR,
-        predict(modelRandomTimePlusLT,filter(drop_na(ACData),year==2019),allow.new.levels=T)),
-   RMSE(filter(drop_na(ACData),year<=2019)$CDR,
-        predict(modelRandomTimePlusLT,filter(drop_na(ACData),year<=2019),allow.new.levels=T)),
-    BIC(modelRandomTimePlusLT),
-    AIC(modelRandomTimePlusLT)
-   )
- )
-
-RMSEs %>% 
-  rename('Base Model'=modelBase,'Random Time Model'=modelRandomTime,
-         'Random Time Model Plus'=modelRandomTimePlus) %>%
-  write_csv(here::here('tables','modelComparison.csv'))
+simDataMonthly <- ACData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id(),
+         FIPSCode2 = FIPSCode) %>%
+  ungroup() %>%
+  group_by(year,month) %>%
+  mutate(timeID = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR),
+         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  arrange(FIPSCode,year,month)
 
 ```
 
-```{r, echo=F}
+```{r}
 
-kable(RMSEs,
-      col.names=c('Performance','Base Model','Random Time Model','Random Time Model Plus'))
-
-```
-
-
-```{r simulation, cache=TRUE, echo=F}
-
-n.sim = 1000
-
-FIPSCodes <- as.character(unique(ACData$FIPSCode))
-numFIPS <- length(FIPSCodes)
-lastMonth <- 12
-years <- seq(2015,2021)
-numYears <- length(years)
-numObs <- numYears*12 - (12-lastMonth)
-
-simDataMonthly <- tibble(year=rep(c(rep(years[-numYears],each=12),rep(2021,lastMonth)),numFIPS),
-                         month=rep(c(rep(seq(1,12),numYears-1),seq(1,lastMonth)),numFIPS),
-                         FIPSCode=rep(rep(FIPSCodes,each=numObs)))
-
-simDataMonthly <- simDataMonthly %>% left_join(countySets, by = c('FIPSCode'))
-simDataMonthly <- simDataMonthly %>% left_join(states, by = c('stateFIPS'))
-simDataMonthly <- simDataMonthly %>% left_join(popData, by = c('FIPSCode','year','month'))
-
-simDataMonthly <- simDataMonthly %>% 
-  mutate(monthYear = make_date(year=year,month=month,day=1),
-         CDR = predict(modelRandomTimeLF,newdata=simDataMonthly,allow.new.levels=T),
-         expDeaths = (pop/100000)*CDR)
+simulationsFIPSMonthly <- tibble(
+  year = ACData %>% pull(year),
+  month = ACData %>% pull(month),
+  monthYear = make_date(year=year,month=month,day=1),
+  FIPSCode = ACData %>% pull(FIPSCode),
+  csCode = ACData %>% pull(csCode),
+  stateFIPS = ACData %>% pull(stateFIPS),
+  pop = ACData %>% pull(pop),
+  expDeathsLow = apply(death.draws,M=2,function(x) quantile(x,0.05)),
+  expDeathsMed = apply(death.draws,M=2,function(x) quantile(x,0.5)),
+  expDeathsUp = apply(death.draws,M=2,function(x) quantile(x,0.95))) %>%
+  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
 
 ```
 
@@ -171,202 +109,144 @@ monthWeights <- ACData %>%
   summarize(monthTotal = sum(deaths,na.rm=T)) %>%
   ungroup() %>%
   mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
-  dplyr::select(month,monthWeight)
+  select(month,monthWeight)
 
-monthWeights <- as.numeric(monthWeights$monthWeight)
-
-```
-
-```{r simulation, cache=TRUE, echo=F}
-
-simDataYearly <- tibble(year=rep(years,numFIPS),
-                        FIPSCode=rep(FIPSCodes,each=numYears))
-
-simDataYearly <- simDataYearly %>% left_join(countySets, by = c('FIPSCode'))
-simDataYearly <- simDataYearly %>% left_join(states, by = c('stateFIPS'))
-simDataYearly <- simDataYearly %>% left_join(popDataYearly, by = c('FIPSCode','year'))
-
-simDataYearly <- simDataYearly %>% drop_na()
-
-simDataYearly <- simDataYearly %>% 
-  mutate(CDR = predict(modelRandomTimeYearlyLF,newdata=simDataYearly,allow.new.levels=T),
-         expDeaths = (pop/100000)*CDR) %>%
-  ungroup()
-
-# I bet there's a way to set this up in a vectorized way
-
-simDataYearly <- simDataYearly %>%
-  mutate(expDeaths1 = expDeaths*monthWeights[1],
-         expDeaths2 = expDeaths*monthWeights[2],
-         expDeaths3 = expDeaths*monthWeights[3],
-         expDeaths4 = expDeaths*monthWeights[4],
-         expDeaths5 = expDeaths*monthWeights[5],
-         expDeaths6 = expDeaths*monthWeights[6],
-         expDeaths7 = expDeaths*monthWeights[7],
-         expDeaths8 = expDeaths*monthWeights[8],
-         expDeaths9 = expDeaths*monthWeights[9],
-         expDeaths10 = expDeaths*monthWeights[10],
-         expDeaths11 = expDeaths*monthWeights[11],
-         expDeaths12 = expDeaths*monthWeights[12])
-
-simDataYearly <- simDataYearly %>%
-  gather(expDeaths1:expDeaths12, key='month', value='expDeaths') %>%
-  mutate(month = as.integer(str_sub(month,10,12)),
-         monthYear = make_date(year,month,1))
-
-simDataYearly <- simDataYearly %>%
-  rename(expDeathsSC = expDeaths)
-
-```
-
-```{r, echo=F}
-
-monthlyModelErrors <- simDataMonthly %>% 
-  group_by(FIPSCode,year) %>%
-  summarise(expDeaths = sum(expDeaths)) %>%
-  left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
-  group_by(FIPSCode) %>%
-  summarize(meanExpDeaths = mean(expDeaths,na.rm=T),
-            meanDeaths = mean(deaths,na.rm=T),
-            meanDifference = abs(meanExpDeaths - meanDeaths)/meanDeaths)
-
-yearlyModelErrors <- simDataYearly %>% 
-  group_by(FIPSCode,year) %>%
-  summarise(expDeaths = sum(expDeathsSC)) %>%
-  left_join(dplyr::select(ACYearlyData,FIPSCode,year,deaths),by=c('FIPSCode','year')) %>%
-  group_by(FIPSCode) %>%
-  summarize(meanExpDeathsY = mean(expDeaths,na.rm=T),
-            meanDeathsY = mean(deaths,na.rm=T),
-            meanDifferenceY = abs(meanExpDeathsY - meanDeathsY)/meanDeathsY)
-
-modelErrors <- monthlyModelErrors %>%
-  left_join(yearlyModelErrors,by=c('FIPSCode'))
-
-```
-
-```{r, echo=F}
-
-monthlyModelErrors %>%
-  write_csv(file=here::here(outDir,'monthlyModelPerformance.csv'))
-
-```
-
-```{r, echo=F}
-
-monthlyModelPerformance <- read_csv(here::here(outDir,'monthlyModelPerformance.csv'),
-                                    col_types = cols(FIPSCode = col_character(),
-                                                     meanDifference = col_double()))
-  
-```
-
-```{r, echo=F}
-
-simulations <- simDataMonthly %>%
-  left_join(dplyr::select(simDataYearly,FIPSCode,year,month,expDeathsSC),
-            by=c('FIPSCode','year','month')) %>%
-  left_join(monthlyModelPerformance,by='FIPSCode') %>%
-  mutate(meanDifference = if_else(is.na(meanDifference),0,meanDifference),
-         expDeaths = if_else(meanDifference>0.1,expDeathsSC,expDeaths)) %>%
-  left_join(dplyr::select(ACData,FIPSCode,month,year,deaths), 
-                                 by = c('FIPSCode','month','year')) %>%
-  mutate(monthYear = make_date(year,month,day=1))
-
-```
-
-```{r, echo=F, message=F, warning=F}
-
-nationalTrend <- simulations %>% 
-  drop_na(expDeaths,deaths) %>%
-  group_by(monthYear) %>% 
-  summarize(expDeaths = sum(expDeaths),
-            deaths = sum(deaths)) %>%
-  ggplot() +
-    geom_line(mapping=aes(x=monthYear,y=deaths,color='Actual')) +
-    geom_line(mapping=aes(x=monthYear,y=expDeaths,color='Simulated-RT')) +
-    labs(x='Time',
-         y='Deaths',
-         colour='') +
-    theme_minimal() +
-    theme(legend.position="bottom")
+monthWeights <- monthWeights %>% pull(monthWeight)
 
 ```
 
 ```{r}
 
-pdf(here::here('figures','nationalTrend.pdf'), width = 12, height = 8)
-
-nationalTrend
-
-dev.off()
+simDataYearly <- ACYearlyData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSCode = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(csCode) %>%
+  mutate(csCode = cur_group_id(),
+         csCode2 = csCode) %>%
+  ungroup() %>%
+  group_by(stateFIPS) %>%
+  mutate(stateFIPS = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(CDR = if_else(year>2019,NA_real_,CDR)) %>%
+  arrange(FIPSCode,year)
 
 ```
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 
-# Creating a plot with predicted vs actual rates for each county in groups of
-# 12 (ordered by FIPS code.
+n.sim <- 1000
+years <- 2015:2021
+FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
 
-simulations <- simulations %>%
-  mutate(countyNameState = paste0(countyName,' (',stateStr,')'))
+death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
 
-countyNames <- as.character(unique(simulations$countyNameState))
-countyGroups <- split(countyNames, ceiling(seq_along(countyNames)/12))
-
-i <- 1
-
-for (countyGroup in countyGroups) {
+death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
   
-  countyPlot <- simulations %>%
-    filter(countyNameState %in% countyGroup,
-           monthYear < make_date(2021,10,1)) %>%
-    mutate(deaths=(deaths/pop)*100000,
-           expDeaths=(expDeaths/pop)*100000) %>%
-    ggplot() +
-      geom_vline(xintercept = make_date(2020,3,1)) +
-      geom_line(mapping=aes(x=monthYear,y=deaths,color='Actual')) +
-      geom_line(mapping=aes(x=monthYear,y=expDeaths,color='Simulated-RT')) +
-      labs(x='',
-           y='Actual and Expected Number of Deaths (for 100,000 residents)',
-           colour='') +
-      facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
-      theme_minimal() +
-      theme(legend.position="bottom",
-            axis.text.x = element_text(angle = 330))
-  
-  ggsave(here::here('figures','countyPlots',paste0('countyPlots',as.character(i),'.pdf')),
-         device = 'pdf',width = 12,height = 7)
-  
-  i <- i + 1
+monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
+monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
 
-}
+death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
+
+```
+
+```{r}
+
+simulationsFIPSYearly <- tibble(
+  year = ACData %>% pull(year),
+  month = ACData %>% pull(month),
+  monthYear = make_date(year=year,month=month,day=1),
+  FIPSCode = ACData %>% pull(FIPSCode),
+  csCode = ACData %>% pull(csCode),
+  stateFIPS = ACData %>% pull(stateFIPS),
+  pop = ACData %>% pull(pop),
+  expDeathsLowSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.05)),
+  expDeathsMedSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.5)),
+  expDeathsUpSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.95))) %>%
+  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
 
 ```
 
 ```{r, echo=F}
 
-# Creating the plot directories to make it easier to find which file contains a
-# given county
+suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
+  
+```
 
-countiesIndex <- ''
-i <- 1
+```{r, echo=F}
 
-for (countyGroup in countyGroups) {
-  
-  countiesIndex <- paste(countiesIndex,i,'\n')
-  
-  for (county in countyGroup) {
-    
-    countiesIndex <- paste(countiesIndex,county,'\n')
-    
-  }
-  
-  countiesIndex <- paste(countiesIndex,'\n')
-  
-  i <- i+1
-  
-}
+# We set which estimate to used based on the relative average error of the
 
-cat(countiesIndex, file = here::here('figures','countyPlots','plotIndex.txt'))
+diffTreshold <- 0.05
+
+finalSimsFIPS <- simulationsFIPSMonthly  %>%
+  left_join(simulationsFIPSYearly,
+            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
+  left_join(ACData,
+            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
+  left_join(suppressionData,by='FIPSCode') %>%
+  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct),
+         expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
+         expDeathsLow = if_else(deathsDiffPct>diffTreshold,expDeathsLowSC,expDeathsLow),
+         expDeathsUp = if_else(deathsDiffPct>diffTreshold,expDeathsUpSC,expDeathsUp)) %>%
+  select(csCode,FIPSCode,stateFIPS,countyName,state,monthYear,
+         expDeathsLow,expDeathsMed,expDeathsUp,deaths,pop)
 
 ```
 
+```{r, echo=FALSE, warning=F, message=F}
+
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroName = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
+                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroName == 'Lg central metro' ~ 'Large Central Metro'))
+  
+
+finalSimsFIPS <- finalSimsFIPS %>%
+  left_join(metro, by = 'FIPSCode')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## BEA regions
+BEARegions <- read_rds(here::here(inDir,'utilities','stateBEARegionCrosswalk.rds'))
+BEARegions <- BEARegions %>%
+  select(stateStr = state_abb,
+         BEARegion = region_bea)
+
+finalSimsFIPS <- finalSimsFIPS %>%
+  left_join(states,by = c('state','stateFIPS')) %>%
+  left_join(BEARegions, by = 'stateStr')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+finalSimsFIPS <- finalSimsFIPS %>%
+  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Nonmetro",
+                               FIPSCode %in% addLgFringeMetro ~ "Lg fringe metro",
+                               FIPSCode %in% addMdSmMetro ~ "Md/Sm metro",
+                               TRUE ~ metroName))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
+
+```

@@ -5,3 +5,5 @@ COVIDYearlyData.feather
 popDataMonthlyAlt.feather
 countySetsFinal.feather
 monthlyModelPerformance.csv
+modelRandomTimeYearlyINLALF.RData
+modelRandomTimeINLALF.RData
