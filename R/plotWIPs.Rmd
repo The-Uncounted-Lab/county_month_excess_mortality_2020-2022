@@ -1,0 +1,277 @@
+---
+title: ""
+author: "Joe A. Wasserman"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(knitr)
+library(here)
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  dev = "ragg_png",
+  dpi = 72
+)
+
+options(scipen = 999)
+```
+
+```{r set directories}
+here::i_am('R/plotWIPs.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+```
+
+```{r import data}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
+COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
+
+load(here::here('R','RObjects','simulations.RData'))
+
+exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimatesINLA.csv'))
+
+suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
+```
+
+<!--START code from ridgesGraph.Rmd-->
+
+```{r ridgesGraph code, echo=F}
+
+# Computing overall distribution of deaths by month
+
+monthWeights <- ACData %>%
+  filter(year<2020) %>%
+  group_by(FIPSCode) %>%
+  filter(n()==max(n())) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
+  ungroup() %>%
+  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
+  select(month,monthWeight)
+
+monthWeights <- monthWeights %>% pull(monthWeight)
+
+```
+
+```{r}
+
+n.sim <- 1000
+years <- 2015:2021
+FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
+
+death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
+death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
+
+monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
+monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
+
+death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
+
+```
+
+```{r}
+
+death.draws <- as.list(as.data.frame(death.draws))
+death.draws.y.aug <- as.list(as.data.frame(t(death.draws.y.aug)))
+
+# rm(list=c('death.draws.y','death.draws.y.partial','monthWeights.matrix'))
+
+```
+
+```{r, echo=F}
+
+# We set which estimate to used based on the relative average error of the
+
+diffTreshold <- 0.05
+
+ACData <- ACData %>%
+  left_join(suppressionData,by='FIPSCode') %>%
+  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct))
+
+death.draws <- if_else(pull(ACData,deathsDiffPct) > diffTreshold,
+                       death.draws.y.aug,
+                       death.draws)
+
+rm(list=c('death.draws.y.aug'))
+
+```
+
+```{r simulationsDF}
+
+simulationsDF <- as_tibble(matrix(unlist(death.draws), ncol = n.sim, byrow = TRUE))
+
+simulationsDF <- simulationsDF %>% 
+  mutate(FIPSCode = ACData %>% pull(FIPSCode),
+         year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1)) %>%
+  relocate(FIPSCode,year,month,monthYear)
+
+```
+
+```{r plotData}
+
+# aggregate draws to generate county-monthly posterior intervals
+
+plotData <- simulationsDF %>%
+  filter(year >= 2020L) %>% 
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(
+    FIPSCode, 
+    countyName, 
+    stateFIPS,
+    state,
+    census_division,
+    census_region,
+    year,
+    month,
+    monthYear
+  ) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(
+    FIPSCode, 
+    countyName, 
+    stateFIPS,
+    state,
+    census_division,
+    census_region,
+    year,
+    month,
+    monthYear
+  ) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed)
+```
+
+```{r relative deaths}
+plotDataRelative <- plotData %>% 
+  mutate(
+    excDeathsRelative = excDeathsMed / expDeathsMed
+  )
+```
+
+```{r map plots}
+plotDataMap <- plotDataRelative %>% 
+  filter(monthYear == date("2020-12-01"))
+
+g <- 
+```
+
+
+
+```{r}
+divisionTotals <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(census_division,monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(census_division,monthYear) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed,
+         state='Division Total')
+
+nationTotals <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  group_by(monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  group_by(monthYear) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  ungroup() %>%
+  mutate(deaths = expDeathsUp + excDeathsMed,
+         state='Nation Total',
+         census_division = 'Nation Total')
+
+```
+
+```{r}
+
+plotData2 <- plotData %>%
+  add_row(divisionTotals) %>%
+  add_row(nationTotals)
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+plotData3 <- plotData2 %>%
+  filter(monthYear >= make_date(2020,1,1)) %>%
+  mutate(relativeExc = (deaths/expDeathsMed)-1,
+         fill = if_else(excDeathsLow > 0,relativeExc,NA_real_),
+         time = as.numeric(monthYear) - min(as.numeric(monthYear)))
+
+sortedStates <- plotData3 %>% 
+  filter(!(state %in% c('Division Total','Nation Total'))) %>%
+  group_by(state) %>%
+  summarize(relativeExc = max(relativeExc,na.rm=T)) %>% 
+  ungroup() %>%
+  arrange(relativeExc) %>%
+  pull(state)
+
+sortedStates <- c(sortedStates,c('Division Total','Nation Total'))
+sortedLetters <- sort(c(letters,LETTERS),decreasing = T)[1:53]
+
+sortedDivisions <- plotData3 %>%
+  filter(census_division != 'Nation Total') %>%
+  arrange(census_division) %>%
+  pull(census_division) %>%
+  unique()
+
+sortedDivisions <- c(sortedDivisions,'Nation Total')
+
+plotData4 <- plotData3 %>%
+  mutate(state = factor(state,
+                        levels=sortedStates,
+                        labels=sortedLetters),
+         census_division = factor(census_division,
+                                  levels = sortedDivisions))
+
+```
+<!--END code from ridgesGraph.Rmd-->
+
+```{r}
+
+```
+
