@@ -17,15 +17,22 @@ library(lubridate)
 library(knitr)
 library(here)
 
+# set default chunk options
 knitr::opts_chunk$set(
   echo = FALSE,
   message = FALSE,
   warning = FALSE,
   dev = "ragg_png",
-  dpi = 72
+  dpi = 144
 )
 
-options(scipen = 999)
+# set global options
+options(
+  scipen = 999,
+  verbose = FALSE
+)
+
+# set directories
 here::i_am('R/plotWIPs.Rmd')
 
 inDir <- here::here('data','input')
@@ -193,7 +200,7 @@ arrow::write_feather(plotDataRelative, here(outDir, "plotDataRelative.feather"))
 
 # Maps of relative county excess mortality as a % (excess / expected) by COVID wave and Metro status
 
-Metro = NCHS categories 1, 2, + 3
+Metro = NCHS categories 1 + 2
 Non-metro = all others
 
 ```{r plot data prep}
@@ -210,7 +217,7 @@ metro <- metro_raw %>%
                                metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
                                metroName == 'Lg central metro' ~ 'Large Central Metro'),
     metroStatus = if_else(
-      metroCode %in% c(1, 2, 3),
+      metroCode %in% c(1, 2),
       "Metro",
       "Non-Metro"
     )
@@ -299,19 +306,25 @@ gMap +
   scale_fill_manual(
     values = colorscaleGeyserSelect
   ) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  theme_void()
+  guides(
+    fill = guide_legend(
+      reverse = TRUE,
+      direction = "horizontal"
+      )
+    ) +
+  theme_void() +
+  theme(legend.position = "bottom")
 
 ```
 
 # Heatmaps of relative county-month excess mortality as a % (excess / expected) by census region and Metro status
 
-Metro = NCHS categories 1, 2, + 3
+Metro = NCHS categories 1 + 2
 Non-metro = all others
 
 ## Heatmaps ordered by peak month
 
-```{r heatmap plot, out.width='50%'}
+```{r heatmap plot}
 
 plotDataRelativeHeatmap <- plotDataRelative %>% 
   left_join(metro, by = "FIPSCode") %>% 
@@ -343,6 +356,22 @@ gHeatmap <- ggplot(
     fill = excDeathsRelativeBinned
   )
 )
+
+gHeatmap +
+  geom_tile(
+    color = "transparent"
+  ) +
+  scale_fill_manual(
+    values = colorscaleGeyserSelect
+  ) +
+  scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
+  scale_y_discrete(
+    labels = NULL,
+    limits = rev
+  ) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_minimal() +
+  coord_fixed()
 
 gHeatmap +
   geom_tile(
@@ -390,7 +419,9 @@ gHeatmap +
 
 ## Heatmaps ordered by unsupervised clustering
 
-```{r clustered heatmaps, out.width='50%'}
+```{r clustered heatmaps}
+
+# attempt to hierarchical clustering and sort for more visually informative heatmaps
 dataForClust <- plotDataRelative %>% 
   select(FIPSCode, monthYear, excDeaths100k) %>% 
   pivot_wider(
@@ -426,7 +457,7 @@ plotDataRelativeHeatmapOrdered <- plotDataRelative %>%
   left_join(metro, by = "FIPSCode") %>% 
   arrange(order) %>% 
   mutate(
-    FIPSPlotOrder = as_factor(FIPSCode)
+    FIPSPlotOrder = forcats::as_factor(FIPSCode)
   )
 
 gHeatmapOrdered <- ggplot(
@@ -445,13 +476,27 @@ gHeatmapOrdered +
   scale_fill_manual(
     values = colorscaleGeyserSelect
   ) +
-  ggh4x::facet_nested_wrap(
-    facets = vars(census_region, metroStatus),
-    ncol = 2,
+  scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
+  scale_y_discrete(
+    labels = NULL,
+    limits = rev
+  ) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  theme_minimal() +
+  coord_fixed()
+
+gHeatmapOrdered +
+  geom_tile(
+    color = "transparent"
+  ) +
+  scale_fill_manual(
+    values = colorscaleGeyserSelect
+  ) +
+  ggh4x::facet_nested(
+    rows = vars(census_region, metroStatus),
     scales = "free_y",
-    dir = "v",
-    nest_line = element_line(),
-    strip.position = "left"
+    space = "free_y",
+    nest_line = element_line()
   ) +
   scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
   scale_y_discrete(
