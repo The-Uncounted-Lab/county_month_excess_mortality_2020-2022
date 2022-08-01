@@ -33,25 +33,27 @@ options(
 )
 
 # set directories
-here::i_am('R/plotWIPs.Rmd')
+here::i_am("R/plotWIPs.Rmd")
 
-inDir <- here::here('data','input')
-outDir <- here::here('data','output')
+inDir <- here::here("data", "input")
+outDir <- here::here("data", "output")
 ```
+
+Ignore the output from the several calls `gc()` used to maximize available memory!
 
 ```{r import data}
 
-ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
-ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
+ACData <- tibble(arrow::read_feather(here::here(outDir, "ACData.feather")))
+ACYearlyData <- tibble(arrow::read_feather(here::here(outDir, "ACYearlyData.feather")))
 # COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
-popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+popData <- tibble(arrow::read_feather(here::here(outDir, "popDataMonthly.feather")))
 # popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
 
-load(here::here('R','RObjects','simulations.RData'))
+load(here::here("R", "RObjects", "simulations.RData"))
 
 # exMortEstimatesAC <- read_csv(here::here(outDir,'exMortEstimatesINLA.csv'))
 
-suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
+suppressionData <- read_csv(here::here(outDir, "suppressionData.csv"))
 ```
 
 <!--START code from ridgesGraph.Rmd-->
@@ -61,18 +63,17 @@ suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
 # Computing overall distribution of deaths by month
 
 monthWeights <- ACData %>%
-  filter(year<2020) %>%
+  filter(year < 2020) %>%
   group_by(FIPSCode) %>%
-  filter(n()==max(n())) %>%
+  filter(n() == max(n())) %>%
   ungroup() %>%
   group_by(month) %>%
-  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
+  summarize(monthTotal = sum(deaths, na.rm = T)) %>%
   ungroup() %>%
-  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
-  select(month,monthWeight)
+  mutate(monthWeight = monthTotal / sum(monthTotal)) %>%
+  select(month, monthWeight)
 
 monthWeights <- monthWeights %>% pull(monthWeight)
-
 ```
 
 ```{r}
@@ -81,14 +82,13 @@ n.sim <- 1000
 years <- 2015:2021
 FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
 
-death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
+death.draws.y.partial <- t(death.draws.y[, pull(ACYearlyData, year) >= 2015])
 death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
 
-monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
-monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
+monthWeights.matrix <- as.matrix(rep(monthWeights, length(years) * length(FIPSCodes)))
+monthWeights.matrix <- monthWeights.matrix[, rep(1, n.sim)]
 
-death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
-
+death.draws.y.aug <- death.draws.y.aug * monthWeights.matrix
 ```
 
 ```{r}
@@ -96,7 +96,7 @@ death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
 death.draws <- as.list(as.data.frame(death.draws))
 death.draws.y.aug <- as.list(as.data.frame(t(death.draws.y.aug)))
 
-rm(list=c('death.draws.y','death.draws.y.partial','monthWeights.matrix'))
+rm(list = c("death.draws.y", "death.draws.y.partial", "monthWeights.matrix"))
 gc()
 ```
 
@@ -107,14 +107,15 @@ gc()
 diffTreshold <- 0.05
 
 ACData <- ACData %>%
-  left_join(suppressionData,by='FIPSCode') %>%
-  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct))
+  left_join(suppressionData, by = "FIPSCode") %>%
+  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct), 0, deathsDiffPct))
 
-death.draws <- if_else(pull(ACData,deathsDiffPct) > diffTreshold,
-                       death.draws.y.aug,
-                       death.draws)
+death.draws <- if_else(pull(ACData, deathsDiffPct) > diffTreshold,
+  death.draws.y.aug,
+  death.draws
+)
 
-rm(list=c('death.draws.y.aug'))
+rm(list = c("death.draws.y.aug"))
 gc()
 ```
 
@@ -122,27 +123,29 @@ gc()
 
 simulationsDFMatrix <- as_tibble(matrix(unlist(death.draws), ncol = n.sim, byrow = TRUE))
 
-rm(list=c("death.draws"))
+rm(list = c("death.draws"))
 gc()
 
-simulationsDF <- simulationsDFMatrix %>% 
-  mutate(FIPSCode = ACData %>% pull(FIPSCode),
-         year = ACData %>% pull(year),
-         month = ACData %>% pull(month),
-         monthYear = make_date(year=year,month=month,day=1)) %>%
-  relocate(FIPSCode,year,month,monthYear)
+simulationsDF <- simulationsDFMatrix %>%
+  mutate(
+    FIPSCode = ACData %>% pull(FIPSCode),
+    year = ACData %>% pull(year),
+    month = ACData %>% pull(month),
+    monthYear = make_date(year = year, month = month, day = 1)
+  ) %>%
+  relocate(FIPSCode, year, month, monthYear)
 
-rm(list=c("simulationsDFMatrix"))
+rm(list = c("simulationsDFMatrix"))
 gc()
 
 # aggregate draws to generate county-monthly posterior intervals
 
 plotData <- simulationsDF %>%
-  filter(year >= 2020L) %>% 
-  left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  filter(year >= 2020L) %>%
+  left_join(ACData, by = c("FIPSCode", "month", "year")) %>%
   group_by(
-    FIPSCode, 
-    countyName, 
+    FIPSCode,
+    countyName,
     stateFIPS,
     state,
     census_division,
@@ -152,13 +155,14 @@ plotData <- simulationsDF %>%
     monthYear
   ) %>%
   summarize(across(V1:V1000, ~ sum(.x)),
-            imputedDeaths = sum(imputedDeaths)) %>%
+    imputedDeaths = sum(imputedDeaths)
+  ) %>%
   ungroup() %>%
-  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
-  mutate(excDeaths = imputedDeaths-expDeaths) %>%
+  pivot_longer(V1:V1000, names_to = "simNum", values_to = "expDeaths") %>%
+  mutate(excDeaths = imputedDeaths - expDeaths) %>%
   group_by(
-    FIPSCode, 
-    countyName, 
+    FIPSCode,
+    countyName,
     stateFIPS,
     state,
     census_division,
@@ -167,131 +171,163 @@ plotData <- simulationsDF %>%
     month,
     monthYear
   ) %>%
-  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
-            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
-            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
-            excDeathsLow = quantile(excDeaths,probs=c(0.05)),
-            excDeathsMed = quantile(excDeaths,probs=c(0.5)),
-            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+  summarize(
+    expDeathsLow = quantile(expDeaths, probs = c(0.05)),
+    expDeathsMed = quantile(expDeaths, probs = c(0.5)),
+    expDeathsUp = quantile(expDeaths, probs = c(0.95)),
+    excDeathsLow = quantile(excDeaths, probs = c(0.05)),
+    excDeathsMed = quantile(excDeaths, probs = c(0.5)),
+    excDeathsUp = quantile(excDeaths, probs = c(0.95))
+  ) %>%
   ungroup() %>%
   mutate(deaths = expDeathsUp + excDeathsMed)
 
-rm(list=c("simulationsDF"))
+rm(list = c("simulationsDF"))
 gc()
+
+# save for fast reload for working later
+arrow::write_feather(plotData, here(outDir, "plotDataRelative.feather"))
+```
+
+<!--END code from ridgesGraph.Rmd-->
+
+# Maps of relative county excess mortality as a % (excess / expected) by COVID wave and Metro status
+
+* Large metro = NCHS categories 1 + 2
+
+* Small/Medium Metro = NCHS category 3
+
+* All Metro = NCH categories 1, 2, + 3
+
+* Non-metro = 4
+
+
+```{r plot data prep}
+# plotData <- arrow::read_feather(here(outDir, "plotDataRelative.feather"))
+
+# identify deciles to guide setting cut-points for bins for plots
+# plotDataRelative %>% filter(excDeathsRelative>0, monthYear >= date("2020-03-01")) %>% pull(excDeathsRelative) %>% quantile(probs = seq(0, 1, .1), type = 8, digits = 4)
+
+# color scale
+colorscaleGeyser21 <- colorspace::divergingx_hcl(21)
+colorscaleGeyserSelect <- colorscaleGeyser21[c(6, 11, 13, 15, 18, 21)]
+
+breaksMap <- c(-Inf, 0, .1, .25, .45, .9, Inf)
 
 # calculate population rate excess deaths and relative excess deaths (+bins)
 popData <- popData %>% filter(year > 2019)
 
-plotDataRelative <- plotData %>% 
-  left_join(popData, by = c("FIPSCode", "year", "month")) %>% 
+plotDataRelative <- plotData %>%
+  left_join(popData, by = c("FIPSCode", "year", "month")) %>%
   mutate(
     excDeaths100k = 100000 * excDeathsMed / pop,
     excDeathsRelative = excDeathsMed / expDeathsMed,
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
-      breaks = c(-Inf, 0, .05, .1, .15, .2, Inf),
+      breaks = breaksMap,
       ordered_result = TRUE
     )
   )
 
-# save for fast reload for working later
-arrow::write_feather(plotDataRelative, here(outDir, "plotDataRelative.feather"))
-```
-
-# Maps of relative county excess mortality as a % (excess / expected) by COVID wave and Metro status
-
-Metro = NCHS categories 1 + 2
-Non-metro = all others
-
-```{r plot data prep}
 ## Metropolitan status
-metro_raw <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro_raw <- read_csv(here::here(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 metro <- metro_raw %>%
-  select(FIPSCode = fips,
-         metroCode = metro,
-         metroName = metroname) %>%
+  select(
+    FIPSCode = fips,
+    metroCode = metro,
+    metroName = metroname
+  ) %>%
   mutate(
-    FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
-    metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
-                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
-                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
-                               metroName == 'Lg central metro' ~ 'Large Central Metro'),
+    FIPSCode = if_else(nchar(FIPSCode) < 5, paste0("0", FIPSCode), as.character(FIPSCode)),
+    metroName = case_when(
+      metroName == "Nonmetro" ~ "Non Metro",
+      metroName == "Md/Sm metro" ~ "Medium or Small Metro",
+      metroName == "Lg fringe metro" ~ "Large Fringe Metro",
+      metroName == "Lg central metro" ~ "Large Central Metro"
+    ),
     metroStatus = if_else(
       metroCode %in% c(1, 2),
-      "Metro",
-      "Non-Metro"
+      "Large Metro",
+      "Other"
+    ),
+    metroStatus2 = case_when(
+      metroCode %in% c(1, 2) ~ "Large Metro",
+      metroCode %in% c(3) ~ "Medium or Small Metro",
+      TRUE ~ "Non Metro"
+    ),
+    metroStatus3 = case_when(
+      metroCode %in% c(1, 2, 3) ~ "All Metro",
+      TRUE ~ "Non Metro"
     )
-    )
+  )
 
 # sf objects for plotting maps
 us_counties_raw <- USAboundaries::us_counties()
 usCounties <- names(us_counties_raw) %>%
-  make.names(unique = TRUE) %>% 
-  purrr::set_names(us_counties_raw, .) %>% 
+  make.names(unique = TRUE) %>%
+  purrr::set_names(us_counties_raw, .) %>%
   filter(jurisdiction_type %in% c("state", "district"))
 
-usStates <- USAboundaries::us_states() %>% 
-    filter(jurisdiction_type %in% c("state", "district"))
+usStates <- USAboundaries::us_states() %>%
+  filter(jurisdiction_type %in% c("state", "district"))
 
-# color scale
-colorscaleGeyser11 <- colorspace::divergingx_hcl(11)
-colorscaleGeyserSelect <- c(colorscaleGeyser11[[4]], colorscaleGeyser11[7:11])
-```
+# map data prep
+# define waves, summarize data by wave, and add sf for plotting
 
-```{r map plot }
-
-# plotDataRelative <- arrow::read_feather(here(outDir, "plotDataRelative.feather"))
-
-# heuristic wave dates from https://www.pewresearch.org/politics/2022/03/03/the-changing-political-geography-of-covid-19-over-the-last-two-years/
-
-plotDataMapWave <- plotDataRelative %>% 
+plotDataMapWave <- plotDataRelative %>%
   mutate(
     wave = as_factor(
       case_when(
-      between(monthYear, date("2020-03-01"), date("2020-06-01")) ~ "Initial period",
-      between(monthYear, date("2020-07-01"), date("2020-09-01")) ~ "Second wave",
-      between(monthYear, date("2020-10-01"), date("2021-03-01")) ~ "Third wave",
-      between(monthYear, date("2021-08-01"), date("2021-11-01")) ~ "Fourth wave (Delta)",
-      monthYear >= date("2021-12-01") ~ "Fifth wave (Omicron)",
-      TRUE ~ NA_character_
+        between(monthYear, date("2020-03-01"), date("2020-06-01")) ~ "Initial period\n2020-03 -- 2020-06",
+        between(monthYear, date("2020-07-01"), date("2020-09-01")) ~ "Second wave\n2020-07 -- 2020-09",
+        between(monthYear, date("2020-10-01"), date("2021-03-01")) ~ "Third wave\n2020-10 -- 2021-03",
+        between(monthYear, date("2021-04-01"), date("2021-07-01")) ~ "Trough\n2021-04 -- 2021-07",
+        between(monthYear, date("2021-08-01"), date("2021-11-01")) ~ "Fourth wave (Delta)\n2021-08 -- 2021-11",
+        monthYear >= date("2021-12-01") ~ "Fifth wave (Omicron)\n2021-12 -- ?",
+        TRUE ~ NA_character_
+      )
     )
-    )
-  ) %>% 
-  filter(!is.na(wave)) %>% 
-  group_by(FIPSCode, countyName, stateFIPS, state, census_division, census_region, wave) %>% 
+  ) %>%
+  filter(!is.na(wave)) %>%
+  group_by(FIPSCode, countyName, stateFIPS, state, census_division, census_region, wave) %>%
   summarize(
     across(expDeathsLow:deaths, sum),
-    .groups = 'drop'
-  ) %>% 
-  left_join(metro, by = "FIPSCode") %>% 
+    .groups = "drop"
+  ) %>%
+  left_join(metro, by = "FIPSCode") %>%
   mutate(
     excDeathsRelative = excDeathsMed / expDeathsMed,
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
-      breaks = c(-Inf, 0, .05, .1, .15, .2, Inf),
+      breaks = breaksMap,
       ordered_result = TRUE
     )
   )
 
-plotDataMapWaveGeo <- usCounties %>% 
+plotDataMapWaveGeo <- usCounties %>%
   merge(plotDataMapWave, by.x = "geoid", by.y = "FIPSCode")
+```
+
+```{r map plot }
+
+# heuristic wave dates from https://www.pewresearch.org/politics/2022/03/03/the-changing-political-geography-of-covid-19-over-the-last-two-years/
 
 gMap <- ggplot(
-    plotDataMapWaveGeo,
-    aes(
-      fill = excDeathsRelativeBinned,
-      geometry = geometry
-    )
+  plotDataMapWaveGeo,
+  aes(
+    fill = excDeathsRelativeBinned,
+    geometry = geometry
   )
+)
 
-gMap +
+mapNationalUnfaceted <- gMap +
   geom_sf(
     color = "transparent"
   ) +
   geom_sf(
     data = usStates,
     fill = NA,
-    color = "grey60",
+    color = "grey70",
     size = .1
   ) +
   coord_sf(
@@ -299,54 +335,77 @@ gMap +
     ylim = c(24, 50),
     expand = FALSE
   ) +
-  facet_grid(
-    cols = vars(metroStatus),
-    rows = vars(wave)
-  ) +
   scale_fill_manual(
     values = colorscaleGeyserSelect
   ) +
-  guides(
-    fill = guide_legend(
-      reverse = TRUE,
-      direction = "horizontal"
-      )
-    ) +
+  guides(fill = guide_legend(direction = "horizontal")) +
   theme_void() +
   theme(legend.position = "bottom")
 
+mapNationalUnfaceted +
+  facet_grid(
+    cols = vars(metroStatus),
+    rows = vars(wave)
+  )
+
+mapNationalUnfaceted +
+  facet_grid(
+    cols = vars(metroStatus3),
+    rows = vars(wave)
+  )
+
+mapNationalUnfaceted +
+  facet_grid(
+    cols = vars(metroStatus2),
+    rows = vars(wave)
+  )
 ```
 
 # Heatmaps of relative county-month excess mortality as a % (excess / expected) by census region and Metro status
 
-Metro = NCHS categories 1 + 2
-Non-metro = all others
+* Large metro = NCHS categories 1 + 2
 
-## Heatmaps ordered by peak month
+* Small/Medium Metro = NCHS category 3
+
+* All Metro = NCH categories 1, 2, + 3
+
+* Non-metro = 4
+
+## Rows (counties) ordered by peak month + second-highest month
 
 ```{r heatmap plot}
-
-plotDataRelativeHeatmap <- plotDataRelative %>% 
-  left_join(metro, by = "FIPSCode") %>% 
-  group_by(FIPSCode) %>% 
+plotDataRelativeHeatmap <- plotDataRelative %>%
+  left_join(metro, by = "FIPSCode") %>%
+  group_by(FIPSCode) %>%
   mutate(
-    excDeathsRelativeNoNA = na_if(excDeathsRelative, Inf),
-    excDeathsRelativeNoNA = na_if(excDeathsRelativeNoNA, -Inf),
-    excDeathsRelativeNoNA = if_else(
+    excDeathsRelativeNoInf = na_if(excDeathsRelative, Inf),
+    excDeathsRelativeNoInf = na_if(excDeathsRelativeNoInf, -Inf),
+    excDeathsRelativeNoInf = if_else(
       monthYear >= date("2020-03-01"),
-      excDeathsRelativeNoNA,
-      NA_real_),
-    maxExcDeathsRelative = max(excDeathsRelativeNoNA, na.rm = TRUE),
-    maxMonthF = maxExcDeathsRelative == excDeathsRelativeNoNA,
-    maxMonth = if_else(maxMonthF, monthYear, NA_Date_)
-  ) %>% 
-  fill(maxMonth) %>% 
-    ungroup() %>% 
-  arrange(maxMonth) %>% 
+      excDeathsRelativeNoInf,
+      NA_real_
+    ),
+    monthRank = rank(-excDeathsRelativeNoInf, ties.method = "first", na.last = "keep"),
+    monthMax1 = if_else(monthRank == 1L, monthYear, NA_Date_),
+    monthMax2 = if_else(monthRank == 2L, monthYear, NA_Date_),
+    monthMax3 = if_else(monthRank == 3L, monthYear, NA_Date_)
+  ) %>%
+  fill(
+    monthMax1,
+    monthMax2,
+    monthMax3
+  ) %>%
+  ungroup() %>%
+  arrange(
+    # maxMonth
+    monthMax1,
+    monthMax2,
+    monthMax1
+  ) %>%
   mutate(
     FIPSPlotOrder = forcats::as_factor(FIPSCode)
   )
-  
+
 
 gHeatmap <- ggplot(
   plotDataRelativeHeatmap,
@@ -357,7 +416,7 @@ gHeatmap <- ggplot(
   )
 )
 
-gHeatmap +
+(heatmapUnfaceted <- gHeatmap +
   geom_tile(
     color = "transparent"
   ) +
@@ -371,80 +430,120 @@ gHeatmap +
   ) +
   guides(fill = guide_legend(reverse = TRUE)) +
   theme_minimal() +
-  coord_fixed()
+  theme(
+    panel.grid = element_blank()
+  ))
 
-gHeatmap +
-  geom_tile(
-    color = "transparent"
-  ) +
-  scale_fill_manual(
-    values = colorscaleGeyserSelect
-  ) +
-  ggh4x::facet_nested_wrap(
-    facets = vars(census_region, metroStatus),
-    ncol = 2,
+heatmapUnfaceted +
+  facet_grid(
+    rows = vars(metroStatus),
     scales = "free_y",
-    dir = "v",
-    nest_line = element_line(),
-    strip.position = "left"
-  ) +
-  scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
-  scale_y_discrete(
-    labels = NULL,
-    limits = rev
-  ) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  theme_minimal()
+    space = "free_y"
+  )
 
-gHeatmap +
-  geom_tile(
-    color = "transparent"
-  ) +
-  scale_fill_manual(
-    values = colorscaleGeyserSelect
-  ) +
+heatmapUnfaceted +
+  facet_grid(
+    rows = vars(metroStatus3),
+    scales = "free_y",
+    space = "free_y"
+  )
+
+heatmapUnfaceted +
+  facet_grid(
+    rows = vars(metroStatus2),
+    scales = "free_y",
+    space = "free_y"
+  )
+
+heatmapUnfaceted +
+  facet_grid(
+    rows = vars(metroName),
+    scales = "free_y",
+    space = "free_y"
+  )
+
+heatmapUnfaceted +
+  facet_grid(
+    rows = vars(census_region),
+    scales = "free_y",
+    space = "free_y"
+  )
+
+heatmapUnfaceted +
   facet_grid(
     rows = vars(census_division),
     scales = "free_y",
     space = "free_y"
-  ) +
-  scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
-  scale_y_discrete(
-    labels = NULL,
-    limits = rev
-  ) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  theme_minimal()
+  )
+
+heatmapUnfaceted +
+  ggh4x::facet_grid2(
+    rows = vars(metroStatus),
+    cols = vars(census_region),
+    scales = "free_y",
+    independent = "y"
+  )
+
+heatmapUnfaceted +
+  ggh4x::facet_grid2(
+    rows = vars(metroStatus3),
+    cols = vars(census_region),
+    scales = "free_y",
+    independent = "y"
+  )
+
+heatmapUnfaceted +
+  ggh4x::facet_grid2(
+    rows = vars(metroStatus2),
+    cols = vars(census_region),
+    scales = "free_y",
+    independent = "y"
+  )
 ```
 
-## Heatmaps ordered by unsupervised clustering
+## Rows (counties) ordered by unsupervised clustering
 
-```{r clustered heatmaps}
+NB: Haven't been able to generate a visually patterned order this way, so not outputting it.
+
+```{r clustered heatmaps, eval=FALSE, include=FALSE}
 
 # attempt to hierarchical clustering and sort for more visually informative heatmaps
-dataForClust <- plotDataRelative %>% 
-  select(FIPSCode, monthYear, excDeaths100k) %>% 
+dataForClust <- plotDataRelative %>%
+  select(FIPSCode, monthYear, excDeaths100k) %>%
   pivot_wider(
-    names_from = monthYear, 
+    names_from = monthYear,
     values_from = excDeaths100k,
     names_sort = TRUE
   )
 
-dataForClustMatrix <- dataForClust %>% 
-  select(-FIPSCode) %>% 
+dataForClustMatrix <- dataForClust %>%
+  select(-FIPSCode) %>%
   as.matrix()
 
 rownames(dataForClustMatrix) <- dataForClust[["FIPSCode"]]
 
-distMatrix <- proxy::dist(
+distMatrixEuclidean <- proxy::dist(
   x = dataForClustMatrix,
+  method = "Euclidean",
   diag = TRUE,
   upper = TRUE,
   by_rows = TRUE,
   auto_convert_data_frames = TRUE
-  )
+)
 
-dataClust <- fastcluster::hclust(distMatrix) %>% 
+distMatrixMahalanobis <- proxy::dist(
+  x = dataForClustMatrix,
+  method = "Mahalanobis",
+  diag = TRUE,
+  upper = TRUE,
+  by_rows = TRUE,
+  auto_convert_data_frames = TRUE
+)
+
+dataClust <- fastcluster::hclust(
+  distMatrixMahalanobis,
+  method = "average"
+) %>%
   dendsort::dendsort()
 
 plotDataOrder <- tibble(
@@ -452,10 +551,10 @@ plotDataOrder <- tibble(
   order = dataClust[["order"]]
 )
 
-plotDataRelativeHeatmapOrdered <- plotDataRelative %>% 
-  left_join(plotDataOrder, by = "FIPSCode") %>% 
-  left_join(metro, by = "FIPSCode") %>% 
-  arrange(order) %>% 
+plotDataRelativeHeatmapOrdered <- plotDataRelative %>%
+  left_join(plotDataOrder, by = "FIPSCode") %>%
+  left_join(metro, by = "FIPSCode") %>%
+  arrange(order) %>%
   mutate(
     FIPSPlotOrder = forcats::as_factor(FIPSCode)
   )
@@ -525,5 +624,4 @@ gHeatmapOrdered +
   ) +
   guides(fill = guide_legend(reverse = TRUE)) +
   theme_minimal()
-
 ```
