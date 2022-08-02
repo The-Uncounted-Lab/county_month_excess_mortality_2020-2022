@@ -110,16 +110,16 @@ ACData <- ACData %>%
 
 # INLA SET UP
 # priors
-hyper.bym <- list(prec.unstruct=list(param=c(1,0.1)),
-                  prec.spatial=list(param=c(1,0.1)))
+hyper.bym <- list(theta1 = list('PCprior', c(1, 0.01)), theta2 = list('PCprior', c(0.5, 0.5)))
+#hyper.bym <- list(prec.unstruct=list(param=c(1,0.1)),
+#                  prec.spatial=list(param=c(1,0.1)))
 hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
 
 formula <- deathsCensored ~ 1 + offset(log(pop)) + as.factor(month) +
-                                f(FIPSCode, model='bym', hyper=hyper.bym,
+                                f(FIPSCode, model='bym2', hyper=hyper.bym,
                                   graph=inla.graph, scale.model=T) +
                                 f(yearID, model='iid',hyper=hyper.iid) +
-                                f(FIPSCode2,yearID2,model='iid',hyper = hyper.iid) +
-                                f(quarter, model='rw1',hyper=hyper.iid,scale.model = T)
+                                f(timeID, model='rw1',hyper=hyper.iid,scale.model = T)
                                 
 # Under Poisson uses default set up
 control.family=inla.set.control.family.default()
@@ -131,7 +131,7 @@ control.family=inla.set.control.family.default()
 # We re-estimated the last model with INLA so that we can use it to 
 # build posterior intervals for the predictions.
 
-model.BYM.LinearTime.INLA <- ACData %>%
+model.BYM.Dynamic.INLA <- ACData %>%
   inla(formula,
        data = .,
        family = "poisson",
@@ -144,11 +144,81 @@ model.BYM.LinearTime.INLA <- ACData %>%
 ```
 
 ```{r}
+
+n.sim <- 1000
+
+draws <- inla.posterior.sample(n.sim, model.BYM.Dynamic.INLA)
+model.names <- row.names(draws[[1]]$latent)
+y.names <- grep("Predictor", model.names)
+
+rate.draws <- sapply(draws, function(x) exp(x$latent[y.names]))
+death.draws <- apply(rate.draws,M=1,function(x) rpois(n.sim,x))
+mean.deaths <- apply(death.draws,M=2,function(x) mean(x))
+up.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.95))
+low.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.05))
+
+```
+
+```{r}
+
+testData <- tibble(deaths = pull(ACData,deaths),
+                   CDR = pull(ACData,CDR),
+                   pop = pull(ACData,pop),
+                   FIPSCode = pull(ACData,FIPSCode),
+                   year = pull(ACData,year),
+                   month = pull(ACData,month))
+
+testData <- testData %>%
+  mutate(expDeathsMean = mean.deaths,
+         expDeathsUp = up.deaths,
+         expDeathsLow = low.deaths,
+         monthYear = make_date(year,month,1))
+
+```
+
+```{r}
+
+# Good for overfitting: c(12,15,21,47,86,13)
+# Good for trend: c(1,17,63,71,75,91)
+# Hard to predict: 37,64
+# To examine: c(85)
+
+# Examples: c(1,58,89,93)
+
+numFIPS <- length(unique(pull(ACData,FIPSCode)))
+
+testFigure <- testData %>%
+  filter(FIPSCode %in% sample(unique(pull(ACData,FIPSCode)),6)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=monthYear,y=deaths/pop,color='Observed')) +
+  geom_line(mapping=aes(x=monthYear,y=expDeathsMean/pop,color='Expected')) +
+  geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow/pop,ymax=expDeathsUp/pop,
+                          fill='Expected'),alpha=0.3) +
+  labs(x='Deaths',
+       y='',
+       color='',
+       fill='') +
+  facet_wrap(~FIPSCode) +
+  guides(fill='none')
+
+testFigure
+
+```
+
+
+```{r}
+# We save the posterior samples so we can retrieve them whenever we need
+
+save(death.draws,file=here::here('R','RObjects','simMonthly.RData'))
+
+```
+
+```{r, eval=F}
 # We save our models so that we can easily load them where and when we
 # need them without having to fit them again.
 
-save(model.BYM.LinearTime.INLA,
-     file = here::here('R','RObjects','modelBYMLinearTimeINLA.RData'))
+save(model.BYM.Dynamic.INLA,
+     file = here::here('R','RObjects','modelBYMDynamicINLA.RData'))
 
 ```
 

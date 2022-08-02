@@ -48,12 +48,11 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 finalSimsFIPS <- read_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
 
 ```
-
 ```{r}
 
 finalSimsFIPS <- finalSimsFIPS %>%
-  mutate(year = year(monthYear),
-         excDeaths = deaths - expDeathsMed) 
+  rename(deaths = imputedDeaths) %>%
+  mutate(year = year(monthYear)) 
 
 ```
 
@@ -132,7 +131,7 @@ BEABarsData2020 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2020) %>%
   group_by(metroName,BEARegion,year) %>%
-  summarize(excDeaths = sum(excDeaths)) %>%
+  summarize(excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
   mutate(BEARegionNum = cur_group_id(),
@@ -143,7 +142,7 @@ BEABarsData2021 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2021) %>%
   group_by(metroName,BEARegion,year) %>%
-  summarize(excDeaths = sum(excDeaths)) %>%
+  summarize(excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
   mutate(BEARegionNum = cur_group_id(),
@@ -190,7 +189,7 @@ statesBarsData2020 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2020) %>%
   group_by(state,BEARegion,year) %>%
-  summarize(excDeaths = sum(excDeaths)) %>%
+  summarize(excDeaths = sum(excDeathsMed)) %>%
   arrange(desc(excDeaths), by_group=T) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
@@ -207,7 +206,7 @@ statesBarsData2021 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2021) %>%
   group_by(state,BEARegion,year) %>%
-  summarize(excDeaths = sum(excDeaths)) %>%
+  summarize(excDeaths = sum(excDeathsMed)) %>%
   arrange(desc(excDeaths), by_group=T) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
@@ -371,7 +370,7 @@ BEABarsData2020PC <- finalSimsFIPS %>%
   filter(year==2020) %>%
   group_by(metroName,BEARegion,FIPSCode,year) %>%
   summarize(pop = mean(pop),
-            excDeaths = sum(excDeaths)) %>%
+            excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(metroName,BEARegion,year) %>%
   mutate(excDeaths = sum(excDeaths),
@@ -388,7 +387,7 @@ BEABarsData2021PC <- finalSimsFIPS %>%
   filter(year==2021) %>%
   group_by(metroName,BEARegion,FIPSCode,year) %>%
   summarize(pop = mean(pop),
-            excDeaths = sum(excDeaths)) %>%
+            excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(metroName,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths),
@@ -409,7 +408,7 @@ statesBarsData2020PC <- finalSimsFIPS %>%
   filter(year==2020) %>%
   group_by(BEARegion,state,FIPSCode,year) %>%
   summarize(pop = mean(pop),
-            excDeaths = sum(excDeaths)) %>%
+            excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(state,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths),
@@ -431,7 +430,7 @@ statesBarsData2021PC <- finalSimsFIPS %>%
   filter(year==2021) %>%
   group_by(BEARegion,state,FIPSCode,year) %>%
   summarize(pop = mean(pop),
-            excDeaths = sum(excDeaths)) %>%
+            excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(state,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths),

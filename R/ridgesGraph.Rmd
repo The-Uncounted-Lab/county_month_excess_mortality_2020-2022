@@ -147,7 +147,7 @@ plotData <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed)
+  mutate(deaths = expDeathsMed + excDeathsMed) # expected + excess = observed
 
 divisionTotals <- simulationsDF %>%
   left_join(ACData,by=c('FIPSCode','month','year')) %>%
@@ -165,7 +165,7 @@ divisionTotals <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed,
+  mutate(deaths = expDeathsMed + excDeathsMed,
          state='Division Total')
 
 nationTotals <- simulationsDF %>%
@@ -184,7 +184,7 @@ nationTotals <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed,
+  mutate(deaths = expDeathsMed + excDeathsMed,
          state='Nation Total',
          census_division = 'Nation Total')
 
