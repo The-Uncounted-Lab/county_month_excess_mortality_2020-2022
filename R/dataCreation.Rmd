@@ -51,7 +51,6 @@ FIPSFixes <- read_csv(here::here(inDir,'FIPSHarmonization','FIPSFixes.csv'))
 
 ```
 
-
 ```{r}
 
 # Import historical county-month data downloaded from CDC WONDER
@@ -76,14 +75,14 @@ ACData <- as.tibble(ACData)
 
 # Setting intuitive names
 
-names(ACData) <-c('notes','countyName','FIPSCode',
-                  'month','monthCode','deaths',
-                  'population','CMR','countyName2021','FIPSCode2021',
-                  'year','yearCode')
+ACData <- ACData %>%
+  select('FIPSCode'='County Code',
+         'monthCode'='Month Code',
+         'deaths'='Deaths',
+         'FIPSCode2021'='Residence County Code')
 
 ACData <- ACData %>% 
-  mutate(FIPSCode = coalesce(FIPSCode, FIPSCode2021),
-         countyName = coalesce(countyName,countyName2021))
+  mutate(FIPSCode = coalesce(FIPSCode, FIPSCode2021))
 
 # Keeping only the variables we need
 
@@ -102,6 +101,17 @@ ACData <- ACData %>%
   left_join(FIPSFixes,by='FIPSCode') %>%
   mutate(FIPSCode = if_else(is.na(newFIPSCode),FIPSCode,newFIPSCode)) %>%
   select(-newFIPSCode) 
+
+```
+
+```{r}
+
+ACData %>%
+  filter(year==2021) %>%
+  group_by(month) %>%
+  summarise(deaths=sum(deaths,na.rm=T)) %>%
+  pull(deaths) %>%
+  sum()
 
 ```
 
@@ -127,13 +137,14 @@ ACYearlyData <- list.files(
 
 ACYearlyData <- as.tibble(ACYearlyData)
 
-names(ACYearlyData) <- c('notes','countyName','FIPSCode',
-                         'yearStr','year','deaths',
-                         'population','CMR','countyName2021','FIPSCode2021')
+ACYearlyData <- ACYearlyData %>%
+  select('FIPSCode'='County Code',
+         'year'='Year Code',
+         'deaths'='Deaths',
+         'FIPSCode2021'='Residence County Code')
 
 ACYearlyData <- ACYearlyData %>% 
-  mutate(FIPSCode = coalesce(FIPSCode,FIPSCode2021),
-         countyName = coalesce(countyName,countyName2021))
+  mutate(FIPSCode = coalesce(FIPSCode,FIPSCode2021))
 
 # Keeping only the variables we need
 
@@ -173,9 +184,10 @@ COVIDYearlyData <- list.files(
 
 # Setting intuitive names
 
-names(COVIDYearlyData) <-c('notes','countyName','FIPSCode',
-                           'yearStr','year','deaths',
-                           'population','CDR')
+COVIDYearlyData <- COVIDYearlyData %>%
+  select('FIPSCode'='Residence County Code',
+         'year'='Year Code',
+         'deaths'='Deaths')
 
 # Keeping only the variables we need
 
@@ -203,6 +215,9 @@ COVIDYearlyData <- COVIDYearlyData %>%
 # at least 50.000 residents).
 
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+
+popData <- popData %>%
+  filter(year>=2010)
 
 countySets <- read_csv(here::here(inDir,'geo','countySets.csv'), 
                        col_types = cols(csCode=col_character(),
@@ -274,18 +289,19 @@ countySets <- countySets %>%
 
 FIPSCodes <- as.character(unique(countySets$FIPSCode))
 
-simData <- crossing(year=2015:2021,
+simData <- crossing(year=2015:2022,
                     month=1:12,
                     FIPSCode=FIPSCodes)
 
 simData <- simData %>%
-  mutate(imputedDeaths = round(rbeta(nrow(simData),2,2)*9))
+  mutate(imputedDeaths = round(rbeta(nrow(simData),2.25,2)*9)) %>%
+  filter(!(year==2022 & month>2))
 
-simDataYearly <- crossing(year=2010:2021,
+simDataYearly <- crossing(year=2010:2022,
                           FIPSCode=FIPSCodes)
 
 simDataYearly <- simDataYearly %>%
-  mutate(imputedDeaths = round(rbeta(nrow(simDataYearly),2,2)*9))
+  mutate(imputedDeaths = round(rbeta(nrow(simDataYearly),2.25,2)*9))
 
 ```
 
