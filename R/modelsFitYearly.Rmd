@@ -72,11 +72,7 @@ formula <- deathsCensored ~ 1 + offset(log(pop)) +
                                 f(yearID,model='iid',hyper=hyper.iid,
                                   constr=T) +
                                 f(yearID2,model='rw1',hyper=hyper.iid,
-                                  scale.model=T) +
-                                f(FIPSCode2,model='besag',graph=inla.graph,
-                                  group = yearID3,scale.model = T,
-                                  hyper=hyper.iid,
-                                  control.group = list(model='rw1',hyper=hyper.iid,scale.model=T))
+                                  scale.model=T)
                                 
 # Under Poisson uses default set up
 control.family=inla.set.control.family.default()
@@ -177,7 +173,7 @@ testFigure
 ```{r}
 # We save the posterior samples so we can retrieve them whenever we need
 
-save(death.draws.y,file=here::here('R','RObjects','simYearly.RData'))
+save(death.draws.y,file=here::here('R','RObjects','simYearlySimple.RData'))
 
 ```
 

@@ -551,19 +551,27 @@ largestCounties <- finalSimsFIPS %>%
 
 largestCountiesData <- finalSimsFIPS %>%
   filter(FIPSCode %in% largestCounties) %>%
-  mutate(deathRate= (deaths/pop)*100000,
+  mutate(imputed = if_else(deaths<10,T,F),
+         deathRate = (deaths/pop)*100000,
+         deathRateLead = lead(deathRate),
          expDeathRateLow = (expDeathsLow/pop)*100000,
          expDeathRateMed = (expDeathsMed/pop)*100000,
-         expDeathRateUp = (expDeathsUp/pop)*100000)
+         expDeathRateUp = (expDeathsUp/pop)*100000) %>%
+  group_by(FIPSCode) %>%
+  mutate(deathRateLead = lead(deathRate)) %>%
+  ungroup()
 
 largestCountiesPlots <- largestCountiesData %>%
   ggplot() +
-  geom_line(mapping=aes(x=monthYear,y=deathRate,color='Observed')) +
+  geom_segment(mapping=aes(x=monthYear,xend=lead(monthYear),
+                           y=deathRate,yend=deathRateLead,
+                           color='Observed',linetype=imputed)) +
   geom_line(mapping=aes(x=monthYear,y=expDeathRateMed,color='Expected')) +
   geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathRateLow,ymax=expDeathRateUp,
                           fill='90% Posterior Interval'),alpha=0.2) +
   geom_label(mapping=aes(x=make_date(2018,6,1),y=175,
                          label=paste0(countyName,' (',stateStr,')')),size=3) +
+  geom_hline(yintercept = 10, linetype='dotted') +
   scale_color_manual(name='',
                      breaks=c('Observed', 
                               'Expected'),
@@ -577,7 +585,8 @@ largestCountiesPlots <- largestCountiesData %>%
   labs(x='',
        y='Observed and Expected Number of Deaths (for 100,000 residents)',
        color='',
-       fill='') +
+       fill='',
+       linetype='Imputed') +
   theme_minimal() +
   theme(legend.position = 'bottom')
 
@@ -610,16 +619,22 @@ for (countyGroup in countyGroups) {
   
   countyPlot <- finalSimsFIPS %>%
     filter(countyNameState %in% countyGroup) %>%
-    mutate(deaths=(deaths/pop)*100000,
+    mutate(imputed = if_else(deaths<10,T,F),
+           deathRate=(deaths/pop)*100000,
            expDeathsLow=(expDeathsLow/pop)*100000,
            expDeathsMed=(expDeathsMed/pop)*100000,
            expDeathsUp=(expDeathsUp/pop)*100000) %>%
+  group_by(FIPSCode) %>%
+  mutate(deathRateLead = lead(deathRate)) %>%
+  ungroup() %>%
     ggplot() +
       geom_vline(xintercept = make_date(2020,3,1)) +
       geom_line(mapping=aes(x=monthYear,y=expDeathsMed,color='Predicted')) +
       geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow,ymax=expDeathsUp,
                               fill='80% Posterior Intervals'),alpha=0.2) +
-      geom_line(mapping=aes(x=monthYear,y=deaths,color='Observed')) +
+      geom_segment(mapping=aes(x=monthYear,xend=lead(monthYear),
+                               y=deathRate,yend=deathRateLead,
+                               color='Observed',linetype=imputed)) +
       scale_color_manual(name='',
                          breaks=c('Observed', 'Predicted'),
                          values=c('Observed'='red', 'Predicted'='black')) + 
@@ -629,7 +644,8 @@ for (countyGroup in countyGroups) {
       labs(x='',
            y='Observed and Expected Number of Deaths (for 100,000 residents)',
            colour='',
-           fill='') +
+           fill='',
+           linetype='Imputed') +
       facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
       theme_minimal() +
       theme(legend.position="bottom",

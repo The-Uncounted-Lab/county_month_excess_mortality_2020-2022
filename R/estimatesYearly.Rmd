@@ -186,7 +186,7 @@ simulationsFIPSMonthly <- simulationsFIPSMonthly %>%
 
 # We load the pre-trained models
 
-load(here::here('R','RObjects','simYearly.RData'))
+load(here::here('R','RObjects','simYearlySimple.RData'))
 
 ```
 
@@ -246,7 +246,7 @@ simulationsFIPSYearly <- simulationsYearly %>%
 
 simulationsFIPSYearly <- simulationsFIPSYearly %>%
   mutate(across(V1:V1000, ~ case_when(year == 2020 ~ .x*sum(monthWeights[firstMonth:12]),
-                                      year == 2021 ~ .x,
+                                      year == 2021 ~ .x*1,
                                       year == 2022 ~ .x*sum(monthWeights[1:lastMonth])))) %>%
   select(-pop)
 

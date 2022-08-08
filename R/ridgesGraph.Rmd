@@ -9,15 +9,10 @@ output: pdf_document
 
 # Loading necessary packages
 
-library(tidyverse)
 library(lubridate)
-library(lme4)
-library(patchwork)
 library(here)
-library(scico)
-library(grid)
 library(ggridges)
-library(tidytext)
+library(tidyverse)
 
 ```
 
@@ -44,7 +39,8 @@ popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.fea
 
 ```{r}
 
-load(here('R','RObjects','simulations.RData'))
+load(here('R','RObjects','simMonthly.RData'))
+load(here('R','RObjects','simYearly.RData'))
 
 ```
 
@@ -70,7 +66,7 @@ monthWeights <- monthWeights %>% pull(monthWeight)
 ```{r}
 
 n.sim <- 1000
-years <- 2015:2021
+years <- 2015:2022
 FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
 
 death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
@@ -80,6 +76,7 @@ monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes
 monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
 
 death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
+death.draws.y.aug <- death.draws.y.aug[as.vector(sapply(1:3127,function(x) (1:86)+(96*(x-1)))),]
 
 ```
 
@@ -131,8 +128,9 @@ simulationsDF <- simulationsDF %>%
 
 ```{r}
 
-plotData <- simulationsDF %>%
+plotDataStates <- simulationsDF %>%
   left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
   group_by(state,census_division,monthYear) %>%
   summarize(across(V1:V1000, ~ sum(.x)),
             imputedDeaths = sum(imputedDeaths)) %>%
@@ -147,10 +145,11 @@ plotData <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsMed + excDeathsMed) # expected + excess = observed
+  mutate(deaths = expDeathsUp + excDeathsMed)
 
 divisionTotals <- simulationsDF %>%
   left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
   group_by(census_division,monthYear) %>%
   summarize(across(V1:V1000, ~ sum(.x)),
             imputedDeaths = sum(imputedDeaths)) %>%
@@ -165,11 +164,12 @@ divisionTotals <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsMed + excDeathsMed,
-         state='Division Total')
+  mutate(deaths = expDeathsUp + excDeathsMed,
+         state=paste('Total -',census_division))
 
 nationTotals <- simulationsDF %>%
   left_join(ACData,by=c('FIPSCode','month','year')) %>%
+  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
   group_by(monthYear) %>%
   summarize(across(V1:V1000, ~ sum(.x)),
             imputedDeaths = sum(imputedDeaths)) %>%
@@ -184,7 +184,7 @@ nationTotals <- simulationsDF %>%
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsMed + excDeathsMed,
+  mutate(deaths = expDeathsUp + excDeathsMed,
          state='Nation Total',
          census_division = 'Nation Total')
 
@@ -192,7 +192,7 @@ nationTotals <- simulationsDF %>%
 
 ```{r}
 
-plotData <- plotData %>%
+plotData <- plotDataStates %>%
   add_row(divisionTotals) %>%
   add_row(nationTotals)
 
@@ -200,22 +200,17 @@ plotData <- plotData %>%
 
 ```{r, echo=F, message=F, warning=F}
 
+relativeExcBreaks <- c(-5,0.2,0.4,0.6,0.80,1,1.5,2,5)
+
 plotData <- plotData %>%
   filter(monthYear >= make_date(2020,1,1)) %>%
   mutate(relativeExc = (deaths/expDeathsMed)-1,
-         fill = if_else(excDeathsLow > 0,relativeExc,NA_real_),
+         relativeExcDiscrete = factor(cut(relativeExc,relativeExcBreaks),
+                                      labels=c('<=20%','(20%,40%]','(40%,60%]',
+                                               '(60%,80%]','(80%,100%]','(100%,150%]',
+                                               '(150%,200%]','>200%')),
+         significant = if_else(excDeathsLow > 0,'>= 95%','<95%'),
          time = as.numeric(monthYear) - min(as.numeric(monthYear)))
-
-sortedStates <- plotData %>% 
-  filter(!(state %in% c('Division Total','Nation Total'))) %>%
-  group_by(state) %>%
-  summarize(relativeExc = max(relativeExc,na.rm=T)) %>% 
-  ungroup() %>%
-  arrange(relativeExc) %>%
-  pull(state)
-
-sortedStates <- c(sortedStates,c('Division Total','Nation Total'))
-sortedLetters <- sort(c(letters,LETTERS),decreasing = T)[1:53]
 
 sortedDivisions <- plotData %>%
   filter(census_division != 'Nation Total') %>%
@@ -224,6 +219,18 @@ sortedDivisions <- plotData %>%
   unique()
 
 sortedDivisions <- c(sortedDivisions,'Nation Total')
+
+sortedStates <- plotData %>% 
+  filter(!(str_detect(state,'Total'))) %>%
+  group_by(state) %>%
+  summarize(relativeExc = max(relativeExc,na.rm=T)) %>% 
+  ungroup() %>%
+  arrange(relativeExc) %>%
+  pull(state)
+
+sortedStates <- c(sortedStates,paste('Total -',sortedDivisions[-10]),'Nation Total')
+statesNum <- length(sortedStates)
+sortedLetters <- sort(c(letters,LETTERS,paste0(letters,LETTERS)),decreasing = T)[1:statesNum]
 
 plotData <- plotData %>%
   mutate(state = factor(state,
@@ -234,13 +241,31 @@ plotData <- plotData %>%
 
 ```
 
+```{r}
+
+stateIDs <- plotData %>%
+  group_by(census_division,state) %>%
+  summarize(groupCode = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(census_division) %>%
+  mutate(stateCode = 1:n()) %>%
+  ungroup()
+  
+plotData <- plotData %>%
+  left_join(stateIDs,by=c('state','census_division'))
+
+```
 ```{r, fig.height=10, fig.width=6}
 
-fillScale <- 5
-fillMax <- max(plotData$fill,na.rm=T)
-fillMin <- min(plotData$fill,na.rm=T)
-fillBreaksRaw <- seq(fillMin*fillScale,fillMax*fillScale,length.out=5)
-fillLabels <- sapply(fillBreaksRaw/fillScale,function(x) round(x*100,-1))
+plotData <- plotData %>%
+  group_by(state) %>%
+  mutate(relativeExcLead = lead(relativeExc))
+
+```
+
+```{r, fig.height=10, fig.width=6}
+
+allDates <- unique(pull(plotData,monthYear))
 
 ridgesGraph <- plotData %>%
   ggplot() +
@@ -248,26 +273,39 @@ ridgesGraph <- plotData %>%
   geom_ridgeline_gradient(mapping=aes(x=monthYear,
                                       height=relativeExc,
                                       y=state,
-                                      fill=fill*fillScale),
+                                      fill=as.numeric(relativeExcDiscrete)),
+                               color=NA,
                                stat='identity',
                                scale=1.5) +
+  geom_segment(mapping=aes(x=monthYear,
+                           xend = lead(monthYear),
+                           y = stateCode + relativeExc*1.5,
+                           yend = stateCode + relativeExcLead*1.5,
+                           linetype=significant)) +
   geom_vline(xintercept=make_date(2020,3,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2020,9,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2020,10,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2021,2,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2021,8,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2021,10,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2021,11,1),linetype='dotted') +
+  geom_vline(xintercept=make_date(2022,2,1),linetype='dotted') +  
   annotate('text',x=make_date(2020,6,1),y=1,label='Initial Wave',size=3) +
   annotate('text',x=make_date(2020,12,1),y=1,label='Winter Peak',size=3) +
   annotate('text',x=make_date(2021,9,1),y=1,label='Delta',size=3) +
+  annotate('text',x=make_date(2021,12,15),y=1,label='Omicron',size=3) +
+  scale_x_date(breaks=allDates,date_labels="%b-%y") +
   scale_y_discrete(breaks=sortedLetters,labels=sortedStates) +
-  scale_fill_distiller(palette='Oranges',direction = 1,na.value = 'grey90', trans = "log",
-                       breaks=fillBreaksRaw,
-                       labels=fillLabels,
-                       limits=c(fillMin*fillScale,fillMax*fillScale)) +
+  scale_fill_distiller(palette='Oranges',direction = 1,na.value = 'grey90',
+                       breaks=1:8,
+                       labels=c('<=20%','(20%,40%]','(40%,60%]',
+                                '(60%,80%]','(80%,100%]','(100%,150%]',
+                                '(150%,200%]','>200%')) +
+  scale_linetype_manual(values=c('dotted','solid')) +
   labs(y='',
        x = '',
-       fill='Relative\nExcess (%)') +
+       fill='Relative\nExcess (%)',
+       linetype='Probability of\nRelative Excess > 0') +
   facet_grid(census_division~.,scales = "free_y", space = "free_y") +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
@@ -277,7 +315,10 @@ ridgesGraph <- plotData %>%
         legend.position = 'bottom',
         legend.key.width = unit(2,'cm'),
         legend.title = element_text(hjust=0.5),
-        strip.text.y = element_text(angle = 0))
+        strip.text.y = element_text(angle = 0),
+        axis.text.x = element_text(angle=30)) +
+  guides(linetype=guide_legend(nrow = 2),
+         fill=guide_legend(title.hjust = 0)) # No idea why this made the legend discrete
 
 ridgesGraph
 
@@ -285,7 +326,7 @@ ridgesGraph
 
 ```{r}
 
-pdf(here::here('figures','ridgesGraph.pdf'), width = 8, height = 14)
+pdf(here::here('figures','ridgesGraph.pdf'), width = 12, height = 16)
 
 ridgesGraph
 
