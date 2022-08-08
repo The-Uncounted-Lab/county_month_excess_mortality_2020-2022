@@ -204,12 +204,12 @@ finalSimsFIPS <- simulationsFIPSMonthly  %>%
 metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
 metro <- metro %>%
   select(FIPSCode = fips,
-         metroName = metroname) %>%
+         metroCat = metroname) %>%
   mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
-         metroName = case_when(metroName == 'Nonmetro' ~ 'Non Metro',
-                               metroName == 'Md/Sm metro' ~ 'Medium or Small Metro',
-                               metroName == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
-                               metroName == 'Lg central metro' ~ 'Large Central Metro'))
+         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
+                               metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroCat == 'Lg central metro' ~ 'Large Central Metro'))
   
 
 finalSimsFIPS <- finalSimsFIPS %>%
@@ -242,10 +242,10 @@ addMdSmMetro <- c('08013','08123','51515')
 
 ## fill out missing metro
 finalSimsFIPS <- finalSimsFIPS %>%
-  mutate(metroName = case_when(FIPSCode %in% addNonMetro ~ "Nonmetro",
-                               FIPSCode %in% addLgFringeMetro ~ "Lg fringe metro",
-                               FIPSCode %in% addMdSmMetro ~ "Md/Sm metro",
-                               TRUE ~ metroName))
+  mutate(metroCat = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
+                              FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
+                              FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
+                              TRUE ~ metroCat))
 
 ```
 

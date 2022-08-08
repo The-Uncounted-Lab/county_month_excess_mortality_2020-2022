@@ -20,7 +20,7 @@ library(tidyverse)
 
 rm(list=ls())
 
-here::i_am('R/ridgesGraph.Rmd')
+here::i_am('R/ridgesGraphAlt.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -34,6 +34,45 @@ ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feath
 COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
 popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroCat = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
+                              metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                              metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                              metroCat == 'Lg central metro' ~ 'Large Central Metro'))
+  
+ACData <- ACData %>%
+  left_join(metro, by = 'FIPSCode')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+ACData <- ACData %>%
+  mutate(metroCat4 = case_when(FIPSCode %in% addNonMetro ~ 'Non Metro',
+                               FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
+                               FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
+                               TRUE ~ metroCat),
+         metroCat3 = case_when(metroCat4 %in% c('Large Fringe Metro',
+                                                'Large Central Metro') ~ 'Large Metro',
+                               TRUE ~ metroCat4))
 
 ```
 
@@ -128,16 +167,22 @@ simulationsDF <- simulationsDF %>%
 
 ```{r}
 
-plotDataStates <- simulationsDF %>%
+simulationsDF <- simulationsDF %>%
   left_join(ACData,by=c('FIPSCode','month','year')) %>%
-  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
-  group_by(state,census_division,monthYear) %>%
-  summarize(across(V1:V1000, ~ sum(.x)),
-            imputedDeaths = sum(imputedDeaths)) %>%
+  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021))
+
+```
+
+```{r}
+
+plotDataStates <- simulationsDF %>%
+  group_by(state,census_division,metroCat3,monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(state,census_division,monthYear) %>%
+  group_by(state,census_division,metroCat3,monthYear) %>%
   summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
@@ -148,15 +193,13 @@ plotDataStates <- simulationsDF %>%
   mutate(deaths = expDeathsUp + excDeathsMed)
 
 divisionTotals <- simulationsDF %>%
-  left_join(ACData,by=c('FIPSCode','month','year')) %>%
-  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
-  group_by(census_division,monthYear) %>%
-  summarize(across(V1:V1000, ~ sum(.x)),
-            imputedDeaths = sum(imputedDeaths)) %>%
+  group_by(census_division,metroCat3,monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(census_division,monthYear) %>%
+  group_by(census_division,metroCat3,monthYear) %>%
   summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
@@ -168,15 +211,13 @@ divisionTotals <- simulationsDF %>%
          state=paste('Total -',census_division))
 
 nationTotals <- simulationsDF %>%
-  left_join(ACData,by=c('FIPSCode','month','year')) %>%
-  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021)) %>%
-  group_by(monthYear) %>%
-  summarize(across(V1:V1000, ~ sum(.x)),
-            imputedDeaths = sum(imputedDeaths)) %>%
+  group_by(monthYear,metroCat3) %>%
+  summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(monthYear) %>%
+  group_by(monthYear,metroCat3) %>%
   summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
@@ -209,7 +250,7 @@ plotData <- plotData %>%
                                       labels=c('<=20%','(20%,40%]','(40%,60%]',
                                                '(60%,80%]','(80%,100%]','(100%,150%]',
                                                '(150%,200%]','>200%')),
-         significant = if_else(excDeathsLow > 0,'>= 95%','<95%'),
+         significant = if_else(excDeathsLow > 0,'>= 90%','<90%'),
          time = as.numeric(monthYear) - min(as.numeric(monthYear)))
 
 sortedDivisions <- plotData %>%
@@ -255,10 +296,11 @@ plotData <- plotData %>%
   left_join(stateIDs,by=c('state','census_division'))
 
 ```
+
 ```{r, fig.height=10, fig.width=6}
 
 plotData <- plotData %>%
-  group_by(state) %>%
+  group_by(state,metroCat3) %>%
   mutate(relativeExcLead = lead(relativeExc))
 
 ```
@@ -266,7 +308,7 @@ plotData <- plotData %>%
 ```{r, fig.height=10, fig.width=6}
 
 allDates <- unique(pull(plotData,monthYear))
-
+  
 ridgesGraph <- plotData %>%
   ggplot() +
   #geom_tile(mapping=aes(x=monthYear,y=state,width=31,fill=deaths/expDeathsMed)) +
@@ -306,7 +348,7 @@ ridgesGraph <- plotData %>%
        x = '',
        fill='Relative\nExcess (%)',
        linetype='Probability of\nRelative Excess > 0') +
-  facet_grid(census_division~.,scales = "free_y", space = "free_y") +
+  facet_grid(census_division ~ metroCat3,scales = "free_y", space = "free_y") +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
@@ -316,17 +358,19 @@ ridgesGraph <- plotData %>%
         legend.key.width = unit(2,'cm'),
         legend.title = element_text(hjust=0.5),
         strip.text.y = element_text(angle = 0),
-        axis.text.x = element_text(angle=30)) +
+        axis.text.x = element_text(angle=45,vjust=0.2)) +
   guides(linetype=guide_legend(nrow = 2),
          fill=guide_legend(title.hjust = 0)) # No idea why this made the legend discrete
 
 ridgesGraph
 
+
 ```
+
 
 ```{r}
 
-pdf(here::here('figures','ridgesGraph.pdf'), width = 12, height = 16)
+pdf(here::here('figures','ridgesGraphAlt.pdf'), width = 20, height = 16)
 
 ridgesGraph
 

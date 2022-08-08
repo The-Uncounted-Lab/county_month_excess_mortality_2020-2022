@@ -96,14 +96,14 @@ stateMeans <- finalSimsFIPS %>%
 trendPlots <- finalSimsFIPS %>%
   drop_na() %>%
   filter(monthYear>=make_date(2019,1,1)) %>%
-  group_by(metroName,BEARegion,monthYear) %>%
+  group_by(metroCat,BEARegion,monthYear) %>%
   summarize(excDeathRate = ((sum(deaths)-sum(expDeathsMed))/sum(pop))*100000) %>%
   ungroup() %>%
   ggplot() +
   geom_line(data = stateMeans,
             mapping=aes(x=monthYear,y=excDeathRate,group=state),
             color='grey50', alpha=0.1) +
-  geom_line(mapping=aes(x=monthYear,y=excDeathRate,group=metroName,color=metroName)) +
+  geom_line(mapping=aes(x=monthYear,y=excDeathRate,group=metroCat,color=metroCat)) +
   scale_color_brewer(palette = "RdYlBu") +
   coord_cartesian(ylim=c(-25,160)) + 
   facet_wrap(~ BEARegion,ncol = 2) +
@@ -130,7 +130,7 @@ dev.off()
 BEABarsData2020 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2020) %>%
-  group_by(metroName,BEARegion,year) %>%
+  group_by(metroCat,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
@@ -141,7 +141,7 @@ BEABarsData2020 <- finalSimsFIPS %>%
 BEABarsData2021 <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2021) %>%
-  group_by(metroName,BEARegion,year) %>%
+  group_by(metroCat,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
   group_by(BEARegion) %>%
@@ -155,7 +155,7 @@ BEABarsData2021 <- finalSimsFIPS %>%
 
 stackBarsBEAPlot2020 <- BEABarsData2020 %>%
   ggplot() +
-  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroName),
+  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroCat),
            position='stack',stat='identity') +
   scale_fill_brewer(palette = "RdYlBu") +
   coord_cartesian(ylim=c(0,175000)) +
@@ -169,7 +169,7 @@ stackBarsBEAPlot2020 <- BEABarsData2020 %>%
 
 stackBarsBEAPlot2021 <- BEABarsData2021 %>%
   ggplot() +
-  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroName),
+  geom_bar(mapping=aes(x=BEARegion,y=excDeaths,fill=metroCat),
            position='stack',stat='identity') +
   scale_fill_brewer(palette = "RdYlBu") +
   coord_cartesian(ylim=c(0,175000)) +
@@ -265,7 +265,7 @@ stackBarsPlot2020 <- ggplot() +
   geom_col(data = BEABarsData2020, 
            mapping=aes(x = BEARegionNum - 0.7, 
                        y = excDeaths,
-                       fill= metroName), 
+                       fill= metroCat), 
            width = .4) +
   scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status', 
                     guide = guide_legend(order = 1)) +
@@ -306,7 +306,7 @@ stackBarsPlot2021 <- ggplot() +
   geom_col(data = BEABarsData2021, 
            mapping=aes(x = BEARegionNum - 0.7, 
                        y = excDeaths,
-                       fill= metroName), 
+                       fill= metroCat), 
            width = .4) +
     scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status', 
                       guide = guide_legend(order = 1)) +
@@ -368,11 +368,11 @@ dev.off()
 BEABarsData2020PC <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2020) %>%
-  group_by(metroName,BEARegion,FIPSCode,year) %>%
+  group_by(metroCat,BEARegion,FIPSCode,year) %>%
   summarize(pop = mean(pop),
             excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
-  group_by(metroName,BEARegion,year) %>%
+  group_by(metroCat,BEARegion,year) %>%
   mutate(excDeaths = sum(excDeaths),
          pop = sum(pop),
          excDeathsPC = (excDeaths/pop)*100000) %>%
@@ -385,11 +385,11 @@ BEABarsData2020PC <- finalSimsFIPS %>%
 BEABarsData2021PC <- finalSimsFIPS %>%
   drop_na() %>%
   filter(year==2021) %>%
-  group_by(metroName,BEARegion,FIPSCode,year) %>%
+  group_by(metroCat,BEARegion,FIPSCode,year) %>%
   summarize(pop = mean(pop),
             excDeaths = sum(excDeathsMed)) %>%
   ungroup() %>%
-  group_by(metroName,BEARegion,year) %>%
+  group_by(metroCat,BEARegion,year) %>%
   summarize(excDeaths = sum(excDeaths),
             pop = sum(pop),
             excDeathsPC = (excDeaths/pop)*100000) %>%
@@ -455,7 +455,7 @@ BEAHBarsPlot2020 <- ggplot() +
   geom_col(data = BEABarsData2020PC, 
            mapping=aes(x = BEARegion, 
                        y = excDeathsPC,
-                       fill= metroName), 
+                       fill= metroCat), 
            position = position_dodge()) +
   scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status') +
   labs(title='2020',
@@ -471,7 +471,7 @@ BEAHBarsPlot2021 <- ggplot() +
   geom_col(data = BEABarsData2021PC, 
            mapping=aes(x = BEARegion, 
                        y = excDeathsPC,
-                       fill= metroName), 
+                       fill= metroCat), 
            position = position_dodge()) +
   scale_fill_brewer(palette = 'RdYlBu',name = 'Metro Status') +
   labs(title='2021',
@@ -542,10 +542,10 @@ dev.off()
 
 largestCounties <- finalSimsFIPS %>%
   drop_na() %>%
-  group_by(BEARegion,FIPSCode,metroName) %>%
+  group_by(BEARegion,FIPSCode,metroCat) %>%
   summarize(popMean = mean(pop)) %>%
   ungroup() %>%
-  group_by(BEARegion,metroName) %>%
+  group_by(BEARegion,metroCat) %>%
   slice(which.max(popMean)) %>%
   pull(FIPSCode)
 
@@ -581,7 +581,7 @@ largestCountiesPlots <- largestCountiesData %>%
                     breaks=c('90% Posterior Interval'),
                     values=c('90% Posterior Interval'='black')) + 
   coord_cartesian(ylim=c(20,200)) +
-  facet_grid(rows = vars(BEARegion), cols=vars(metroName)) +
+  facet_grid(rows = vars(BEARegion), cols=vars(metroCat)) +
   labs(x='',
        y='Observed and Expected Number of Deaths (for 100,000 residents)',
        color='',
