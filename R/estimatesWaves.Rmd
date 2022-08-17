@@ -1,7 +1,6 @@
 ---
-title: "Estimates of Monthly Excess Deaths"
+title: "Estimates of Excess Deaths by Wave"
 author: "Eugenio Paglino"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
@@ -22,7 +21,7 @@ library(tidyverse)
 
 rm(list=ls())
 
-here::i_am('R/estimatesMonthly.Rmd')
+here::i_am('R/estimatesWaves.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -48,7 +47,31 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 ```{r}
 
 ACData <- ACData %>%
-  mutate(monthYear = make_date(year=year,month=month,day=1)) 
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  mutate(period = case_when(
+           between(monthYear,
+                   make_date(2020,3,1),
+                   make_date(2020,8,1)) ~ 'Initial Wave (Mar-Aug 2020)',
+           between(monthYear,
+                   make_date(2020,10,1),
+                   make_date(2021,2,1)) ~ 'Winter Wave (Oct 2021 - Feb 2020)',
+           between(monthYear,
+                   make_date(2021,8,1),
+                   make_date(2021,10,1)) ~ 'Delta (Aug-Oct 2021)',
+           between(monthYear,
+                   make_date(2021,11,1),
+                   make_date(2022,2,1)) ~ 'Omicron (Nov 2021 - Feb 2022)',
+           TRUE ~ 'Non Peak'))
+
+```
+
+```{r}
+
+ACPeriodData <- ACData %>%
+  group_by(FIPSCode,state,stateFIPS,period) %>%
+  summarise(imputedDeaths = sum(imputedDeaths),
+            pop = mean(pop)) %>%
+  ungroup()
 
 ```
 
@@ -63,20 +86,43 @@ load(here::here('R','RObjects','simYearlySimple.RData'))
 
 ```{r}
 
-simulationsFIPSMonthly <- tibble(
-  year = ACData %>% pull(year),
-  month = ACData %>% pull(month),
-  monthYear = make_date(year=year,month=month,day=1),
-  FIPSCode = ACData %>% pull(FIPSCode),
-  csCode = ACData %>% pull(csCode),
-  stateFIPS = ACData %>% pull(stateFIPS),
-  pop = ACData %>% pull(pop),
-  expDeathsLow = apply(death.draws,M=2,function(x) quantile(x,0.05)),
-  expDeathsMed = apply(death.draws,M=2,function(x) quantile(x,0.5)),
-  expDeathsUp = apply(death.draws,M=2,function(x) quantile(x,0.95))) %>%
-  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1),
+         period = ACData %>% pull(period),
+         FIPSCode = ACData %>% pull(FIPSCode),
+         stateFIPS = ACData %>% pull(stateFIPS),
+         pop = ACData %>% pull(pop)) %>%
+  relocate(FIPSCode,stateFIPS,year,month,monthYear,period,pop)
 
 ```
+
+```{r}
+
+firstMonth <- 3
+lastMonth <- 2
+
+simulationsFIPSMonthly <- simulationsMonthly %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,2,1))) %>%
+  group_by(period,FIPSCode,stateFIPS) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(ACPeriodData,by=c('FIPSCode','stateFIPS','period'))
+
+simulationsFIPSMonthly <- simulationsFIPSMonthly %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(period,FIPSCode,stateFIPS) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            probPositive = sum(imputedDeaths-expDeaths>0)/n(),
+            imputedDeaths = mean(imputedDeaths))
+
+```
+
 
 ```{r, echo=F}
 
@@ -114,22 +160,47 @@ death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
 
 death.draws.y.aug <- death.draws.y.aug[as.vector(sapply(1:3127,function(x) (1:86)+(96*(x-1)))),]
 
+rm(death.draws.y.partial,
+   monthWeights.matrix)
+
 ```
 
 ```{r}
 
-simulationsFIPSYearly <- tibble(
-  year = ACData %>% pull(year),
-  month = ACData %>% pull(month),
-  monthYear = make_date(year=year,month=month,day=1),
-  FIPSCode = ACData %>% pull(FIPSCode),
-  csCode = ACData %>% pull(csCode),
-  stateFIPS = ACData %>% pull(stateFIPS),
-  pop = ACData %>% pull(pop),
-  expDeathsLowSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.05)),
-  expDeathsMedSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.5)),
-  expDeathsUpSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.95))) %>%
-  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
+simulationsYearly <- as_tibble(death.draws.y.aug)
+
+simulationsYearly <- simulationsYearly %>% 
+  mutate(year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1),
+         period = ACData %>% pull(period),
+         FIPSCode = ACData %>% pull(FIPSCode),
+         stateFIPS = ACData %>% pull(stateFIPS),
+         pop = ACData %>% pull(pop)) %>%
+  relocate(FIPSCode,stateFIPS,year,month,monthYear,period,pop)
+
+```
+
+```{r}
+
+simulationsFIPSYearly <- simulationsYearly %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,2,1))) %>%
+  group_by(period,FIPSCode,stateFIPS) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(ACPeriodData,by=c('FIPSCode','stateFIPS','period'))
+
+simulationsFIPSYearly <- simulationsFIPSYearly %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(period,FIPSCode,stateFIPS) %>%
+  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            probPositive = sum(imputedDeaths-expDeaths>0)/n(),
+            imputedDeaths = mean(imputedDeaths))
+
+simulationsFIPSYearly <- simulationsFIPSYearly %>%
+  rename_with(~ paste0(.x,'SC'), expDeathsLow:imputedDeaths)
 
 ```
 
@@ -141,23 +212,21 @@ suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
 
 ```{r, echo=F}
 
-# We set which estimate to used based on the relative average error of the
+# We set which estimate to used based on the relative average error of the 
 
 diffTreshold <- 0.05
 
 finalSimsFIPS <- simulationsFIPSMonthly  %>%
-  left_join(simulationsFIPSYearly,
-            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
-  left_join(ACData,
-            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
+  left_join(simulationsFIPSYearly,by=c('FIPSCode','stateFIPS','period')) %>%
   left_join(suppressionData,by='FIPSCode') %>%
   mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct),
          expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
          expDeathsLow = if_else(deathsDiffPct>diffTreshold,expDeathsLowSC,expDeathsLow),
          expDeathsUp = if_else(deathsDiffPct>diffTreshold,expDeathsUpSC,expDeathsUp),
-         model=if_else(deathsDiffPct>diffTreshold,'yearly','monthly')) %>%
-  select(csCode,FIPSCode,stateFIPS,countyName,state,monthYear,
-         expDeathsLow,expDeathsMed,expDeathsUp,imputedDeaths,pop,model)
+         imputedDeaths = if_else(deathsDiffPct>diffTreshold,imputedDeathsSC,imputedDeaths),
+         probPositive = if_else(deathsDiffPct>diffTreshold,probPositiveSC,probPositive)) %>%
+  select(FIPSCode,stateFIPS,period,
+         expDeathsLow:expDeathsUp,imputedDeaths,probPositive)
 
 ```
 
@@ -189,7 +258,7 @@ BEARegions <- BEARegions %>%
          BEARegion = region_bea)
 
 finalSimsFIPS <- finalSimsFIPS %>%
-  left_join(states,by = c('state','stateFIPS')) %>%
+  left_join(states,by = c('stateFIPS')) %>%
   left_join(BEARegions, by = 'stateStr')
 
 ```
@@ -223,6 +292,6 @@ finalSimsFIPS <- finalSimsFIPS %>%
 
 ```{r, echo=FALSE, warning=F, message=F}
 
-finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
+finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesWavesINLA.csv'))
 
 ```

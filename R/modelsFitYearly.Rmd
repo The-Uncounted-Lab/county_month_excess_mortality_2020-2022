@@ -95,6 +95,7 @@ model.Y.BYM.Dynamic.INLA <- ACYearlyData %>%
 # Note: INLA is a bit tricky, error messages are not very informative.
 
 ```
+
 ```{r}
 
 n.sim <- 1000
