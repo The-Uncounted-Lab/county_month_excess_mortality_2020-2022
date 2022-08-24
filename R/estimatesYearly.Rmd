@@ -69,8 +69,7 @@ simDataMonthly <- ACData %>%
   group_by(year) %>%
   mutate(yearID = cur_group_id()) %>%
   ungroup() %>%
-  mutate(CDR = if_else(year>2019,NA_real_,CDR),
-         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  mutate(deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
   arrange(FIPSCode,year,month)
 
 ```
@@ -88,7 +87,6 @@ low.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.05))
 ```{r}
 
 testData <- tibble(deaths = pull(ACData,deaths),
-                   CDR = pull(ACData,CDR),
                    pop = pull(ACData,pop),
                    FIPSCode = pull(ACData,FIPSCode),
                    year = pull(ACData,year),
@@ -175,9 +173,9 @@ simulationsFIPSMonthly <- simulationsFIPSMonthly %>%
             excDeathsLow = quantile(excDeaths,probs=c(0.05)),
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95)),
-            nonCovidExcCDRLow = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.05)),
-            nonCovidExcCDRMed = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.5)),
-            nonCovidExcCDRUp = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.95)),
+            nonCOVIDexcessLow = quantile(nonCOVIDexcess,probs=c(0.05)),
+            nonCOVIDexcessMed = quantile(nonCOVIDexcess,probs=c(0.5)),
+            nonCOVIDexcessUp = quantile(nonCOVIDexcess,probs=c(0.95)),
             COVIDExcRatio = quantile(imputedCOVIDDeaths/excDeaths,probs=c(0.5),na.rm=T))
 
 ```
@@ -219,8 +217,7 @@ simDataYearly <- ACYearlyData %>%
   group_by(year) %>%
   mutate(yearID = cur_group_id()) %>%
   ungroup() %>%
-  mutate(CDR = if_else(year>2019,NA_real_,CDR),
-         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
+  mutate(deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
   arrange(FIPSCode,year)
 
 ```
@@ -266,9 +263,9 @@ simulationsFIPSYearly <- simulationsFIPSYearly %>%
             excDeathsLow = quantile(excDeaths,probs=c(0.05)),
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
             excDeathsUp = quantile(excDeaths,probs=c(0.95)),
-            nonCovidExcCDRLow = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.05)),
-            nonCovidExcCDRMed = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.5)),
-            nonCovidExcCDRUp = quantile(nonCOVIDexcess/(pop/100000),probs=c(0.95)),
+            nonCOVIDexcessLow = quantile(nonCOVIDexcess,probs=c(0.05)),
+            nonCOVIDexcessMed = quantile(nonCOVIDexcess,probs=c(0.5)),
+            nonCOVIDexcessUp = quantile(nonCOVIDexcess,probs=c(0.95)),
             COVIDExcRatio = quantile(imputedCOVIDDeaths/excDeaths,probs=c(0.5),na.rm=T))
 
 simulationsFIPSYearly <- simulationsFIPSYearly %>%
@@ -303,16 +300,16 @@ finalSimsFIPS <- simulationsFIPSMonthly  %>%
          excDeathsMed = if_else(deathsDiffPct>diffTreshold,excDeathsMedSC,excDeathsMed),
          excDeathsLow = if_else(deathsDiffPct>diffTreshold,excDeathsLowSC,excDeathsLow),
          excDeathsUp = if_else(deathsDiffPct>diffTreshold,excDeathsUpSC,excDeathsUp),
-         nonCovidExcCDRMed = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRMedSC,nonCovidExcCDRMed),
-         nonCovidExcCDRLow = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRLowSC,nonCovidExcCDRLow),
-         nonCovidExcCDRUp = if_else(deathsDiffPct>diffTreshold,nonCovidExcCDRUpSC,nonCovidExcCDRUp),
+         nonCOVIDexcessMed = if_else(deathsDiffPct>diffTreshold,nonCOVIDexcessMedSC,nonCOVIDexcessMed),
+         nonCOVIDexcessLow = if_else(deathsDiffPct>diffTreshold,nonCOVIDexcessLowSC,nonCOVIDexcessLow),
+         nonCOVIDexcessUp = if_else(deathsDiffPct>diffTreshold,nonCOVIDexcessUpSC,nonCOVIDexcessUp),
          COVIDExcRatio = if_else(deathsDiffPct>diffTreshold,COVIDExcRatioSC,COVIDExcRatio)) %>%
   select(csCode,FIPSCode,year,
          expDeathsLow,expDeathsMed,expDeathsUp,
          imputedDeaths,
          excDeathsLow,excDeathsMed,excDeathsUp,
          imputedCOVIDDeaths,
-         nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
+         nonCOVIDexcessLow,nonCOVIDexcessMed,nonCOVIDexcessUp,
          COVIDExcRatio)
 
 ```
@@ -344,11 +341,11 @@ excDeaths2020 <- finalSimsFIPS %>%
          deaths,
          excDeathsLow,excDeathsMed,excDeathsUp,
          COVIDDeaths,
-         nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
+         nonCOVIDexcessLow,nonCOVIDexcessMed,nonCOVIDexcessUp,
          COVIDExcRatio) %>%
-  mutate(nonCovidExcCDRLow = nonCovidExcCDRLow/adjF2020,
-         nonCovidExcCDRMed = nonCovidExcCDRMed/adjF2020,
-         nonCovidExcCDRUp = nonCovidExcCDRUp/adjF2020) %>%
+  mutate(nonCOVIDexcessLow = nonCOVIDexcessLow/adjF2020,
+         nonCOVIDexcessMed = nonCOVIDexcessMed/adjF2020,
+         nonCOVIDexcessUp = nonCOVIDexcessUp/adjF2020) %>%
   rename_with(~ paste0(.x,'2020'),expDeathsLow:COVIDExcRatio)
 
 excDeaths2021 <- finalSimsFIPS %>%
@@ -359,7 +356,7 @@ excDeaths2021 <- finalSimsFIPS %>%
          deaths,
          excDeathsLow,excDeathsMed,excDeathsUp,
          COVIDDeaths,
-         nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
+         nonCOVIDexcessLow,nonCOVIDexcessMed,nonCOVIDexcessUp,
          COVIDExcRatio) %>%
   rename_with(~ paste0(.x,'2021'),expDeathsLow:COVIDExcRatio)
 
@@ -371,11 +368,11 @@ excDeaths2022 <- finalSimsFIPS %>%
          deaths,
          excDeathsLow,excDeathsMed,excDeathsUp,
          COVIDDeaths,
-         nonCovidExcCDRLow,nonCovidExcCDRMed,nonCovidExcCDRUp,
+         nonCOVIDexcessLow,nonCOVIDexcessMed,nonCOVIDexcessUp,
          COVIDExcRatio) %>%
-  mutate(nonCovidExcCDRLow = nonCovidExcCDRLow,
-         nonCovidExcCDRMed = nonCovidExcCDRMed,
-         nonCovidExcCDRUp = nonCovidExcCDRUp) %>%
+  mutate(nonCOVIDexcessLow = nonCOVIDexcessLow/adjF2022,
+         nonCOVIDexcessMed = nonCOVIDexcessMed/adjF2022,
+         nonCOVIDexcessUp = nonCOVIDexcessUp/adjF2022) %>%
   rename_with(~ paste0(.x,'2022'),expDeathsLow:COVIDExcRatio)
 
 excDeaths <- excDeaths2020 %>%

@@ -1,0 +1,175 @@
+---
+title: "Ridge Graph"
+author: "Eugenio Paglino"
+date: \today
+output: pdf_document
+---
+
+```{r, echo=F, message=F,warning=F}
+
+# Loading necessary packages
+
+library(lubridate)
+library(here)
+library(ggridges)
+library(ggh4x)
+library(tidyverse)
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+rm(list=ls())
+
+here::i_am('R/ridgesGraphAlt.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+```
+
+```{r, echo=F, message=F, warning=F}
+
+ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
+ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
+COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
+popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
+popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroCat = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
+                              metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                              metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                              metroCat == 'Lg central metro' ~ 'Large Central Metro'))
+  
+ACData <- ACData %>%
+  left_join(metro, by = 'FIPSCode')
+
+```
+
+```{r, echo=FALSE, warning=F, message=F}
+
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+ACData <- ACData %>%
+  mutate(metroCat4 = case_when(FIPSCode %in% addNonMetro ~ 'Non Metro',
+                               FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
+                               FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
+                               TRUE ~ metroCat),
+         metroCat3 = case_when(metroCat4 %in% c('Large Fringe Metro',
+                                                'Large Central Metro') ~ 'Large Metro',
+                               TRUE ~ metroCat4),
+         metroCat2 = case_when(metroCat3 %in% c('Medium or Small Metro',
+                                                'Non Metro') ~ 'Medium, Small, and Non-Metro',
+                               TRUE ~ metroCat3))
+
+```
+
+```{r}
+
+load(here('R','RObjects','simMonthly.RData'))
+load(here('R','RObjects','simYearlySimple.RData'))
+
+```
+
+```{r, echo=F}
+
+# Computing overall distribution of deaths by month
+
+monthWeights <- ACData %>%
+  filter(year<2020) %>%
+  group_by(FIPSCode) %>%
+  filter(n()==max(n())) %>%
+  ungroup() %>%
+  group_by(month) %>%
+  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
+  ungroup() %>%
+  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
+  select(month,monthWeight)
+
+monthWeights <- monthWeights %>% pull(monthWeight)
+
+```
+
+```{r}
+
+n.sim <- 1000
+years <- 2015:2022
+FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
+
+death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
+death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
+  
+monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
+monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
+
+death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
+death.draws.y.aug <- death.draws.y.aug[as.vector(sapply(1:3127,function(x) (1:86)+(96*(x-1)))),]
+
+rm(list=c('death.draws.y','death.draws.y.partial','monthWeights.matrix'))
+
+```
+
+```{r, echo=F}
+
+suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
+  
+```
+
+```{r, echo=F}
+
+# We set which estimate to used based on the relative average error of the
+
+diffTreshold <- 0.05
+
+useYearly <- ACData %>%
+  left_join(suppressionData,by='FIPSCode') %>%
+  mutate(useYearly = as.integer(deathsDiffPct > diffTreshold)) %>%
+  pull(useYearly)
+
+useYearly <- matrix(rep(useYearly,n.sim),ncol=length(useYearly),byrow=T)
+
+death.draws <- death.draws*(1-useYearly) + t(death.draws.y.aug)*useYearly
+
+rm(list=c('death.draws.y.aug','useYearly'))
+
+```
+
+```{r}
+
+simulationsDF <- as_tibble(t(death.draws))
+
+simulationsDF <- simulationsDF %>% 
+  mutate(FIPSCode = ACData %>% pull(FIPSCode),
+         year = ACData %>% pull(year),
+         month = ACData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1)) %>%
+  relocate(FIPSCode,year,month,monthYear)
+
+```
+
+```{r}
+
+simulationsDF <- simulationsDF %>%
+  left_join(ACData,by=c('FIPSCode','month','year'))
+
+```
+
+```{r}
+save(simulationsDF,file=here('R','RObjects','simulationsDF.RData'))
+```

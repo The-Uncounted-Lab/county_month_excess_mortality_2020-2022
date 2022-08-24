@@ -1,0 +1,1002 @@
+"Notes"	"Residence County"	"Residence County Code"	"Year"	"Year Code"	Deaths	Population	Crude Rate
+	"Autauga County, AL"	"01001"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Baldwin County, AL"	"01003"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Calhoun County, AL"	"01015"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Chilton County, AL"	"01021"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Coffee County, AL"	"01031"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Colbert County, AL"	"01033"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Covington County, AL"	"01039"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Cullman County, AL"	"01043"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Dale County, AL"	"01045"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Dallas County, AL"	"01047"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Elmore County, AL"	"01051"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Etowah County, AL"	"01055"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Houston County, AL"	"01069"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Jefferson County, AL"	"01073"	"2021 (provisional)"	"2021"	123	Not Applicable	Not Applicable
+	"Lauderdale County, AL"	"01077"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Lawrence County, AL"	"01079"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Lee County, AL"	"01081"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Madison County, AL"	"01089"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Marshall County, AL"	"01095"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Mobile County, AL"	"01097"	"2021 (provisional)"	"2021"	80	Not Applicable	Not Applicable
+	"Montgomery County, AL"	"01101"	"2021 (provisional)"	"2021"	70	Not Applicable	Not Applicable
+	"Morgan County, AL"	"01103"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Russell County, AL"	"01113"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"St. Clair County, AL"	"01115"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Shelby County, AL"	"01117"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Talladega County, AL"	"01121"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Tallapoosa County, AL"	"01123"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Tuscaloosa County, AL"	"01125"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Walker County, AL"	"01127"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Anchorage Borough, AK"	"02020"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Fairbanks North Star Borough, AK"	"02090"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Matanuska-Susitna Borough, AK"	"02170"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Apache County, AZ"	"04001"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Cochise County, AZ"	"04003"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Coconino County, AZ"	"04005"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Maricopa County, AZ"	"04013"	"2021 (provisional)"	"2021"	521	Not Applicable	Not Applicable
+	"Mohave County, AZ"	"04015"	"2021 (provisional)"	"2021"	81	Not Applicable	Not Applicable
+	"Navajo County, AZ"	"04017"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Pima County, AZ"	"04019"	"2021 (provisional)"	"2021"	124	Not Applicable	Not Applicable
+	"Pinal County, AZ"	"04021"	"2021 (provisional)"	"2021"	64	Not Applicable	Not Applicable
+	"Yavapai County, AZ"	"04025"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Yuma County, AZ"	"04027"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Benton County, AR"	"05007"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Craighead County, AR"	"05031"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Garland County, AR"	"05051"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Hot Spring County, AR"	"05059"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Jefferson County, AR"	"05069"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Lonoke County, AR"	"05085"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Pulaski County, AR"	"05119"	"2021 (provisional)"	"2021"	67	Not Applicable	Not Applicable
+	"Saline County, AR"	"05125"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Sebastian County, AR"	"05131"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Union County, AR"	"05139"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Washington County, AR"	"05143"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"White County, AR"	"05145"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Alameda County, CA"	"06001"	"2021 (provisional)"	"2021"	96	Not Applicable	Not Applicable
+	"Butte County, CA"	"06007"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Contra Costa County, CA"	"06013"	"2021 (provisional)"	"2021"	76	Not Applicable	Not Applicable
+	"El Dorado County, CA"	"06017"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Fresno County, CA"	"06019"	"2021 (provisional)"	"2021"	119	Not Applicable	Not Applicable
+	"Humboldt County, CA"	"06023"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Imperial County, CA"	"06025"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Kern County, CA"	"06029"	"2021 (provisional)"	"2021"	120	Not Applicable	Not Applicable
+	"Kings County, CA"	"06031"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Los Angeles County, CA"	"06037"	"2021 (provisional)"	"2021"	1102	Not Applicable	Not Applicable
+	"Madera County, CA"	"06039"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Marin County, CA"	"06041"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Merced County, CA"	"06047"	"2021 (provisional)"	"2021"	64	Not Applicable	Not Applicable
+	"Monterey County, CA"	"06053"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Orange County, CA"	"06059"	"2021 (provisional)"	"2021"	266	Not Applicable	Not Applicable
+	"Placer County, CA"	"06061"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Riverside County, CA"	"06065"	"2021 (provisional)"	"2021"	243	Not Applicable	Not Applicable
+	"Sacramento County, CA"	"06067"	"2021 (provisional)"	"2021"	137	Not Applicable	Not Applicable
+	"San Bernardino County, CA"	"06071"	"2021 (provisional)"	"2021"	248	Not Applicable	Not Applicable
+	"San Diego County, CA"	"06073"	"2021 (provisional)"	"2021"	262	Not Applicable	Not Applicable
+	"San Francisco County, CA"	"06075"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"San Joaquin County, CA"	"06077"	"2021 (provisional)"	"2021"	114	Not Applicable	Not Applicable
+	"San Mateo County, CA"	"06081"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Santa Barbara County, CA"	"06083"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Santa Clara County, CA"	"06085"	"2021 (provisional)"	"2021"	106	Not Applicable	Not Applicable
+	"Santa Cruz County, CA"	"06087"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Shasta County, CA"	"06089"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Siskiyou County, CA"	"06093"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Solano County, CA"	"06095"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Sonoma County, CA"	"06097"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Stanislaus County, CA"	"06099"	"2021 (provisional)"	"2021"	118	Not Applicable	Not Applicable
+	"Sutter County, CA"	"06101"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Tulare County, CA"	"06107"	"2021 (provisional)"	"2021"	54	Not Applicable	Not Applicable
+	"Tuolumne County, CA"	"06109"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Ventura County, CA"	"06111"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Yolo County, CA"	"06113"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Adams County, CO"	"08001"	"2021 (provisional)"	"2021"	64	Not Applicable	Not Applicable
+	"Arapahoe County, CO"	"08005"	"2021 (provisional)"	"2021"	72	Not Applicable	Not Applicable
+	"Boulder County, CO"	"08013"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Conejos County, CO"	"08021"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Delta County, CO"	"08029"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Denver County, CO"	"08031"	"2021 (provisional)"	"2021"	81	Not Applicable	Not Applicable
+	"Douglas County, CO"	"08035"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"El Paso County, CO"	"08041"	"2021 (provisional)"	"2021"	135	Not Applicable	Not Applicable
+	"Fremont County, CO"	"08043"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Jefferson County, CO"	"08059"	"2021 (provisional)"	"2021"	75	Not Applicable	Not Applicable
+	"Larimer County, CO"	"08069"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Mesa County, CO"	"08077"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Montrose County, CO"	"08085"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Pueblo County, CO"	"08101"	"2021 (provisional)"	"2021"	51	Not Applicable	Not Applicable
+	"Weld County, CO"	"08123"	"2021 (provisional)"	"2021"	37	Not Applicable	Not Applicable
+	"Fairfield County, CT"	"09001"	"2021 (provisional)"	"2021"	107	Not Applicable	Not Applicable
+	"Hartford County, CT"	"09003"	"2021 (provisional)"	"2021"	124	Not Applicable	Not Applicable
+	"Litchfield County, CT"	"09005"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Middlesex County, CT"	"09007"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"New Haven County, CT"	"09009"	"2021 (provisional)"	"2021"	171	Not Applicable	Not Applicable
+	"New London County, CT"	"09011"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Tolland County, CT"	"09013"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Kent County, DE"	"10001"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"New Castle County, DE"	"10003"	"2021 (provisional)"	"2021"	89	Not Applicable	Not Applicable
+	"Sussex County, DE"	"10005"	"2021 (provisional)"	"2021"	45	Not Applicable	Not Applicable
+	"District of Columbia, DC"	"11001"	"2021 (provisional)"	"2021"	114	Not Applicable	Not Applicable
+	"Alachua County, FL"	"12001"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Bay County, FL"	"12005"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Brevard County, FL"	"12009"	"2021 (provisional)"	"2021"	142	Not Applicable	Not Applicable
+	"Broward County, FL"	"12011"	"2021 (provisional)"	"2021"	499	Not Applicable	Not Applicable
+	"Charlotte County, FL"	"12015"	"2021 (provisional)"	"2021"	52	Not Applicable	Not Applicable
+	"Citrus County, FL"	"12017"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Clay County, FL"	"12019"	"2021 (provisional)"	"2021"	38	Not Applicable	Not Applicable
+	"Collier County, FL"	"12021"	"2021 (provisional)"	"2021"	86	Not Applicable	Not Applicable
+	"DeSoto County, FL"	"12027"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Duval County, FL"	"12031"	"2021 (provisional)"	"2021"	166	Not Applicable	Not Applicable
+	"Escambia County, FL"	"12033"	"2021 (provisional)"	"2021"	45	Not Applicable	Not Applicable
+	"Flagler County, FL"	"12035"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Hardee County, FL"	"12049"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Hendry County, FL"	"12051"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Hernando County, FL"	"12053"	"2021 (provisional)"	"2021"	59	Not Applicable	Not Applicable
+	"Highlands County, FL"	"12055"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Hillsborough County, FL"	"12057"	"2021 (provisional)"	"2021"	258	Not Applicable	Not Applicable
+	"Indian River County, FL"	"12061"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Lake County, FL"	"12069"	"2021 (provisional)"	"2021"	78	Not Applicable	Not Applicable
+	"Lee County, FL"	"12071"	"2021 (provisional)"	"2021"	124	Not Applicable	Not Applicable
+	"Leon County, FL"	"12073"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Levy County, FL"	"12075"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Manatee County, FL"	"12081"	"2021 (provisional)"	"2021"	86	Not Applicable	Not Applicable
+	"Marion County, FL"	"12083"	"2021 (provisional)"	"2021"	123	Not Applicable	Not Applicable
+	"Martin County, FL"	"12085"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Miami-Dade County, FL"	"12086"	"2021 (provisional)"	"2021"	811	Not Applicable	Not Applicable
+	"Nassau County, FL"	"12089"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Okaloosa County, FL"	"12091"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Orange County, FL"	"12095"	"2021 (provisional)"	"2021"	173	Not Applicable	Not Applicable
+	"Osceola County, FL"	"12097"	"2021 (provisional)"	"2021"	83	Not Applicable	Not Applicable
+	"Palm Beach County, FL"	"12099"	"2021 (provisional)"	"2021"	305	Not Applicable	Not Applicable
+	"Pasco County, FL"	"12101"	"2021 (provisional)"	"2021"	122	Not Applicable	Not Applicable
+	"Pinellas County, FL"	"12103"	"2021 (provisional)"	"2021"	165	Not Applicable	Not Applicable
+	"Polk County, FL"	"12105"	"2021 (provisional)"	"2021"	204	Not Applicable	Not Applicable
+	"Putnam County, FL"	"12107"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"St. Johns County, FL"	"12109"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"St. Lucie County, FL"	"12111"	"2021 (provisional)"	"2021"	82	Not Applicable	Not Applicable
+	"Santa Rosa County, FL"	"12113"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Sarasota County, FL"	"12115"	"2021 (provisional)"	"2021"	75	Not Applicable	Not Applicable
+	"Seminole County, FL"	"12117"	"2021 (provisional)"	"2021"	79	Not Applicable	Not Applicable
+	"Sumter County, FL"	"12119"	"2021 (provisional)"	"2021"	52	Not Applicable	Not Applicable
+	"Volusia County, FL"	"12127"	"2021 (provisional)"	"2021"	165	Not Applicable	Not Applicable
+	"Walton County, FL"	"12131"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Barrow County, GA"	"13013"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Bartow County, GA"	"13015"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Bibb County, GA"	"13021"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Bulloch County, GA"	"13031"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Carroll County, GA"	"13045"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Catoosa County, GA"	"13047"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Chatham County, GA"	"13051"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Cherokee County, GA"	"13057"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Clarke County, GA"	"13059"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Clayton County, GA"	"13063"	"2021 (provisional)"	"2021"	65	Not Applicable	Not Applicable
+	"Cobb County, GA"	"13067"	"2021 (provisional)"	"2021"	75	Not Applicable	Not Applicable
+	"Columbia County, GA"	"13073"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Coweta County, GA"	"13077"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Crisp County, GA"	"13081"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"DeKalb County, GA"	"13089"	"2021 (provisional)"	"2021"	64	Not Applicable	Not Applicable
+	"Dougherty County, GA"	"13095"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Douglas County, GA"	"13097"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Fayette County, GA"	"13113"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Floyd County, GA"	"13115"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Forsyth County, GA"	"13117"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Fulton County, GA"	"13121"	"2021 (provisional)"	"2021"	123	Not Applicable	Not Applicable
+	"Glynn County, GA"	"13127"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Gordon County, GA"	"13129"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Gwinnett County, GA"	"13135"	"2021 (provisional)"	"2021"	120	Not Applicable	Not Applicable
+	"Hall County, GA"	"13139"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Henry County, GA"	"13151"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Houston County, GA"	"13153"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Liberty County, GA"	"13179"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Lowndes County, GA"	"13185"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Murray County, GA"	"13213"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Muscogee County, GA"	"13215"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Newton County, GA"	"13217"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Paulding County, GA"	"13223"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Richmond County, GA"	"13245"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Rockdale County, GA"	"13247"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Spalding County, GA"	"13255"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Troup County, GA"	"13285"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Walker County, GA"	"13295"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Walton County, GA"	"13297"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Whitfield County, GA"	"13313"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Honolulu County, HI"	"15003"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Maui County, HI"	"15009"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Ada County, ID"	"16001"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Bannock County, ID"	"16005"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Bingham County, ID"	"16011"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Bonneville County, ID"	"16019"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Canyon County, ID"	"16027"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Kootenai County, ID"	"16055"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Bureau County, IL"	"17011"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Champaign County, IL"	"17019"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Cook County, IL"	"17031"	"2021 (provisional)"	"2021"	1081	Not Applicable	Not Applicable
+	"DuPage County, IL"	"17043"	"2021 (provisional)"	"2021"	92	Not Applicable	Not Applicable
+	"Franklin County, IL"	"17055"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Fulton County, IL"	"17057"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Kane County, IL"	"17089"	"2021 (provisional)"	"2021"	72	Not Applicable	Not Applicable
+	"Kankakee County, IL"	"17091"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Kendall County, IL"	"17093"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Knox County, IL"	"17095"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Lake County, IL"	"17097"	"2021 (provisional)"	"2021"	73	Not Applicable	Not Applicable
+	"LaSalle County, IL"	"17099"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Livingston County, IL"	"17105"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"McDonough County, IL"	"17109"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"McHenry County, IL"	"17111"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"McLean County, IL"	"17113"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Macon County, IL"	"17115"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Madison County, IL"	"17119"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Peoria County, IL"	"17143"	"2021 (provisional)"	"2021"	81	Not Applicable	Not Applicable
+	"Rock Island County, IL"	"17161"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"St. Clair County, IL"	"17163"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Sangamon County, IL"	"17167"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Stephenson County, IL"	"17177"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Tazewell County, IL"	"17179"	"2021 (provisional)"	"2021"	50	Not Applicable	Not Applicable
+	"Vermilion County, IL"	"17183"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Whiteside County, IL"	"17195"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Will County, IL"	"17197"	"2021 (provisional)"	"2021"	103	Not Applicable	Not Applicable
+	"Williamson County, IL"	"17199"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Winnebago County, IL"	"17201"	"2021 (provisional)"	"2021"	54	Not Applicable	Not Applicable
+	"Woodford County, IL"	"17203"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Allen County, IN"	"18003"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Boone County, IN"	"18011"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Cass County, IN"	"18017"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Clark County, IN"	"18019"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Delaware County, IN"	"18035"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Elkhart County, IN"	"18039"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Floyd County, IN"	"18043"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Grant County, IN"	"18053"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Hamilton County, IN"	"18057"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Hancock County, IN"	"18059"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Hendricks County, IN"	"18063"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Henry County, IN"	"18065"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Howard County, IN"	"18067"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Johnson County, IN"	"18081"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Kosciusko County, IN"	"18085"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Lake County, IN"	"18089"	"2021 (provisional)"	"2021"	101	Not Applicable	Not Applicable
+	"La Porte County, IN"	"18091"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Madison County, IN"	"18095"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Marion County, IN"	"18097"	"2021 (provisional)"	"2021"	108	Not Applicable	Not Applicable
+	"Marshall County, IN"	"18099"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Monroe County, IN"	"18105"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Montgomery County, IN"	"18107"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Porter County, IN"	"18127"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"St. Joseph County, IN"	"18141"	"2021 (provisional)"	"2021"	37	Not Applicable	Not Applicable
+	"Tippecanoe County, IN"	"18157"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Vanderburgh County, IN"	"18163"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Vigo County, IN"	"18167"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Black Hawk County, IA"	"19013"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Dubuque County, IA"	"19061"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Linn County, IA"	"19113"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Muscatine County, IA"	"19139"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Polk County, IA"	"19153"	"2021 (provisional)"	"2021"	53	Not Applicable	Not Applicable
+	"Pottawattamie County, IA"	"19155"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Scott County, IA"	"19163"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Wapello County, IA"	"19179"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Woodbury County, IA"	"19193"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Johnson County, KS"	"20091"	"2021 (provisional)"	"2021"	43	Not Applicable	Not Applicable
+	"Sedgwick County, KS"	"20173"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Shawnee County, KS"	"20177"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Wyandotte County, KS"	"20209"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Barren County, KY"	"21009"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Boone County, KY"	"21015"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Bullitt County, KY"	"21029"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Christian County, KY"	"21047"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Daviess County, KY"	"21059"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Fayette County, KY"	"21067"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Hardin County, KY"	"21093"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Henderson County, KY"	"21101"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Hopkins County, KY"	"21107"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Jefferson County, KY"	"21111"	"2021 (provisional)"	"2021"	131	Not Applicable	Not Applicable
+	"Kenton County, KY"	"21117"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Laurel County, KY"	"21125"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Madison County, KY"	"21151"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Nelson County, KY"	"21179"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Pike County, KY"	"21195"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Pulaski County, KY"	"21199"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Warren County, KY"	"21227"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Ascension Parish, LA"	"22005"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Beauregard Parish, LA"	"22011"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Bossier Parish, LA"	"22015"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Caddo Parish, LA"	"22017"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Calcasieu Parish, LA"	"22019"	"2021 (provisional)"	"2021"	75	Not Applicable	Not Applicable
+	"East Baton Rouge Parish, LA"	"22033"	"2021 (provisional)"	"2021"	92	Not Applicable	Not Applicable
+	"Iberia Parish, LA"	"22045"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Jefferson Parish, LA"	"22051"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Jefferson Davis Parish, LA"	"22053"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Lafayette Parish, LA"	"22055"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Livingston Parish, LA"	"22063"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Orleans Parish, LA"	"22071"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Ouachita Parish, LA"	"22073"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Rapides Parish, LA"	"22079"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"St. Landry Parish, LA"	"22097"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"St. Mary Parish, LA"	"22101"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"St. Tammany Parish, LA"	"22103"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Tangipahoa Parish, LA"	"22105"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Terrebonne Parish, LA"	"22109"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Vermilion Parish, LA"	"22113"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Washington Parish, LA"	"22117"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Androscoggin County, ME"	"23001"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Cumberland County, ME"	"23005"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Kennebec County, ME"	"23011"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Oxford County, ME"	"23017"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Penobscot County, ME"	"23019"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"York County, ME"	"23031"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Anne Arundel County, MD"	"24003"	"2021 (provisional)"	"2021"	89	Not Applicable	Not Applicable
+	"Baltimore County, MD"	"24005"	"2021 (provisional)"	"2021"	250	Not Applicable	Not Applicable
+	"Carroll County, MD"	"24013"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Cecil County, MD"	"24015"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Charles County, MD"	"24017"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Frederick County, MD"	"24021"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Harford County, MD"	"24025"	"2021 (provisional)"	"2021"	45	Not Applicable	Not Applicable
+	"Howard County, MD"	"24027"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Montgomery County, MD"	"24031"	"2021 (provisional)"	"2021"	134	Not Applicable	Not Applicable
+	"Prince George's County, MD"	"24033"	"2021 (provisional)"	"2021"	193	Not Applicable	Not Applicable
+	"St. Mary's County, MD"	"24037"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Washington County, MD"	"24043"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Baltimore city, MD"	"24510"	"2021 (provisional)"	"2021"	246	Not Applicable	Not Applicable
+	"Barnstable County, MA"	"25001"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Bristol County, MA"	"25005"	"2021 (provisional)"	"2021"	116	Not Applicable	Not Applicable
+	"Essex County, MA"	"25009"	"2021 (provisional)"	"2021"	98	Not Applicable	Not Applicable
+	"Hampden County, MA"	"25013"	"2021 (provisional)"	"2021"	102	Not Applicable	Not Applicable
+	"Hampshire County, MA"	"25015"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Middlesex County, MA"	"25017"	"2021 (provisional)"	"2021"	125	Not Applicable	Not Applicable
+	"Norfolk County, MA"	"25021"	"2021 (provisional)"	"2021"	69	Not Applicable	Not Applicable
+	"Plymouth County, MA"	"25023"	"2021 (provisional)"	"2021"	65	Not Applicable	Not Applicable
+	"Suffolk County, MA"	"25025"	"2021 (provisional)"	"2021"	68	Not Applicable	Not Applicable
+	"Worcester County, MA"	"25027"	"2021 (provisional)"	"2021"	87	Not Applicable	Not Applicable
+	"Allegan County, MI"	"26005"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Alpena County, MI"	"26007"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Barry County, MI"	"26015"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Bay County, MI"	"26017"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Berrien County, MI"	"26021"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Calhoun County, MI"	"26025"	"2021 (provisional)"	"2021"	62	Not Applicable	Not Applicable
+	"Cass County, MI"	"26027"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Cheboygan County, MI"	"26031"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Clare County, MI"	"26035"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Clinton County, MI"	"26037"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Delta County, MI"	"26041"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Eaton County, MI"	"26045"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Genesee County, MI"	"26049"	"2021 (provisional)"	"2021"	183	Not Applicable	Not Applicable
+	"Gladwin County, MI"	"26051"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Grand Traverse County, MI"	"26055"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Gratiot County, MI"	"26057"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Hillsdale County, MI"	"26059"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Huron County, MI"	"26063"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Ingham County, MI"	"26065"	"2021 (provisional)"	"2021"	92	Not Applicable	Not Applicable
+	"Isabella County, MI"	"26073"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Jackson County, MI"	"26075"	"2021 (provisional)"	"2021"	55	Not Applicable	Not Applicable
+	"Kalamazoo County, MI"	"26077"	"2021 (provisional)"	"2021"	61	Not Applicable	Not Applicable
+	"Kent County, MI"	"26081"	"2021 (provisional)"	"2021"	110	Not Applicable	Not Applicable
+	"Lapeer County, MI"	"26087"	"2021 (provisional)"	"2021"	70	Not Applicable	Not Applicable
+	"Lenawee County, MI"	"26091"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Livingston County, MI"	"26093"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Macomb County, MI"	"26099"	"2021 (provisional)"	"2021"	446	Not Applicable	Not Applicable
+	"Marquette County, MI"	"26103"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Mason County, MI"	"26105"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Midland County, MI"	"26111"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Missaukee County, MI"	"26113"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Monroe County, MI"	"26115"	"2021 (provisional)"	"2021"	59	Not Applicable	Not Applicable
+	"Montcalm County, MI"	"26117"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Muskegon County, MI"	"26121"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Newaygo County, MI"	"26123"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Oakland County, MI"	"26125"	"2021 (provisional)"	"2021"	325	Not Applicable	Not Applicable
+	"Oceana County, MI"	"26127"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Ogemaw County, MI"	"26129"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Oscoda County, MI"	"26135"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Otsego County, MI"	"26137"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Ottawa County, MI"	"26139"	"2021 (provisional)"	"2021"	67	Not Applicable	Not Applicable
+	"Roscommon County, MI"	"26143"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Saginaw County, MI"	"26145"	"2021 (provisional)"	"2021"	93	Not Applicable	Not Applicable
+	"St. Clair County, MI"	"26147"	"2021 (provisional)"	"2021"	152	Not Applicable	Not Applicable
+	"St. Joseph County, MI"	"26149"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Sanilac County, MI"	"26151"	"2021 (provisional)"	"2021"	45	Not Applicable	Not Applicable
+	"Shiawassee County, MI"	"26155"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Tuscola County, MI"	"26157"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Van Buren County, MI"	"26159"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Washtenaw County, MI"	"26161"	"2021 (provisional)"	"2021"	37	Not Applicable	Not Applicable
+	"Wayne County, MI"	"26163"	"2021 (provisional)"	"2021"	837	Not Applicable	Not Applicable
+	"Wexford County, MI"	"26165"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Anoka County, MN"	"27003"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Becker County, MN"	"27005"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Crow Wing County, MN"	"27035"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Dakota County, MN"	"27037"	"2021 (provisional)"	"2021"	55	Not Applicable	Not Applicable
+	"Hennepin County, MN"	"27053"	"2021 (provisional)"	"2021"	122	Not Applicable	Not Applicable
+	"Itasca County, MN"	"27061"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Otter Tail County, MN"	"27111"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Ramsey County, MN"	"27123"	"2021 (provisional)"	"2021"	54	Not Applicable	Not Applicable
+	"Rice County, MN"	"27131"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"St. Louis County, MN"	"27137"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Scott County, MN"	"27139"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Sherburne County, MN"	"27141"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Stearns County, MN"	"27145"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Washington County, MN"	"27163"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Wright County, MN"	"27171"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Alcorn County, MS"	"28003"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Copiah County, MS"	"28029"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"DeSoto County, MS"	"28033"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Forrest County, MS"	"28035"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Harrison County, MS"	"28047"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Hinds County, MS"	"28049"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Jackson County, MS"	"28059"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Jones County, MS"	"28067"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Lauderdale County, MS"	"28075"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Lee County, MS"	"28081"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Madison County, MS"	"28089"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Monroe County, MS"	"28095"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Newton County, MS"	"28101"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Panola County, MS"	"28107"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Pearl River County, MS"	"28109"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Rankin County, MS"	"28121"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Tate County, MS"	"28137"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Warren County, MS"	"28149"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Butler County, MO"	"29023"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Cass County, MO"	"29037"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Christian County, MO"	"29043"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Clay County, MO"	"29047"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Franklin County, MO"	"29071"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Greene County, MO"	"29077"	"2021 (provisional)"	"2021"	39	Not Applicable	Not Applicable
+	"Jackson County, MO"	"29095"	"2021 (provisional)"	"2021"	83	Not Applicable	Not Applicable
+	"Jasper County, MO"	"29097"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Jefferson County, MO"	"29099"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Linn County, MO"	"29115"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Livingston County, MO"	"29117"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Newton County, MO"	"29145"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Platte County, MO"	"29165"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"St. Charles County, MO"	"29183"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"St. Louis County, MO"	"29189"	"2021 (provisional)"	"2021"	141	Not Applicable	Not Applicable
+	"Stone County, MO"	"29209"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Taney County, MO"	"29213"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Warren County, MO"	"29219"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Webster County, MO"	"29225"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"St. Louis city, MO"	"29510"	"2021 (provisional)"	"2021"	74	Not Applicable	Not Applicable
+	"Flathead County, MT"	"30029"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Lewis and Clark County, MT"	"30049"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Ravalli County, MT"	"30081"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Yellowstone County, MT"	"30111"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Douglas County, NE"	"31055"	"2021 (provisional)"	"2021"	50	Not Applicable	Not Applicable
+	"Lancaster County, NE"	"31109"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Sarpy County, NE"	"31153"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Clark County, NV"	"32003"	"2021 (provisional)"	"2021"	439	Not Applicable	Not Applicable
+	"Elko County, NV"	"32007"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Nye County, NV"	"32023"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Washoe County, NV"	"32031"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Carson City, NV"	"32510"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Hillsborough County, NH"	"33011"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Merrimack County, NH"	"33013"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Rockingham County, NH"	"33015"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Strafford County, NH"	"33017"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Atlantic County, NJ"	"34001"	"2021 (provisional)"	"2021"	94	Not Applicable	Not Applicable
+	"Bergen County, NJ"	"34003"	"2021 (provisional)"	"2021"	214	Not Applicable	Not Applicable
+	"Burlington County, NJ"	"34005"	"2021 (provisional)"	"2021"	94	Not Applicable	Not Applicable
+	"Camden County, NJ"	"34007"	"2021 (provisional)"	"2021"	109	Not Applicable	Not Applicable
+	"Cape May County, NJ"	"34009"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Cumberland County, NJ"	"34011"	"2021 (provisional)"	"2021"	41	Not Applicable	Not Applicable
+	"Essex County, NJ"	"34013"	"2021 (provisional)"	"2021"	287	Not Applicable	Not Applicable
+	"Gloucester County, NJ"	"34015"	"2021 (provisional)"	"2021"	60	Not Applicable	Not Applicable
+	"Hudson County, NJ"	"34017"	"2021 (provisional)"	"2021"	227	Not Applicable	Not Applicable
+	"Hunterdon County, NJ"	"34019"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Mercer County, NJ"	"34021"	"2021 (provisional)"	"2021"	64	Not Applicable	Not Applicable
+	"Middlesex County, NJ"	"34023"	"2021 (provisional)"	"2021"	205	Not Applicable	Not Applicable
+	"Monmouth County, NJ"	"34025"	"2021 (provisional)"	"2021"	173	Not Applicable	Not Applicable
+	"Morris County, NJ"	"34027"	"2021 (provisional)"	"2021"	89	Not Applicable	Not Applicable
+	"Ocean County, NJ"	"34029"	"2021 (provisional)"	"2021"	217	Not Applicable	Not Applicable
+	"Passaic County, NJ"	"34031"	"2021 (provisional)"	"2021"	194	Not Applicable	Not Applicable
+	"Salem County, NJ"	"34033"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Somerset County, NJ"	"34035"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Sussex County, NJ"	"34037"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Union County, NJ"	"34039"	"2021 (provisional)"	"2021"	174	Not Applicable	Not Applicable
+	"Warren County, NJ"	"34041"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Bernalillo County, NM"	"35001"	"2021 (provisional)"	"2021"	69	Not Applicable	Not Applicable
+	"Chaves County, NM"	"35005"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Dona Ana County, NM"	"35013"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Eddy County, NM"	"35015"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Lea County, NM"	"35025"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Otero County, NM"	"35035"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Rio Arriba County, NM"	"35039"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Sandoval County, NM"	"35043"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"San Juan County, NM"	"35045"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Santa Fe County, NM"	"35049"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Valencia County, NM"	"35061"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Albany County, NY"	"36001"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Bronx County, NY"	"36005"	"2021 (provisional)"	"2021"	531	Not Applicable	Not Applicable
+	"Broome County, NY"	"36007"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Cattaraugus County, NY"	"36009"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Chautauqua County, NY"	"36013"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Chenango County, NY"	"36017"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Clinton County, NY"	"36019"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Delaware County, NY"	"36025"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Dutchess County, NY"	"36027"	"2021 (provisional)"	"2021"	54	Not Applicable	Not Applicable
+	"Erie County, NY"	"36029"	"2021 (provisional)"	"2021"	255	Not Applicable	Not Applicable
+	"Fulton County, NY"	"36035"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Genesee County, NY"	"36037"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Greene County, NY"	"36039"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Kings County, NY"	"36047"	"2021 (provisional)"	"2021"	962	Not Applicable	Not Applicable
+	"Monroe County, NY"	"36055"	"2021 (provisional)"	"2021"	152	Not Applicable	Not Applicable
+	"Montgomery County, NY"	"36057"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Nassau County, NY"	"36059"	"2021 (provisional)"	"2021"	356	Not Applicable	Not Applicable
+	"New York County, NY"	"36061"	"2021 (provisional)"	"2021"	432	Not Applicable	Not Applicable
+	"Niagara County, NY"	"36063"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Oneida County, NY"	"36065"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Onondaga County, NY"	"36067"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Ontario County, NY"	"36069"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Orange County, NY"	"36071"	"2021 (provisional)"	"2021"	108	Not Applicable	Not Applicable
+	"Otsego County, NY"	"36077"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Putnam County, NY"	"36079"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Queens County, NY"	"36081"	"2021 (provisional)"	"2021"	898	Not Applicable	Not Applicable
+	"Rensselaer County, NY"	"36083"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Richmond County, NY"	"36085"	"2021 (provisional)"	"2021"	212	Not Applicable	Not Applicable
+	"Rockland County, NY"	"36087"	"2021 (provisional)"	"2021"	90	Not Applicable	Not Applicable
+	"St. Lawrence County, NY"	"36089"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Saratoga County, NY"	"36091"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Schenectady County, NY"	"36093"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Steuben County, NY"	"36101"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Suffolk County, NY"	"36103"	"2021 (provisional)"	"2021"	393	Not Applicable	Not Applicable
+	"Sullivan County, NY"	"36105"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Tioga County, NY"	"36107"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Ulster County, NY"	"36111"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Wayne County, NY"	"36117"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Westchester County, NY"	"36119"	"2021 (provisional)"	"2021"	267	Not Applicable	Not Applicable
+	"Alamance County, NC"	"37001"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Brunswick County, NC"	"37019"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Buncombe County, NC"	"37021"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Burke County, NC"	"37023"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Cabarrus County, NC"	"37025"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Caldwell County, NC"	"37027"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Carteret County, NC"	"37031"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Catawba County, NC"	"37035"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Cherokee County, NC"	"37039"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Cleveland County, NC"	"37045"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Craven County, NC"	"37049"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Cumberland County, NC"	"37051"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Davidson County, NC"	"37057"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Duplin County, NC"	"37061"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Durham County, NC"	"37063"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Edgecombe County, NC"	"37065"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Forsyth County, NC"	"37067"	"2021 (provisional)"	"2021"	50	Not Applicable	Not Applicable
+	"Franklin County, NC"	"37069"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Gaston County, NC"	"37071"	"2021 (provisional)"	"2021"	62	Not Applicable	Not Applicable
+	"Granville County, NC"	"37077"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Guilford County, NC"	"37081"	"2021 (provisional)"	"2021"	77	Not Applicable	Not Applicable
+	"Harnett County, NC"	"37085"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Henderson County, NC"	"37089"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Iredell County, NC"	"37097"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Johnston County, NC"	"37101"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Lee County, NC"	"37105"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Lenoir County, NC"	"37107"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Lincoln County, NC"	"37109"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Mecklenburg County, NC"	"37119"	"2021 (provisional)"	"2021"	121	Not Applicable	Not Applicable
+	"Montgomery County, NC"	"37123"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Moore County, NC"	"37125"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Nash County, NC"	"37127"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"New Hanover County, NC"	"37129"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Onslow County, NC"	"37133"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Person County, NC"	"37145"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Pitt County, NC"	"37147"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Randolph County, NC"	"37151"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Robeson County, NC"	"37155"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Rockingham County, NC"	"37157"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Rowan County, NC"	"37159"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Rutherford County, NC"	"37161"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Sampson County, NC"	"37163"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Stanly County, NC"	"37167"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Stokes County, NC"	"37169"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Surry County, NC"	"37171"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Union County, NC"	"37179"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Vance County, NC"	"37181"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Wake County, NC"	"37183"	"2021 (provisional)"	"2021"	66	Not Applicable	Not Applicable
+	"Wayne County, NC"	"37191"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Wilkes County, NC"	"37193"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Wilson County, NC"	"37195"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Cass County, ND"	"38017"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Allen County, OH"	"39003"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Ashland County, OH"	"39005"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Ashtabula County, OH"	"39007"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Belmont County, OH"	"39013"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Butler County, OH"	"39017"	"2021 (provisional)"	"2021"	50	Not Applicable	Not Applicable
+	"Clark County, OH"	"39023"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Clermont County, OH"	"39025"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Columbiana County, OH"	"39029"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Crawford County, OH"	"39033"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Cuyahoga County, OH"	"39035"	"2021 (provisional)"	"2021"	238	Not Applicable	Not Applicable
+	"Darke County, OH"	"39037"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Delaware County, OH"	"39041"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Erie County, OH"	"39043"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Fairfield County, OH"	"39045"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Franklin County, OH"	"39049"	"2021 (provisional)"	"2021"	145	Not Applicable	Not Applicable
+	"Fulton County, OH"	"39051"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Greene County, OH"	"39057"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Hamilton County, OH"	"39061"	"2021 (provisional)"	"2021"	101	Not Applicable	Not Applicable
+	"Hancock County, OH"	"39063"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Huron County, OH"	"39077"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Jefferson County, OH"	"39081"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Lake County, OH"	"39085"	"2021 (provisional)"	"2021"	41	Not Applicable	Not Applicable
+	"Licking County, OH"	"39089"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Lorain County, OH"	"39093"	"2021 (provisional)"	"2021"	51	Not Applicable	Not Applicable
+	"Lucas County, OH"	"39095"	"2021 (provisional)"	"2021"	83	Not Applicable	Not Applicable
+	"Mahoning County, OH"	"39099"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Medina County, OH"	"39103"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Miami County, OH"	"39109"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Montgomery County, OH"	"39113"	"2021 (provisional)"	"2021"	78	Not Applicable	Not Applicable
+	"Muskingum County, OH"	"39119"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Portage County, OH"	"39133"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Preble County, OH"	"39135"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Richland County, OH"	"39139"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Ross County, OH"	"39141"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Sandusky County, OH"	"39143"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Scioto County, OH"	"39145"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Seneca County, OH"	"39147"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Stark County, OH"	"39151"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Summit County, OH"	"39153"	"2021 (provisional)"	"2021"	130	Not Applicable	Not Applicable
+	"Trumbull County, OH"	"39155"	"2021 (provisional)"	"2021"	39	Not Applicable	Not Applicable
+	"Tuscarawas County, OH"	"39157"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Warren County, OH"	"39165"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Wayne County, OH"	"39169"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Wood County, OH"	"39173"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Canadian County, OK"	"40017"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Carter County, OK"	"40019"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Cleveland County, OK"	"40027"	"2021 (provisional)"	"2021"	39	Not Applicable	Not Applicable
+	"Comanche County, OK"	"40031"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Creek County, OK"	"40037"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Delaware County, OK"	"40041"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Le Flore County, OK"	"40079"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"McCurtain County, OK"	"40089"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Oklahoma County, OK"	"40109"	"2021 (provisional)"	"2021"	115	Not Applicable	Not Applicable
+	"Okmulgee County, OK"	"40111"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Ottawa County, OK"	"40115"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Pittsburg County, OK"	"40121"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Rogers County, OK"	"40131"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Tulsa County, OK"	"40143"	"2021 (provisional)"	"2021"	101	Not Applicable	Not Applicable
+	"Clackamas County, OR"	"41005"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Columbia County, OR"	"41009"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Coos County, OR"	"41011"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Deschutes County, OR"	"41017"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Douglas County, OR"	"41019"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Jackson County, OR"	"41029"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Jefferson County, OR"	"41031"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Josephine County, OR"	"41033"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Klamath County, OR"	"41035"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Lane County, OR"	"41039"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Linn County, OR"	"41043"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Marion County, OR"	"41047"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Multnomah County, OR"	"41051"	"2021 (provisional)"	"2021"	74	Not Applicable	Not Applicable
+	"Washington County, OR"	"41067"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Adams County, PA"	"42001"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Allegheny County, PA"	"42003"	"2021 (provisional)"	"2021"	206	Not Applicable	Not Applicable
+	"Armstrong County, PA"	"42005"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Beaver County, PA"	"42007"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Bedford County, PA"	"42009"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Berks County, PA"	"42011"	"2021 (provisional)"	"2021"	119	Not Applicable	Not Applicable
+	"Blair County, PA"	"42013"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Bradford County, PA"	"42015"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Bucks County, PA"	"42017"	"2021 (provisional)"	"2021"	166	Not Applicable	Not Applicable
+	"Butler County, PA"	"42019"	"2021 (provisional)"	"2021"	41	Not Applicable	Not Applicable
+	"Cambria County, PA"	"42021"	"2021 (provisional)"	"2021"	39	Not Applicable	Not Applicable
+	"Carbon County, PA"	"42025"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Centre County, PA"	"42027"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Chester County, PA"	"42029"	"2021 (provisional)"	"2021"	80	Not Applicable	Not Applicable
+	"Clearfield County, PA"	"42033"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Columbia County, PA"	"42037"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Crawford County, PA"	"42039"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Cumberland County, PA"	"42041"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Dauphin County, PA"	"42043"	"2021 (provisional)"	"2021"	55	Not Applicable	Not Applicable
+	"Delaware County, PA"	"42045"	"2021 (provisional)"	"2021"	145	Not Applicable	Not Applicable
+	"Erie County, PA"	"42049"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Fayette County, PA"	"42051"	"2021 (provisional)"	"2021"	59	Not Applicable	Not Applicable
+	"Franklin County, PA"	"42055"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Indiana County, PA"	"42063"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Lackawanna County, PA"	"42069"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Lancaster County, PA"	"42071"	"2021 (provisional)"	"2021"	110	Not Applicable	Not Applicable
+	"Lawrence County, PA"	"42073"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Lebanon County, PA"	"42075"	"2021 (provisional)"	"2021"	37	Not Applicable	Not Applicable
+	"Lehigh County, PA"	"42077"	"2021 (provisional)"	"2021"	72	Not Applicable	Not Applicable
+	"Luzerne County, PA"	"42079"	"2021 (provisional)"	"2021"	66	Not Applicable	Not Applicable
+	"Lycoming County, PA"	"42081"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Mc Kean County, PA"	"42083"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Mercer County, PA"	"42085"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Monroe County, PA"	"42089"	"2021 (provisional)"	"2021"	46	Not Applicable	Not Applicable
+	"Montgomery County, PA"	"42091"	"2021 (provisional)"	"2021"	145	Not Applicable	Not Applicable
+	"Northampton County, PA"	"42095"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Northumberland County, PA"	"42097"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Perry County, PA"	"42099"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Philadelphia County, PA"	"42101"	"2021 (provisional)"	"2021"	538	Not Applicable	Not Applicable
+	"Pike County, PA"	"42103"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Schuylkill County, PA"	"42107"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Somerset County, PA"	"42111"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Tioga County, PA"	"42117"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Venango County, PA"	"42121"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Washington County, PA"	"42125"	"2021 (provisional)"	"2021"	37	Not Applicable	Not Applicable
+	"Wayne County, PA"	"42127"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Westmoreland County, PA"	"42129"	"2021 (provisional)"	"2021"	79	Not Applicable	Not Applicable
+	"Wyoming County, PA"	"42131"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"York County, PA"	"42133"	"2021 (provisional)"	"2021"	90	Not Applicable	Not Applicable
+	"Kent County, RI"	"44003"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Providence County, RI"	"44007"	"2021 (provisional)"	"2021"	104	Not Applicable	Not Applicable
+	"Aiken County, SC"	"45003"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Anderson County, SC"	"45007"	"2021 (provisional)"	"2021"	53	Not Applicable	Not Applicable
+	"Beaufort County, SC"	"45013"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Berkeley County, SC"	"45015"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Charleston County, SC"	"45019"	"2021 (provisional)"	"2021"	48	Not Applicable	Not Applicable
+	"Cherokee County, SC"	"45021"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Chesterfield County, SC"	"45025"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Clarendon County, SC"	"45027"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Colleton County, SC"	"45029"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Darlington County, SC"	"45031"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Dorchester County, SC"	"45035"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Florence County, SC"	"45041"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Georgetown County, SC"	"45043"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Greenville County, SC"	"45045"	"2021 (provisional)"	"2021"	96	Not Applicable	Not Applicable
+	"Greenwood County, SC"	"45047"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Horry County, SC"	"45051"	"2021 (provisional)"	"2021"	62	Not Applicable	Not Applicable
+	"Kershaw County, SC"	"45055"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Lancaster County, SC"	"45057"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Laurens County, SC"	"45059"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Lee County, SC"	"45061"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Lexington County, SC"	"45063"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Marlboro County, SC"	"45069"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Newberry County, SC"	"45071"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Oconee County, SC"	"45073"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Orangeburg County, SC"	"45075"	"2021 (provisional)"	"2021"	40	Not Applicable	Not Applicable
+	"Pickens County, SC"	"45077"	"2021 (provisional)"	"2021"	31	Not Applicable	Not Applicable
+	"Richland County, SC"	"45079"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Spartanburg County, SC"	"45083"	"2021 (provisional)"	"2021"	105	Not Applicable	Not Applicable
+	"Sumter County, SC"	"45085"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"York County, SC"	"45091"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Minnehaha County, SD"	"46099"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Pennington County, SD"	"46103"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Anderson County, TN"	"47001"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Bedford County, TN"	"47003"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Blount County, TN"	"47009"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Bradley County, TN"	"47011"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Carter County, TN"	"47019"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Coffee County, TN"	"47031"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Cumberland County, TN"	"47035"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Davidson County, TN"	"47037"	"2021 (provisional)"	"2021"	102	Not Applicable	Not Applicable
+	"Dickson County, TN"	"47043"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Fayette County, TN"	"47047"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Gibson County, TN"	"47053"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Greene County, TN"	"47059"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Hamblen County, TN"	"47063"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Hamilton County, TN"	"47065"	"2021 (provisional)"	"2021"	65	Not Applicable	Not Applicable
+	"Hawkins County, TN"	"47073"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Humphreys County, TN"	"47085"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Jefferson County, TN"	"47089"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Knox County, TN"	"47093"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Lauderdale County, TN"	"47097"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Lawrence County, TN"	"47099"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"McMinn County, TN"	"47107"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Madison County, TN"	"47113"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Maury County, TN"	"47119"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Monroe County, TN"	"47123"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Montgomery County, TN"	"47125"	"2021 (provisional)"	"2021"	38	Not Applicable	Not Applicable
+	"Roane County, TN"	"47145"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Robertson County, TN"	"47147"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Rutherford County, TN"	"47149"	"2021 (provisional)"	"2021"	72	Not Applicable	Not Applicable
+	"Sevier County, TN"	"47155"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Shelby County, TN"	"47157"	"2021 (provisional)"	"2021"	206	Not Applicable	Not Applicable
+	"Sullivan County, TN"	"47163"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Sumner County, TN"	"47165"	"2021 (provisional)"	"2021"	58	Not Applicable	Not Applicable
+	"Tipton County, TN"	"47167"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Washington County, TN"	"47179"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Weakley County, TN"	"47183"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"White County, TN"	"47185"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Williamson County, TN"	"47187"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Wilson County, TN"	"47189"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Anderson County, TX"	"48001"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Angelina County, TX"	"48005"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Bastrop County, TX"	"48021"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Bell County, TX"	"48027"	"2021 (provisional)"	"2021"	61	Not Applicable	Not Applicable
+	"Bexar County, TX"	"48029"	"2021 (provisional)"	"2021"	373	Not Applicable	Not Applicable
+	"Bowie County, TX"	"48037"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Brazoria County, TX"	"48039"	"2021 (provisional)"	"2021"	120	Not Applicable	Not Applicable
+	"Brazos County, TX"	"48041"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Cameron County, TX"	"48061"	"2021 (provisional)"	"2021"	125	Not Applicable	Not Applicable
+	"Chambers County, TX"	"48071"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Cherokee County, TX"	"48073"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Collin County, TX"	"48085"	"2021 (provisional)"	"2021"	86	Not Applicable	Not Applicable
+	"Comal County, TX"	"48091"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Dallas County, TX"	"48113"	"2021 (provisional)"	"2021"	364	Not Applicable	Not Applicable
+	"Denton County, TX"	"48121"	"2021 (provisional)"	"2021"	76	Not Applicable	Not Applicable
+	"Ector County, TX"	"48135"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Ellis County, TX"	"48139"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"El Paso County, TX"	"48141"	"2021 (provisional)"	"2021"	235	Not Applicable	Not Applicable
+	"Fayette County, TX"	"48149"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Fort Bend County, TX"	"48157"	"2021 (provisional)"	"2021"	95	Not Applicable	Not Applicable
+	"Galveston County, TX"	"48167"	"2021 (provisional)"	"2021"	74	Not Applicable	Not Applicable
+	"Grayson County, TX"	"48181"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Gregg County, TX"	"48183"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Guadalupe County, TX"	"48187"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Hardin County, TX"	"48199"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Harris County, TX"	"48201"	"2021 (provisional)"	"2021"	997	Not Applicable	Not Applicable
+	"Harrison County, TX"	"48203"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Hays County, TX"	"48209"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Henderson County, TX"	"48213"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Hidalgo County, TX"	"48215"	"2021 (provisional)"	"2021"	202	Not Applicable	Not Applicable
+	"Hood County, TX"	"48221"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Hopkins County, TX"	"48223"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Houston County, TX"	"48225"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Hunt County, TX"	"48231"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Jasper County, TX"	"48241"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Jefferson County, TX"	"48245"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Jim Wells County, TX"	"48249"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Johnson County, TX"	"48251"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Kaufman County, TX"	"48257"	"2021 (provisional)"	"2021"	33	Not Applicable	Not Applicable
+	"Liberty County, TX"	"48291"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Lubbock County, TX"	"48303"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"McLennan County, TX"	"48309"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Matagorda County, TX"	"48321"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Maverick County, TX"	"48323"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Midland County, TX"	"48329"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Montgomery County, TX"	"48339"	"2021 (provisional)"	"2021"	122	Not Applicable	Not Applicable
+	"Nacogdoches County, TX"	"48347"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Navarro County, TX"	"48349"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Nueces County, TX"	"48355"	"2021 (provisional)"	"2021"	69	Not Applicable	Not Applicable
+	"Orange County, TX"	"48361"	"2021 (provisional)"	"2021"	32	Not Applicable	Not Applicable
+	"Parker County, TX"	"48367"	"2021 (provisional)"	"2021"	26	Not Applicable	Not Applicable
+	"Polk County, TX"	"48373"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Potter County, TX"	"48375"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Randall County, TX"	"48381"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Rockwall County, TX"	"48397"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"San Patricio County, TX"	"48409"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Shelby County, TX"	"48419"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Smith County, TX"	"48423"	"2021 (provisional)"	"2021"	50	Not Applicable	Not Applicable
+	"Starr County, TX"	"48427"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Tarrant County, TX"	"48439"	"2021 (provisional)"	"2021"	325	Not Applicable	Not Applicable
+	"Taylor County, TX"	"48441"	"2021 (provisional)"	"2021"	29	Not Applicable	Not Applicable
+	"Tom Green County, TX"	"48451"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Travis County, TX"	"48453"	"2021 (provisional)"	"2021"	107	Not Applicable	Not Applicable
+	"Val Verde County, TX"	"48465"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Van Zandt County, TX"	"48467"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Victoria County, TX"	"48469"	"2021 (provisional)"	"2021"	47	Not Applicable	Not Applicable
+	"Walker County, TX"	"48471"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Waller County, TX"	"48473"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Washington County, TX"	"48477"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Webb County, TX"	"48479"	"2021 (provisional)"	"2021"	39	Not Applicable	Not Applicable
+	"Wharton County, TX"	"48481"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Wichita County, TX"	"48485"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Williamson County, TX"	"48491"	"2021 (provisional)"	"2021"	63	Not Applicable	Not Applicable
+	"Wise County, TX"	"48497"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Box Elder County, UT"	"49003"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Davis County, UT"	"49011"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Salt Lake County, UT"	"49035"	"2021 (provisional)"	"2021"	70	Not Applicable	Not Applicable
+	"Utah County, UT"	"49049"	"2021 (provisional)"	"2021"	36	Not Applicable	Not Applicable
+	"Washington County, UT"	"49053"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Weber County, UT"	"49057"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Arlington County, VA"	"51013"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Augusta County, VA"	"51015"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Bedford County, VA"	"51019"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Campbell County, VA"	"51031"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Carroll County, VA"	"51035"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Chesterfield County, VA"	"51041"	"2021 (provisional)"	"2021"	59	Not Applicable	Not Applicable
+	"Dinwiddie County, VA"	"51053"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Fairfax County, VA"	"51059"	"2021 (provisional)"	"2021"	71	Not Applicable	Not Applicable
+	"Franklin County, VA"	"51067"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Frederick County, VA"	"51069"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Hanover County, VA"	"51085"	"2021 (provisional)"	"2021"	25	Not Applicable	Not Applicable
+	"Henrico County, VA"	"51087"	"2021 (provisional)"	"2021"	61	Not Applicable	Not Applicable
+	"Isle of Wight County, VA"	"51093"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Loudoun County, VA"	"51107"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Mecklenburg County, VA"	"51117"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Montgomery County, VA"	"51121"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Pittsylvania County, VA"	"51143"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Prince George County, VA"	"51149"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Prince William County, VA"	"51153"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Roanoke County, VA"	"51161"	"2021 (provisional)"	"2021"	16	Not Applicable	Not Applicable
+	"Rockingham County, VA"	"51165"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Scott County, VA"	"51169"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Shenandoah County, VA"	"51171"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Smyth County, VA"	"51173"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Spotsylvania County, VA"	"51177"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Stafford County, VA"	"51179"	"2021 (provisional)"	"2021"	18	Not Applicable	Not Applicable
+	"Tazewell County, VA"	"51185"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Warren County, VA"	"51187"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Washington County, VA"	"51191"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Wythe County, VA"	"51197"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Alexandria city, VA"	"51510"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Bristol city, VA"	"51520"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Chesapeake city, VA"	"51550"	"2021 (provisional)"	"2021"	53	Not Applicable	Not Applicable
+	"Colonial Heights city, VA"	"51570"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Danville city, VA"	"51590"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Hampton city, VA"	"51650"	"2021 (provisional)"	"2021"	41	Not Applicable	Not Applicable
+	"Hopewell city, VA"	"51670"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Manassas city, VA"	"51683"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Martinsville city, VA"	"51690"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Newport News city, VA"	"51700"	"2021 (provisional)"	"2021"	35	Not Applicable	Not Applicable
+	"Norfolk city, VA"	"51710"	"2021 (provisional)"	"2021"	43	Not Applicable	Not Applicable
+	"Petersburg city, VA"	"51730"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Portsmouth city, VA"	"51740"	"2021 (provisional)"	"2021"	34	Not Applicable	Not Applicable
+	"Richmond city, VA"	"51760"	"2021 (provisional)"	"2021"	42	Not Applicable	Not Applicable
+	"Roanoke city, VA"	"51770"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Salem city, VA"	"51775"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Suffolk city, VA"	"51800"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Virginia Beach city, VA"	"51810"	"2021 (provisional)"	"2021"	68	Not Applicable	Not Applicable
+	"Benton County, WA"	"53005"	"2021 (provisional)"	"2021"	23	Not Applicable	Not Applicable
+	"Clark County, WA"	"53011"	"2021 (provisional)"	"2021"	49	Not Applicable	Not Applicable
+	"Cowlitz County, WA"	"53015"	"2021 (provisional)"	"2021"	27	Not Applicable	Not Applicable
+	"Franklin County, WA"	"53021"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Grant County, WA"	"53025"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Grays Harbor County, WA"	"53027"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"King County, WA"	"53033"	"2021 (provisional)"	"2021"	149	Not Applicable	Not Applicable
+	"Kitsap County, WA"	"53035"	"2021 (provisional)"	"2021"	24	Not Applicable	Not Applicable
+	"Lewis County, WA"	"53041"	"2021 (provisional)"	"2021"	22	Not Applicable	Not Applicable
+	"Pierce County, WA"	"53053"	"2021 (provisional)"	"2021"	122	Not Applicable	Not Applicable
+	"Skagit County, WA"	"53057"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Snohomish County, WA"	"53061"	"2021 (provisional)"	"2021"	56	Not Applicable	Not Applicable
+	"Spokane County, WA"	"53063"	"2021 (provisional)"	"2021"	74	Not Applicable	Not Applicable
+	"Thurston County, WA"	"53067"	"2021 (provisional)"	"2021"	30	Not Applicable	Not Applicable
+	"Whatcom County, WA"	"53073"	"2021 (provisional)"	"2021"	20	Not Applicable	Not Applicable
+	"Yakima County, WA"	"53077"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Berkeley County, WV"	"54003"	"2021 (provisional)"	"2021"	38	Not Applicable	Not Applicable
+	"Cabell County, WV"	"54011"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Fayette County, WV"	"54019"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Harrison County, WV"	"54033"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Jefferson County, WV"	"54037"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Kanawha County, WV"	"54039"	"2021 (provisional)"	"2021"	44	Not Applicable	Not Applicable
+	"Lincoln County, WV"	"54043"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Logan County, WV"	"54045"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Marion County, WV"	"54049"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+	"Mercer County, WV"	"54055"	"2021 (provisional)"	"2021"	15	Not Applicable	Not Applicable
+	"Mineral County, WV"	"54057"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Monongalia County, WV"	"54061"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Raleigh County, WV"	"54081"	"2021 (provisional)"	"2021"	28	Not Applicable	Not Applicable
+	"Brown County, WI"	"55009"	"2021 (provisional)"	"2021"	17	Not Applicable	Not Applicable
+	"Dane County, WI"	"55025"	"2021 (provisional)"	"2021"	19	Not Applicable	Not Applicable
+	"Dodge County, WI"	"55027"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Kenosha County, WI"	"55059"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Marathon County, WI"	"55073"	"2021 (provisional)"	"2021"	10	Not Applicable	Not Applicable
+	"Milwaukee County, WI"	"55079"	"2021 (provisional)"	"2021"	75	Not Applicable	Not Applicable
+	"Outagamie County, WI"	"55087"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Polk County, WI"	"55095"	"2021 (provisional)"	"2021"	13	Not Applicable	Not Applicable
+	"Racine County, WI"	"55101"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Rock County, WI"	"55105"	"2021 (provisional)"	"2021"	21	Not Applicable	Not Applicable
+	"Sheboygan County, WI"	"55117"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Walworth County, WI"	"55127"	"2021 (provisional)"	"2021"	11	Not Applicable	Not Applicable
+	"Waukesha County, WI"	"55133"	"2021 (provisional)"	"2021"	38	Not Applicable	Not Applicable
+	"Winnebago County, WI"	"55139"	"2021 (provisional)"	"2021"	14	Not Applicable	Not Applicable
+	"Laramie County, WY"	"56021"	"2021 (provisional)"	"2021"	12	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Month"
+"Query Parameters:"
+"UCD - ICD-10 Codes: U07.1 (COVID-19)"
+"Year/Month: Mar., 2021 (provisional); Apr., 2021 (provisional); May, 2021 (provisional); Jun., 2021 (provisional)"
+"Group By: Residence County; Year"
+"Show Totals: Disabled"
+"Show Zero Values: False"
+"Show Suppressed: False"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Aug 23, 2022 10:18:55 AM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2020,"
+"and from provisional data for years 2021-2022, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Aug 23, 2022 10:18:55"
+"AM"
+"---"
+Messages:
+"1. Totals are not available for these results due to suppression constraints. More Information:"
+"http://wonder.cdc.gov/wonder/help/faq.html#Privacy."
+"2. Rows with suppressed Deaths are hidden. Use Quick Options above to show suppressed rows."
+"---"
+Caveats:
+"1. <b>NOTE: </b>On June 6, 2022, the National Vital Statistics System (NVSS) cause of death coding system began a system-wide"
+"upgrade, which required a temporary suspension of routine NVSS surveillance reporting. The upgrade required all 2022 death"
+"records to be reprocessed into the system. As routine NVSS surveillance reporting resumes, users may temporarily observe lower"
+"death counts for prior weeks in 2022 as the backlog is reprocessed and reloaded into the system."
+"2. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"3. These items in the results table are not fully selected: 2021 (provisional). The Query Description lists the actual values"
+"selected."
+"4. Deaths and population estimates are shown separately from the adjacent counties for Carson City, Nevada (FIPS code 32510)."
+"5. Deaths and population estimates are reported separately for Baltimore City (FIPS code 24510) and Baltimore county (FIPS code"
+"24005)."
+"6. Deaths and population estimates are reported separately for St. Louis City (FIPS code 29510) and county (FIPS code 29189)."
+"7. Data are Suppressed when the data meet the criteria for confidentiality constraints. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Assurance of Confidentiality."
+"8. Death rates are flagged as Unreliable when the rate is calculated with a numerator of 20 or less. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Unreliable."
+"9. Changes to cause of death classification affect reporting trends. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#ICD-10 Changes."
+"10. Deaths occurring through July 23, 2022 as of August 07, 2022."

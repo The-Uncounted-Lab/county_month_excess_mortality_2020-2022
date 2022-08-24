@@ -9,13 +9,13 @@ output: pdf_document
 
 # Loading necessary packages
 
-library(tidyverse)
 library(lubridate)
 library(patchwork)
 library(here)
 library(scico)
 library(grid)
 library(tidytext)
+library(tidyverse)
 
 ```
 
@@ -48,10 +48,12 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 finalSimsFIPS <- read_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
 
 ```
+
 ```{r}
 
 finalSimsFIPS <- finalSimsFIPS %>%
-  rename(deaths = imputedDeaths) %>%
+  rename(deathsOriginal = deaths,
+         deaths = imputedDeaths) %>%
   mutate(year = year(monthYear)) 
 
 ```

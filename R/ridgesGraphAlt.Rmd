@@ -12,6 +12,7 @@ output: pdf_document
 library(lubridate)
 library(here)
 library(ggridges)
+library(ggh4x)
 library(tidyverse)
 
 ```
@@ -27,206 +28,73 @@ outDir <- here::here('data','output')
 
 ```
 
-```{r, echo=F, message=F, warning=F}
-
-ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
-ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
-COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
-popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
-popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
-## Metropolitan status
-metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
-metro <- metro %>%
-  select(FIPSCode = fips,
-         metroCat = metroname) %>%
-  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
-         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
-                              metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
-                              metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
-                              metroCat == 'Lg central metro' ~ 'Large Central Metro'))
-  
-ACData <- ACData %>%
-  left_join(metro, by = 'FIPSCode')
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
-addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
-                 '02013','02016','02164','02270','46113','02130',
-                 '02188','02290','04012','30067')
-
-addLgFringeMetro <- c('08001','08014')
-addMdSmMetro <- c('08013','08123','51515')
-
-## fill out missing metro
-ACData <- ACData %>%
-  mutate(metroCat4 = case_when(FIPSCode %in% addNonMetro ~ 'Non Metro',
-                               FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
-                               FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
-                               TRUE ~ metroCat),
-         metroCat3 = case_when(metroCat4 %in% c('Large Fringe Metro',
-                                                'Large Central Metro') ~ 'Large Metro',
-                               TRUE ~ metroCat4))
-
-```
-
 ```{r}
-
-load(here('R','RObjects','simMonthly.RData'))
-load(here('R','RObjects','simYearly.RData'))
-
-```
-
-```{r, echo=F}
-
-# Computing overall distribution of deaths by month
-
-monthWeights <- ACData %>%
-  filter(year<2020) %>%
-  group_by(FIPSCode) %>%
-  filter(n()==max(n())) %>%
-  ungroup() %>%
-  group_by(month) %>%
-  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
-  ungroup() %>%
-  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
-  select(month,monthWeight)
-
-monthWeights <- monthWeights %>% pull(monthWeight)
-
-```
-
-```{r}
-
-n.sim <- 1000
-years <- 2015:2022
-FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
-
-death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
-death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
-
-monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
-monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
-
-death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
-death.draws.y.aug <- death.draws.y.aug[as.vector(sapply(1:3127,function(x) (1:86)+(96*(x-1)))),]
-
-```
-
-```{r}
-
-death.draws <- as.list(as.data.frame(death.draws))
-death.draws.y.aug <- as.list(as.data.frame(t(death.draws.y.aug)))
-
-rm(list=c('death.draws.y','death.draws.y.partial','monthWeights.matrix'))
-
-```
-
-```{r, echo=F}
-
-suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
-  
-```
-
-```{r, echo=F}
-
-# We set which estimate to used based on the relative average error of the
-
-diffTreshold <- 0.05
-
-ACData <- ACData %>%
-  left_join(suppressionData,by='FIPSCode') %>%
-  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct))
-
-death.draws <- if_else(pull(ACData,deathsDiffPct) > diffTreshold,
-                       death.draws.y.aug,
-                       death.draws)
-
-rm(list=c('death.draws.y.aug'))
-
-```
-
-```{r}
-
-simulationsDF <- as_tibble(matrix(unlist(death.draws), ncol = n.sim, byrow = TRUE))
-
-simulationsDF <- simulationsDF %>% 
-  mutate(FIPSCode = ACData %>% pull(FIPSCode),
-         year = ACData %>% pull(year),
-         month = ACData %>% pull(month),
-         monthYear = make_date(year=year,month=month,day=1)) %>%
-  relocate(FIPSCode,year,month,monthYear)
-
-```
-
-```{r}
-
-simulationsDF <- simulationsDF %>%
-  left_join(ACData,by=c('FIPSCode','month','year')) %>%
-  filter(!(state %in% c('Wyoming','Maine') & year(monthYear) > 2021))
-
+load(here('R','RObjects','simulationsDF.RData'))
 ```
 
 ```{r}
 
 plotDataStates <- simulationsDF %>%
-  group_by(state,census_division,metroCat3,monthYear) %>%
+  group_by(state,census_division,metroCat2,monthYear) %>%
   summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
             imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(state,census_division,metroCat3,monthYear) %>%
-  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+  group_by(state,census_division,metroCat2,monthYear) %>%
+  summarize(deaths=mean(imputedDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
             excDeathsLow = quantile(excDeaths,probs=c(0.05)),
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
-            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
-  ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed)
+            excDeathsUp = quantile(excDeaths,probs=c(0.95)),
+            relExcLow = quantile(excDeaths/expDeaths,probs=c(0.05)),
+            relExcMed = quantile(excDeaths/expDeaths,probs=c(0.5)),
+            relExcUp = quantile(excDeaths/expDeaths,probs=c(0.95))) %>%
+  ungroup()
 
 divisionTotals <- simulationsDF %>%
-  group_by(census_division,metroCat3,monthYear) %>%
+  group_by(census_division,metroCat2,monthYear) %>%
   summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
             imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(census_division,metroCat3,monthYear) %>%
-  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+  group_by(census_division,metroCat2,monthYear) %>%
+  summarize(deaths=mean(imputedDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
             excDeathsLow = quantile(excDeaths,probs=c(0.05)),
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
-            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+            excDeathsUp = quantile(excDeaths,probs=c(0.95)),
+            relExcLow = quantile(excDeaths/expDeaths,probs=c(0.05)),
+            relExcMed = quantile(excDeaths/expDeaths,probs=c(0.5)),
+            relExcUp = quantile(excDeaths/expDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed,
-         state=paste('Total -',census_division))
+  mutate(state=paste('Total -',census_division))
 
 nationTotals <- simulationsDF %>%
-  group_by(monthYear,metroCat3) %>%
+  group_by(monthYear,metroCat2) %>%
   summarize(across(V1:V1000, ~ sum(.x,na.rm=T)),
             imputedDeaths = sum(imputedDeaths,na.rm=T)) %>%
   ungroup() %>%
   pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
   mutate(excDeaths = imputedDeaths-expDeaths) %>%
-  group_by(monthYear,metroCat3) %>%
-  summarize(expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+  group_by(monthYear,metroCat2) %>%
+  summarize(deaths=mean(imputedDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.05)),
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
             excDeathsLow = quantile(excDeaths,probs=c(0.05)),
             excDeathsMed = quantile(excDeaths,probs=c(0.5)),
-            excDeathsUp = quantile(excDeaths,probs=c(0.95))) %>%
+            excDeathsUp = quantile(excDeaths,probs=c(0.95)),
+            relExcLow = quantile(excDeaths/expDeaths,probs=c(0.05)),
+            relExcMed = quantile(excDeaths/expDeaths,probs=c(0.5)),
+            relExcUp = quantile(excDeaths/expDeaths,probs=c(0.95))) %>%
   ungroup() %>%
-  mutate(deaths = expDeathsUp + excDeathsMed,
-         state='Nation Total',
+  mutate(state='Nation Total',
          census_division = 'Nation Total')
 
 ```
@@ -245,8 +113,7 @@ relativeExcBreaks <- c(-5,0.2,0.4,0.6,0.80,1,1.5,2,5)
 
 plotData <- plotData %>%
   filter(monthYear >= make_date(2020,1,1)) %>%
-  mutate(relativeExc = (deaths/expDeathsMed)-1,
-         relativeExcDiscrete = factor(cut(relativeExc,relativeExcBreaks),
+  mutate(relativeExcDiscrete = factor(cut(relExcMed,relativeExcBreaks),
                                       labels=c('<=20%','(20%,40%]','(40%,60%]',
                                                '(60%,80%]','(80%,100%]','(100%,150%]',
                                                '(150%,200%]','>200%')),
@@ -263,20 +130,35 @@ sortedDivisions <- c(sortedDivisions,'Nation Total')
 
 sortedStates <- plotData %>% 
   filter(!(str_detect(state,'Total'))) %>%
-  group_by(state) %>%
-  summarize(relativeExc = max(relativeExc,na.rm=T)) %>% 
+  group_by(census_division,state) %>%
+  summarize(relativeExc = max(relExcMed,na.rm=T)) %>% 
   ungroup() %>%
-  arrange(relativeExc) %>%
+  arrange(census_division,relativeExc) %>%
   pull(state)
 
 sortedStates <- c(sortedStates,paste('Total -',sortedDivisions[-10]),'Nation Total')
 statesNum <- length(sortedStates)
 sortedLetters <- sort(c(letters,LETTERS,paste0(letters,LETTERS)),decreasing = T)[1:statesNum]
 
+sortedDivisionsS <- plotData %>% 
+  filter(!(str_detect(state,'Total'))) %>%
+  group_by(census_division,state) %>%
+  summarize(relativeExc = max(relExcMed,na.rm=T)) %>% 
+  ungroup() %>%
+  arrange(census_division,relativeExc) %>%
+  pull(census_division)
+
+sortedStatesAndDiv <- str_c(sortedStates,' (',
+                            sapply(str_match_all(sortedDivisionsS,'[A-Z]+'),function(x) str_c(x,collapse='')),
+                            ')')
+
 plotData <- plotData %>%
-  mutate(state = factor(state,
+  mutate(stateLetter = factor(state,
                         levels=sortedStates,
                         labels=sortedLetters),
+         state = factor(state,
+                        levels=sortedStates,
+                        labels=sortedStatesAndDiv),
          census_division = factor(census_division,
                                   levels = sortedDivisions))
 
@@ -300,8 +182,8 @@ plotData <- plotData %>%
 ```{r, fig.height=10, fig.width=6}
 
 plotData <- plotData %>%
-  group_by(state,metroCat3) %>%
-  mutate(relativeExcLead = lead(relativeExc))
+  group_by(state,metroCat2) %>%
+  mutate(relExcMedLead = lead(relExcMed))
 
 ```
 
@@ -313,16 +195,16 @@ ridgesGraph <- plotData %>%
   ggplot() +
   #geom_tile(mapping=aes(x=monthYear,y=state,width=31,fill=deaths/expDeathsMed)) +
   geom_ridgeline_gradient(mapping=aes(x=monthYear,
-                                      height=relativeExc,
-                                      y=state,
+                                      height=relExcMed,
+                                      y=stateLetter,
                                       fill=as.numeric(relativeExcDiscrete)),
                                color=NA,
                                stat='identity',
                                scale=1.5) +
   geom_segment(mapping=aes(x=monthYear,
                            xend = lead(monthYear),
-                           y = stateCode + relativeExc*1.5,
-                           yend = stateCode + relativeExcLead*1.5,
+                           y = stateCode + relExcMed*1.5,
+                           yend = stateCode + relExcMedLead*1.5,
                            linetype=significant)) +
   geom_vline(xintercept=make_date(2020,3,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2020,9,1),linetype='dotted') +
@@ -332,10 +214,10 @@ ridgesGraph <- plotData %>%
   geom_vline(xintercept=make_date(2021,10,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2021,11,1),linetype='dotted') +
   geom_vline(xintercept=make_date(2022,2,1),linetype='dotted') +  
-  annotate('text',x=make_date(2020,6,1),y=1,label='Initial Wave',size=3) +
-  annotate('text',x=make_date(2020,12,1),y=1,label='Winter Peak',size=3) +
-  annotate('text',x=make_date(2021,9,1),y=1,label='Delta',size=3) +
-  annotate('text',x=make_date(2021,12,15),y=1,label='Omicron',size=3) +
+  annotate('text',x=make_date(2020,6,1),y=0.75,label='Initial Wave',size=3) +
+  annotate('text',x=make_date(2020,12,1),y=0.75,label='Winter Peak',size=3) +
+  annotate('text',x=make_date(2021,9,1),y=0.75,label='Delta',size=3) +
+  annotate('text',x=make_date(2021,12,15),y=0.75,label='Omicron',size=3) +
   scale_x_date(breaks=allDates,date_labels="%b-%y") +
   scale_y_discrete(breaks=sortedLetters,labels=sortedStates) +
   scale_fill_distiller(palette='Oranges',direction = 1,na.value = 'grey90',
@@ -348,31 +230,130 @@ ridgesGraph <- plotData %>%
        x = '',
        fill='Relative\nExcess (%)',
        linetype='Probability of\nRelative Excess > 0') +
-  facet_grid(census_division ~ metroCat3,scales = "free_y", space = "free_y") +
+  facet_grid(census_division ~ metroCat2,scales = "free_y", space = "free_y") +
   theme_minimal() +
   theme(panel.grid.major.x = element_blank(),
         panel.grid.minor.x = element_blank(),
         panel.grid.major.y = element_blank(),
         panel.grid.minor.y = element_blank(),
         legend.position = 'bottom',
-        legend.key.width = unit(2,'cm'),
+        legend.key.width = unit(0.5,'cm'),
         legend.title = element_text(hjust=0.5),
-        strip.text.y = element_text(angle = 0),
-        axis.text.x = element_text(angle=45,vjust=0.2)) +
+        strip.text.y = element_blank(),
+        axis.text.x = element_text(angle=90,vjust=0.2)) +
   guides(linetype=guide_legend(nrow = 2),
          fill=guide_legend(title.hjust = 0)) # No idea why this made the legend discrete
 
 ridgesGraph
 
+```
+
+```{r}
+
+pdf(here::here('figures','ridgesGraphAlt.pdf'), height = 16, width = 10)
+
+ridgesGraph
+
+dev.off()
+
+```
+
+```{r}
+
+annotateData <- tibble(x=c(make_date(2020,6,1),
+                           make_date(2020,12,1),
+                           make_date(2021,9,1),
+                           make_date(2021,12,15)),
+                       y=c(-150,-150,-100,-100),
+                       label=c('Initial\nWave',
+                               'Winter\nPeak',
+                               'Delta','Omicron'),
+                       state='Louisiana (WSC)')
+
+rectData <- rbind(tibble(state = unique(pull(plotData,state)),
+                         xmin=make_date(2020,2,15),
+                         xmax=make_date(2020,8,15)),
+                  tibble(state = unique(pull(plotData,state)),
+                         xmin=make_date(2020,9,15),
+                         xmax=make_date(2021,1,15)),
+                  tibble(state = unique(pull(plotData,state)),
+                         xmin=make_date(2021,7,15),
+                         xmax=make_date(2021,9,15)),
+                  tibble(state = unique(pull(plotData,state)),
+                         xmin=make_date(2021,10,15),
+                         xmax=make_date(2022,1,15)))
+
+rectData <- plotData %>%
+  group_by(census_division,state) %>%
+  summarise(ymin=0,
+            ymax=max(relExcMed*100)) %>%
+  ungroup() %>%
+  right_join(rectData,by='state') %>%
+  filter(!str_detect(state,'Total'))  
 
 ```
 
 
+```{r, fig.height=10, fig.width=6}
+
+allDates <- unique(pull(plotData,monthYear))
+  
+barTimeGraph <- plotData %>%
+  filter(!str_detect(state,'Total'))  %>%
+  ggplot() +
+  geom_col(mapping=aes(x=monthYear,
+                       y=-50),
+                       fill=NA,
+                       color=NA,) +
+  geom_rect(data=rectData,
+            mapping=aes(xmin=xmin,xmax=xmax,
+                        ymin=ymin,ymax=ymax),
+            alpha=0.3) +
+  geom_col(mapping=aes(x=monthYear,
+                       y=relExcMed*100,
+                       fill=as.numeric(relativeExcDiscrete),
+                       size=significant),
+           color='black') +
+  geom_text(data=annotateData,mapping=aes(x=x,y=y,label=label),size=4,vjust=0) +
+  scale_x_date(breaks=allDates,date_labels="%b-%y") +
+  scale_y_continuous(breaks=c(0,25,150)) +
+  scale_fill_distiller(palette='Oranges',direction = 1,na.value = 'grey90',
+                       breaks=1:8,
+                       labels=c('<=20%','(20%,40%]','(40%,60%]',
+                                '(60%,80%]','(80%,100%]','(100%,150%]',
+                                '(150%,200%]','>200%')) +
+  scale_size_manual(values=c(0.2,0.5)) +
+  labs(y='Relative\nExcess (%)',
+       x = '',
+       fill='Relative\nExcess (%)',
+       size='Probability of\nRelative Excess > 0') +
+  facet_grid(factor(state, levels=sortedStatesAndDiv) ~ metroCat2,
+               scales = "free_y", space = "free_y",
+               switch = 'y') +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        panel.spacing.y = unit(-0.9,'lines'),
+        legend.position = 'bottom',
+        legend.key.width = unit(0.5,'cm'),
+        legend.title = element_text(hjust=0.5),
+        axis.text.x = element_text(angle=90),
+        axis.text.y=element_text(size=7),
+        strip.placement = "outside",
+        strip.text.y.left = element_text(angle=0)) +
+  guides(linetype=guide_legend(nrow = 2),
+         fill=guide_legend(title.hjust = 0),
+         size=guide_legend(override.aes=aes(fill='white'))) 
+barTimeGraph
+
+```
+
 ```{r}
 
-pdf(here::here('figures','ridgesGraphAlt.pdf'), width = 20, height = 16)
+pdf(here::here('figures','barTimeGraph.pdf'), height = 16, width = 12)
 
-ridgesGraph
+barTimeGraph
 
 dev.off()
 

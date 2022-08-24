@@ -37,7 +37,6 @@ ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feath
 COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
 popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
-countySets <- tibble(arrow::read_feather(here::here(outDir,'countySetsFinal.feather')))
 states <- read_csv(here::here(inDir,'utilities','states.csv'),
                    col_types = cols(state=col_character(),
                                     stateStr=col_character(),
@@ -151,13 +150,13 @@ finalSimsFIPS <- simulationsFIPSMonthly  %>%
   left_join(ACData,
             by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
   left_join(suppressionData,by='FIPSCode') %>%
-  mutate(deathsDiffPct = if_else(is.na(deathsDiffPct),0,deathsDiffPct),
-         expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
+  mutate(expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
          expDeathsLow = if_else(deathsDiffPct>diffTreshold,expDeathsLowSC,expDeathsLow),
          expDeathsUp = if_else(deathsDiffPct>diffTreshold,expDeathsUpSC,expDeathsUp),
          model=if_else(deathsDiffPct>diffTreshold,'yearly','monthly')) %>%
   select(csCode,FIPSCode,stateFIPS,countyName,state,monthYear,
-         expDeathsLow,expDeathsMed,expDeathsUp,imputedDeaths,pop,model)
+         expDeathsLow,expDeathsMed,expDeathsUp,
+         deaths,imputedDeaths,pop,model)
 
 ```
 

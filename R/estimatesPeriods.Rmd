@@ -1,10 +1,20 @@
 ---
-title: "Estimates of Excess Deaths by Wave"
+title: "Estimates of Excess Deaths by 4 Month Periods"
 author: "Eugenio Paglino"
 output: html_document
 ---
 
-```{r, echo=F, message=F,warning=F}
+```{r, echo=F, include=F}
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+
+```
+
+```{r}
 
 # Loading necessary packages
 
@@ -17,11 +27,11 @@ library(tidyverse)
 
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
+```{r}
 
 rm(list=ls())
 
-here::i_am('R/estimatesWaves.Rmd')
+here::i_am('R/estimatesPeriods.Rmd')
 
 inDir <- here::here('data','input')
 outDir <- here::here('data','output')
@@ -29,11 +39,11 @@ outDir <- here::here('data','output')
 ```
 
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 
 ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
 ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
-COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
+COVIDPeriodsData <- tibble(arrow::read_feather(here::here(outDir,'COVIDPeriodsData.feather')))
 popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
 popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
 states <- read_csv(here::here(inDir,'utilities','states.csv'),
@@ -47,20 +57,29 @@ states <- read_csv(here::here(inDir,'utilities','states.csv'),
 
 ACData <- ACData %>%
   mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
-  mutate(period = case_when(
+  mutate(period = factor(
+    case_when(
            between(monthYear,
                    make_date(2020,3,1),
-                   make_date(2020,8,1)) ~ 'Initial Wave (Mar-Aug 2020)',
+                   make_date(2020,6,1)) ~ 1,
            between(monthYear,
-                   make_date(2020,10,1),
-                   make_date(2021,2,1)) ~ 'Winter Wave (Oct 2021 - Feb 2020)',
+                   make_date(2020,7,1),
+                   make_date(2020,10,1)) ~ 2,
            between(monthYear,
-                   make_date(2021,8,1),
-                   make_date(2021,10,1)) ~ 'Delta (Aug-Oct 2021)',
+                   make_date(2020,11,1),
+                   make_date(2021,2,1)) ~ 3,
+           between(monthYear,
+                   make_date(2021,3,1),
+                   make_date(2022,6,1)) ~ 4,
+           between(monthYear,
+                   make_date(2021,7,1),
+                   make_date(2021,10,1)) ~ 5,
            between(monthYear,
                    make_date(2021,11,1),
-                   make_date(2022,2,1)) ~ 'Omicron (Nov 2021 - Feb 2022)',
-           TRUE ~ 'Non Peak'))
+                   make_date(2022,2,1)) ~ 6),
+    levels=1:6,
+    labels=c('(Mar-Jun 2020)','(Jul-Oct 2020)','(Nov 2020 - Feb 2021)',
+             '(Mar-Jun 2021)','(Jul-Oct 2021)','(Nov 2021 - Feb 2022)')))
 
 ```
 
@@ -74,7 +93,7 @@ ACPeriodData <- ACData %>%
 
 ```
 
-```{r, echo=F}
+```{r}
 
 # We load the pre-trained models
 
@@ -118,12 +137,13 @@ simulationsFIPSMonthly <- simulationsFIPSMonthly %>%
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
             probPositive = sum(imputedDeaths-expDeaths>0)/n(),
-            imputedDeaths = mean(imputedDeaths))
+            imputedDeaths = mean(imputedDeaths)) %>%
+  ungroup()
 
 ```
 
 
-```{r, echo=F}
+```{r}
 
 # Computing overall distribution of deaths by month
 
@@ -196,20 +216,21 @@ simulationsFIPSYearly <- simulationsFIPSYearly %>%
             expDeathsMed = quantile(expDeaths,probs=c(0.5)),
             expDeathsUp = quantile(expDeaths,probs=c(0.95)),
             probPositive = sum(imputedDeaths-expDeaths>0)/n(),
-            imputedDeaths = mean(imputedDeaths))
+            imputedDeaths = mean(imputedDeaths)) %>%
+  ungroup()
 
 simulationsFIPSYearly <- simulationsFIPSYearly %>%
   rename_with(~ paste0(.x,'SC'), expDeathsLow:imputedDeaths)
 
 ```
 
-```{r, echo=F}
+```{r}
 
 suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
   
 ```
 
-```{r, echo=F}
+```{r}
 
 # We set which estimate to used based on the relative average error of the 
 
@@ -229,7 +250,15 @@ finalSimsFIPS <- simulationsFIPSMonthly  %>%
 
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
+```{r}
+
+finalSimsFIPS <- finalSimsFIPS %>%
+  mutate(periodNum = as.integer(period)) %>%
+  left_join(COVIDPeriodsData,by=c('FIPSCode','stateFIPS','periodNum'='period'))
+
+```
+
+```{r}
 
 ## Metropolitan status
 metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
@@ -291,6 +320,6 @@ finalSimsFIPS <- finalSimsFIPS %>%
 
 ```{r, echo=FALSE, warning=F, message=F}
 
-finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesWavesINLA.csv'))
+finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesPeriodsINLA.csv'))
 
 ```
