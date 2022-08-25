@@ -1,4 +1,7 @@
-/data/input/covariates
+/data/input
+/R/RObjects/simMonthly.RData
+/R/RObjects/simYearly.RData
+/R/RObjects/simYearlySimple.RData
 /R/map_by_period_relative_exc_to_eugenio.R
 .Rhistory
 .DS_Store
