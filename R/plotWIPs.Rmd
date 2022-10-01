@@ -9,15 +9,19 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+library(knitr)
+library(ragg)
+library(here)
 library(USAboundaries)
 library(sf)
 library(colorspace)
 library(tidyverse)
 library(ggh4x)
 library(patchwork)
+library(geofacet)
+library(dtwclust)
 library(lubridate)
-library(knitr)
-library(here)
+library(parallel)
 
 # set default chunk options
 knitr::opts_chunk$set(
@@ -51,6 +55,7 @@ theme_minimal2 <- theme_minimal() +
 monthlyEstimates <- read_csv(here::here(outDir, "exMortEstimatesMonthlyINLA.csv"))
 metroRaw <- read_csv(here::here(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 BEARegions <- read_rds(here::here(inDir, "utilities", "stateBEARegionCrosswalk.rds"))
+censusRegion <- read_csv(here::here(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 ```
 
 # Maps of relative county excess mortality as a % (excess / expected) by COVID wave and Metro status
@@ -74,6 +79,7 @@ breaksMap <- c(-Inf, 0, .15, .3, .45, .7, Inf)
 # filter to pandemic months
 plotData <- monthlyEstimates %>%
   filter(monthYear >= date("2020-03-01")) %>%
+  arrange(FIPSCode, monthYear) %>% 
   left_join(BEARegions, by = c("stateStr" = "state_abb")) %>%
   mutate(
     excDeaths100k = 100000 * excDeathsMed / pop,
@@ -81,9 +87,10 @@ plotData <- monthlyEstimates %>%
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
       breaks = breaksMap,
-      ordered_result = TRUE
+      ordered_result = TRUE,
+      right = FALSE
     ),
-    significant = excDeathsLow > 0
+    significant = coalesce(excDeathsLow > 0, FALSE)
   )
 
 # color scale for corresponding number of bins
@@ -158,7 +165,8 @@ plotDataMapWave <- plotData %>%
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
       breaks = breaksMap,
-      ordered_result = TRUE
+      ordered_result = TRUE,
+      right = FALSE
     )
   )
 
@@ -183,7 +191,7 @@ mapNationalUnfaceted <- gMap +
   scale_fill_manual(
     values = colorscaleGeyserMap,
     labels = c(
-      "<0%",
+      "<=0%",
       "0-15%",
       "15-30%",
       "30-45%",
@@ -236,7 +244,7 @@ mapOut
 dev.off()
 ```
 
-# Heatmaps of relative county-month excess mortality as a % (excess / expected) by census region and Metro status
+# Heatmaps of relative county-month excess mortality as a % (excess / expected)
 
 * Large metro = NCHS categories 1 + 2
 
@@ -256,6 +264,59 @@ breaksHeatmap <- c(-Inf, 0, .15, .3, .5, .90, Inf)
 
 colorscaleGeyserHeatmap <- c("white", colorscaleGeyser21[c(11, 13, 15, 17, 21)])
 
+# specify month ranges for COVID-19 outbreak waves
+waveRanges <- tibble(
+  wave = c(
+    "Initial",
+    "Winter",
+    "Delta",
+    "Omicron"
+  ),
+  startWave = c(
+    date("2020-03-01"),
+    date("2020-10-01"),
+    date("2021-08-01"),
+    date("2021-11-01")
+  ),
+  endWave = c(
+    date("2020-09-01"),
+    date("2021-02-01"),
+    date("2021-10-01"),
+    date("2022-02-01")
+  )
+) %>%
+  mutate(
+    across(
+      c(startWave, endWave),
+      list(
+        monthNum = ~ month(.x),
+        yearStart = ~ floor_date(.x, unit = "years"),
+        yearEnd = ~ ceiling_date(.x, unit = "years"),
+        intervalSeconds = ~ int_length(
+          interval(
+            floor_date(.x, unit = "years"),
+            ceiling_date(.x, unit = "years")
+          )
+        ) / 12,
+        plot = ~ floor_date(.x, unit = "years") +
+          hours(14) +
+          seconds(
+            (month(.x) - 1) *
+              int_length(
+                interval(
+                  floor_date(.x, unit = "years"),
+                  ceiling_date(.x, unit = "years")
+                )
+              ) / 12
+          )
+      )
+    ),
+    startWave_plot = startWave_plot - (startWave_intervalSeconds / 2.5),
+    endWave_plot = endWave_plot + (endWave_intervalSeconds / 2.5),
+    midWave_plot = startWave_plot + ((endWave_plot - startWave_plot) / 2),
+    yjust = row_number() %% 2
+  )
+
 plotDataHeatmap <- plotData %>%
   left_join(metro, by = "FIPSCode") %>%
   group_by(FIPSCode) %>%
@@ -270,7 +331,8 @@ plotDataHeatmap <- plotData %>%
   fill(
     monthMax1,
     monthMax2,
-    monthMax3
+    monthMax3,
+    .direction = "updown"
   ) %>%
   ungroup() %>%
   arrange(
@@ -283,7 +345,8 @@ plotDataHeatmap <- plotData %>%
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
       breaks = breaksHeatmap,
-      ordered_result = TRUE
+      ordered_result = TRUE,
+      right = FALSE
     ),
     FIPSPlotOrder = forcats::as_factor(FIPSCode),
     # create 12 evenly-spaced datetimes for nicer plotting
@@ -297,12 +360,54 @@ plotDataHeatmap <- plotData %>%
 
 # test that month dates modified for plotting still have the same month as the original data month
 testthat::expect_true(all(plotDataHeatmap[["monthTest"]]))
-```
 
-```{r heatmap plot, echo=TRUE}
-gHeatmap <- ggplot(
-  filter(plotDataHeatmap, monthMax1 <= date("2020-05-01")),
-  # plotDataHeatmap,
+FIPSTop50 <- plotDataHeatmap %>% 
+  group_by(FIPSCode, metroStatus3) %>% 
+  summarize(popMax = max(pop, na.rm = TRUE), .groups = "drop") %>% 
+  group_by(metroStatus3) %>% 
+  arrange(desc(popMax), .by_group = TRUE) %>% 
+  slice(1:50) %>% 
+  ungroup()
+
+plotDataHeatmapSubset <- plotDataHeatmap %>% 
+  semi_join(FIPSTop50, by = "FIPSCode") %>% 
+  arrange(metroStatus3, FIPSPlotOrder) %>% 
+  mutate(
+    FIPSlabel = glue::glue("{countyName}, {stateStr}"),
+    FIPSPlotOrder = as_factor(FIPSlabel)
+    )
+```
+```{r heatmap plot}
+
+# plot waves as line segment annotations
+waveRangePlot <- ggplot(waveRanges) +
+  geom_segment(
+    aes(
+      x = startWave_plot,
+      xend = endWave_plot
+    ),
+    y = 0,
+    yend = 0,
+    color = "grey70"
+  ) +
+  geom_text(
+    aes(
+      x = midWave_plot,
+      y = -.5 - (yjust * 1),
+      label = wave
+    ),
+    vjust = 1.5,
+    color = "grey10", 
+    size = 2.5
+  ) +
+  coord_fixed(2628000 * .8, clip = "off") +
+  theme_void()
+
+# function to plot heatmap and "significance" side by side
+plot_heatmap <- function(.x,
+                         plot_title = NULL) {
+  gHeatmap <- ggplot(
+  .x,
   aes(
     y = FIPSPlotOrder,
     x = monthYearPlot,
@@ -310,15 +415,15 @@ gHeatmap <- ggplot(
     width = I(intervalSeconds)
   )
 )
-
-heatmapUnfaceted <- gHeatmap +
+  
+  heatmapUnfaceted <- gHeatmap +
   geom_tile(
     color = "transparent"
   ) +
   scale_fill_manual(
     values = colorscaleGeyserHeatmap,
     labels = c(
-      "<0%",
+      "<=0%",
       "0-15%",
       "15-30%",
       "30-50%",
@@ -327,26 +432,27 @@ heatmapUnfaceted <- gHeatmap +
     )
   ) +
   scale_x_datetime(
-    breaks = scales::breaks_width(width = "3 months"),
+    breaks = scales::breaks_width(width = "4 months"),
     minor_breaks = scales::breaks_width(width = "1 month"),
     labels = scales::label_date_short(),
     expand = c(0, 0)
   ) +
   scale_y_discrete(
-    labels = NULL,
+    # labels = NULL,
     limits = rev
   ) +
   labs(
-    title = "Relative Excess",
+    title = plot_title,
+    subtitle = "Relative Excess",
     x = NULL,
     y = NULL,
     fill = "Relative Excess (%)"
   ) +
-  coord_fixed(2628000 * .8) +
+  coord_fixed(2628000 * 1.3) +
   guides(
     fill = guide_legend(
       reverse = FALSE,
-      nrow = 2,
+      nrow = 1,
       title.position = "top",
       override.aes = list(
         color = "grey40",
@@ -356,15 +462,22 @@ heatmapUnfaceted <- gHeatmap +
   ) +
   theme_minimal2 +
   theme(
-    text = element_text(size = 8),
+    text = element_text(size = 10),
+    panel.border = element_rect(
+      color = "grey40",
+      size = .1,
+      fill = "transparent"
+    ),
     panel.grid = element_blank(),
     axis.ticks.x = element_line(
       color = "grey40",
       size = .1
     ),
-    axis.ticks.length.x = unit(2, "points"),
+    axis.ticks.length.x = unit(3, "points"),
     legend.position = "bottom",
-    legend.key.size = unit(0.3, "cm")
+    legend.justification = "center",
+    legend.title.align = .5,
+    legend.key.size = unit(0.5, "cm")
   )
 
 significantTileUnfaceted <- gHeatmap +
@@ -377,12 +490,12 @@ significantTileUnfaceted <- gHeatmap +
   scale_fill_manual(
     values = c("white", "grey70"),
     labels = c(
-      "<90%",
-      ">90%"
+      "<=95%",
+      ">95%"
     )
   ) +
   scale_x_datetime(
-    breaks = scales::breaks_width(width = "3 months"),
+    breaks = scales::breaks_width(width = "4 months"),
     minor_breaks = scales::breaks_width(width = "1 month"),
     labels = scales::label_date_short(),
     expand = c(0, 0)
@@ -392,12 +505,13 @@ significantTileUnfaceted <- gHeatmap +
     limits = rev
   ) +
   labs(
-    title = "Probability of Excess > 0",
+    title = NULL,
+    subtitle = "Probability of Excess > 0",
     x = NULL,
     y = NULL,
     fill = "Probability of Excess > 0"
   ) +
-  coord_fixed(2628000 * .8) +
+  coord_fixed(2628000 * 1.3) +
   guides(
     fill = guide_legend(
       reverse = FALSE,
@@ -411,116 +525,506 @@ significantTileUnfaceted <- gHeatmap +
   ) +
   theme_minimal2 +
   theme(
-    text = element_text(size = 8),
+    text = element_text(size = 10),
+    panel.border = element_rect(
+      color = "grey40",
+      size = .1,
+      fill = "transparent"
+    ),
     panel.grid = element_blank(),
     axis.ticks.x = element_line(
       color = "grey40",
       size = .1
     ),
-    axis.ticks.length.x = unit(2, "points"),
+    axis.ticks.length.x = unit(3, "points"),
     legend.position = "bottom",
-    legend.key.size = unit(0.3, "cm")
+    legend.justification = "center",
+    legend.title.align = .5,
+    legend.key.size = unit(0.5, "cm")
   )
 
-heatmapOut <- heatmapUnfaceted + significantTileUnfaceted
+# heatmapOut <- (heatmapUnfaceted + significantTileUnfaceted + waveRangePlot + waveRangePlot) +
+heatmapOutList <- list(heatmapUnfaceted, significantTileUnfaceted)
+
+  # heatmapOut <- (heatmapUnfaceted + significantTileUnfaceted) +
+  # plot_layout(
+  #   ncol = 2,
+  #   guides = "collect"
+  # ) + 
+  # plot_annotation(title = plot_title) &
+  # theme(legend.position = "bottom")
+}
+
+heatmapOut <- plotDataHeatmapSubset %>% 
+  group_by(metroStatus3) %>% 
+  group_map(plot_heatmap) %>% 
+  map(wrap_plots) %>% 
+  map(~ .x[[1]] + plot_layout(tag_level = "new") + .x[[2]]) %>% 
+  wrap_plots(
+    nrow = 1,
+    guides = "collect"
+  ) +
+  plot_annotation(tag_levels = c("a", "1")) &
+  theme(
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5
+  )
+
 ```
-```{r export heatmap}
+```{r export heatmap, eval=FALSE}
 ragg::agg_png(
-  filename = here::here("figures", "heatmapPreview.png"),
-  width = 2700,
-  height = 3600,
+  filename = here::here("figures", "heatmap.png"),
+  width = 3600,
+  height = 2100,
   res = 300
 )
 heatmapOut
 dev.off()
 ```
 
-## Rows (counties) ordered by unsupervised clustering
+# Clustering counties' timeseries of excess deaths
 
-NB: Haven't been able to generate a visually patterned order this way, so not outputting it.
+Using dynamic time warping, 17 clusters seems to be the best solution initially.
+As seen in the results, some clusters are more interpretable than others.
 
-```{r clustered heatmaps, eval=FALSE, include=FALSE}
-
-# attempt to hierarchical clustering and sort for more visually informative heatmaps
-dataForClust <- plotData %>%
-  select(FIPSCode, monthYear, excDeaths100k) %>%
+```{r cluster timeseries data prep, cache=TRUE, eval=FALSE}
+# restructure data and set 0 as floor, because negative "excess" deaths are not of interest here
+dataForClust <- plotDataHeatmap %>%
+  select(FIPSCode, monthYear, excDeathsRelative) %>%
+  mutate(excDeathsRelative = pmax(0, excDeathsRelative)) %>% 
   pivot_wider(
     names_from = monthYear,
-    values_from = excDeaths100k,
+    values_from = excDeathsRelative,
     names_sort = TRUE
-  )
+  ) %>% 
+  arrange(FIPSCode)
 
 dataForClustMatrix <- dataForClust %>%
   select(-FIPSCode) %>%
   as.matrix()
 
-rownames(dataForClustMatrix) <- dataForClust[["FIPSCode"]]
+rownames(dataForClustMatrix) <- as.character(dataForClust[["FIPSCode"]])
 
-distMatrixEuclidean <- proxy::dist(
-  x = dataForClustMatrix,
-  method = "Euclidean",
-  diag = TRUE,
-  upper = TRUE,
-  by_rows = TRUE,
-  auto_convert_data_frames = TRUE
+dataForClustLists <- tslist(dataForClustMatrix)
+```
+```{r cluster timeseries, cache=TRUE, eval=FALSE}
+# set options for partitional clustering using dynamic time warping
+partitionalConfigs <- compare_clusterings_configs(
+    types = "partitional", 
+    # k = c(5L:12L, 14:40L),
+    # k = 16L:21L,
+    k = 16L:64L,
+    controls = list(
+        partitional = partitional_control(
+            iter.max = 1000L,
+            nrep = 1L
+        )
+    ),
+    preprocs = pdc_configs(
+        "preproc",
+        zscore = list(center = c(FALSE))
+    ),
+    distances = pdc_configs(
+        "distance",
+        dtw_basic = list(
+          window.size = 0L:2L,
+          norm = c("L1", "L2")
+        )
+    ),
+    centroids = pdc_configs(
+        "centroid",
+        partitional = list(
+            dba = list(
+              window.size = 0L:2L,
+              norm = c("L1", "L2")
+            )
+        )
+    ),
+    no.expand = c("window.size", "norm")
 )
 
-distMatrixMahalanobis <- proxy::dist(
-  x = dataForClustMatrix,
-  method = "Mahalanobis",
-  diag = TRUE,
-  upper = TRUE,
-  by_rows = TRUE,
-  auto_convert_data_frames = TRUE
+# list evaluators for picking "best" result
+partitionalEvaluators <- cvi_evaluators(type = c("Sil", "D", "COP", "DB", "DBstar", "CH"))
+
+# start parallelization
+workers <- parallel::makeCluster(detectCores())
+# load dtwclust in each core, and make them use 1 thread per worker
+invisible(parallel::clusterEvalQ(workers, {
+    library(dtwclust)
+    RcppParallel::setThreadOptions(1L)
+}))
+# register workers
+require(doParallel)
+registerDoParallel(workers)
+
+clusterResult <- dtwclust::compare_clusterings(
+  series = dataForClustLists,
+  types = c("partitional"),
+  seed = 20220914L,
+  trace = FALSE,
+  configs = partitionalConfigs,
+  score.clus = partitionalEvaluators[["score"]],
+  pick.clus = partitionalEvaluators[["pick"]],
+  return.objects = TRUE
 )
 
-dataClust <- fastcluster::hclust(
-  distMatrixMahalanobis,
-  method = "average"
-) %>%
-  dendsort::dendsort()
+parallel::stopCluster(workers)
+```
+## Preview initial cluster results
 
-plotDataOrder <- tibble(
-  FIPSCode = dataClust[["labels"]],
-  order = dataClust[["order"]]
-)
+An error in this section indicates that no cluster validity indices agreed.
 
-plotDataHeatmapHeatmapOrdered <- plotData %>%
-  left_join(plotDataOrder, by = "FIPSCode") %>%
-  left_join(metro, by = "FIPSCode") %>%
-  arrange(order) %>%
+```{r preview cluster results, include=TRUE, results='asis', cache=TRUE, eval=FALSE}
+# qwraps2::lazyload_cache_dir(here::here("R", "plotWIPS_cache", "html"))
+
+# print(clusterResult[["results"]][["partitional"]])
+
+# function to extract and plot just the centroid of clusters for easier viz
+plot_centroids <- function(partitionalObject) {
+  
+  objectCentroids <- partitionalObject@centroids
+  
+  g <- objectCentroids %>% 
+    map(enframe, name = "seq") %>% 
+    map(ggplot, aes(x = seq, y = value)) %>% 
+    imap(~ .x + 
+           geom_line() + 
+           labs(title = .y, x = NULL, y = NULL) +
+           theme_minimal() +
+           theme(axis.text = element_blank())
+         ) %>% 
+    patchwork::wrap_plots()
+}
+
+# if one solution receives the majority of votes, print its info
+try(print(clusterResult[["pick"]]))
+
+try(plot(clusterResult[["pick"]][["object"]]))
+
+try(print(plot_centroids(clusterResult[["pick"]][["object"]])))
+
+# assuming there is no pick, identify and display top results
+resultSummaryBest <- clusterResult[["results"]][["partitional"]] %>% 
   mutate(
-    FIPSPlotOrder = forcats::as_factor(FIPSCode)
-  )
+    across(
+      c(Sil, D, CH, COP, DB, DBstar),
+      list(
+        percentile = percent_rank,
+        best = ~ .x == max(.x)
+      )
+    )
+  ) %>% 
+  rowwise() %>% 
+  mutate(
+    avg_percentile = mean(c_across(ends_with("_percentile"))),
+    total_bests = sum(c_across(ends_with("_best")))
+  ) %>% 
+  ungroup() %>% 
+  arrange(-total_bests, -avg_percentile) %>% 
+  filter(total_bests > 0)
 
-gHeatmapOrdered <- ggplot(
-  plotDataHeatmapHeatmapOrdered,
-  aes(
-    y = FIPSPlotOrder,
-    x = monthYear,
-    fill = excDeathsRelativeBinned
-  )
+resultSummaryBest %>% 
+  kable(digits = 3) %>% 
+  kableExtra::kable_styling(bootstrap_options = "condensed") %>% 
+  print()
+
+# plot just centroids of the top results that converged
+centroidPlots <- clusterResult$objects.partitional[names(clusterResult$objects.partitional) %in% resultSummaryBest[["config_id"]]] %>%
+  keep(~ .@converged) %>%
+  map2(
+    .,
+    names(.),
+    ~ plot_centroids(.x) + 
+      patchwork::plot_annotation(title = .y)
+    )
+
+walk(centroidPlots, print)
+
+# extract partitions and summary info from selected solution
+partitionSelect <- clusterResult$objects.partitional$config1_2
+```
+
+```{r cluster timeseries data prep 02, cache=TRUE, eval=FALSE}
+# restructure data and set 0 as floor, because negative "excess" deaths are not of interest here
+dataForClust02 <- plotDataHeatmap %>%
+  filter(model == "monthly") %>% 
+  select(FIPSCode, monthYear, excDeathsRelative) %>%
+  mutate(excDeathsRelative = pmax(0, excDeathsRelative)) %>% 
+  pivot_wider(
+    names_from = monthYear,
+    values_from = excDeathsRelative,
+    names_sort = TRUE
+  ) %>% 
+  arrange(FIPSCode)
+
+dataForClustMatrix02 <- dataForClust02 %>%
+  select(-FIPSCode) %>%
+  as.matrix()
+
+rownames(dataForClustMatrix02) <- as.character(dataForClust02[["FIPSCode"]])
+
+dataForClustLists02 <- tslist(dataForClustMatrix02)
+```
+```{r cluster timeseries 02, cache=TRUE, eval=FALSE}
+# set options for partitional clustering using dynamic time warping
+partitionalConfigs02 <- compare_clusterings_configs(
+    types = "partitional", 
+    k = 6L:32L,
+    controls = list(
+        partitional = partitional_control(
+            iter.max = 2000L,
+            nrep = 1L
+        )
+    ),
+    preprocs = pdc_configs(
+        "preproc",
+        none = list(),
+        zscore = list(center = c(FALSE))
+    ),
+    distances = pdc_configs(
+        "distance",
+        dtw_basic = list(
+          window.size = 0L:2L,
+          norm = c("L1", "L2")
+        )
+    ),
+    centroids = pdc_configs(
+        "centroid",
+        partitional = list(
+            dba = list(
+              window.size = 0L:2L,
+              norm = c("L1", "L2")
+            )
+        )
+    ),
+    no.expand = c("window.size", "norm")
 )
 
-gHeatmapOrdered +
-  geom_tile(
-    color = "transparent"
-  ) +
-  scale_fill_manual(
-    values = colorscaleGeyserSelect
-  ) +
-  facet_grid(
-    rows = vars(region_bea),
-    scales = "free_y",
-    space = "free_y"
-  ) +
-  scale_x_date(breaks = scales::breaks_width(width = "6 months")) +
-  scale_y_discrete(
-    labels = NULL,
-    limits = rev
-  ) +
-  guides(fill = guide_legend(reverse = TRUE)) +
-  theme_minimal2
+# start parallelization
+workers <- parallel::makeCluster(detectCores())
+# load dtwclust in each core, and make them use 1 thread per worker
+invisible(parallel::clusterEvalQ(workers, {
+    library(dtwclust)
+    RcppParallel::setThreadOptions(1L)
+}))
+# register workers
+require(doParallel)
+registerDoParallel(workers)
+
+clusterResult02 <- dtwclust::compare_clusterings(
+  series = dataForClustLists02,
+  types = c("partitional"),
+  seed = 20220914L,
+  trace = TRUE,
+  configs = partitionalConfigs02,
+  score.clus = partitionalEvaluators[["score"]],
+  pick.clus = partitionalEvaluators[["pick"]],
+  return.objects = TRUE
+)
+
+parallel::stopCluster(workers)
+```
+
+```{r cluster timeseries 02 narrow subset, eval=FALSE}
+# set options for partitional clustering using dynamic time warping
+partitionalConfigs03 <- compare_clusterings_configs(
+    types = "partitional", 
+    k = 6L:11L,
+    controls = list(
+        partitional = partitional_control(
+            iter.max = 2000L,
+            nrep = 1L
+        )
+    ),
+    preprocs = pdc_configs(
+        "preproc",
+        none = list(),
+        zscore = list(center = c(FALSE))
+    ),
+    distances = pdc_configs(
+        "distance",
+        dtw_basic = list(
+          window.size = 0L:2L,
+          norm = c("L1", "L2")
+        )
+    ),
+    centroids = pdc_configs(
+        "centroid",
+        partitional = list(
+            dba = list(
+              window.size = 0L:2L,
+              norm = c("L1", "L2")
+            )
+        )
+    ),
+    no.expand = c("window.size", "norm")
+)
+
+# start parallelization
+workers <- parallel::makeCluster(detectCores())
+# load dtwclust in each core, and make them use 1 thread per worker
+invisible(parallel::clusterEvalQ(workers, {
+    library(dtwclust)
+    RcppParallel::setThreadOptions(1L)
+}))
+# register workers
+require(doParallel)
+registerDoParallel(workers)
+
+clusterResult03 <- dtwclust::compare_clusterings(
+  series = dataForClustLists02,
+  types = c("partitional"),
+  seed = 20220914L,
+  trace = TRUE,
+  configs = partitionalConfigs03,
+  score.clus = partitionalEvaluators[["score"]],
+  pick.clus = partitionalEvaluators[["pick"]],
+  return.objects = TRUE
+)
+
+parallel::stopCluster(workers)
+```
+
+## Preview second cluster results
+
+In the first iteration, results were affected by counties with substantial data suppression, in which case a yearly model was used in place of monthly.
+The yearly model induced additional year-to-year systematic differences, such that this methodological artifact influenced the creation of several clusters.
+A second attempt at clustering was performed after dropping these counties.
+
+
+
+```{r preview cluster results 02, include=TRUE, results='asis', cache=TRUE, eval=FALSE}
+# qwraps2::lazyload_cache_dir(here::here("R", "plotWIPS_cache", "html"))
+
+# print(clusterResult02[["results"]][["partitional"]])
+
+# if one solution receives the majority of votes, print its info
+try(print(clusterResult03[["pick"]]))
+
+try(plot(clusterResult03[["pick"]][["object"]]))
+
+try(print(plot_centroids(clusterResult03[["pick"]][["object"]])))
+
+# assuming there is no pick, identify and display top results
+resultSummaryBest03 <- clusterResult03[["results"]][["partitional"]] %>% 
+  mutate(
+    across(
+      c(Sil, D, CH, COP, DB, DBstar),
+      list(
+        percentile = percent_rank,
+        best = ~ .x == max(.x)
+      )
+    )
+  ) %>% 
+  rowwise() %>% 
+  mutate(
+    avg_percentile = mean(c_across(ends_with("_percentile"))),
+    total_bests = sum(c_across(ends_with("_best")))
+  ) %>% 
+  ungroup() %>% 
+  arrange(-avg_percentile, -total_bests) %>% 
+  filter(total_bests > 0 | avg_percentile > .7)
+
+resultSummaryBest03 %>% 
+  kable(digits = 3) %>% 
+  kableExtra::kable_styling(bootstrap_options = "condensed") %>% 
+  print()
+
+# plot just centroids of the top results that converged
+centroidPlots03 <- clusterResult03$objects.partitional[names(clusterResult03$objects.partitional) %in% resultSummaryBest03[["config_id"]]] %>%
+  keep(~ .@converged) %>%
+  map2(
+    .,
+    names(.),
+    ~ plot_centroids(.x) + 
+      patchwork::plot_annotation(title = .y)
+    )
+
+walk(centroidPlots03, print)
+
+# extract partitions and summary info from selected solution
+partitionSelect03 <- clusterResult03[["pick"]][["object"]]
+```
+
+## Final selected clustering solution
+
+(Ignore "NA" in mode columns, they're an artifact of calculating the mode and weren't worth taking the time to get rid of.)
+
+```{r heatmap cluster plot data prep, include=TRUE, eval=FALSE}
+plotDataHeatmapCluster02 <- dataForClust02 %>% 
+  add_column(cluster = partitionSelect02@cluster) %>% 
+  select(FIPSCode, cluster) %>% 
+  right_join(plotDataHeatmap, by = "FIPSCode")
+```
+```{r selected result details, include=TRUE, results='asis', eval=FALSE}
+partitionSelect02@clusinfo %>% 
+  mutate(partition = row_number()) %>% 
+    kable(digits = 3) %>% 
+  kableExtra::kable_styling(bootstrap_options = "condensed") %>% 
+  print()
+
+plot_centroids(partitionSelect02) %>% 
+  print()
+
+countyClusterDescriptive02 <- plotDataHeatmapCluster02 %>% 
+  group_by(cluster) %>% 
+  add_count(metroCat, name = "metroCat_n") %>% 
+  add_count(BEARegion, name = "BEARegion_n") %>% 
+  mutate(
+    across(
+      c(metroCat_n, BEARegion_n),
+      list(max = max)
+    ),
+    metroCat_mode = if_else(
+      metroCat_n == metroCat_n_max, 
+      metroCat, 
+      NA_character_
+    ),
+    BEARegion_mode = if_else(
+      BEARegion_n == BEARegion_n_max, 
+      BEARegion, 
+      NA_character_
+    )
+  ) %>% 
+  summarize(
+    metroCat_mode = toString(unique(metroCat_mode)),
+    BEARegion_mode = toString(unique(BEARegion_mode)),
+    across(
+      c(pop, monthMax1, excDeathsRelative, significant),
+      list(mean = mean, sd = sd)
+    ),
+    .groups = "drop"
+  )
+
+countyClusterDescriptive02 %>% 
+  knitr::kable(digits = 2) %>% 
+  kableExtra::kable_styling(bootstrap_options = "condensed") %>% 
+  print()
+```
+
+## Plot counties by DTW cluster from selected solution
+```{r cluster heatmap plots, include=TRUE, output='asis', eval=FALSE}
+heatmapPlotCluster02 <- distinct(plotDataHeatmapCluster02, cluster) %>% 
+  drop_na() %>% 
+  deframe() %>% 
+  map(
+    ~ filter(plotDataHeatmapCluster02, cluster == .x) %>% 
+      plot_heatmap(plot_title = paste("Cluster", .x))
+  )
+
+walk(heatmapPlotCluster02, print)
+```
+```{r export cluster heatmaps, eval=FALSE}
+ragg::agg_png(
+  filename = here::here("figures", "heatmapClusterV02_%02d.png"),
+  width = 2700,
+  height = 3600,
+  res = 300,
+  scaling = 1.2
+)
+heatmapPlotCluster02
+dev.off()
 ```
 
 # Barplots!
@@ -556,10 +1060,11 @@ plotDataBar <- plotDataHeatmap %>%
     excDeathsRelativeBinned = cut(
       excDeathsRelative,
       breaks = breaksBar,
-      ordered_result = TRUE
+      ordered_result = TRUE,
+      right = FALSE
     ),
     excDeathsRelative = pmax(excDeathsRelative, 0),
-    significant = excDeathsLow > 0
+    significant = coalesce(excDeathsLow > 0, FALSE)
   )
 ```
 
@@ -579,10 +1084,10 @@ barplotOut <- gBarplot +
     color = "transparent"
   ) +
   geom_segment(
+    data = filter(plotDataBar, significant),
     aes(
       x = monthYearPlot - (intervalSeconds / 2),
-      xend = monthYearPlot + (intervalSeconds / 2),
-      linetype = significant
+      xend = monthYearPlot + (intervalSeconds / 2)
     ),
     y = 0,
     yend = 0,
@@ -594,14 +1099,14 @@ barplotOut <- gBarplot +
     breaks = seq.int(0L, 250L, 50L)
   ) +
   scale_x_datetime(
-    breaks = scales::breaks_width(width = "3 months"),
+    breaks = scales::breaks_width(width = "4 months"),
     labels = scales::label_date_short(),
     expand = c(0, 0)
   ) +
   scale_fill_manual(
     values = colorscaleGeyserHeatmap,
     labels = c(
-      "<0%",
+      "<=0%",
       "0-10%",
       "10-20%",
       "20-35%",
@@ -611,7 +1116,7 @@ barplotOut <- gBarplot +
   ) +
   scale_linetype_manual(
     values = c("dotted", "solid"),
-    labels = c("<90%", ">90%")
+    labels = c(">95%")
   ) +
   ggh4x::facet_nested(
     rows = vars(region_group_bea, stateStr),
@@ -685,4 +1190,304 @@ ragg::agg_png(
 )
 barplotOut
 dev.off()
+```
+
+# Geofacet
+
+```{r geofacet data prep}
+
+plotDataGeofacet <- mutate(
+  plotDataHeatmap, 
+  metroCat = "State Total")  %>% 
+  bind_rows(plotDataHeatmap) %>% 
+  group_by(
+    stateFIPS,
+    state,
+    stateStr,
+    monthYear,
+    metroCat
+  ) %>% 
+  summarize(
+    across(
+      c(expDeathsLow:imputedDeaths, excDeathsMed:excDeathsUp, excDeaths100k),
+      sum,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>% 
+  mutate(
+    excDeathsRelative = excDeathsMed / expDeathsMed
+  )
+
+```
+
+```{r geofacet plots, eval=FALSE}
+geofacetPalette <- colorspace::qualitative_hcl(palette = "Dark 3", n = 5)[2:5]
+
+gGeofacet <- ggplot(
+  plotDataGeofacet,
+  aes(
+    x = monthYear,
+    y = excDeathsRelative * 100,
+    linetype = metroCat,
+    color = metroCat
+  )
+)
+
+gGeofacet +
+  geom_line() +
+  scale_linetype_manual(
+    values = c(5:1)
+  ) +
+  scale_color_manual(
+    values = c(geofacetPalette, "grey20")
+  ) +
+  scale_x_date(
+    # expand = c(0, 0),
+    breaks = scales::breaks_width(width = "4 months"),
+    labels = scales::label_date_short()
+  ) +
+  scale_y_continuous(
+    # expand = c(0, 0),
+    oob = scales::oob_keep
+  ) +
+  coord_cartesian(
+    ylim = c(NA, 150),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  facet_geo(facets = ~ state) +
+  labs(
+    y = "Relative Excess (%)",
+    x = NULL,
+    color = "County Category",
+    linetype = "County Category"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 10),
+    panel.border = element_rect(
+      color = "grey40",
+      size = .1,
+      fill = "transparent"
+    ),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks.x = element_line(
+      color = "grey40",
+      size = .1
+    ),
+    axis.ticks.length.x = unit(3, "points"),
+  )
+```
+
+```{r geofacet spaghetti plots}
+
+us_state_grid_custom <- data.frame(
+  row = c(1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7),
+  col = c(12, 11, 11, 12, 4, 10, 8, 5, 3, 6, 2, 1, 11, 12, 4, 10, 9, 6, 7, 5, 3, 8, 2, 1, 2, 10, 9, 4, 5, 7, 3, 8, 1, 6, 11, 7, 9, 3, 6, 4, 5, 8, 11, 6, 7, 8, 5, 4, 2, 9, 1),
+  code = c("ME", "NH", "VT", "MA", "ND", "NY", "MI", "MN", "MT", "WI", "ID", "WA", "CT", "RI", "SD", "NJ", "PA", "IL", "IN", "IA", "NE", "OH", "WY", "OR", "NV", "MD", "VA", "CO", "KS", "KY", "UT", "WV", "CA", "MO", "DE", "TN", "NC", "AZ", "AR", "NM", "OK", "SC", "DC", "MS", "AL", "GA", "LA", "TX", "AK", "FL", "HI"),
+  name = c("Maine", "New Hampshire", "Vermont", "Massachusetts", "North Dakota", "New York", "Michigan", "Minnesota", "Montana", "Wisconsin", "Idaho", "Washington", "Connecticut", "Rhode Island", "South Dakota", "New Jersey", "Pennsylvania", "Illinois", "Indiana", "Iowa", "Nebraska", "Ohio", "Wyoming", "Oregon", "Nevada", "Maryland", "Virginia", "Colorado", "Kansas", "Kentucky", "Utah", "West Virginia", "California", "Missouri", "Delaware", "Tennessee", "North Carolina", "Arizona", "Arkansas", "New Mexico", "Oklahoma", "South Carolina", "District of Columbia", "Mississippi", "Alabama", "Georgia", "Louisiana", "Texas", "Alaska", "Florida", "Hawaii"),
+  stringsAsFactors = FALSE
+)
+
+plotDataGeofacet <- mutate(
+  plotDataHeatmap, 
+  group = "State Total"
+  )  %>% 
+  group_by(
+    stateFIPS,
+    state,
+    stateStr,
+    monthYear,
+    group
+  ) %>% 
+  summarize(
+    across(
+      c(expDeathsLow:imputedDeaths, excDeathsMed:excDeathsUp, excDeaths100k),
+      sum,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>% 
+  mutate(
+    excDeathsRelative = excDeathsMed / expDeathsMed
+  ) %>% 
+  bind_rows(plotDataHeatmap) %>% 
+  filter(pop > 30000 | is.na(pop))
+
+gGeofacet <- ggplot(
+  plotDataGeofacet,
+  aes(
+    x = monthYear,
+    y = excDeathsRelative * 100,
+    # linetype = metroStatus,
+    group = countyName,
+    alpha = group
+  )
+)
+
+geofacetOut <- gGeofacet +
+  geom_line(
+    color = "grey10"
+  ) +
+  scale_alpha_discrete(
+    range = c(1, 1),
+    na.value = .075
+  ) +
+  scale_x_date(
+    # expand = c(0, 0),
+    breaks = scales::breaks_width(width = "4 months"),
+    labels = scales::label_date_short()
+  ) +
+  scale_y_continuous(
+    # expand = c(0, 0),
+    oob = scales::oob_keep
+  ) +
+  coord_cartesian(
+    ylim = c(NA, 150),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  facet_geo(
+    facets = ~ state,
+    grid = us_state_grid_custom
+  ) +
+  labs(
+    y = "Relative Excess (%)",
+    x = NULL,
+    color = "County Category",
+    linetype = "County Category"
+  ) +
+  guides(
+    color = "none",
+    alpha = "none"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 10),
+    panel.border = element_rect(
+      color = "grey40",
+      size = .1,
+      fill = "transparent"
+    ),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks.x = element_line(
+      color = "grey40",
+      size = .1
+    ),
+    axis.ticks.length.x = unit(3, "points")
+  )
+```
+```{r export geofacet}
+ragg::agg_png(
+  filename = here::here("figures", "geofacet.png"),
+  width = 3600,
+  height = 2500,
+  res = 300
+)
+geofacetOut
+dev.off()
+```
+
+
+```{r geofacet heatmap, eval=FALSE}
+
+FIPSTop25State <- plotDataHeatmap %>% 
+  group_by(FIPSCode, state) %>% 
+  summarize(popMax = max(pop, na.rm = TRUE), .groups = "drop") %>% 
+  group_by(state) %>% 
+  arrange(desc(popMax), .by_group = TRUE) %>% 
+  slice(1:25) %>% 
+  ungroup()
+
+plotDataHeatmapSubsetGeofacet <- plotDataHeatmap %>% 
+  semi_join(FIPSTop25State, by = "FIPSCode") %>% 
+  arrange(state, FIPSPlotOrder) %>% 
+  mutate(
+    FIPSlabel = glue::glue("{countyName}, {stateStr}"),
+    FIPSPlotOrder = as_factor(FIPSlabel)
+    )
+
+  gHeatmap <- ggplot(
+  plotDataHeatmapSubsetGeofacet,
+  aes(
+    y = FIPSPlotOrder,
+    x = monthYearPlot,
+    fill = excDeathsRelativeBinned,
+    width = I(intervalSeconds)
+  )
+)
+  
+  (heatmapGeofacet <- gHeatmap +
+  geom_tile(
+    color = "transparent"
+  ) +
+  scale_fill_manual(
+    values = colorscaleGeyserHeatmap,
+    labels = c(
+      "<=0%",
+      "0-15%",
+      "15-30%",
+      "30-50%",
+      "50-90%",
+      ">90%"
+    )
+  ) +
+  scale_x_datetime(
+    breaks = scales::breaks_width(width = "4 months"),
+    minor_breaks = scales::breaks_width(width = "1 month"),
+    labels = scales::label_date_short(),
+    expand = c(0, 0)
+  ) +
+  scale_y_discrete(
+    labels = NULL,
+    limits = rev,
+    expand = c(0,0)
+  ) +
+  labs(
+    title = NULL,
+    subtitle = NULL,
+    x = NULL,
+    y = NULL,
+    fill = "Relative Excess (%)"
+  ) +
+  # coord_fixed(2628000 * 1) +
+  facet_geo(
+    facets = ~ state,
+    scales = "free_y",
+    shrink = TRUE
+  ) +
+  guides(
+    fill = guide_legend(
+      reverse = FALSE,
+      nrow = 1,
+      title.position = "top",
+      override.aes = list(
+        color = "grey40",
+        size = .1
+      )
+    )
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 10),
+    panel.border = element_rect(
+      color = "grey40",
+      size = .1,
+      fill = "transparent"
+    ),
+    panel.grid = element_blank(),
+    axis.ticks.x = element_line(
+      color = "grey40",
+      size = .1
+    ),
+    axis.ticks.length.x = unit(3, "points"),
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5,
+    legend.key.size = unit(0.5, "cm")
+  ))
+
 ```
