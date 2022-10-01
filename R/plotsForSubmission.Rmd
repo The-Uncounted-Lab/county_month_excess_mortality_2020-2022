@@ -1,0 +1,486 @@
+---
+title: "Visualizations for Nature submission"
+author: "Joe A. Wasserman"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(ragg)
+library(here)
+library(colorspace)
+library(tidyverse)
+library(ggh4x)
+library(scales)
+library(patchwork)
+library(geofacet)
+library(lubridate)
+
+# set default chunk options
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  include = FALSE,
+  dev = "ragg_png"
+)
+
+# set global options
+options(
+  scipen = 999,
+  verbose = FALSE
+)
+
+# set directories
+here::i_am("R/plotsForSubmission.Rmd")
+
+inDir <- here::here("data", "input")
+outDir <- here::here("data", "output")
+
+theme_minimal2 <- theme_minimal() +
+  theme(
+    line = element_line(color = "grey30", size = .2),
+    text = element_text(color = "grey10", size = 10),
+    rect = element_rect(color = "grey30", fill = "transparent", size = .2)
+  )
+```
+
+```{r import data}
+monthlyEstimates <- read_csv(here::here(outDir, "exMortEstimatesMonthlyINLA.csv"))
+metroRaw <- read_csv(here::here(inDir, "utilities", "FIPSmetroregion4cat.csv"))
+BEARegions <- read_rds(here::here(inDir, "utilities", "stateBEARegionCrosswalk.rds"))
+censusRegion <- read_csv(here::here(inDir, "utilities", "FIPSmetroregion4cat.csv"))
+```
+
+```{r plot data prep, cache=TRUE}
+
+# filter to pandemic months
+plotData <- monthlyEstimates %>%
+  filter(monthYear >= date("2020-03-01")) %>%
+  arrange(FIPSCode, monthYear) %>% 
+  left_join(BEARegions, by = c("stateStr" = "state_abb")) %>%
+  mutate(
+    excDeaths100k = 100000 * excDeathsMed / pop,
+    excDeathsRelative = excDeathsMed / expDeathsMed,
+    significant = coalesce(excDeathsLow > 0, FALSE)
+  )
+
+# color scale for corresponding number of bins
+colorscaleGeyser21 <- colorspace::divergingx_hcl(21)
+
+## Metropolitan status
+metro <- metroRaw %>%
+  select(
+    FIPSCode = fips,
+    metroCode = metro
+  ) %>%
+  mutate(
+    FIPSCode = if_else(nchar(FIPSCode) < 5, paste0("0", FIPSCode), as.character(FIPSCode)),
+    metroStatus = if_else(
+      metroCode %in% c(1, 2),
+      "Large Metro",
+      "Other"
+    ),
+    metroStatus2 = case_when(
+      metroCode %in% c(1, 2) ~ "Large Metro",
+      metroCode %in% c(3) ~ "Medium or Small Metro",
+      TRUE ~ "Non Metro"
+    ),
+    metroStatus3 = case_when(
+      metroCode %in% c(1, 2, 3) ~ "All Metro",
+      TRUE ~ "Non Metro"
+    )
+  )
+
+```
+
+# Heatmaps of relative county-month excess mortality as a % (excess / expected)
+
+* Large metro = NCHS categories 1 + 2
+
+* Small/Medium Metro = NCHS category 3
+
+* All Metro = NCH categories 1, 2, + 3
+
+* Non-metro = 4
+
+
+
+Largest 50 counties per metro category
+
+Rows (counties) ordered by peak month + second-highest month
+
+```{r heatmap data prep, cache=TRUE}
+# identify deciles to guide setting cut-points for bins for heatmaps
+# plotDataHeatmap %>% filter(excDeathsRelative > 0) %>% pull(excDeathsRelative) %>% quantile(probs = seq(0, 1, .05), type = 8, digits = 4)
+# .3, .6, .8, .95
+breaksHeatmap <- c(-Inf, 0, .15, .3, .5, .90, Inf)
+
+colorscaleGeyserHeatmap <- c("white", colorscaleGeyser21[c(11, 13, 15, 17, 21)])
+
+plotDataHeatmap <- plotData %>%
+  left_join(metro, by = "FIPSCode") %>%
+  group_by(FIPSCode) %>%
+  mutate(
+    excDeathsRelativeNoInf = na_if(excDeathsRelative, Inf),
+    excDeathsRelativeNoInf = na_if(excDeathsRelativeNoInf, -Inf),
+    monthRank = rank(-excDeathsRelativeNoInf, ties.method = "first", na.last = "keep"),
+    monthMax1 = if_else(monthRank == 1L, monthYear, NA_Date_),
+    monthMax2 = if_else(monthRank == 2L, monthYear, NA_Date_),
+    monthMax3 = if_else(monthRank == 3L, monthYear, NA_Date_)
+  ) %>%
+  fill(
+    monthMax1,
+    monthMax2,
+    monthMax3,
+    .direction = "updown"
+  ) %>%
+  ungroup() %>%
+  arrange(
+    # maxMonth
+    monthMax1,
+    monthMax2,
+    monthMax1
+  ) %>%
+  mutate(
+    excDeathsRelativeBinned = cut(
+      excDeathsRelative,
+      breaks = breaksHeatmap,
+      ordered_result = TRUE,
+      right = FALSE
+    ),
+    FIPSPlotOrder = forcats::as_factor(FIPSCode),
+    # create 12 evenly-spaced datetimes for nicer plotting
+    monthNum = month(monthYear),
+    yearStart = floor_date(monthYear, unit = "years"),
+    yearEnd = ceiling_date(monthYear, unit = "years"),
+    intervalSeconds = int_length(interval(yearStart, yearEnd)) / 12,
+    monthYearPlot = yearStart + hours(14) + seconds((monthNum - 1) * intervalSeconds),
+    monthTest = monthNum == month(monthYearPlot)
+  )
+
+# test that month dates modified for plotting still have the same month as the original data month
+testthat::expect_true(all(plotDataHeatmap[["monthTest"]]))
+
+FIPSTop50 <- plotDataHeatmap %>% 
+  group_by(FIPSCode, metroStatus3) %>% 
+  summarize(popMax = max(pop, na.rm = TRUE), .groups = "drop") %>% 
+  group_by(metroStatus3) %>% 
+  arrange(desc(popMax), .by_group = TRUE) %>% 
+  slice(1:50) %>% 
+  ungroup()
+
+plotDataHeatmapSubset <- plotDataHeatmap %>% 
+  semi_join(FIPSTop50, by = "FIPSCode") %>% 
+  arrange(metroStatus3, FIPSPlotOrder) %>% 
+  mutate(
+    FIPSlabel = glue::glue("{countyName}, {stateStr}"),
+    FIPSPlotOrder = as_factor(FIPSlabel)
+    )
+```
+```{r heatmap plot, include=TRUE}
+# plot waves as line segment annotations
+# waveRangePlot <- ggplot(waveRanges) +
+#   geom_segment(
+#     aes(
+#       x = startWave_plot,
+#       xend = endWave_plot
+#     ),
+#     y = 0,
+#     yend = 0,
+#     color = "grey70"
+#   ) +
+#   geom_text(
+#     aes(
+#       x = midWave_plot,
+#       y = -.5 - (yjust * 1),
+#       label = wave
+#     ),
+#     vjust = 1.5,
+#     color = "grey10", 
+#     size = 2.5
+#   ) +
+#   coord_fixed(2628000 * .8, clip = "off") +
+#   theme_void()
+
+# function to plot heatmap and "significance" side by side
+plot_heatmap <- function(.x,
+                         plot_title = NULL) {
+  gHeatmap <- ggplot(
+  .x,
+  aes(
+    y = FIPSPlotOrder,
+    x = monthYearPlot,
+    fill = excDeathsRelativeBinned,
+    width = I(intervalSeconds)
+  )
+)
+  
+  heatmapUnfaceted <- gHeatmap +
+  geom_tile(
+    color = "transparent"
+  ) +
+  scale_fill_manual(
+    values = colorscaleGeyserHeatmap,
+    labels = c(
+      "<=0%",
+      "0-15%",
+      "15-30%",
+      "30-50%",
+      "50-90%",
+      ">90%"
+    )
+  ) +
+  scale_x_datetime(
+    breaks = scales::breaks_width(width = "6 months", offset = "1 month"),
+    minor_breaks = scales::breaks_width(width = "3 months", offset = "1 month"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor",
+    expand = c(0, 0)
+  ) +
+  scale_y_discrete(
+    # labels = NULL,
+    limits = rev,
+    expand = c(0, 0)
+  ) +
+  labs(
+    title = plot_title,
+    subtitle = "Relative Excess",
+    x = NULL,
+    y = NULL,
+    fill = "Relative Excess (%)"
+  ) +
+  coord_fixed(2628000 * 1.3, expand = FALSE) +
+  guides(
+    fill = guide_legend(
+      reverse = FALSE,
+      nrow = 1,
+      title.position = "top",
+      override.aes = list(
+        color = "grey30",
+        size = .2
+      )
+    )
+  ) +
+  theme_minimal2 +
+  theme(
+    panel.border = element_rect(fill = "transparent"),
+    panel.grid = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length.x = unit(3, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.6),
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5,
+    legend.key.size = unit(0.5, "cm")
+  )
+
+significantTileUnfaceted <- gHeatmap +
+  geom_tile(
+    aes(
+      fill = significant
+    ),
+    color = "transparent"
+  ) +
+  scale_fill_manual(
+    values = c("white", "grey70"),
+    labels = c(
+      "<=95%",
+      ">95%"
+    )
+  ) +
+  scale_x_datetime(
+    breaks = scales::breaks_width(width = "6 months", offset = "1 month"),
+    minor_breaks = scales::breaks_width(width = "3 months", offset = "1 month"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor",
+    expand = c(0, 0)
+  ) +
+  scale_y_discrete(
+    labels = NULL,
+    limits = rev,
+    expand = c(0, 0)
+  ) +
+  labs(
+    title = NULL,
+    subtitle = "Probability of Excess > 0",
+    x = NULL,
+    y = NULL,
+    fill = "Probability of Excess > 0"
+  ) +
+  coord_fixed(2628000 * 1.3, expand = FALSE) +
+  guides(
+    fill = guide_legend(
+      reverse = FALSE,
+      nrow = 2,
+      title.position = "top",
+      override.aes = list(
+        color = "grey30",
+        size = .2
+      )
+    )
+  ) +
+  theme_minimal2 +
+  theme(
+    panel.border = element_rect(fill = "transparent"),
+    panel.grid = element_blank(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length.x = unit(3, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.6),
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5,
+    legend.key.size = unit(0.5, "cm")
+  )
+
+heatmapOutList <- list(heatmapUnfaceted, significantTileUnfaceted)
+}
+
+(heatmapOut <- plotDataHeatmapSubset %>% 
+  group_by(metroStatus3) %>% 
+  group_map(plot_heatmap) %>% 
+  map(wrap_plots) %>% 
+  map(~ .x[[1]] + plot_layout(tag_level = "new") + .x[[2]]) %>% 
+  wrap_plots(
+    nrow = 1,
+    guides = "collect"
+  ) +
+  plot_annotation(tag_levels = c("a", "1")) &
+  theme(
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5
+  )
+)
+```
+```{r export heatmap, eval=FALSE}
+ragg::agg_png(
+  filename = here::here("figures", "heatmap.png"),
+  width = 3600,
+  height = 2100,
+  res = 300
+)
+heatmapOut
+dev.off()
+```
+
+# Geofacet relative excess line graphs
+
+```{r geofacet data prep, cache=TRUE}
+
+plotDataGeofacet <- mutate(
+  plotDataHeatmap, 
+  group = "State Total"
+  )  %>% 
+  group_by(
+    stateFIPS,
+    state,
+    stateStr,
+    monthYear,
+    group
+  ) %>% 
+  summarize(
+    across(
+      c(expDeathsLow:imputedDeaths, excDeathsMed:excDeathsUp, excDeaths100k),
+      sum,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>% 
+  mutate(
+    excDeathsRelative = excDeathsMed / expDeathsMed
+  ) %>% 
+  bind_rows(plotDataHeatmap) %>% 
+  # NA pop in filter captures state totals
+  filter(pop > 30000 | is.na(pop))
+
+# grid of states for geofacet plot
+us_state_grid_custom <- data.frame(
+  row = c(1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7),
+  col = c(12, 11, 11, 12, 4, 10, 8, 5, 3, 6, 2, 1, 11, 12, 4, 10, 9, 6, 7, 5, 3, 8, 2, 1, 2, 10, 9, 4, 5, 7, 3, 8, 1, 6, 11, 7, 9, 3, 6, 4, 5, 8, 11, 6, 7, 8, 5, 4, 2, 9, 1),
+  code = c("ME", "NH", "VT", "MA", "ND", "NY", "MI", "MN", "MT", "WI", "ID", "WA", "CT", "RI", "SD", "NJ", "PA", "IL", "IN", "IA", "NE", "OH", "WY", "OR", "NV", "MD", "VA", "CO", "KS", "KY", "UT", "WV", "CA", "MO", "DE", "TN", "NC", "AZ", "AR", "NM", "OK", "SC", "DC", "MS", "AL", "GA", "LA", "TX", "AK", "FL", "HI"),
+  name = c("Maine", "New Hampshire", "Vermont", "Massachusetts", "North Dakota", "New York", "Michigan", "Minnesota", "Montana", "Wisconsin", "Idaho", "Washington", "Connecticut", "Rhode Island", "South Dakota", "New Jersey", "Pennsylvania", "Illinois", "Indiana", "Iowa", "Nebraska", "Ohio", "Wyoming", "Oregon", "Nevada", "Maryland", "Virginia", "Colorado", "Kansas", "Kentucky", "Utah", "West Virginia", "California", "Missouri", "Delaware", "Tennessee", "North Carolina", "Arizona", "Arkansas", "New Mexico", "Oklahoma", "South Carolina", "District of Columbia", "Mississippi", "Alabama", "Georgia", "Louisiana", "Texas", "Alaska", "Florida", "Hawaii"),
+  stringsAsFactors = FALSE
+)
+
+```
+
+```{r geofacet plot, include=TRUE}
+
+gGeofacet <- ggplot(
+  plotDataGeofacet,
+  aes(
+    x = monthYear,
+    y = excDeathsRelative * 100,
+    # linetype = metroStatus,
+    group = countyName,
+    alpha = group
+  )
+)
+
+(geofacetOut <- gGeofacet +
+  geom_line(
+    color = "grey10",
+    size = .3
+  ) +
+  scale_alpha_discrete(
+    range = c(1, 1),
+    na.value = .1
+  ) +
+  scale_x_date(
+    # expand = c(0, 0),
+    breaks = scales::breaks_width(width = "6 months"),
+    minor_breaks = scales::breaks_width(width = "3 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor"
+  ) +
+  scale_y_continuous(
+    # expand = c(0, 0),
+    oob = scales::oob_keep,
+    breaks = c(0, 100)
+  ) +
+  coord_cartesian(
+    ylim = c(NA, 150),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  facet_geo(
+    facets = ~ state,
+    grid = us_state_grid_custom
+  ) +
+  labs(
+    y = "Relative Excess (%)",
+    x = NULL,
+    color = "County Category",
+    linetype = "County Category"
+  ) +
+  guides(
+    color = "none",
+    alpha = "none"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9.5),
+    panel.border = element_rect(fill = "transparent"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks.x = element_line(),
+    axis.ticks.length.x = unit(3, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.6)
+  )
+)
+```
+```{r export geofacet}
+ragg::agg_png(
+  filename = here::here("figures", "geofacet.png"),
+  width = 3600,
+  height = 2500,
+  res = 300
+)
+geofacetOut
+dev.off()
+```
