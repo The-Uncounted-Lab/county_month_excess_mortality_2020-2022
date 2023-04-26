@@ -1,30 +1,34 @@
 # Monthly County Level Excess Mortality
 
-This repo includes data and code required to replicate the results in the paper "Excess all-cause mortality across counties in the United States, March 2020 to December 2021". [[Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v1)
+This repo includes data and code required to replicate the results in the paper "Excess all-cause mortality across counties in the United States, March 2020 to December 2021". [[Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v4) and "Differences Between Reported COVID-19 Deaths and Estimated Excess Deaths in Counties Across the United States, March 2020 to February 2022" [Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2023.01.16.23284633v1).
 
+The aim of this project is to estimate monthly deaths at the county level for the United States for the period March 2020 - February 2022 (now extended to August 2022) in the counterfactual scenario of no COVID-19 pandemic. We do so with a Bayesian hierarchical model with a flexible time component and a spatial component. To deal with suppression of death counts < 10, we employ a set of state-year censored Poisson models to estimate the censored death counts. We then adjust the total number of imputed deaths making sure that the sum of non-suppressed and imputed deaths equal the state yearly death count (very unlikely to be suppressed).
 
-The aim of this project is to build a model to estimate monthly death rates (number of deaths divided by population) at the county level for the United States. We do so with two different set of models, on using yearly data and the other using monthly data. The yearly model has an advantage over the monthly model when there is a substantial amount of suppression due to the presence of too few deaths (less than 10) in some small counties. The yearly data, by aggregating the information over several months, reduces the chances of suppression and let us build a model that takes advantage of all the available information.
+The project consists of several RMarkdown and R files:
 
-The project consists of 8 main RMarkdown files:
+- cleanMortalityData.Rmd: Cleans the mortality data (either natural cause or all-cause).
+- cleanCOVIDData.Rmd: Cleans the data for COVID mortality (either with UCD classification or with MCD classification).
+- modelFitMonthly.Rmd: Fit the monthly level model for either all-cause deaths or natural-cause deaths.
+- modelSummary.Rmd: Extracts the model's parameters and hyperparameters and creates summary tables and graphs.
+- crossValidationMonthly.Rmd: Runs cross-validation on the model and produces a set of estimates to be used to evaluate the model.
+- modelEvaluationMonthly.Rmd: Evaluates model performance using the cross-validation data.
+- createSimsDF.Rmd: Creates a dataframe with county-month samples from the model's posterior distribution for death counts. This dataframe is used to construct estimates of death counts with posterior intervals at different levels of aggregation.
+- estimates*.Rmd: These files (estimatesMonthly, estimatesPandemicYears, estimatesPandemic, estimatesStates, and estimatesMonthlyTotals) produce estimates of expected death counts, excess death counts, and relative excess at different levels of temporal and geographical aggregation.
+- summaryTableFinal: Produces a metro-division level table summarizing the key results.
+- scatterPlots: Produces scatter plots of excess mortality in year 1 (March 2020 - February 2021) and year 2 (March 2021 - February 2022) and of excess mortality against COVID-19 mortality.
+- timeBarsGraphDivision.Rmd: Produces a graph showing how relative excess evolved during the pandemic for each division, separating large metro areas and other areas.
+- plotsForSubmission.Rmd: Creates the geofacet plot and the heatmap plot of count-level excess mortality.
+- map_by_period_relative_exc_to_eugenio.R: Creates maps of relative excess.
+- countyPlots: Produces a set of county-level plots of observed vs. expected deaths.
 
-- dataCreation.Rmd: Cleans the data for All-Causes deaths.
-- modelsFitMonthly.Rmd: Estimates the monthly level models for All-Causes deaths.
-- modelsFitYearly.Rmd: Estimates the yearly level models for All-Causes deaths.
-- modelsPerformance.Rmd: Assesses the models performance and creates diagnosic plots for All-Causes deaths.
-- exMortEstimates.Rmd: Generates excess deaths estimates for All-Causes mortality for two separate periods, Mar-Dec 2020 and Jan-Dec 2021.
-- graphsPart1.Rmd: Produces figures 1, 2, and 3.
-- graphsPart2.Rmd: Produces figures 4 and 5.
-- summaryTable: Produces table 1.
+The files are intended to be run in the order in which they appear on the list. Detailed instructions on the steps we used to download data from the CDC WONDER platform are given in the CDCWONDERDataDetails.md file within the data/output folder.
 
-The files are intended to be run in the order in which they appear on the list. We cannot provide mortality data from the CDC WONDER platform but all the other data are given. Detailed instructions on the steps we used to download data from the CDC WONDER platform are given in the CDCWONDERDataDetails.md file within the data/output folder.
-
-Aside from the RMarkdown files within the R folder, we also provide the Python code we used to create monthly population estimates at the county level by interpolating yearly intercensal estimates from the Census Bureau. The Python code is in the form of a Jupyter Notebook. The final population estimates are stored in the output folder.
+Aside from the R files within the R folder, we also provide the Python code we used to create monthly population estimates at the county level by interpolating yearly intercensal estimates from the Census Bureau. The Python code is in the form of a Jupyter Notebook. The final population estimates are stored in the output folder.
 
 Here is a brief description of the content of the repository:
 
 - Python: Contains the Python code used to generate monthly population estimates.
 - R: Contains the R code used to prepare the data, train the models, assess the models' perfomance, produce the estimates of excess mortality, and produce the figures and tables for the paper.
-- data/input: Contains all the data needed to train the models and produce estimates of excess deaths. As mentioned above, the CDC data is not included but instructions on how to download it are given. To reconcile inconsistencies across the various data sources we are using, and to accomodate further analysis with a longer backward time frame (i.e. we trained our final models on data for 2015-2019 but initially considered a wider window), we harmonized county FIPS code following the schema in the FIPSFixes.csv file.
-- data/output: Contains all the data generated as a product of the project. This includes monthly population estimates, excess deaths and other related quantities, and a performance file comparing predicted yearly deaths from the monthly model to the actual counts used to decide whether the yearly or monthly model should be used.
-- figures: contains all the figures appearing in the paper. Plots of expected versus actual deaths for each county are given in the countyPlots subfolder. An index file (plotIndex.txt) in the same folder can be used to trace each county to the corresponding file.
-- tables: contains all the tables in the paper.
+- data/input: Contains all the data needed to train the models and produce estimates of excess deaths. To reconcile inconsistencies across the various data sources we are using, and to accomodate further analysis with a longer backward time frame (i.e. we trained our final models on data for 2015-2019 but initially considered a wider window), we harmonized county FIPS code following the schema in the FIPSFixes.csv file. For reasons of space, We only provide that on all-cause deaths and COVID-19 deaths where COVID is listed as the underlying cause of death. However, all R files are written in a flexible way to accomodate additional analyses using natural-cause deaths and COVID-19 deaths where COVID-19 is listed anywhere on the death certificate.
+- data/output: Will contain all the data that will be generated as a product of the project. We already included different sets of estimates compliant with the CDC Wonder user agreement. In particular we have estimates for combinations of all cause deaths (AC), natural cause deaths (NC), COVID-19 deaths using the Underlying Cause of Death classification (UDC), and COVID-19 deaths using the Multiple Cause of Death classification (MCD). When you run the code you will have monthly population estimates, excess deaths and other related quantities.
+- figures: contains all the figures and tables appearing in the paper organized by type of data.

@@ -1,0 +1,593 @@
+---
+title: "Creating the Final Data - Total Mortality"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(VGAM)
+library(lubridate)
+library(here)
+library(splines)
+library(glue)
+library(tidyverse)
+
+# Set seed for the Rmd
+set.seed(42)
+```
+
+```{r}
+# Do not rely on this to completely clean your environment
+# Better to do a full restart of R before running
+rm(list=ls())
+
+i_am('R/cleanMortalityData.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+dataType <- 'AC'
+dataInputFolder <- here(inDir,'CDC',glue('mortality{dataType}Data'))
+dataOutputFolder <- here(outDir,glue('cleanedMortality{dataType}Data'))
+```
+
+```{r}
+# We read in the .csv file telling us which FIPS codes should be
+# replaced in order to have geographical units that are stable
+# over time and over datasets
+FIPSFixes <- read_csv(here(inDir,'FIPSHarmonization','FIPSFixes.csv'))
+```
+
+```{r}
+# We define a function to read the CDC WONDER data. We read the different
+# files and combine then by appending rows. We also set missing values for 
+# Suppressed, Missing, and Non Applicable values.
+read_CDC_data <- function(file) {
+  
+  data <- list.files(
+      file,
+      pattern = "*.txt",
+      full.names = TRUE
+    ) %>%
+    map_dfr(
+      ~ data.table::fread(
+        .x,
+        na.strings = c("Missing", "Suppressed", "Not Applicable"),
+        keepLeadingZeros = TRUE,
+        colClasses = c("character")
+      ) %>% mutate (file = .x)
+    )
+
+  data <- as.tibble(data)
+  return(data)
+}
+
+# We define a function to replace FIPS codes according to the rules
+# in the FIPSFixes dataframe
+fix_FIPS <- function(FIPSFixes,data) {
+  
+  data <- data %>%
+    left_join(FIPSFixes,by='FIPSCode') %>%
+    mutate(FIPSCode = if_else(is.na(newFIPSCode),FIPSCode,newFIPSCode)) %>%
+    select(-newFIPSCode) 
+  
+  return(data)
+}
+```
+
+```{r}
+# Import historical county-month data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-months with < 10 deaths are censored in these data
+monthlyData <- read_CDC_data(here(dataInputFolder,'monthly'))
+
+# Setting intuitive names
+monthlyData <- monthlyData %>%
+  select('FIPSCode'='County Code',
+         'monthCode'='Month Code',
+         'deaths'='Deaths',
+         'FIPSCode2021'='Residence County Code')
+
+# Comnining variables that have different names in data before and after 2021
+monthlyData <- monthlyData %>% 
+  mutate(FIPSCode = coalesce(FIPSCode, FIPSCode2021))
+
+# Keeping only the variables we need
+monthlyData <- monthlyData %>% select(FIPSCode,monthCode,deaths)
+
+# We extract month and year from the monthCode variable and then
+# create a time date variable.
+monthlyData <- monthlyData %>% 
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(across(c(deaths,year,month),as.integer))
+
+# We harmonize the FIPS codes
+monthlyData <- fix_FIPS(FIPSFixes,monthlyData) 
+```
+
+```{r}
+# Import historical county-year data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-years with < 10 deaths are censored in these data
+yearlyData <- read_CDC_data(here(dataInputFolder,'yearly'))
+
+# Setting intuitive names
+yearlyData <- yearlyData %>%
+  select('FIPSCode'='County Code',
+         'year'='Year Code',
+         'deaths'='Deaths',
+         'FIPSCode2021'='Residence County Code')
+
+# Comnining variables that have different names in data before and after 2021
+yearlyData <- yearlyData %>% 
+  mutate(FIPSCode = coalesce(FIPSCode,FIPSCode2021))
+
+# Keeping only the variables we need
+yearlyData <- yearlyData %>% select(FIPSCode,year,deaths)
+
+yearlyData <- yearlyData %>% 
+  mutate(across(c(deaths,year),as.integer))
+
+# We harmonize the FIPS codes
+yearlyData <- fix_FIPS(FIPSFixes,yearlyData) 
+```
+
+```{r}
+# Import historical county-pandemic year data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-years with < 10 deaths are censored in these data
+# Pandemic years are periods between March and February of 2020 and 2021.
+# For 2022, we only have data for the first half of the pandemic year,
+# March 2022 to August 2022. We take advantage of the file names to extract 
+# the pandemic year, which is not stored as a variable (because it is not a 
+# WONDER grouping factor).
+pandemicYearsData <- read_CDC_data(here(dataInputFolder,'pandemicYears'))
+
+# We extract the pandemic year from the file name
+pandemicYearsData <- pandemicYearsData %>%
+  mutate(pandemicYear = str_match(file,'[\\d]{1}')[,1]) %>%
+  select(-file)
+
+# Setting intuitive names
+pandemicYearsData <- pandemicYearsData %>%
+  select(FIPSCode='Residence County Code',
+         pandemicYear,
+         deaths=Deaths) %>%
+  mutate(across(c(deaths,pandemicYear),as.integer))
+
+# We harmonize the FIPS codes
+pandemicYearsData <- fix_FIPS(FIPSFixes,pandemicYearsData) 
+```
+
+```{r}
+# Import historical county-totals data downloaded from CDC WONDER
+# https://wonder.cdc.gov/ucd-icd10.html
+# NOTE: County-years with < 10 deaths are censored in these data
+# Here total refers to the period March 2020 - August 2022
+totalData <- read_CDC_data(here(dataInputFolder,'total'))
+
+# Setting intuitive names
+totalData <- totalData %>%
+  select(FIPSCode='Residence County Code',
+         deaths=Deaths) %>%
+  mutate(across(c(deaths),as.integer))
+
+# We harmonize the FIPS codes
+totalData <- fix_FIPS(FIPSFixes,totalData)
+```
+
+```{r}
+# Import monthly population counts
+popData <- tibble(arrow::read_feather(here(outDir,'cleanedPopData','popDataMonthly.feather')))
+
+# Filter counts referring to years before 2000, create time variable
+popData <- popData %>%
+  filter(year>=2010) %>%
+  mutate(time=make_date(year,month)) %>%
+  filter(time<=make_date(2021,7)) %>%
+  select(-c(year,month))
+
+# Creating a dataframe with county FIPS codes and names
+countyData <- tidycensus::fips_codes %>%
+  mutate(FIPSCode = str_c(state_code,county_code)) %>%
+  select(FIPSCode,stateFIPS=state_code,state=state_name,countyName=county)
+
+# Construct data frame of state abbreviations + divisions, plus DC
+census_divisions <- tibble(
+  state = state.name,
+  census_division = state.division,
+  census_region = state.region
+) %>%
+  add_row(
+    state = "District of Columbia",
+    census_division = "South Atlantic",
+    census_region = "South"
+  )
+```
+
+```{r}
+smooth_and_project_pop <- function(data,countyCode,df=4) {
+  data <- data %>%
+    mutate(popFit = if_else((time>make_date(2021,7)) |
+                            (between(time,make_date(2015,8),make_date(2020,6))),
+                            NA_real_,pop)) %>%
+    add_row(tibble(time=seq(ymd('2021-08-01'),ymd('2022-08-01'),by='months'),
+                   pop=NA_real_,
+                   popFit=NA_real_))
+
+  popModel <- data %>%
+    lm(popFit ~ 1 + bs(time,df=df,degree=1),data=.)
+
+  data <- data %>%
+    mutate(predictedPop = predict(popModel,newdata=data),
+           FIPSCode = countyCode)
+  
+  return(data)
+  }
+```
+
+```{r}
+popDataByCounty <- popData %>% 
+  group_by(FIPSCode) %>%
+  nest()
+
+popDataSmooth <- map2_dfr(popDataByCounty$data,
+                          popDataByCounty$FIPSCode,
+                          ~ smooth_and_project_pop(.x,.y)) 
+```
+
+```{r}
+popDataSmooth <- popDataSmooth %>%
+  mutate(absDev = (predictedPop - pop)/pop)
+```
+
+```{r}
+# Code for checking the result of the smoothing and projection procedure for
+# a specific county
+popDataSmooth %>%
+  filter(FIPSCode == '06105') %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=pop,linetype='Observed')) +
+  geom_line(mapping=aes(x=time,y=predictedPop,linetype='Predicted')) +
+  labs(y='Population',
+       x='',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+# Code for checking the result of the smoothing and projection procedure for
+# a specific county
+popDataSmooth %>%
+  filter(FIPSCode %in% sample(unique(pull(popDataSmooth,FIPSCode)),size=16)) %>%
+  group_by(FIPSCode) %>%
+  mutate(predictedPop = predictedPop/min(pop,na.rm=T),
+         popFit = popFit/min(pop,na.rm=T),
+         pop = pop/min(pop,na.rm=T),) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=pop,linetype='Observed')) +
+  geom_line(mapping=aes(x=time,y=predictedPop,linetype='Predicted')) +
+  geom_line(mapping=aes(x=time,y=popFit,linetype='Available')) +
+  scale_linetype_manual(values=c('solid','dashed','dotted')) +
+  facet_wrap(~FIPSCode) +
+  labs(y='Population (in million)',
+       x='',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+# We perform a quick check to see if our projected population, once
+# aggregated at the national level matches the reported nation estimate
+# for August 2022
+popDataSmooth %>%
+  group_by(time) %>%
+  summarise(pop = sum(pop),
+            predictedPop = sum(predictedPop)) %>%
+  ungroup() %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=pop/1000000,linetype='Observed')) +
+  geom_line(mapping=aes(x=time,y=predictedPop/1000000,linetype='Predicted')) +
+  geom_hline(yintercept = 332941581/1000000) +
+  geom_vline(xintercept = make_date(2022,8)) +
+  labs(y='Population (in million)',
+       x='',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+# We keep only the variables we need and only observations up to August 2022
+popDataSmooth <- popDataSmooth %>%
+  mutate(predictedPop = if_else(time<=make_date(2015,7),pop,predictedPop)) %>%
+  select(FIPSCode,time,pop=predictedPop)
+```
+
+```{r}
+# We create a dataframe with the average population by year
+popDataYearlySmooth <- popDataSmooth %>%
+  mutate(year = year(time)) %>%
+  group_by(FIPSCode,year) %>%
+  summarise(pop=mean(pop,na.rm=T)) %>%
+  ungroup()
+```
+
+```{r}
+# We create a set of dataframe needed to create complete datasets with all
+# county-months or county-years even when the original data is missing
+# or suppressed. To fill the missing data when we wish to do so, we 
+# create an imputedDeaths variable sampled from a Beta distribution 
+# with parameters alpha=2, and beta=2. We multiply each realization from
+# this distribution by 9 so that it ranges from 0 to 9 (the potential
+# values for suppressed deaths). We apply rounding to the result to
+# ensure that we have an integer value. For monthly deaths (for which there
+# is more significant suppression, we use a more sophisticated method).
+FIPSCodes <- as.character(unique(popData$FIPSCode))
+
+simDataMonthly <- crossing(year=2015:2022,
+                    month=1:12,
+                    FIPSCode=FIPSCodes) %>%
+  filter(!(year==2022 & month>8))
+
+simDataYearly <- crossing(year=2010:2022,
+                          FIPSCode=FIPSCodes)
+
+simDataYearly <- simDataYearly %>%
+  mutate(imputedDeaths = round(rbeta(nrow(simDataYearly),2.25,2)*9))
+
+simDataPYears <- crossing(pandemicYear=1:3,
+                          FIPSCode=FIPSCodes)
+
+simDataPYears <- simDataPYears %>%
+  mutate(imputedDeaths = round(rbeta(nrow(simDataPYears),2.25,2)*9))
+
+simDataTotal <- crossing(FIPSCode=FIPSCodes)
+
+simDataTotal <- simDataTotal %>%
+  mutate(imputedDeaths = round(rbeta(nrow(simDataTotal),1.75,3)*9))
+```
+
+```{r}
+# By merging the monthly data with the corresponding "complete" dataframe
+# we ensure we have an observation for each possible county-month
+monthlyDataComplete <- simDataMonthly %>%
+  left_join(monthlyData,by=c('FIPSCode','year','month')) %>%
+  mutate(time = make_date(year=year,month=month)) 
+```
+
+```{r}
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+monthlyDataComplete <- monthlyDataComplete %>% 
+  left_join(popDataSmooth, by = c('FIPSCode','time')) %>%
+  left_join(countyData, by = c('FIPSCode')) %>%
+  left_join(census_divisions,by='state')
+
+# The step below is needed to collapse multiple counties with the same
+# harmonized FIPS code into one. So far, the data still contains counties
+# assigned to the same harmonized FIPS as separate observations.
+
+# Sum is the appropriate aggregation unit for deaths and inputedDeaths
+# because those have a different value for each of these counties.
+# Mean is the appropriate aggregation unit for the population because the 
+# popData file already uses harmonized counties so that the multiple
+# counties with the same harmonized FIPS code already share the same
+# population value (corresponding to the sum of the population of all 
+# the counties with the same FIPS).
+
+# The same rational applies for the similar code blicks below dealing with the
+# yearly, pandemic-year, and total data.
+monthlyDataComplete <- monthlyDataComplete %>%
+  group_by(FIPSCode,countyName,stateFIPS,state,census_division,census_region,year,month) %>%
+  summarize(deaths = if_else(sum(is.na(deaths)) == n(), NA_integer_, sum(deaths,na.rm=T)),
+            pop = mean(pop)) %>%
+  ungroup()  %>%
+  mutate(status = if_else(is.na(deaths),0,1),
+         censoredDeaths = if_else(is.na(deaths),10L,deaths))
+```
+
+```{r}
+# As mentioned above, the monthly deaths file requires a more sophisticated 
+# imputation method. We fit a censored Poisson model for each state-year with 
+# dummy variables for months as the explanatory variables. This model 
+# estimates the censored deaths by relying on patterns observed in counties 
+# in the same state and year with higher death counts.
+fit_imput_model <- function(data,group) {
+  
+  #print(group)
+  suppressWarnings(
+    imputModel <- data %>%
+        vglm(SurvS4(censoredDeaths, status, type = "left") ~ 1 + as.factor(month), 
+           offset = log(pop), cens.poisson,
+           data = ., trace = F, maxit=50)
+    )
+  
+  data <- data %>%
+    mutate(group = group,
+           predicted = imputModel@fitted.values[,1])
+  
+  return(data)
+}
+```
+
+```{r}
+# We prepare the data needed to loop the model through data groups by 
+# state and year
+monthlyDataComplete <- monthlyDataComplete %>%
+  mutate(group = paste(state,year,sep='-')) %>%
+  group_by(group) %>%
+  nest()
+
+monthlyDataComplete <- map2_dfr(monthlyDataComplete$data,
+                                  monthlyDataComplete$group,
+                                  fit_imput_model)
+
+# We create an imputedDeaths variable and set it to the observed variable
+# if not suppressed and to the estimated value if suppressed
+monthlyDataComplete <- monthlyDataComplete %>%
+  mutate(imputedDeaths = if_else(status==1,deaths,as.integer(round(predicted))))
+```
+
+```{r}
+# Here we follow the same steps to "complete" the yearly data 
+yearlyDataComplete <- simDataYearly %>%
+  left_join(yearlyData,by=c('FIPSCode','year')) %>%
+  mutate(imputedDeaths = if_else(is.na(deaths),imputedDeaths,as.double(deaths))) 
+```
+
+```{r}
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+yearlyDataComplete <- yearlyDataComplete %>% 
+  left_join(popDataYearlySmooth, by = c('FIPSCode','year')) %>%
+  left_join(countyData, by = c('FIPSCode')) %>%
+  left_join(census_divisions,by='state')
+
+yearlyDataComplete <- yearlyDataComplete %>%
+  group_by(FIPSCode,countyName,stateFIPS,state,census_division,census_region,year) %>%
+  summarize(deaths = if_else(sum(is.na(deaths)) == n(), NA_integer_, sum(deaths,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths),
+            pop = mean(pop)) %>%
+  ungroup()
+```
+
+```{r}
+# Here we follow the same steps to "complete" the pandemic-year data 
+pandemicYearsDataComplete <- simDataPYears %>%
+  left_join(pandemicYearsData,by=c('FIPSCode','pandemicYear')) %>%
+  mutate(imputedDeaths = if_else(is.na(deaths),imputedDeaths,as.double(deaths))) 
+```
+
+```{r}
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+pandemicYearsDataComplete <- pandemicYearsDataComplete %>% 
+  left_join(countyData, by = c('FIPSCode')) %>%
+  left_join(census_divisions,by='state')
+
+pandemicYearsDataComplete <- pandemicYearsDataComplete %>%
+  group_by(FIPSCode,countyName,stateFIPS,state,census_division,census_region,pandemicYear) %>%
+  summarize(deaths = if_else(sum(is.na(deaths)) == n(), NA_integer_, sum(deaths,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+# Here we follow the same steps to "complete" the total data 
+totalDataComplete <- simDataTotal %>%
+  left_join(totalData,by=c('FIPSCode')) %>%
+  mutate(imputedDeaths = if_else(is.na(deaths),imputedDeaths,as.double(deaths))) 
+```
+
+```{r}
+# We add population counts to our data and assign each county to the 
+# corresponding county set.
+totalDataComplete <- totalDataComplete %>%
+  left_join(countyData, by = c('FIPSCode')) %>%
+  left_join(census_divisions,by='state')
+
+totalDataComplete <- totalDataComplete %>%
+  group_by(FIPSCode,countyName,stateFIPS,state,census_division,census_region) %>%
+  summarize(deaths = if_else(sum(is.na(deaths)) == n(), NA_integer_, sum(deaths,na.rm=T)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+# While the censored Poisson models do a good job of modeling the month to 
+# month variation in deaths, they are not too effective in predicting the
+# level of suppressed deaths. To improve the imputed observations we compute
+# state-year totals from the monthly data and compare them with the totals from
+# the yearly data. We then adjust the imputed values accordingly (uniformly for
+# all counties in a given state-year).
+totalDeaths <- monthlyDataComplete %>%
+  filter(!(year==2020 & month<3)) %>%
+  group_by(year,state) %>%
+  summarise(deathsMonthly = sum(deaths,na.rm=T),
+            imputedDeathsMonthly = sum(if_else(status == 0,imputedDeaths,0L))) %>%
+  ungroup()
+
+totalDeaths <- yearlyDataComplete %>%
+  filter(year>=2015) %>%
+  group_by(year,state) %>%
+  summarise(deathsYearly = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  left_join(totalDeaths,by=c('year','state')) %>%
+  mutate(difference = deathsYearly - deathsMonthly,
+         adjFactor = if_else(imputedDeathsMonthly>0,difference/imputedDeathsMonthly,1),
+         adjFactor = if_else(is.na(adjFactor),1,adjFactor))
+
+monthlyDataComplete <- monthlyDataComplete %>% 
+  left_join(totalDeaths,by=c('year','state')) %>%
+  mutate(imputedDeaths = if_else(status == 0,as.integer(round(imputedDeaths*adjFactor)),imputedDeaths))
+```
+
+```{r}
+# We check that the imputation was successful against the yearly data
+monthlyDataComplete %>%
+  filter(!(year==2020 & month < 3)) %>%
+  group_by(year) %>%
+  summarise(deaths = sum(imputedDeaths)) %>%
+  ungroup()
+
+yearlyDataComplete %>%
+  filter(year>=2015) %>%
+  group_by(year) %>%
+  summarise(deaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+# We check that the imputation was successful against the pandemic-year data
+pandemicYearsDataComplete %>%
+  group_by(pandemicYear) %>%
+  summarise(deaths = sum(imputedDeaths)) %>%
+  ungroup()
+
+monthlyDataComplete %>%
+  mutate(time = make_date(year, month),
+         pandemicYear=case_when(between(time,make_date(2020,3),make_date(2021,2)) ~ 1,
+                                between(time,make_date(2021,3),make_date(2022,2)) ~ 2,
+                                between(time,make_date(2022,3),make_date(2022,8)) ~ 3)) %>%
+  drop_na(pandemicYear) %>%
+  group_by(pandemicYear) %>%
+  summarise(deaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+# Finally, we check that the temporal distribution of imputed deaths makes
+# sense 
+graphData <- monthlyDataComplete %>%
+  group_by(FIPSCode) %>%
+  mutate(anyCensoring = if_else(any(status == 0),1,0)) %>%
+  ungroup() %>%
+  filter(anyCensoring==1) 
+
+graphData %>%
+  filter(FIPSCode %in% sample(unique(pull(graphData,FIPSCode)),12)) %>%
+  mutate(time = make_date(year,month)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=imputedDeaths,color=status)) +
+  facet_wrap(~FIPSCode)
+```
+
+```{r}
+# We save all the data so that we do not have to repeat this set of 
+# operations each time
+arrow::write_feather(popDataSmooth, here(outDir,'cleanedPopData','popDataMonthlySmooth.feather'))
+arrow::write_feather(popDataYearlySmooth, here(outDir,'cleanedPopData','popDataYearlySmooth.feather'))
+arrow::write_feather(monthlyDataComplete, here(dataOutputFolder,glue('{dataType}MonthlyData.feather')))
+arrow::write_feather(yearlyDataComplete, here(dataOutputFolder,glue('{dataType}YearlyData.feather')))
+arrow::write_feather(pandemicYearsDataComplete, here(dataOutputFolder,glue('{dataType}PandemicYearsData.feather')))
+arrow::write_feather(totalDataComplete, here(dataOutputFolder,glue('{dataType}TotalData.feather')))
+```

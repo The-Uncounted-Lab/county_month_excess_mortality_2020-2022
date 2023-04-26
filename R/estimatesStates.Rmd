@@ -1,0 +1,204 @@
+---
+title: "Estimates of Excess Deaths by State for the Full Pandemic (March 2020-August 2022)"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(glue)
+library(here)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/estimatesStates.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'MCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+monthlyData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                               glue('{mortalityDataType}MonthlyData.feather'))))
+totalData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                               glue('{mortalityDataType}TotalData.feather'))))
+COVIDTotalData <- tibble(arrow::read_feather(here(COVIDDataInputFolder,
+                                               glue('COVID{COVIDDataType}TotalData.feather'))))
+```
+
+```{r}
+stateTotalsData <- totalData %>%
+  group_by(stateFIPS,state,census_division,census_region) %>%
+  summarise(deaths = sum(deaths,na.rm=T),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+nationalTotalData <- totalData %>%
+  summarise(deaths = sum(deaths,na.rm=T),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+COVIDStateTotalsData <- COVIDTotalData %>%
+  group_by(stateFIPS) %>%
+  summarise(COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup()
+```
+
+```{r}
+COVIDNationalTotalData <- COVIDTotalData %>%
+  summarise(COVIDDeaths = sum(imputedCOVIDDeaths))
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(time = make_date(year=year,month=month,day=1)) %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSID = cur_group_id()) %>%
+  ungroup() %>%
+  arrange(FIPSID,year,month)
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(time = make_date(year=year,month=month,day=1)) %>%
+  filter(time <= make_date(2022,8,1))
+```
+
+```{r}
+# We load the pre-trained models
+load(here(modelFolder,'simMonthly.RData'))
+```
+
+```{r}
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = monthlyData %>% pull(year),
+         month = monthlyData %>% pull(month),
+         time = make_date(year=year,month=month,day=1),
+         FIPSCode = monthlyData %>% pull(FIPSCode),
+         stateFIPS = monthlyData %>% pull(stateFIPS),
+         pop = monthlyData %>% pull(pop)) %>%
+  relocate(FIPSCode,stateFIPS,year,month,time,pop)
+```
+
+```{r}
+simulationsStates <- simulationsMonthly %>%
+  filter(between(time,make_date(2020,3,1),make_date(2022,8,1))) %>%
+  group_by(stateFIPS) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(stateTotalsData,by=c('stateFIPS')) %>%
+  left_join(select(COVIDStateTotalsData,stateFIPS,COVIDDeaths),by='stateFIPS')
+
+estimatesStates <- simulationsStates %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(stateFIPS) %>%
+  summarize(expDeathsMean = mean(expDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.1)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.9)),
+            excDeathsMean = mean(imputedDeaths-expDeaths),
+            excDeathsLow = quantile(imputedDeaths-expDeaths,probs=c(0.1)),
+            excDeathsMed = quantile(imputedDeaths-expDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(imputedDeaths-expDeaths,probs=c(0.9)),
+            probPositiveExcess = sum((imputedDeaths-expDeaths)>0,na.rm=T)/n(),
+            relExcDeathsMean = mean((imputedDeaths-expDeaths)/expDeaths),
+            relExcDeathsLow = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.1)),
+            relExcDeathsMed = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.5)),
+            relExcDeathsUp = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.9)),
+            ratioMean = mean((imputedDeaths-expDeaths)/COVIDDeaths,na.rm=T),
+            ratioLow = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.1),na.rm=T),
+            ratioMed = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),
+            ratioUp = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.9),na.rm=T),
+            probPositiveNCExcess = sum(((imputedDeaths-expDeaths)/COVIDDeaths)>1,na.rm=T)/n(),
+            imputedDeaths = mean(imputedDeaths),
+            COVIDDeaths = mean(COVIDDeaths,na.rm=T)) %>%
+  ungroup()
+```
+
+```{r}
+estimatesStates <- estimatesStates %>%
+  select(-imputedDeaths) %>%
+  left_join(stateTotalsData,by=c('stateFIPS'))
+```
+
+```{r}
+simulationsTotal <- simulationsMonthly %>%
+  filter(between(time,make_date(2020,3,1),make_date(2022,8,1))) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  add_column(nationalTotalData) %>%
+  add_column(select(COVIDNationalTotalData,COVIDDeaths))
+
+estimatesTotal <- simulationsTotal %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  summarize(expDeathsMean = mean(expDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.1)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.9)),
+            excDeathsMean = mean(imputedDeaths-expDeaths),
+            excDeathsLow = quantile(imputedDeaths-expDeaths,probs=c(0.1)),
+            excDeathsMed = quantile(imputedDeaths-expDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(imputedDeaths-expDeaths,probs=c(0.9)),
+            probPositiveExcess = sum((imputedDeaths-expDeaths)>0,na.rm=T)/n(),
+            relExcDeathsMean = mean((imputedDeaths-expDeaths)/expDeaths),
+            relExcDeathsLow = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.1)),
+            relExcDeathsMed = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.5)),
+            relExcDeathsUp = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.9)),
+            ratioMean = mean((imputedDeaths-expDeaths)/COVIDDeaths,na.rm=T),
+            ratioLow = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.1),na.rm=T),
+            ratioMed = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),
+            ratioUp = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.9),na.rm=T),
+            probPositiveNCExcess = sum(((imputedDeaths-expDeaths)/COVIDDeaths)>1,na.rm=T)/n(),
+            imputedDeaths = mean(imputedDeaths),
+            COVIDDeaths = mean(COVIDDeaths,na.rm=T))
+```
+
+```{r}
+estimatesTotal <- estimatesTotal %>%
+  mutate(stateFIPS = '00',
+         state='United States',
+         census_division='United States',
+         census_region='United States')
+```
+
+```{r}
+estimatesStates <- estimatesStates %>%
+  add_row(estimatesTotal)
+```
+
+```{r}
+estimatesStates <- estimatesStates %>% 
+  mutate(period='March 2020 - August 2022') %>%
+  mutate(suppressed = if_else(is.na(deaths),1,0)) %>%
+  select(stateFIPS,state,census_region,census_division,
+         COVIDDeaths,deaths=imputedDeaths,suppressed,
+         expDeathsMean:probPositiveNCExcess)
+```
+
+```{r}
+estimatesStates %>% write_csv(here(dataOutputFolder,'estimatesStates.csv'))
+```

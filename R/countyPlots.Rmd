@@ -1,0 +1,196 @@
+---
+title: "Time Series Plots for All Counties"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(patchwork)
+library(here)
+library(scico)
+library(glue)
+library(grid)
+library(tidytext)
+library(ggh4x)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/countyPlots.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'AC'
+COVIDDataType <- 'UCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+states <- read_csv(here(inDir,'utilities','states.csv'))
+```
+
+```{r}
+estimatesMonthly <- read_csv(here(dataOutputFolder,'estimatesMonthly.csv'))
+mortalityData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                                 glue('{mortalityDataType}MonthlyData.feather'))))
+
+estimatesMonthly <- estimatesMonthly %>%
+  left_join(states,by=c('state','stateFIPS')) %>%
+  left_join(select(mortalityData,'FIPSCode','year','month','pop'),by=c('FIPSCode','year','month')) %>%
+  mutate(time=make_date(year,month))
+```
+
+```{r}
+largestCounties <- estimatesMonthly %>%
+  drop_na() %>%
+  group_by(census_division,FIPSCode,metroCat) %>%
+  summarize(popMean = mean(pop)) %>%
+  ungroup() %>%
+  group_by(census_division,metroCat) %>%
+  slice(which.max(popMean)) %>%
+  pull(FIPSCode)
+
+largestCountiesData <- estimatesMonthly %>%
+  filter(FIPSCode %in% largestCounties) %>%
+  mutate(imputed = if_else(is.na(deaths),T,F),
+         deathRate = (imputedDeaths/pop)*100000,
+         deathRateLead = lead(deathRate),
+         expDeathRateLow = (expDeathsLow/pop)*100000,
+         expDeathRateMed = (expDeathsMed/pop)*100000,
+         expDeathRateUp = (expDeathsUp/pop)*100000) %>%
+  group_by(FIPSCode) %>%
+  mutate(deathRateLead = lead(deathRate)) %>%
+  ungroup()
+
+largestCountiesPlots <- largestCountiesData %>%
+  ggplot() +
+  geom_segment(mapping=aes(x=time,xend=lead(time),
+                           y=deathRate,yend=deathRateLead,
+                           color='Observed',linetype=imputed)) +
+  geom_line(mapping=aes(x=time,y=expDeathRateMed,color='Expected')) +
+  geom_ribbon(mapping=aes(x=time,ymin=expDeathRateLow,ymax=expDeathRateUp,
+                          fill='90% Posterior Interval'),alpha=0.2) +
+  geom_label(mapping=aes(x=make_date(2018,6,1),y=175,
+                         label=paste0(countyName,' (',stateStr,')')),size=3) +
+  geom_hline(yintercept = 10, linetype='dotted') +
+  scale_color_manual(name='',
+                     breaks=c('Observed', 
+                              'Expected'),
+                     values=c('Observed'='red', 
+                              'Expected'='black')) + 
+  scale_fill_manual(name='',
+                    breaks=c('90% Posterior Interval'),
+                    values=c('90% Posterior Interval'='black')) + 
+  coord_cartesian(ylim=c(20,200)) +
+  facet_grid(rows = vars(census_division), cols=vars(metroCat)) +
+  labs(x='',
+       y='Observed and Expected Number of Deaths (for 100,000 residents)',
+       color='',
+       fill='',
+       linetype='Imputed') +
+  theme_minimal() +
+  theme(legend.position = 'bottom')
+```
+
+```{r}
+pdf(here('figures','largestCountiesPlots.pdf'),width=12, height = 14)
+largestCountiesPlots
+dev.off()
+```
+
+```{r}
+# Creating a plot with predicted vs actual rates for each county in groups of
+# 12 (ordered by FIPS code.
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(countyNameState = paste0(countyName,' (',stateStr,')'))
+
+countyNames <- as.character(unique(estimatesMonthly$countyNameState))
+countyGroups <- split(countyNames, ceiling(seq_along(countyNames)/12))
+
+i <- 1
+
+for (countyGroup in countyGroups) {
+  
+  countyPlot <- estimatesMonthly %>%
+    filter(countyNameState %in% countyGroup) %>%
+    mutate(imputed = if_else(is.na(deaths),T,F),
+           deathRate=(imputedDeaths/pop)*100000,
+           expDeathsLow=(expDeathsLow/pop)*100000,
+           expDeathsMed=(expDeathsMed/pop)*100000,
+           expDeathsUp=(expDeathsUp/pop)*100000) %>%
+  group_by(FIPSCode) %>%
+  mutate(deathRateLead = lead(deathRate)) %>%
+  ungroup() %>%
+    ggplot() +
+      geom_vline(xintercept = make_date(2020,3,1)) +
+      geom_line(mapping=aes(x=time,y=expDeathsMed,color='Predicted')) +
+      geom_ribbon(mapping=aes(x=time,ymin=expDeathsLow,ymax=expDeathsUp,
+                              fill='90% Posterior Intervals'),alpha=0.2) +
+      geom_segment(mapping=aes(x=time,xend=lead(time),
+                               y=deathRate,yend=deathRateLead,
+                               color='Observed',linetype=imputed)) +
+      scale_color_manual(name='',
+                         breaks=c('Observed', 'Predicted'),
+                         values=c('Observed'='red', 'Predicted'='black')) + 
+      scale_fill_manual(name='',
+                        breaks=c('90% Posterior Intervals'),
+                        values=c('90% Posterior Intervals'='black')) + 
+      labs(x='',
+           y='Observed and Expected Number of Deaths (for 100,000 residents)',
+           colour='',
+           fill='',
+           linetype='Imputed') +
+      facet_wrap(~countyNameState, ncol = 4, nrow = 3) +
+      theme_minimal() +
+      theme(legend.position="bottom",
+            axis.text.x = element_text(angle = 330))
+  
+  ggsave(here('figures','countyPlots',paste0('countyPlots',as.character(i),'.pdf')),
+         device = 'pdf',width = 12,height = 7)
+  
+  i <- i + 1
+
+}
+```
+
+```{r}
+# Creating the plot directories to make it easier to find which file contains a
+# given county
+countiesIndex <- ''
+i <- 1
+
+for (countyGroup in countyGroups) {
+  
+  countiesIndex <- paste(countiesIndex,i,'\n')
+  
+  for (county in countyGroup) {
+    
+    countiesIndex <- paste(countiesIndex,county,'\n')
+    
+  }
+  
+  countiesIndex <- paste(countiesIndex,'\n')
+  
+  i <- i+1
+  
+}
+
+cat(countiesIndex, file = here('figures','countyPlots','plotIndex.txt'))
+```
+

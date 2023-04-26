@@ -1,0 +1,156 @@
+---
+title: "Ridge Graph"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(here)
+library(glue)
+library(ggridges)
+library(ggh4x)
+library(scico)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+here::i_am('R/timeBarsGraphDivisions.Rmd')
+
+inDir <- here::here('data','input')
+outDir <- here::here('data','output')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'UCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+load(here(modelFolder,glue('simulations{mortalityDataType}{COVIDDataType}.RData')))
+```
+
+```{r}
+metroDivisionsTotals <- simulationsDF %>%
+  mutate(monthYear = make_date(year,month,1)) %>%
+  group_by(census_division,metroCat2,monthYear) %>%
+  summarise(across(V1:V1000, ~ (sum(imputedDeaths) - sum(.x)) / sum(.x))) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  select(-c(V1:V1000))
+```
+
+```{r}
+relativeExcBreaks <- c(-0.1,0,0.025,0.075,0.1,0.125,0.15,0.2,0.25,0.3,0.4,2)
+
+plotData <- metroDivisionsTotals %>%
+  filter(monthYear >= make_date(2020,1,1)) %>%
+  mutate(relativeExcPct = ntile(relExcMed,n=100),
+         significant = factor(if_else(relExcLow > 0,'>= 95%',''),
+                              levels=c('>= 95%','')),
+         time = as.numeric(monthYear) - min(as.numeric(monthYear)))
+```
+
+```{r}
+annotateData <- tibble(x=c(make_date(2020,6,1),
+                           make_date(2020,12,1),
+                           make_date(2021,9,1),
+                           make_date(2021,12,15)),
+                       y=c(-40,-40,-40,-40),
+                       label=c('Initial',
+                               'Winter',
+                               'Delta','Omicron'),
+                       census_division='West South Central')
+
+rectData <- rbind(tibble(census_division = unique(pull(plotData,census_division)),
+                         xmin=make_date(2020,2,22),
+                         xmax=make_date(2020,8,12)),
+                  tibble(census_division = unique(pull(plotData,census_division)),
+                         xmin=make_date(2020,9,22),
+                         xmax=make_date(2021,2,12)),
+                  tibble(census_division = unique(pull(plotData,census_division)),
+                         xmin=make_date(2021,7,22),
+                         xmax=make_date(2021,10,12)),
+                  tibble(census_division = unique(pull(plotData,census_division)),
+                         xmin=make_date(2021,10,22),
+                         xmax=make_date(2022,2,12)))
+
+rectData <- plotData %>%
+  group_by(census_division) %>%
+  summarise(ymin=0,
+            ymax=max(relExcMed*100)) %>%
+  ungroup() %>%
+  right_join(rectData,by='census_division')
+```
+
+```{r, fig.height=10, fig.width=6}
+timeBarsGraph <- plotData %>%
+  ggplot() +
+  geom_segment(mapping= aes(x = monthYear - 13,
+      xend = monthYear + 13,
+      color = significant),
+      y = -5, yend = -5) +
+  geom_col(mapping=aes(x=monthYear,
+                       y=-50),
+                       fill=NA,
+                       color=NA) +
+  geom_rect(data=rectData,
+            mapping=aes(xmin=xmin,xmax=xmax,
+                        ymin=ymin,ymax=ymax),
+            alpha=0.1) +
+  geom_col(mapping=aes(x=monthYear,
+                       y=relExcMed*100,
+                       fill=relativeExcPct),
+           color= 'gray30',
+           linewidth=0.1,width=26) +
+  geom_text(data=annotateData,mapping=aes(x=x,y=y,label=label),size=4,vjust=0) +
+  scale_y_continuous(breaks=c(0,10,25,50,75,100,150)) +
+  scale_fill_scico(palette='lajolla',end=0.8,guide = "coloursteps",breaks=seq(0,100,10)) + 
+  scale_x_date(date_breaks='1 month',date_labels="%b-%y",expand=c(0.01,0.01)) +
+  scale_color_manual(values=c('black','white')) + 
+  labs(y='Relative Excess Mortality (%)',
+       x = '',
+       fill='Relative Excess Mortality \nPercentile',
+       color='Probability of\nRelative Excess Mortality > 0') +
+  facet_grid(census_division ~ metroCat2,
+               scales = "free_y", space = "free_y",
+               switch = 'y') +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position = 'bottom',
+        legend.key.width = unit(1.5,'cm'),
+        legend.title = element_text(hjust=0.5),
+        axis.text.x = element_text(angle=90),
+        axis.text.y=element_text(size=7),
+        strip.placement = "outside",
+        strip.text = element_text(size=10),
+        strip.text.y.left = element_text(angle=0)) +
+  guides(size=guide_legend(override.aes=aes(fill='white'))) 
+
+timeBarsGraph
+```
+
+```{r}
+pdf(here::here('figures',glue('figures{mortalityDataType}'),'timeBarsDivisionsGraph.pdf'), height = 14, width =12)
+timeBarsGraph
+dev.off()
+```

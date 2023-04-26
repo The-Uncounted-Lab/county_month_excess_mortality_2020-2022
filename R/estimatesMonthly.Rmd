@@ -1,169 +1,143 @@
 ---
 title: "Estimates of Monthly Excess Deaths"
 author: "Eugenio Paglino"
-date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
-```{r, echo=F, message=F,warning=F}
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
 
+```{r}
 # Loading necessary packages
-
 library(lubridate)
 library(INLA)
 library(knitr)
 library(here)
+library(glue)
 library(ggthemes)
 library(tidyverse)
-
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
-
+```{r}
 rm(list=ls())
 
-here::i_am('R/estimatesMonthly.Rmd')
+i_am('R/estimatesMonthly.Rmd')
 
-inDir <- here::here('data','input')
-outDir <- here::here('data','output')
+inDir <- here('data','input')
+outDir <- here('data','output')
 
-```
-
-
-```{r, echo=F, message=F, warning=F}
-
-ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
-ACYearlyData <- tibble(arrow::read_feather(here::here(outDir,'ACYearlyData.feather')))
-COVIDYearlyData <- tibble(arrow::read_feather(here::here(outDir,'COVIDYearlyData.feather')))
-popData <- tibble(arrow::read_feather(here::here(outDir,'popDataMonthly.feather')))
-popDataYearly <- tibble(arrow::read_feather(here::here(outDir,'popDataYearly.feather')))
-states <- read_csv(here::here(inDir,'utilities','states.csv'),
-                   col_types = cols(state=col_character(),
-                                    stateStr=col_character(),
-                                    stateFIPS=col_integer()))
-
+mortalityDataType <- 'NC'
+COVIDDataType <- 'MCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
 ```
 
 ```{r}
-
-ACData <- ACData %>%
-  mutate(monthYear = make_date(year=year,month=month,day=1)) 
-
-```
-
-```{r, echo=F}
-
-# We load the pre-trained models
-
-load(here::here('R','RObjects','simMonthly.RData'))
-load(here::here('R','RObjects','simYearlySimple.RData'))
-
+mortalityData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                                 glue('{mortalityDataType}MonthlyData.feather'))))
+COVIDData <- tibble(arrow::read_feather(here(COVIDDataInputFolder,
+                                             glue('COVID{COVIDDataType}MonthlyData.feather'))))
 ```
 
 ```{r}
-
-simulationsFIPSMonthly <- tibble(
-  year = ACData %>% pull(year),
-  month = ACData %>% pull(month),
-  monthYear = make_date(year=year,month=month,day=1),
-  FIPSCode = ACData %>% pull(FIPSCode),
-  csCode = ACData %>% pull(csCode),
-  stateFIPS = ACData %>% pull(stateFIPS),
-  pop = ACData %>% pull(pop),
-  expDeathsLow = apply(death.draws,M=2,function(x) quantile(x,0.05)),
-  expDeathsMed = apply(death.draws,M=2,function(x) quantile(x,0.5)),
-  expDeathsUp = apply(death.draws,M=2,function(x) quantile(x,0.95))) %>%
-  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
-
-```
-
-```{r, echo=F}
-
-# Computing overall distribution of deaths by month
-
-monthWeights <- ACData %>%
-  filter(year<2020) %>%
+mortalityData <- mortalityData %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
   group_by(FIPSCode) %>%
-  filter(n()==max(n())) %>%
+  mutate(FIPSID = cur_group_id()) %>%
   ungroup() %>%
-  group_by(month) %>%
-  summarize(monthTotal = sum(deaths,na.rm=T)) %>%
-  ungroup() %>%
-  mutate(monthWeight = monthTotal/sum(monthTotal)) %>%
-  select(month,monthWeight)
-
-monthWeights <- monthWeights %>% pull(monthWeight)
-
+  arrange(FIPSID,year,month)
 ```
 
 ```{r}
-
-n.sim <- 1000
-years <- 2015:2022
-FIPSCodes <- as.numeric(unique(ACData$FIPSCode))
-
-death.draws.y.partial <- t(death.draws.y[,pull(ACYearlyData,year)>=2015])
-
-death.draws.y.aug <- death.draws.y.partial[rep(1:nrow(death.draws.y.partial), each = 12), ]
-  
-monthWeights.matrix <- as.matrix(rep(monthWeights,length(years)*length(FIPSCodes)))
-monthWeights.matrix <- monthWeights.matrix[, rep(1,n.sim)]
-
-death.draws.y.aug <- death.draws.y.aug*monthWeights.matrix
-
-death.draws.y.aug <- death.draws.y.aug[as.vector(sapply(1:3127,function(x) (1:86)+(96*(x-1)))),]
-
+# We load the pre-trained models
+load(here(modelFolder,'simMonthly.RData'))
 ```
 
 ```{r}
+exc.death.draws <- matrix(rep(pull(mortalityData,imputedDeaths),1000),
+                                        nrow = nrow(death.draws), 
+                                        ncol = ncol(death.draws),
+                                        byrow = T) - death.draws 
+rel.exc.draws <- exc.death.draws / death.draws
+```
 
-simulationsFIPSYearly <- tibble(
-  year = ACData %>% pull(year),
-  month = ACData %>% pull(month),
+```{r}
+estimatesMonthly <- tibble(
+  year = mortalityData %>% pull(year),
+  month = mortalityData %>% pull(month),
   monthYear = make_date(year=year,month=month,day=1),
-  FIPSCode = ACData %>% pull(FIPSCode),
-  csCode = ACData %>% pull(csCode),
-  stateFIPS = ACData %>% pull(stateFIPS),
-  pop = ACData %>% pull(pop),
-  expDeathsLowSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.05)),
-  expDeathsMedSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.5)),
-  expDeathsUpSC = apply(death.draws.y.aug,M=1,function(x) quantile(x,0.95))) %>%
-  relocate(FIPSCode,csCode,stateFIPS,year,month,monthYear,pop)
+  FIPSCode = mortalityData %>% pull(FIPSCode),
+  stateFIPS = mortalityData %>% pull(stateFIPS)) %>%
+  left_join(select(COVIDData,FIPSCode,year,month,COVIDDeaths),by=c('FIPSCode','year','month')) %>%
+  relocate(FIPSCode,stateFIPS,year,month,monthYear)
+```
+
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(
+    expDeathsMean = apply(death.draws,M=2,function(x) mean(x)),
+    expDeathsLow = apply(death.draws,M=2,function(x) quantile(x,0.05)),
+    expDeathsMed = apply(death.draws,M=2,function(x) quantile(x,0.5)),
+    expDeathsUp = apply(death.draws,M=2,function(x) quantile(x,0.95))
+    )
+
+rm(death.draws)
+```
+
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(
+    excDeathsMean = apply(exc.death.draws,M=2,function(x) mean(x)),
+    excDeathsLow = apply(exc.death.draws,M=2,function(x) quantile(x,0.05)),
+    excDeathsMed = apply(exc.death.draws,M=2,function(x) quantile(x,0.5)),
+    excDeathsUp = apply(exc.death.draws,M=2,function(x) quantile(x,0.95)),
+    probPositiveExcess = apply(exc.death.draws,M=2,function(x) sum(x>0)/length(x))
+  )
 
 ```
 
-```{r, echo=F}
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(
+    relExcDeathsMean = apply(rel.exc.draws,M=2,function(x) mean(x)),
+    relExcDeathsLow = apply(rel.exc.draws,M=2,function(x) quantile(x,0.05,na.rm=T)),
+    relExcDeathsMed = apply(rel.exc.draws,M=2,function(x) quantile(x,0.5,na.rm=T)),
+    relExcDeathsUp = apply(rel.exc.draws,M=2,function(x) quantile(x,0.95,na.rm=T))
+  )
 
-suppressionData <- read_csv(here::here(outDir,'suppressionData.csv'))
-  
+rm(rel.exc.draws)
 ```
 
-```{r, echo=F}
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(
+    ratioMean = apply(exc.death.draws/COVIDDeaths,M=2,function(x) mean(x,na.rm=T)),
+    ratioLow = apply(exc.death.draws/COVIDDeaths,M=2,function(x) quantile(x,0.05,na.rm=T)),
+    ratioMed = apply(exc.death.draws/COVIDDeaths,M=2,function(x) quantile(x,0.5,na.rm=T)),
+    ratioUp = apply(exc.death.draws/COVIDDeaths,M=2,function(x) quantile(x,0.95,na.rm=T)),
+    probPositiveNCExcess = apply(exc.death.draws/COVIDDeaths,M=2,function(x) sum(x>1,na.rm=T)/length(x))
+  )
 
-# We set which estimate to used based on the relative average error of the
-
-diffTreshold <- 0.05
-
-finalSimsFIPS <- simulationsFIPSMonthly  %>%
-  left_join(simulationsFIPSYearly,
-            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
-  left_join(ACData,
-            by=c('csCode','FIPSCode','stateFIPS','year','month')) %>%
-  left_join(suppressionData,by='FIPSCode') %>%
-  mutate(expDeathsMed = if_else(deathsDiffPct>diffTreshold,expDeathsMedSC,expDeathsMed),
-         expDeathsLow = if_else(deathsDiffPct>diffTreshold,expDeathsLowSC,expDeathsLow),
-         expDeathsUp = if_else(deathsDiffPct>diffTreshold,expDeathsUpSC,expDeathsUp),
-         model=if_else(deathsDiffPct>diffTreshold,'yearly','monthly')) %>%
-  select(csCode,FIPSCode,stateFIPS,countyName,state,monthYear,
-         expDeathsLow,expDeathsMed,expDeathsUp,
-         deaths,imputedDeaths,pop,model)
-
+rm(exc.death.draws)
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  left_join(select(COVIDData,FIPSCode,month,year,imputedCOVIDDeaths),
+            by=c('FIPSCode','month','year')) %>%
+  left_join(mortalityData,by=c('FIPSCode','year','month','monthYear','stateFIPS'))
+```
 
+```{r}
 ## Metropolitan status
-metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- read_csv(here(inDir,'utilities','FIPSmetroregion4cat.csv'))
 metro <- metro %>%
   select(FIPSCode = fips,
          metroCat = metroname) %>%
@@ -173,28 +147,11 @@ metro <- metro %>%
                                metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
                                metroCat == 'Lg central metro' ~ 'Large Central Metro'))
   
-
-finalSimsFIPS <- finalSimsFIPS %>%
+estimatesMonthly <- estimatesMonthly %>%
   left_join(metro, by = 'FIPSCode')
-
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
-
-## BEA regions
-BEARegions <- read_rds(here::here(inDir,'utilities','stateBEARegionCrosswalk.rds'))
-BEARegions <- BEARegions %>%
-  select(stateStr = state_abb,
-         BEARegion = region_bea)
-
-finalSimsFIPS <- finalSimsFIPS %>%
-  left_join(states,by = c('state','stateFIPS')) %>%
-  left_join(BEARegions, by = 'stateStr')
-
-```
-
-```{r, echo=FALSE, warning=F, message=F}
-
+```{r}
 addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
                  '02013','02016','02164','02270','46113','02130',
                  '02188','02290','04012','30067')
@@ -203,25 +160,35 @@ addLgFringeMetro <- c('08001','08014')
 addMdSmMetro <- c('08013','08123','51515')
 
 ## fill out missing metro
-finalSimsFIPS <- finalSimsFIPS %>%
+estimatesMonthly <- estimatesMonthly %>%
   mutate(metroCat = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
                               FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
                               FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
                               TRUE ~ metroCat))
-
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
-
-finalSimsFIPS <- finalSimsFIPS %>%
-  mutate(excDeathsMed = imputedDeaths - expDeathsMed,
-         excDeathsLow = imputedDeaths - expDeathsUp,
-         excDeathsUp = imputedDeaths - expDeathsLow)
-
+```{r}
+estimatesMonthly <- estimatesMonthly %>% 
+  mutate(suppressed = if_else(status==0,1,0)) %>%
+  select(year,month,FIPSCode,countyName,stateFIPS,state,
+         census_region,census_division,metroCat,
+         COVIDDeaths,deaths,imputedDeaths,suppressed,
+         expDeathsMean:probPositiveNCExcess)
 ```
 
-```{r, echo=FALSE, warning=F, message=F}
+```{r}
+estimatesMonthly %>% write_csv(here(dataOutputFolder,'estimatesMonthlyFull.csv'))
+```
 
-finalSimsFIPS %>% write_csv(here::here(outDir,'exMortEstimatesMonthlyINLA.csv'))
+```{r}
+estimatesMonthly <- estimatesMonthly %>%
+  mutate(across(expDeathsMean:excDeathsUp, 
+                ~ if_else(suppressed==1,NA_integer_,as.integer(.x)))) %>%
+  select(-c(imputedDeaths))
+```
 
+```{r}
+estimatesMonthly %>% 
+  filter(make_date(year,month,1)>=make_date(2020,3,1)) %>%
+  write_csv(here(dataOutputFolder,'estimatesMonthly.csv'))
 ```

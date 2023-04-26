@@ -1,0 +1,213 @@
+---
+title: "County-Level Mortality Models (Monthly) - Evaluation"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(gt)
+library(here)
+library(glue)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/modelEvaluationMonthly.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+figuresDir <- here('figures')
+
+dataType <- 'NC'
+dataOutputFolder <- here(outDir,'validation',glue('validation{dataType}'))
+
+set.seed(42)
+```
+
+```{r}
+CVData <- tibble(arrow::read_feather(here(dataOutputFolder,'CVDataMonthly.feather')))
+```
+
+```{r}
+testFigure <- CVData %>%
+  filter(hiddenYear == 2016,
+         FIPSCode %in% sample(unique(pull(CVData,FIPSCode)),12)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=monthYear,y=imputedDeaths/pop,color='Observed')) +
+  geom_line(mapping=aes(x=monthYear,y=expDeathsMean/pop,color='Expected')) +
+  geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow/pop,ymax=expDeathsUp/pop,
+                          fill='Expected'),alpha=0.3) +
+  labs(x='Deaths',
+       y='',
+       color='',
+       fill='') +
+  facet_wrap(~FIPSCode) +
+  guides(fill='none')
+
+testFigure
+```
+
+```{r}
+## Metropolitan status
+metro <- read_csv(here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroCat = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
+                               metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroCat == 'Lg central metro' ~ 'Large Central Metro'))
+  
+CVData <- CVData %>%
+  left_join(metro, by = 'FIPSCode')
+```
+
+```{r}
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+CVData <- CVData %>%
+  mutate(metroCat = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
+                              FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
+                              FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
+                              TRUE ~ metroCat))
+```
+
+```{r}
+states <- read_csv(here(inDir,'utilities','states.csv'),
+                   col_types = cols(state=col_character(),
+                                    stateStr=col_character(),
+                                    stateFIPS=col_integer()))
+
+CVData <- CVData %>%
+  mutate(stateFIPS = as.integer(str_sub(FIPSCode,1,2))) %>%
+  left_join(states,by='stateFIPS')
+```
+
+```{r}
+# Construct data frame of state abbreviations + divisions, plus DC
+census_divisions <- tibble(
+  state = state.name,
+  census_division = state.division,
+  census_region = state.region
+) %>%
+  add_row(
+    state = "District of Columbia",
+    census_division = "South Atlantic",
+    census_region = "South"
+  )
+
+CVData <- CVData %>%
+  left_join(census_divisions,by='state') %>%
+  mutate(census_region = if_else(census_region == 'North Central','Midwest',census_region))
+```
+
+```{r}
+CVData <- CVData %>%
+  mutate(group = paste(hiddenYear,metroCat,census_region,sep = '-')) %>%
+  group_by(group) %>%
+  nest()
+```
+
+```{r}
+extract_CV_subset <- function(data,group) {
+  CVSubset <- filter(data,group==group) %>%
+    filter(group == group)
+  
+  return(CVSubset)
+}
+
+compute_correlation <- function(data) {
+  observedDeaths <- data %>% pull(imputedDeaths)
+  expectedDeaths <- data %>% pull(expDeathsMean)
+  return(cor(observedDeaths,expectedDeaths))
+}
+
+compute_coverage <- function(data) {
+  coverage <- data %>%
+    mutate(covered = expDeathsLow <= imputedDeaths & imputedDeaths <= expDeathsUp) %>%
+    pull(covered) %>%
+    sum() / nrow(data)
+  return(coverage)
+}
+```
+
+```{r}
+compute_metrics <- function(data,group) {
+  CVSubset <- extract_CV_subset(data,group)
+  correlation <- compute_correlation(CVSubset)
+  coverage <- compute_coverage(CVSubset)
+  
+  metricsDF <- tibble(group = group,
+                      correlation = correlation,
+                      coverage = coverage)
+}
+```
+
+```{r}
+metrics <- map2_dfr(CVData$data,CVData$group,
+                    ~ compute_metrics(.x,.y)) %>%
+  separate(group,into=c('hiddenYear','metroCat','censusRegion'),sep = '-') %>%
+  group_by(metroCat,censusRegion) %>%
+  summarise(across(correlation:coverage,~mean(.x))) %>%
+  ungroup()
+```
+
+```{r}
+metrics %>%
+  pivot_wider(names_from = censusRegion, values_from = correlation:coverage) %>%
+  gt() %>%
+  cols_label(
+    metroCat = 'Metro Status',
+    'correlation_Midwest' = 'Correlation',
+    'correlation_Northeast' = 'Correlation',
+    'correlation_South' = 'Correlation',
+    'correlation_West' = 'Correlation',
+    'coverage_Midwest' = 'Coverage',
+    'coverage_Northeast' = 'Coverage',
+    'coverage_South' = 'Coverage',
+    'coverage_West' = 'Coverage') %>%
+  fmt_number(
+    columns = starts_with('correlation'),
+    decimals = 3
+  ) %>%
+  fmt_number(
+    columns = starts_with('coverage'),
+    decimals = 3
+  ) %>%
+  tab_spanner(
+    label = 'Northeast',
+    columns = ends_with('Northeast')
+  ) %>%
+  tab_spanner(
+    label = 'Midwest',
+    columns = ends_with('Midwest')
+  ) %>%
+  tab_spanner(
+    label = 'South',
+    columns = ends_with('South')
+  ) %>%
+  tab_spanner(
+    label = 'West',
+    columns = ends_with('West',ignore.case = F)
+  ) %>%
+  gt::gtsave(filename = here(dataOutputFolder,"CVTableMonthlyAlt.png"),zoom=4)
+```
+

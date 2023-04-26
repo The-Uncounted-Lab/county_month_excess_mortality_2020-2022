@@ -1,0 +1,193 @@
+---
+title: "Estimates of Excess Deaths by 2 Pandemic Years"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(glue)
+library(here)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/estimatesPandemicYears.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'MCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+monthlyData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                               glue('{mortalityDataType}MonthlyData.feather'))))
+pandemicYearsData <- tibble(arrow::read_feather(here(mortalityDataInputFolder,
+                                               glue('{mortalityDataType}PandemicYearsData.feather'))))
+COVIDPYearsData <- tibble(arrow::read_feather(here(COVIDDataInputFolder,
+                                               glue('COVID{COVIDDataType}PandemicYearsData.feather'))))
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSID = cur_group_id()) %>%
+  ungroup() %>%
+  arrange(FIPSID,year,month)
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  mutate(pandemicYear = case_when(
+           between(monthYear,
+                   make_date(2020,3,1),
+                   make_date(2021,2,1)) ~ 1,
+           between(monthYear,
+                   make_date(2021,2,1),
+                   make_date(2022,2,1)) ~ 2,
+           between(monthYear,
+                   make_date(2022,3,1),
+                   make_date(2023,8,1)) ~ 3))
+```
+
+```{r}
+# We load the pre-trained models
+load(here(modelFolder,'simMonthly.RData'))
+```
+
+```{r}
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = monthlyData %>% pull(year),
+         month = monthlyData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1),
+         pandemicYear = monthlyData %>% pull(pandemicYear),
+         FIPSCode = monthlyData %>% pull(FIPSCode),
+         stateFIPS = monthlyData %>% pull(stateFIPS),
+         pop = monthlyData %>% pull(pop)) %>%
+  relocate(FIPSCode,stateFIPS,year,month,monthYear,pandemicYear,pop)
+```
+
+```{r}
+simulationsPYears <- simulationsMonthly %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,8,1))) %>%
+  group_by(pandemicYear,FIPSCode,stateFIPS) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(pandemicYearsData,by=c('FIPSCode','stateFIPS','pandemicYear')) %>%
+  left_join(select(COVIDPYearsData,FIPSCode,COVIDDeaths,pandemicYear),by=c('FIPSCode','pandemicYear'))
+
+estimatesPYears <- simulationsPYears %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(pandemicYear,FIPSCode,stateFIPS) %>%
+  summarize(expDeathsMean = mean(expDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsMean = mean(imputedDeaths-expDeaths),
+            excDeathsLow = quantile(imputedDeaths-expDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(imputedDeaths-expDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(imputedDeaths-expDeaths,probs=c(0.95)),
+            probPositiveExcess = sum((imputedDeaths-expDeaths)>0,na.rm=T)/n(),
+            relExcDeathsMean = mean((imputedDeaths-expDeaths)/expDeaths),
+            relExcDeathsLow = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.05)),
+            relExcDeathsMed = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.5)),
+            relExcDeathsUp = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.95)),
+            ratioMean = mean((imputedDeaths-expDeaths)/COVIDDeaths,na.rm=T),
+            ratioLow = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.05),na.rm=T),
+            ratioMed = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),
+            ratioUp = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.95),na.rm=T),
+            probPositiveNCExcess = sum(((imputedDeaths-expDeaths)/COVIDDeaths)>1,na.rm=T)/n(),
+            imputedDeaths = mean(imputedDeaths),
+            COVIDDeaths = mean(COVIDDeaths,na.rm=T)) %>%
+  ungroup()
+```
+
+```{r}
+estimatesPYears <- estimatesPYears %>%
+  select(-imputedDeaths) %>%
+  left_join(pandemicYearsData,by=c('FIPSCode','stateFIPS','pandemicYear'))
+```
+
+```{r}
+estimatesPYears <- estimatesPYears %>%
+  mutate(pandemicYear = case_when(pandemicYear == 1 ~ 'Mar 2020 - Feb 2021',
+                                  pandemicYear == 2 ~ 'Mar 2021 - Feb 2022',
+                                  pandemicYear == 3 ~ 'Mar 2022 - Aug 2022'))
+```
+
+```{r}
+## Metropolitan status
+metro <- read_csv(here::here(inDir,'utilities','FIPSmetroregion4cat.csv'))
+metro <- metro %>%
+  select(FIPSCode = fips,
+         metroCat = metroname) %>%
+  mutate(FIPSCode = if_else(nchar(FIPSCode)<5,paste0('0',FIPSCode),as.character(FIPSCode)),
+         metroCat = case_when(metroCat == 'Nonmetro' ~ 'Non Metro',
+                               metroCat == 'Md/Sm metro' ~ 'Medium or Small Metro',
+                               metroCat == 'Lg fringe metro' ~ 'Large Fringe Metro' ,
+                               metroCat == 'Lg central metro' ~ 'Large Central Metro'))
+  
+estimatesPYears <- estimatesPYears %>%
+  left_join(metro, by = 'FIPSCode')
+```
+
+```{r}
+addNonMetro <- c('02068','02105','02198','02230','02275','02282', 
+                 '02013','02016','02164','02270','46113','02130',
+                 '02188','02290','04012','30067')
+
+addLgFringeMetro <- c('08001','08014')
+addMdSmMetro <- c('08013','08123','51515')
+
+## fill out missing metro
+estimatesPYears <- estimatesPYears %>%
+  mutate(metroCat = case_when(FIPSCode %in% addNonMetro ~ "Non Metro",
+                              FIPSCode %in% addLgFringeMetro ~ 'Large Fringe Metro',
+                              FIPSCode %in% addMdSmMetro ~ 'Medium or Small Metro',
+                              TRUE ~ metroCat))
+```
+
+```{r}
+estimatesPYears <- estimatesPYears %>% 
+  mutate(suppressed = if_else(is.na(deaths),1,0)) %>%
+  select(pandemicYear,FIPSCode,countyName,stateFIPS,state,
+         census_region,census_division,metroCat,
+         COVIDDeaths,deaths,imputedDeaths,suppressed,
+         expDeathsMean:probPositiveNCExcess)
+```
+
+```{r}
+estimatesPYears %>% write_csv(here(dataOutputFolder,'estimatesPYearsFull.csv'))
+```
+
+```{r}
+estimatesPYears <- estimatesPYears %>%
+  mutate(across(deaths:excDeathsUp, 
+                ~ if_else(suppressed==1,NA_integer_,as.integer(.x)))) %>%
+  select(-imputedDeaths)
+```
+
+```{r}
+estimatesPYears %>% write_csv(here(dataOutputFolder,'estimatesPYears.csv'))
+```

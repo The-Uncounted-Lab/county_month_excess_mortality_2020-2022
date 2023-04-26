@@ -1,0 +1,190 @@
+---
+title: "Scatter Plots"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(here)
+library(ggthemes)
+library(RColorBrewer)
+library(patchwork)
+library(scales)
+library(glue)
+library(scico)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/scatterPlots.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'AC'
+COVIDDataType <- 'UCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+popDataYearly <- tibble(arrow::read_feather(here(outDir,'cleanedPopData','popDataYearly.feather')))
+exMortData <- read_csv(here(dataOutputFolder,'estimatesPYears.csv'))
+```
+
+```{r}
+exMortData <- popDataYearly %>%
+  filter(between(year,2020,2021)) %>%
+  mutate(pandemicYear = if_else(year==2020,'Mar 2020 - Feb 2021',
+                                           'Mar 2021 - Feb 2022')) %>%
+  select(FIPSCode,pandemicYear,pop) %>%
+  right_join(exMortData,by=c('FIPSCode','pandemicYear'))
+```
+
+```{r}
+exMortData <- exMortData %>%
+  select(FIPSCode,census_division,metroCat,pandemicYear,
+         expDeathsMed,excDeathsMed,COVIDDeaths,pop) %>%
+  mutate(pandemicYear = if_else(pandemicYear=='Mar 2020 - Feb 2021',1,2)) %>%
+  pivot_wider(names_from = pandemicYear, values_from = expDeathsMed:pop,
+              names_sep = '') %>%
+  mutate(relCOVIDMortality1 = COVIDDeaths1/expDeathsMed1,
+         relExcMortality1 =excDeathsMed1/expDeathsMed1,
+         relCOVIDMortality2 = COVIDDeaths2/expDeathsMed2,
+         relExcMortality2 = excDeathsMed2/expDeathsMed2,
+         relCOVIDMortality = (COVIDDeaths1+COVIDDeaths2)/(expDeathsMed1+expDeathsMed2),
+         relExcMortality = (excDeathsMed1+excDeathsMed2)/(expDeathsMed1+expDeathsMed2),
+         relExcVariation = (relExcMortality2-relExcMortality1)/relExcMortality1)
+```
+
+```{r}
+popCutoff <- 10000
+
+excessVaccinesPlot <- exMortData %>%
+  filter(pop1 > popCutoff,
+         between(relExcVariation,-5,5)) %>%
+  drop_na(metroCat) %>% 
+  ggplot() +
+  geom_smooth(mapping=aes(x=pctVaccinated, y=relExcVariation,
+                          weight=pop1),
+              method='lm', color = "gray50") +
+  geom_point(mapping=aes(x=pctVaccinated, y=relExcVariation,
+                         color = metroCat, size = pop1), alpha = 0.7) +
+  scale_color_brewer(palette = "RdYlBu",guide = guide_legend(ncol=2)) +
+  coord_cartesian(ylim=c(-5,5)) +
+  facet_wrap(~census_division, ncol = 2) +
+  labs(x = "Percentage of Population with Primary Vaccine Series",
+       y = "Percentage Change in Relative Excess Mortality between Pandemic Years",
+       size='Population',
+       color='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.box="vertical")
+```
+
+```{r}
+annotateData <- tibble(census_division='Middle Atlantic',
+                       x = c(0.35,0.41),
+                       y = c(0.41,0.35),
+                       label = c('Excess Higher\nthan COVID','COVID Higher\nthan Excess'))
+
+arrowData <- tibble(census_division='Middle Atlantic',
+                    x = c(0.38,0.52),
+                    y = c(0.52,0.38),
+                    xend = c(0.34,0.56),
+                    yend = c(0.56,0.34))
+
+excessCOVIDPlot <- exMortData %>%
+  filter(pop1 > popCutoff) %>%
+  drop_na(metroCat) %>% 
+  ggplot() +
+  geom_abline(intercept = 0, slope = 1, linewidth = 0.5, linetype = "dashed", color = "gray50") +
+  geom_point(mapping=aes(x=relCOVIDMortality, y=relExcMortality,
+                         color = metroCat, size = pop1), 
+             alpha = 0.7) +
+  geom_text(annotateData,mapping=aes(x=x,y=y,label=label),
+            hjust='left',lineheight=0.9,size=3,angle=45) +
+  geom_segment(arrowData,mapping=aes(x=x,y=y,xend=xend,yend=yend),
+               arrow = arrow(length = unit(0.1,"cm"))) +
+  scale_color_brewer(palette = "RdYlBu",guide = guide_legend(ncol=2)) +
+  scale_size_continuous(breaks=c(50000,100000,500000,1000000),label=comma) +
+  coord_cartesian(xlim=c(-0.05,0.55),ylim=c(-0.05,0.55)) + 
+  facet_wrap(~census_division, ncol = 3) +
+  labs(x = "Relative COVID-19 Mortality (Mar 2020 - Feb 2022)",
+       y = "Relative Excess Mortality (Mar 2020 - Feb 2022)",
+       size='Population',
+       color='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.box="vertical")
+
+excessCOVIDPlot
+```
+
+```{r}
+pdf(here('figures','excessCOVIDPlot.pdf'),width=8,height = 10)
+excessCOVIDPlot 
+dev.off()
+```
+
+```{r}
+annotateData <- tibble(census_division='Middle Atlantic',
+                       x = c(0.35,0.41),
+                       y = c(0.41,0.35),
+                       label = c('Excess Higher\nin Year 2','Excess Higher\nin Year 1'))
+
+arrowData <- tibble(census_division='Middle Atlantic',
+                    x = c(0.38,0.52),
+                    y = c(0.52,0.38),
+                    xend = c(0.34,0.56),
+                    yend = c(0.56,0.34))
+
+excessY1ExcessY2Plot <- exMortData %>%
+  mutate(metroCat2 = if_else(str_starts(metroCat,'Large'),'Large Metro','Medium/Small Metro and Non-Metro')) %>%
+  filter(pop1 > popCutoff,
+         between(relExcMortality1,-0.05,0.55),
+         between(relExcMortality2,-0.05,0.55)) %>%
+  drop_na(metroCat) %>% 
+  ggplot() +
+  geom_abline(intercept = 0, slope = 1, linewidth = 0.5, linetype = "dashed", color = "gray50") +
+  geom_point(mapping=aes(x=relExcMortality1, y=relExcMortality2,
+                         color = metroCat, size = pop1), 
+             alpha = 0.7) +
+  geom_text(annotateData,mapping=aes(x=x,y=y,label=label),
+            hjust='left',lineheight=0.9,angle=45,size=3) +
+  geom_segment(arrowData,mapping=aes(x=x,y=y,xend=xend,yend=yend),
+               arrow = arrow(length = unit(0.1,"cm"))) +
+  scale_color_brewer(palette = "RdYlBu",guide = guide_legend(ncol=2)) +
+  scale_size_continuous(breaks=c(50000,100000,500000,1000000),label=comma) +
+  coord_cartesian(xlim=c(-0.05,0.55),ylim=c(-0.05,0.55)) + 
+  facet_wrap(~census_division, ncol = 3) +
+  labs(x = "Relative Excess Mortality (Mar 2020 - Feb 2021)",
+       y = "Relative Excess Mortality (Mar 2021 - Feb 2022)",
+       size='Population',
+       color ='Metro Status') +
+  theme_minimal() +
+  theme(legend.position = 'bottom',
+        legend.box="vertical")
+
+excessY1ExcessY2Plot
+```
+
+```{r}
+pdf(here('figures','excessY1ExcessY2Plot.pdf'),width=8,height = 10)
+excessY1ExcessY2Plot 
+dev.off()
+```
+

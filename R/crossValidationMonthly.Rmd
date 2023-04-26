@@ -1,0 +1,191 @@
+---
+title: "County-Level Mortality Models (Monthly) - Cross Validation"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(USAboundaries)
+library(sf)
+library(spdep)
+library(INLA)
+library(here)
+library(glue)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/crossValidationMonthly.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+dataType <- 'NC'
+dataInputFolder <- here(outDir,glue('cleanedMortality{dataType}Data'))
+dataOutputFolder <- here(outDir,'validation',glue('validation{dataType}'))
+
+set.seed(42)
+```
+
+```{r}
+mortalityData <- tibble(arrow::read_feather(here(dataInputFolder,glue('{dataType}MonthlyData.feather'))))
+```
+
+```{r}
+counties <- us_counties()
+# Transform to Albers for making map of US
+counties <- st_transform(counties, 5070)
+
+counties <- counties %>%
+  select(geoid,geometry) %>%
+  rename(FIPSCode = geoid) %>%
+  mutate(FIPSCode = case_when(FIPSCode == '02013' ~ '02013',
+                              FIPSCode == '02188' ~ '02188',
+                              FIPSCode == '02230' ~ '02232',
+                              FIPSCode == '02063' ~ '02261',
+                              TRUE ~ FIPSCode)) %>%
+  filter(FIPSCode %in% unique(mortalityData %>% pull(FIPSCode))) %>%
+  arrange(FIPSCode)
+```
+
+```{r}
+neighbors <- poly2nb(counties)
+
+# We can edit neighbors manually but we need to be very careful because
+# neighborhood is here a symmetric relationship so that everything breaks
+# (in INLA) if A is B's neighbor. but B is not A's neighbor.
+
+neighbors[[68]] <- as.integer(c(70))
+neighbors[[71]] <- as.integer(c(70))
+neighbors[[70]] <- sort(as.integer(c(neighbors[[70]], 68, 71)))
+
+nb2INLA(here(outDir,'neighbors.graph'),neighbors)
+inla.graph <- inla.read.graph(here(outDir,'neighbors.graph'))
+adj.matrix <- inla.graph2matrix(inla.graph)
+```
+
+```{r}
+mortalityData <- mortalityData %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSID = cur_group_id(),
+         FIPSID2 = FIPSID) %>%
+  ungroup() %>%
+  group_by(year,month) %>%
+  mutate(timeID = cur_group_id(),
+         timeID2 = timeID) %>%
+  ungroup() %>%
+  group_by(census_division) %>%
+  mutate(divisionID = cur_group_id()) %>%
+  ungroup() %>%
+  group_by(year) %>%
+  mutate(yearID = cur_group_id()) %>%
+  ungroup() %>%
+  mutate(deathsCensored = if_else(year>2019,NA_integer_,imputedDeaths)) %>%
+  arrange(FIPSID,year,month)
+```
+
+```{r}
+# INLA SET UP
+# priors
+hyper.bym <- list(theta1 = list('PCprior', param=c(1, 0.01)), 
+                  theta2 = list('PCprior', param=c(0.5, 0.5)))
+hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
+
+if (dataType == 'AC') {
+  hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
+                    theta2 = list(prior='normal', param=c(0,5)))
+} else if (dataType == 'NC') {
+  hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
+                    theta2 = list(prior='normal', param=c(0,5.5)))
+}
+
+formula <- deathsCensored ~ 1 + timeID + offset(log(pop)) + as.factor(month) +
+  #f(FIPSID, model='bym2', graph = inla.graph, hyper=hyper.bym, constr=T, scale.model = T) + 
+  f(FIPSID, model='iid', hyper=hyper.iid, constr=T) + 
+  f(timeID2, model='ar1', hyper=hyper.ar1, constr=T)
+                                
+# Under Poisson uses default set up
+control.family=inla.set.control.family.default()
+```
+
+```{r}
+dataCV <- map_dfr(2016:2018,
+    ~ mortalityData %>%
+      mutate(deathsCensored = if_else(year>.x,NA_integer_,imputedDeaths),
+             hiddenYear = .x)) %>%
+  group_by(hiddenYear) %>%
+  nest()
+```
+
+```{r}
+run_model <- function(data,group) {
+  
+  print(group)
+  
+  model <- data %>%
+    inla(formula,
+         data = .,
+         family = "poisson",
+         num.threads = round(parallel::detectCores()*0.7),
+         control.family=control.family,
+         control.compute=list(config = TRUE, dic = TRUE, waic = TRUE))
+  
+  return(model)
+}
+```
+
+```{r}
+extract_sims <- function(model,data,group) {
+
+  n.sim <- 1000
+  
+  draws <- inla.posterior.sample(n.sim, model)
+  model.names <- row.names(draws[[1]]$latent)
+  y.names <- grep("Predictor", model.names)
+  
+  rate.draws <- sapply(draws, function(x) exp(x$latent[y.names]))
+  death.draws <- apply(rate.draws,M=1,function(x) rpois(n.sim,x))
+  mean.deaths <- apply(death.draws,M=2,function(x) mean(x))
+  med.deaths <-  apply(death.draws,M=2,function(x) median(x))
+  up.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.95))
+  low.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.05))
+  
+  simData <- tibble(deaths = pull(data,deaths),
+                    imputedDeaths = pull(data,imputedDeaths),
+                    pop = pull(data,pop),
+                    FIPSCode = pull(data,FIPSCode),
+                    year = pull(data,year),
+                    month = pull(data,month))
+  
+  simData <- simData %>%
+    mutate(hiddenYear = group,
+           expDeathsMean = mean.deaths,
+           expDeathsMedian = med.deaths,
+           expDeathsUp = up.deaths,
+           expDeathsLow = low.deaths,
+           monthYear = make_date(year,month,1))
+  
+  return(simData)
+}
+```
+
+```{r}
+models <- map2(dataCV$data,dataCV$hiddenYear,run_model)
+simData <- pmap_dfr(list(models,dataCV$data,dataCV$hiddenYear),extract_sims)
+```
+
+```{r}
+arrow::write_feather(simData, here(dataOutputFolder,'CVDataMonthly.feather'))
+```

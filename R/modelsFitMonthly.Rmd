@@ -1,50 +1,51 @@
 ---
-title: "County-Level Mortality Models - Estimation"
+title: "County-Level Mortality Model - Estimation"
 author: "Eugenio Paglino"
-date: "\today"
-output:
-  html_document:
-    df_print: paged
+output: html_document
 ---
 
-```{r, message=F,warning=F}
-
-# Loading necessary packages
-
-library(lubridate)
-library(USAboundaries)
-library(sf)
-library(spdep)
-library(INLA)
-library(here)
-library(tidyverse)
-
-```
-
-```{r, echo=FALSE, message=F, warning=F}
-
-rm(list=ls())
-
-here::i_am('R/modelsFitMonthly.Rmd')
-
-inDir <- here::here('data','input')
-outDir <- here::here('data','output')
-
-set.seed(42)
-
-```
-
-```{r, echo=F}
-
-ACData <- tibble(arrow::read_feather(here::here(outDir,'ACData.feather')))
-
-allFIPS <- ACData %>% pull(FIPSCode) %>% unique()
-allStates <- ACData %>% pull(stateFIPS) %>% unique()
-
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
 ```
 
 ```{r}
+# Loading necessary packages
+library(lubridate)
+library(USAboundaries)
+library(splines)
+library(sf)
+library(spdep)
+library(gsl)
+library(glue)
+library(INLA)
+library(here)
+library(tidyverse)
+```
 
+```{r}
+rm(list=ls())
+
+i_am('R/modelsFitMonthly.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+dataType <- 'NC'
+dataInputFolder <- here(outDir,glue('cleanedMortality{dataType}Data'))
+dataOutputFolder <- here(outDir,'modelsAndSimulations',glue('model{dataType}'))
+
+set.seed(42)
+```
+
+```{r}
+mortalityData <- tibble(arrow::read_feather(here(dataInputFolder,glue('{dataType}MonthlyData.feather'))))
+```
+
+```{r}
 counties <- us_counties()
 # Transform to Albers for making map of US
 counties <- st_transform(counties, 5070)
@@ -52,18 +53,14 @@ counties <- st_transform(counties, 5070)
 counties <- counties %>%
   select(geoid,geometry) %>%
   rename(FIPSCode = geoid) %>%
-  mutate(FIPSCode = case_when(FIPSCode == '02013' ~ '02010',
-                              FIPSCode == '02188' ~ '02140',
-                              FIPSCode == '02230' ~ '02232',
+  mutate(FIPSCode = case_when(FIPSCode == '02230' ~ '02232',
                               FIPSCode == '02063' ~ '02261',
                               TRUE ~ FIPSCode)) %>%
-  filter(FIPSCode %in% unique(ACData %>% pull(FIPSCode))) %>%
+  filter(FIPSCode %in% unique(mortalityData %>% pull(FIPSCode))) %>%
   arrange(FIPSCode)
-
 ```
 
 ```{r}
-
 neighbors <- poly2nb(counties)
 
 # We can edit neighbors manually but we need to be very careful because
@@ -74,80 +71,175 @@ neighbors[[68]] <- as.integer(c(70))
 neighbors[[71]] <- as.integer(c(70))
 neighbors[[70]] <- sort(as.integer(c(neighbors[[70]], 68, 71)))
 
-nb2INLA(here::here(outDir,'neighborsEx.graph'),neighbors)
-inla.graph <- inla.read.graph(here::here(outDir,'neighborsEx.graph'))
+nb2INLA(here(outDir,'neighbors.graph'),neighbors)
+inla.graph <- inla.read.graph(here(outDir,'neighbors.graph'))
 adj.matrix <- inla.graph2matrix(inla.graph)
-
 ```
 
-```{r, echo=F}
-
-ACData <- ACData %>%
+```{r}
+mortalityData <- mortalityData %>%
   group_by(FIPSCode) %>%
-  mutate(FIPSCode = cur_group_id(),
-         FIPSCode2 = FIPSCode,
-         FIPSCode3 = FIPSCode,
-         FIPSCode4 = FIPSCode) %>%
+  mutate(FIPSID = cur_group_id(),
+         FIPSID2 = FIPSID) %>%
   ungroup() %>%
   group_by(year,month) %>%
-  mutate(timeID = cur_group_id()) %>%
+  mutate(timeID = cur_group_id(),
+         timeID2 = timeID) %>%
   ungroup() %>%
-  mutate(quarter = floor((timeID -1)/ 4) + 1) %>%
   group_by(census_division) %>%
   mutate(divisionID = cur_group_id()) %>%
   ungroup() %>%
   group_by(year) %>%
-  mutate(yearID = cur_group_id(),
-         yearID2 = yearID) %>%
+  mutate(yearID = cur_group_id()) %>%
   ungroup() %>%
-  mutate(CDR = if_else(year>2019,NA_real_,CDR),
-         deathsCensored = if_else(year>2019,NA_integer_,deaths)) %>%
-  arrange(FIPSCode,year,month)
-
+  mutate(deathsCensored = if_else(year>2019,NA_integer_,imputedDeaths)) %>%
+  arrange(FIPSID,year,month) %>%
+  filter(!(year==2022 & month>8))
 ```
 
 ```{r}
-
 # INLA SET UP
 # priors
-hyper.bym <- list(theta1 = list('PCprior', c(1, 0.01)), theta2 = list('PCprior', c(0.5, 0.5)))
-#hyper.bym <- list(prec.unstruct=list(param=c(1,0.1)),
-#                  prec.spatial=list(param=c(1,0.1)))
-hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
+hyper.bym <- list(theta1 = list('PCprior', param=c(1, 0.01)), 
+                  theta2 = list('PCprior', param=c(0.5, 0.5)))
+hyper.ar1 <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
 
-formula <- deathsCensored ~ 1 + offset(log(pop)) + as.factor(month) +
-                                f(FIPSCode, model='bym2', hyper=hyper.bym,
-                                  graph=inla.graph, scale.model=T) +
-                                f(yearID, model='iid',hyper=hyper.iid) +
-                                f(timeID, model='rw1',hyper=hyper.iid,scale.model = T)
+if (dataType == 'NC') {
+  hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
+                    theta2 = list(prior='pc.cor0', param=c(0.25,0.02)))
+}
+
+formula <- deathsCensored ~ 1 + timeID + offset(log(pop)) + as.factor(month) +
+  f(FIPSID, model='bym2', graph = inla.graph, hyper=hyper.bym, scale.model = T) + 
+  f(timeID2, model='ar1', hyper=hyper.ar1, constr=T)
                                 
 # Under Poisson uses default set up
 control.family=inla.set.control.family.default()
-
 ```
 
 ```{r}
-
 # We re-estimated the last model with INLA so that we can use it to 
 # build posterior intervals for the predictions.
-
-model.BYM.Dynamic.INLA <- ACData %>%
+INLAModel <- mortalityData %>%
   inla(formula,
        data = .,
        family = "poisson",
        num.threads = round(parallel::detectCores()*0.7),
        control.family=control.family,
        control.compute=list(config = TRUE))
-
 # Note: INLA is a bit tricky, error messages are not very informative.
-
 ```
 
 ```{r}
+# We save the model summary for later use
+modelSummary <- summary(INLAModel)
+save(modelSummary,file=here(dataOutputFolder,'modelSummary.RData'))
+```
 
+```{r}
+fixedParams <- INLAModel %$%
+  summary.fixed %>% 
+  rownames_to_column('name') %>%
+  mutate(name=str_replace_all(name,'as.factor',''),
+         name=str_replace_all(name,'\\(',''),
+         name=str_replace_all(name,'\\)','')) %>%
+  select(name,mean,sd,`0.025quant`,`0.5quant`,`0.975quant`)
+```
+
+```{r}
+randomParams <- map2_dfr(INLAModel$summary.random,
+                         names(INLAModel$summary.random),
+                         ~ .x %>%
+                           mutate(paramName = .y)) %>%
+  filter(paramName != 'FIPSID') %>%
+  mutate(name=str_c(paramName,ID,sep = '')) %>%
+  select(name,mean,sd,`0.025quant`,`0.5quant`,`0.975quant`)
+```
+
+```{r}
+hyperParams <- INLAModel %$%
+  summary.hyperpar %>% 
+  rownames_to_column('name') %>%
+  select(name,mean,sd,`0.025quant`,`0.5quant`,`0.975quant`)
+
+hyperParams <- hyperParams %>%
+  add_row(filter(fixedParams,name=='timeID'))
+```
+
+```{r}
+fixedParams <- fixedParams %>%
+  mutate(divisionID=str_match(name,'divisionID(\\d+)')[,2],
+         divisionID=if_else(is.na(divisionID),1L,as.integer(divisionID)),
+         month=str_match(name,'month(\\d+)')[,2],
+         month=if_else(is.na(month),1L,as.integer(month)))
+```
+
+```{r}
+seasonalityParams <- fixedParams %>%
+  filter(!(name %in% c('Intercept','timeID')))
+
+seasonalityParams <- seasonalityParams %>%
+  mutate(intercept = fixedParams %>% filter(name=='Intercept') %>% pull(mean),
+         mean = mean + intercept,
+         mean = mean - mean(mean),
+         `0.025quant` = mean - 1.96*sd,
+         `0.975quant` = mean + 1.96*sd)
+
+seasonalityParams <- seasonalityParams %>%
+  mutate(monthDate = if_else(month<=8,make_date(2001,month,1),make_date(2000,month,1)))
+```
+
+```{r}
+seasonalityParamsPlot <- seasonalityParams %>%
+  ggplot() +
+  geom_ribbon(mapping=aes(x=monthDate,ymin=`0.025quant`,ymax= `0.975quant`),alpha=0.5) +
+  geom_line(mapping=aes(x=monthDate,y=mean)) +
+  scale_x_date(date_breaks = '1 month', date_labels = '%b') +
+  labs(x='',
+       y='Deviation from Mean') +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        plot.margin = unit(c(1,10,1,1), "lines")) +
+  guides(color='none')
+
+seasonalityParamsPlot
+```
+
+## Visualizing Time Non-Linear Effects and Year Random Effects
+
+```{r}
+randomParams <- randomParams %>%
+  mutate(timeID=str_match(name,'timeID2(\\d+)')[,2],
+         timeID=if_else(is.na(timeID),1L,as.integer(timeID)),
+         yearID=str_match(name,'yearID(\\d+)')[,2],
+         yearID=if_else(is.na(yearID),1L,as.integer(yearID)))
+```
+
+First we visualize the non-linear effects of time (AR1 component)
+
+```{r}
+timeParamsPlot <- randomParams %>%
+  filter(str_starts(name,'timeID2')) %>%
+  mutate(time = make_date(2015+((timeID-1) %/% 12),((timeID-1) %% 12)+1,1)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=mean)) +
+  geom_ribbon(mapping=aes(x=time,ymin=`0.025quant`,ymax=`0.975quant`),
+              alpha=0.2) +
+  scale_x_date(date_breaks = '4 months', date_labels = '%b-%Y', expand = c(0.01,0.01)) +
+  labs(x='',
+       y='Time Non-Linear Effect (AR1)') +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=90,hjust=1),
+        panel.grid.minor = element_blank())
+
+timeParamsPlot
+```
+
+```{r}
 n.sim <- 1000
 
-draws <- inla.posterior.sample(n.sim, model.BYM.Dynamic.INLA)
+draws <- inla.posterior.sample(n.sim, INLAModel)
 model.names <- row.names(draws[[1]]$latent)
 y.names <- grep("Predictor", model.names)
 
@@ -156,43 +248,32 @@ death.draws <- apply(rate.draws,M=1,function(x) rpois(n.sim,x))
 mean.deaths <- apply(death.draws,M=2,function(x) mean(x))
 up.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.95))
 low.deaths <- apply(death.draws,M=2,function(x) quantile(x,0.05))
-
 ```
 
 ```{r}
+estimates <- tibble(deaths = pull(mortalityData,deaths),
+                   imputedDeaths = pull(mortalityData,imputedDeaths),
+                   pop = pull(mortalityData,pop),
+                   FIPSCode = pull(mortalityData,FIPSCode),
+                   year = pull(mortalityData,year),
+                   month = pull(mortalityData,month))
 
-testData <- tibble(deaths = pull(ACData,deaths),
-                   CDR = pull(ACData,CDR),
-                   pop = pull(ACData,pop),
-                   FIPSCode = pull(ACData,FIPSCode),
-                   year = pull(ACData,year),
-                   month = pull(ACData,month))
-
-testData <- testData %>%
+estimates <- estimates %>%
   mutate(expDeathsMean = mean.deaths,
          expDeathsUp = up.deaths,
          expDeathsLow = low.deaths,
-         monthYear = make_date(year,month,1))
-
+         time = make_date(year,month))
 ```
 
 ```{r}
+numFIPS <- length(unique(pull(mortalityData,FIPSCode)))
 
-# Good for overfitting: c(12,15,21,47,86,13)
-# Good for trend: c(1,17,63,71,75,91)
-# Hard to predict: 37,64
-# To examine: c(85)
-
-# Examples: c(1,58,89,93)
-
-numFIPS <- length(unique(pull(ACData,FIPSCode)))
-
-testFigure <- testData %>%
-  filter(FIPSCode %in% sample(unique(pull(ACData,FIPSCode)),6)) %>%
+testFigure <- estimates %>%
+  filter(FIPSCode %in% sample(unique(pull(mortalityData,FIPSCode)),12)) %>%
   ggplot() +
-  geom_line(mapping=aes(x=monthYear,y=deaths/pop,color='Observed')) +
-  geom_line(mapping=aes(x=monthYear,y=expDeathsMean/pop,color='Expected')) +
-  geom_ribbon(mapping=aes(x=monthYear,ymin=expDeathsLow/pop,ymax=expDeathsUp/pop,
+  geom_line(mapping=aes(x=time,y=(imputedDeaths/pop)*100000,color='Observed')) +
+  geom_line(mapping=aes(x=time,y=(expDeathsMean/pop)*100000,color='Expected')) +
+  geom_ribbon(mapping=aes(x=time,ymin=(expDeathsLow/pop)*100000,ymax=(expDeathsUp/pop)*100000,
                           fill='Expected'),alpha=0.3) +
   labs(x='Deaths',
        y='',
@@ -202,23 +283,30 @@ testFigure <- testData %>%
   guides(fill='none')
 
 testFigure
+```
 
+```{r}
+estimates %>%
+  filter(FIPSCode %in% sample(unique(pull(mortalityData,FIPSCode)),12)) %>%
+  group_by(FIPSCode,year) %>%
+  summarise(expDeathsMean = mean(expDeathsMean),
+            pop = mean(pop)) %>%
+  ungroup() %>%
+  ggplot() +
+    geom_line(mapping=aes(x=year,y=(expDeathsMean/pop)*100000,color='Expected')) +
+  facet_wrap(~FIPSCode)
 ```
 
 
 ```{r}
 # We save the posterior samples so we can retrieve them whenever we need
-
-save(death.draws,file=here::here('R','RObjects','simMonthly.RData'))
-
+save(death.draws,file=here(dataOutputFolder,'simMonthly.RData'))
 ```
 
-```{r, eval=F}
+```{r}
 # We save our models so that we can easily load them where and when we
 # need them without having to fit them again.
-
-save(model.BYM.Dynamic.INLA,
-     file = here::here('R','RObjects','modelBYMDynamicINLA.RData'))
-
+save(INLAModel,
+     file = here(dataOutputFolder,'INLAModel.RData'))
 ```
 

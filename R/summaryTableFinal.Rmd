@@ -1,0 +1,601 @@
+---
+title: "Summary Table with Posterior Intervals - COVID Paper"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(gt)
+library(here)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/summaryTableCOVIDPaperAlt.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+figuresDir <- here('figures')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'MCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+load(here(modelFolder,glue('simulations{mortalityDataType}{COVIDDataType}.RData')))
+```
+
+```{r}
+simulationsDF <- simulationsDF %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,8,1))) %>%
+  mutate(across(V1:V1000, ~ imputedDeaths-.x),
+         pandemicYear = case_when(between(monthYear,
+                                          make_date(2020,3,1),
+                                          make_date(2021,2,1)) ~ 'Mar 2020 - Feb 2021',
+                                  between(monthYear,
+                                          make_date(2021,3,1),
+                                          make_date(2022,2,1)) ~ 'Mar 2021 - Feb 2022',
+                                  between(monthYear,
+                                          make_date(2022,3,1),
+                                          make_date(2022,8,1)) ~ 'Mar 2022 - Aug 2022'))
+```
+
+```{r}
+totalStatsRel <- simulationsDF %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/(imputedDeaths-.x)),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relExcPI = paste0('(',
+                             format(round(relExcLow,3)),
+                             ' - ',
+                             format(round(relExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relExcLow,relExcUp,imputedDeaths))
+```
+
+```{r}
+metroStatsRel <- simulationsDF %>%
+  group_by(metroCat3) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/(imputedDeaths-.x)),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relExcPI = paste0('(',
+                             format(round(relExcLow,3)),
+                             ' - ',
+                             format(round(relExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relExcLow,relExcUp,imputedDeaths))
+```
+
+```{r}
+divisionStatsRel <- simulationsDF %>%
+  group_by(census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/(imputedDeaths-.x)),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relExcPI = paste0('(',
+                             format(round(relExcLow,3)),
+                             ' - ',
+                             format(round(relExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relExcLow,relExcUp,imputedDeaths))
+```
+
+```{r}
+metroDivisionStatsRel <- simulationsDF %>%
+  group_by(metroCat3,census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/(imputedDeaths-.x)),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relExcPI = paste0('(',
+                             format(round(relExcLow,3)),
+                             ' - ',
+                             format(round(relExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relExcLow,relExcUp,imputedDeaths))
+```
+
+```{r}
+totalStatsRelNC <- simulationsDF %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ (.x-COVIDDeaths)/(imputedDeaths-.x)),
+         relNCExcMed = quantile(c_across(V1:V1000),0.5),
+         relNCExcLow = quantile(c_across(V1:V1000),0.05),
+         relNCExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relNCExcPI = paste0('(',
+                             format(round(relNCExcLow,3)),
+                             ' - ',
+                             format(round(relNCExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relNCExcLow,relNCExcUp,COVIDDeaths,imputedDeaths))
+```
+
+```{r}
+metroStatsRelNC <- simulationsDF %>%
+  group_by(metroCat3) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ (.x-COVIDDeaths)/(imputedDeaths-.x)),
+         relNCExcMed = quantile(c_across(V1:V1000),0.5),
+         relNCExcLow = quantile(c_across(V1:V1000),0.05),
+         relNCExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relNCExcPI = paste0('(',
+                             format(round(relNCExcLow,3)),
+                             ' - ',
+                             format(round(relNCExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relNCExcLow,relNCExcUp,COVIDDeaths,imputedDeaths))
+```
+
+```{r}
+divisionStatsRelNC <- simulationsDF %>%
+  group_by(census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ (.x-COVIDDeaths)/(imputedDeaths-.x)),
+         relNCExcMed = quantile(c_across(V1:V1000),0.5),
+         relNCExcLow = quantile(c_across(V1:V1000),0.05),
+         relNCExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relNCExcPI = paste0('(',
+                             format(round(relNCExcLow,3)),
+                             ' - ',
+                             format(round(relNCExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relNCExcLow,relNCExcUp,COVIDDeaths,imputedDeaths))
+```
+
+```{r}
+metroDivisionStatsRelNC <- simulationsDF %>%
+  group_by(metroCat3,census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ (.x-COVIDDeaths)/(imputedDeaths-.x)),
+         relNCExcMed = quantile(c_across(V1:V1000),0.5),
+         relNCExcLow = quantile(c_across(V1:V1000),0.05),
+         relNCExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relNCExcPI = paste0('(',
+                             format(round(relNCExcLow,3)),
+                             ' - ',
+                             format(round(relNCExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relNCExcLow,relNCExcUp,COVIDDeaths,imputedDeaths))
+```
+
+```{r}
+totalStatsAbs <- simulationsDF %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excMed = quantile(c_across(V1:V1000),0.5),
+         excLow = quantile(c_across(V1:V1000),0.05),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excPI = paste0('(',
+                             format(as.integer(excLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excLow,excUp,imputedDeaths))
+```
+
+```{r}
+metroStatsAbs <- simulationsDF %>%
+  group_by(metroCat3) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excMed = quantile(c_across(V1:V1000),0.5),
+         excLow = quantile(c_across(V1:V1000),0.05),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excPI = paste0('(',
+                             format(as.integer(excLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excLow,excUp,imputedDeaths))
+```
+
+```{r}
+divisionStatsAbs <- simulationsDF %>%
+  group_by(census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excMed = quantile(c_across(V1:V1000),0.5),
+         excLow = quantile(c_across(V1:V1000),0.05),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excPI = paste0('(',
+                             format(as.integer(excLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excLow,excUp,imputedDeaths))
+```
+
+```{r}
+metroDivisionStatsAbs <- simulationsDF %>%
+  group_by(metroCat3,census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excMed = quantile(c_across(V1:V1000),0.5),
+         excLow = quantile(c_across(V1:V1000),0.05),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excPI = paste0('(',
+                             format(as.integer(excLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excLow,excUp,imputedDeaths))
+```
+
+```{r}
+totalStatsAbsNC <- simulationsDF %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x - COVIDDeaths),
+         excNCMed = quantile(c_across(V1:V1000),0.5),
+         excNCLow = quantile(c_across(V1:V1000),0.05),
+         excNCUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excNCPI = paste0('(',
+                             format(as.integer(excNCLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excNCUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excNCLow,excNCUp,imputedDeaths,COVIDDeaths))
+```
+
+```{r}
+metroStatsAbsNC <- simulationsDF %>%
+  group_by(metroCat3) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x - COVIDDeaths),
+         excNCMed = quantile(c_across(V1:V1000),0.5),
+         excNCLow = quantile(c_across(V1:V1000),0.05),
+         excNCUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excNCPI = paste0('(',
+                             format(as.integer(excNCLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excNCUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excNCLow,excNCUp,imputedDeaths,COVIDDeaths))
+```
+
+```{r}
+divisionStatsAbsNC <- simulationsDF %>%
+  group_by(census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x - COVIDDeaths),
+         excNCMed = quantile(c_across(V1:V1000),0.5),
+         excNCLow = quantile(c_across(V1:V1000),0.05),
+         excNCUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excNCPI = paste0('(',
+                             format(as.integer(excNCLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excNCUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excNCLow,excNCUp,imputedDeaths,COVIDDeaths))
+```
+
+```{r}
+metroDivisionStatsAbsNC <- simulationsDF %>%
+  group_by(metroCat3,census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x - COVIDDeaths),
+         excNCMed = quantile(c_across(V1:V1000),0.5),
+         excNCLow = quantile(c_across(V1:V1000),0.05),
+         excNCUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excNCPI = paste0('(',
+                             format(as.integer(excNCLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excNCUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excNCLow,excNCUp,imputedDeaths,COVIDDeaths))
+```
+
+```{r}
+totalStatsRatio <- simulationsDF %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/COVIDDeaths),
+         ratioMed = quantile(c_across(V1:V1000),0.5),
+         ratioLow = quantile(c_across(V1:V1000),0.05),
+         ratioUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(ratioPI = paste0('(',
+                             format(round(ratioLow,3)),
+                             ' - ',
+                             format(round(ratioUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,ratioLow,ratioUp,imputedDeaths))
+```
+
+```{r}
+metroStatsRatio <- simulationsDF %>%
+  group_by(metroCat3) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/COVIDDeaths),
+         ratioMed = quantile(c_across(V1:V1000),0.5),
+         ratioLow = quantile(c_across(V1:V1000),0.05),
+         ratioUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(ratioPI = paste0('(',
+                             format(round(ratioLow,3)),
+                             ' - ',
+                             format(round(ratioUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,ratioLow,ratioUp,imputedDeaths))
+```
+
+```{r}
+divisionStatsRatio <- simulationsDF %>%
+  group_by(census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/COVIDDeaths),
+         ratioMed = quantile(c_across(V1:V1000),0.5),
+         ratioLow = quantile(c_across(V1:V1000),0.05),
+         ratioUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(ratioPI = paste0('(',
+                             format(round(ratioLow,3)),
+                             ' - ',
+                             format(round(ratioUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,ratioLow,ratioUp,imputedDeaths))
+```
+
+```{r}
+metroDivisionStatsRatio <- simulationsDF %>%
+  group_by(metroCat3,census_division) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/COVIDDeaths),
+         ratioMed = quantile(c_across(V1:V1000),0.5),
+         ratioLow = quantile(c_across(V1:V1000),0.05),
+         ratioUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(ratioPI = paste0('(',
+                             format(round(ratioLow,3)),
+                             ' - ',
+                             format(round(ratioUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,ratioLow,ratioUp,imputedDeaths))
+```
+
+```{r}
+metroDivisionStats <- metroDivisionStatsAbs %>%
+  left_join(metroDivisionStatsAbsNC,by=c('metroCat3','census_division')) %>%
+  left_join(metroDivisionStatsRatio,by=c('metroCat3','census_division')) %>%
+  left_join(metroDivisionStatsRel,by=c('metroCat3','census_division')) %>%
+  left_join(metroDivisionStatsRelNC,by=c('metroCat3','census_division'))
+
+metroStats <- metroStatsAbs %>%
+  left_join(metroStatsAbsNC,by='metroCat3') %>%
+  left_join(metroStatsRatio,by='metroCat3') %>%
+  left_join(metroStatsRel,by='metroCat3') %>%
+  left_join(metroStatsRelNC,by='metroCat3') %>%
+  mutate(census_division='United States') 
+
+divisionStats <- divisionStatsAbs %>%
+  left_join(divisionStatsAbsNC,by='census_division') %>%
+  left_join(divisionStatsRatio,by='census_division') %>%
+  left_join(divisionStatsRel,by='census_division') %>%
+  left_join(divisionStatsRelNC,by='census_division') %>%
+  mutate(metroCat3='Total')
+
+totalStats <- totalStatsAbs %>%
+  add_column(totalStatsAbsNC) %>%
+  add_column(totalStatsRatio) %>%
+  add_column(totalStatsRel) %>%
+  add_column(totalStatsRelNC) %>%
+  mutate(census_division='United States',metroCat3='Total')
+```
+
+```{r}
+summaryTable <- metroDivisionStats %>%
+  add_row(divisionStats) %>%
+  add_row(metroStats) %>%
+  add_row(totalStats)
+```
+
+```{r}
+summaryTable <- summaryTable %>%
+  mutate(census_division = fct_relevel(factor(census_division),'United States',after=Inf)) %>%
+  arrange(census_division,metroCat3)
+```
+
+```{r}
+summaryTable %>%
+  select(census_division,metroCat3,
+         'COVIDDeaths',
+         'ratioMed',
+         'excMed',
+         'excPI',
+         'excNCMed',
+         'excNCPI',
+         'relExcMed',
+         'relExcPI',
+         'relNCExcMed',
+         'relNCExcPI') %>%
+  group_by(census_division) %>%
+  gt() %>%
+  cols_label(
+    census_division = 'Census Division',
+    metroCat3 = '',
+    'COVIDDeaths' = 'COVID-19 Deaths',
+    'excMed' = 'Median',
+    'excPI' = 'PI (90%)',
+    'excNCMed' = 'Median',
+    'excNCPI' = 'PI (90%)',
+    'ratioMed' = 'Excess/COVID', 
+    'relExcMed' = 'Median',
+    'relExcPI' = 'PI (90%)',
+    'relNCExcMed' = 'Median',
+    'relNCExcPI' = 'PI (90%)') %>%
+  fmt_number(
+    columns = starts_with('COVIDDeaths') | starts_with('excMed') | starts_with('excNCMed'),
+    decimals = 0
+  ) %>%
+  fmt_number(
+    columns = starts_with('ratioMed') | starts_with('relExcMed') | starts_with('relNCExcMed'),
+    decimals = 3
+  ) %>%
+  tab_spanner(
+    label = 'Total',
+    columns = starts_with('exc') & ! starts_with('excNC'),
+    id = 'Total Excess Deaths',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Excluding COVID-19',
+    columns = starts_with('excNC'),
+    id = 'Non-COVID Excess Deaths',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Total',
+    columns = starts_with('relExc'),
+    id = 'Total Relative Excess',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Excluding COVID-19',
+    columns = starts_with('relNCExc'),
+    id = 'Non-COVID-19 Relative Excess',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Absolute Excess Mortality',
+    columns = starts_with('exc'),
+    id = 'Absolute Excess',
+    level = 2
+  ) %>%
+  tab_spanner(
+    label = 'Relative Excess Mortality',
+    columns = starts_with('rel'),
+    id = 'Relative Excess',
+    level = 2
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(weight = 'bold')
+      ),
+    locations = cells_body(
+      columns = metroCat3,
+      rows = metroCat3 == 'Total'
+    )
+  ) %>%
+  cols_align(columns = contains('PI'),
+             align='left') %>%
+  cols_width(metroCat3 ~ px(165),
+             starts_with('excMed') | starts_with('excNCMed') | starts_with('COVIDDeaths') ~ px(80),
+             starts_with('relExcMed') | starts_with('relNCExcMed') ~ px(70),
+             starts_with('ratioMed') ~ px(100),
+             starts_with('excPI') | starts_with('excNCPI') ~ px(160),
+             starts_with('ratioPI') | starts_with('relExcPI') | starts_with('relNCExcPI') ~ px(130)) %>%
+  tab_options(table.font.size = '90%',
+              row_group.font.size = '120%',
+              data_row.padding = px(1),
+              row_group.padding = px(4)) %>%
+  gt::gtsave(filename = here('figures',
+                             glue('figures{mortalityDataType}'),
+                             glue('summaryTableCOVID{COVIDDataType}.png')),
+             vwidth = 1300,vheight = 1000,zoom=4)
+```

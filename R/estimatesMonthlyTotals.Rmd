@@ -1,0 +1,225 @@
+---
+title: "Estimates of National Monthly Excess Deaths (March 2020-August 2022)"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(here)
+library(glue)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/estimatesMonthlyTotals.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'AC'
+COVIDDataType <- 'UCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(inDir,'CDC',glue('mortality{mortalityDataType}Data'))
+cleanedMortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(inDir,'CDC',glue('COVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+monthlyData <- tibble(arrow::read_feather(here(cleanedMortalityDataInputFolder,
+                                               glue('{mortalityDataType}MonthlyData.feather'))))
+```
+
+```{r}
+monthlyData %>% 
+  mutate(time=make_date(year,month)) %>%
+  group_by(time) %>%
+  summarise(imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  mutate(imputedDeathsF = zoo::rollapply(imputedDeaths,5,mean,fill=NA)) %>%
+  ggplot() +
+  geom_line(mapping=aes(x=time,y=imputedDeathsF))
+```
+
+
+```{r}
+monthlyTotalsData <- data.table::fread(
+  here(mortalityDataInputFolder,'monthlyTotals', glue('{mortalityDataType}MonthlyTotals.txt')),
+  na.strings = c("Missing", "Suppressed", "Not Applicable"),
+  keepLeadingZeros = TRUE) %>%
+  as_tibble() %>%
+  select('monthCode'='Month Code',
+         'deaths'='Deaths') %>%
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(across(c(deaths,year,month),as.integer)) %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  select(-c(month,year))
+
+COVIDMonthlyTotalsData <- data.table::fread(
+  here(COVIDDataInputFolder,'monthlyTotals', glue('COVID{COVIDDataType}MonthlyTotals.txt')),
+  na.strings = c("Missing", "Suppressed", "Not Applicable"),
+  keepLeadingZeros = TRUE) %>%
+  as_tibble() %>%
+  select('monthCode'='Month Code',
+         'COVIDDeaths'='Deaths') %>%
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(across(c(COVIDDeaths,year,month),as.integer)) %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  select(-c(month,year))
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1)) %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSID = cur_group_id()) %>%
+  ungroup() %>%
+  arrange(FIPSID,year,month)
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(monthYear = make_date(year=year,month=month,day=1))
+```
+
+```{r}
+# We load the pre-trained models
+load(here(modelFolder,'simMonthly.RData'))
+```
+
+```{r}
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = monthlyData %>% pull(year),
+         month = monthlyData %>% pull(month),
+         monthYear = make_date(year=year,month=month,day=1),
+         FIPSCode = monthlyData %>% pull(FIPSCode),
+         stateFIPS = monthlyData %>% pull(stateFIPS),
+         pop = monthlyData %>% pull(pop)) %>%
+  relocate(FIPSCode,stateFIPS,year,month,monthYear,pop)
+```
+
+```{r}
+simulationsTotal <- simulationsMonthly %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,8,1))) %>%
+  group_by(monthYear) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(monthlyTotalsData,by=c('monthYear')) %>%
+  left_join(select(COVIDMonthlyTotalsData,monthYear,COVIDDeaths),by='monthYear')
+
+estimatesTotal <- simulationsTotal %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(monthYear) %>%
+  summarize(expDeathsMean = mean(expDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.05)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.95)),
+            excDeathsMean = mean(deaths-expDeaths),
+            excDeathsLow = quantile(deaths-expDeaths,probs=c(0.05)),
+            excDeathsMed = quantile(deaths-expDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(deaths-expDeaths,probs=c(0.95)),
+            probPositiveExcess = sum((deaths-expDeaths)>0,na.rm=T)/n(),
+            relExcDeathsMean = mean((deaths-expDeaths)/expDeaths),
+            relExcDeathsLow = quantile((deaths-expDeaths)/expDeaths,probs=c(0.05)),
+            relExcDeathsMed = quantile((deaths-expDeaths)/expDeaths,probs=c(0.5)),
+            relExcDeathsUp = quantile((deaths-expDeaths)/expDeaths,probs=c(0.95)),
+            ratioMean = mean((deaths-expDeaths)/COVIDDeaths),
+            ratioLow = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.05),na.rm=T),
+            ratioMed = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),
+            ratioUp = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.95),na.rm=T),
+            probPositiveNCExcess = sum(((deaths-expDeaths)/COVIDDeaths)>1,na.rm=T)/n(),
+            deaths = mean(deaths),
+            COVIDDeaths = mean(COVIDDeaths,na.rm=T)) %>%
+  ungroup()
+```
+
+```{r}
+estimatesTotal <- estimatesTotal %>% 
+  mutate(year = year(monthYear),
+         month = month(monthYear)) %>%
+  relocate(year,month,COVIDDeaths,deaths) %>%
+  select(-monthYear)
+```
+
+```{r}
+estimatesTotal <- estimatesTotal %>% 
+  mutate(suppressed = if_else(is.na(deaths),1,0)) %>%
+  select(year,month,
+         COVIDDeaths,deaths,suppressed,
+         expDeathsMean:probPositiveNCExcess)
+```
+
+```{r}
+estimatesTotal %>%
+  write_csv(here(dataOutputFolder,'estimatesMonthlyTotals.csv'))
+```
+
+```{r}
+estimatesTotalAC <- read_csv(here(outDir,'estimates','ACUCD','estimatesMonthlyTotals.csv'))
+estimatesTotalNC <- read_csv(here(outDir,'estimates','NCUCD','estimatesMonthlyTotals.csv'))
+```
+
+
+```{r}
+ggplot() +
+  geom_line(data=estimatesTotalAC,mapping=aes(x=make_date(year,month),y=expDeathsMed/1000,linetype='All Causes')) +
+  geom_line(data=estimatesTotalNC,mapping=aes(x=make_date(year,month),y=expDeathsMed/1000,linetype='Natural Causes')) +
+  labs(x='',
+       y='Deaths (in million)',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+ggplot() +
+  geom_line(data=estimatesTotalAC,mapping=aes(x=make_date(year,month),y=deaths/1000,linetype='All Causes')) +
+  geom_line(data=estimatesTotalNC,mapping=aes(x=make_date(year,month),y=deaths/1000,linetype='Natural Causes')) +
+  labs(x='',
+       y='Deaths (in million)',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+estimatesTotalAC %>%
+  ggplot() +
+  geom_line(mapping=aes(x=make_date(estimatesTotalAC$year,estimatesTotalAC$month),
+                        y=estimatesTotalAC$expDeathsMed - estimatesTotalNC$expDeathsMed,
+                        linetype='Expected')) +
+  geom_line(mapping=aes(x=make_date(estimatesTotalAC$year,estimatesTotalAC$month),
+                        y=estimatesTotalAC$excDeathsMed - estimatesTotalNC$excDeathsMed,
+                        linetype='Excess')) +
+  labs(x='',
+       y='Deaths (in million)',
+       linetype='') +
+  theme_minimal()
+```
+
+```{r}
+excessDeaths <- tibble(excessDeaths = estimatesTotalAC$excDeathsMed - estimatesTotalNC$excDeathsMed,
+                       year = estimatesTotalAC$year,
+                       month = estimatesTotalAC$month)
+
+excessDeaths %>% 
+  filter(year==2020,month<=12) %>% 
+  pull(excessDeaths) %>% 
+  sum()
+
+excessDeaths %>% 
+  pull(excessDeaths) %>% 
+  sum()
+```
