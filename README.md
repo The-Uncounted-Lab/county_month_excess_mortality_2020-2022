@@ -32,7 +32,7 @@ Here is a brief description of the content of the repository:
 
 - Python: Contains the Python code used to generate monthly population estimates.
 - R: Contains the R code used to prepare the data, train the models, assess the models' perfomance, produce the estimates of excess mortality, and produce the figures and tables for the paper.
-- data/input: Contains all the data needed to train the models and produce estimates of excess deaths. To reconcile inconsistencies across the various data sources we are using, and to accomodate further analysis with a longer backward time frame (i.e. we trained our final models on data for 2015-2019 but initially considered a wider window), we harmonized county FIPS code following the schema in the FIPSFixes.csv file. For reasons of space, We only provide that on all-cause deaths and COVID-19 deaths where COVID is listed as the underlying cause of death.
+- data/input: Contains all the data needed to train the models and produce estimates of excess deaths. To reconcile inconsistencies across the various data sources we are using, and to accomodate further analysis with a longer backward time frame (i.e. we trained our final models on data for 2015-2019 but initially considered a wider window), we harmonized county FIPS code following the schema in the FIPSFixes.csv file.
 - data/output: Will contain all the data that will be generated as a product of the project. We already included different sets of estimates compliant with the CDC Wonder user agreement.
 - figures: contains all the figures and tables appearing in the paper.
 
