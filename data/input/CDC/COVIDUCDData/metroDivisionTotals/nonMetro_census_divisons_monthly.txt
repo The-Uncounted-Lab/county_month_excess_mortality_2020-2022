@@ -1,0 +1,271 @@
+"Notes"	"Residence Census Division"	"Residence Census Division Code"	"Month"	"Month Code"	Deaths	Population	Crude Rate
+	"Division 1: New England"	"CENS-D1"	"Mar., 2020"	"2020/03"	17	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Apr., 2020"	"2020/04"	172	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"May, 2020"	"2020/05"	95	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jun., 2020"	"2020/06"	Suppressed	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jul., 2020"	"2020/07"	11	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Aug., 2020"	"2020/08"	Suppressed	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Sep., 2020"	"2020/09"	11	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Oct., 2020"	"2020/10"	13	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Nov., 2020"	"2020/11"	106	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Dec., 2020"	"2020/12"	271	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jan., 2021 (provisional)"	"2021/01"	228	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Feb., 2021 (provisional)"	"2021/02"	92	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Mar., 2021 (provisional)"	"2021/03"	42	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Apr., 2021 (provisional)"	"2021/04"	59	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"May, 2021 (provisional)"	"2021/05"	38	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jun., 2021 (provisional)"	"2021/06"	23	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jul., 2021 (provisional)"	"2021/07"	Suppressed	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Aug., 2021 (provisional)"	"2021/08"	55	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Sep., 2021 (provisional)"	"2021/09"	133	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Oct., 2021 (provisional)"	"2021/10"	161	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Nov., 2021 (provisional)"	"2021/11"	215	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Dec., 2021 (provisional)"	"2021/12"	359	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Jan., 2022 (provisional)"	"2022/01"	292	Not Applicable	Not Applicable
+	"Division 1: New England"	"CENS-D1"	"Feb., 2022 (provisional)"	"2022/02"	172	Not Applicable	Not Applicable
+"Total"	"Division 1: New England"	"CENS-D1"			2586	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Mar., 2020"	"2020/03"	14	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Apr., 2020"	"2020/04"	176	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"May, 2020"	"2020/05"	141	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jun., 2020"	"2020/06"	58	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jul., 2020"	"2020/07"	36	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Aug., 2020"	"2020/08"	65	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Sep., 2020"	"2020/09"	77	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Oct., 2020"	"2020/10"	215	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Nov., 2020"	"2020/11"	616	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Dec., 2020"	"2020/12"	1428	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jan., 2021 (provisional)"	"2021/01"	1253	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Feb., 2021 (provisional)"	"2021/02"	358	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Mar., 2021 (provisional)"	"2021/03"	183	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Apr., 2021 (provisional)"	"2021/04"	197	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"May, 2021 (provisional)"	"2021/05"	136	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jun., 2021 (provisional)"	"2021/06"	90	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jul., 2021 (provisional)"	"2021/07"	35	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Aug., 2021 (provisional)"	"2021/08"	137	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Sep., 2021 (provisional)"	"2021/09"	431	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Oct., 2021 (provisional)"	"2021/10"	678	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Nov., 2021 (provisional)"	"2021/11"	802	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Dec., 2021 (provisional)"	"2021/12"	1046	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Jan., 2022 (provisional)"	"2022/01"	820	Not Applicable	Not Applicable
+	"Division 2: Middle Atlantic"	"CENS-D2"	"Feb., 2022 (provisional)"	"2022/02"	427	Not Applicable	Not Applicable
+"Total"	"Division 2: Middle Atlantic"	"CENS-D2"			9419	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Mar., 2020"	"2020/03"	49	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Apr., 2020"	"2020/04"	480	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"May, 2020"	"2020/05"	493	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jun., 2020"	"2020/06"	194	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jul., 2020"	"2020/07"	218	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Aug., 2020"	"2020/08"	433	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Sep., 2020"	"2020/09"	415	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Oct., 2020"	"2020/10"	1240	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Nov., 2020"	"2020/11"	3344	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Dec., 2020"	"2020/12"	4120	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jan., 2021 (provisional)"	"2021/01"	2412	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Feb., 2021 (provisional)"	"2021/02"	852	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Mar., 2021 (provisional)"	"2021/03"	404	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Apr., 2021 (provisional)"	"2021/04"	558	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"May, 2021 (provisional)"	"2021/05"	475	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jun., 2021 (provisional)"	"2021/06"	199	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jul., 2021 (provisional)"	"2021/07"	172	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Aug., 2021 (provisional)"	"2021/08"	721	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Sep., 2021 (provisional)"	"2021/09"	1745	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Oct., 2021 (provisional)"	"2021/10"	1924	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Nov., 2021 (provisional)"	"2021/11"	1911	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Dec., 2021 (provisional)"	"2021/12"	2968	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Jan., 2022 (provisional)"	"2022/01"	2791	Not Applicable	Not Applicable
+	"Division 3: East North Central"	"CENS-D3"	"Feb., 2022 (provisional)"	"2022/02"	1388	Not Applicable	Not Applicable
+"Total"	"Division 3: East North Central"	"CENS-D3"			29506	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Mar., 2020"	"2020/03"	18	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Apr., 2020"	"2020/04"	119	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"May, 2020"	"2020/05"	259	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jun., 2020"	"2020/06"	171	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jul., 2020"	"2020/07"	208	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Aug., 2020"	"2020/08"	417	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Sep., 2020"	"2020/09"	659	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Oct., 2020"	"2020/10"	1479	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Nov., 2020"	"2020/11"	3502	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Dec., 2020"	"2020/12"	3128	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jan., 2021 (provisional)"	"2021/01"	1627	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Feb., 2021 (provisional)"	"2021/02"	462	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Mar., 2021 (provisional)"	"2021/03"	243	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Apr., 2021 (provisional)"	"2021/04"	190	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"May, 2021 (provisional)"	"2021/05"	193	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jun., 2021 (provisional)"	"2021/06"	168	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jul., 2021 (provisional)"	"2021/07"	392	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Aug., 2021 (provisional)"	"2021/08"	885	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Sep., 2021 (provisional)"	"2021/09"	983	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Oct., 2021 (provisional)"	"2021/10"	1043	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Nov., 2021 (provisional)"	"2021/11"	1115	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Dec., 2021 (provisional)"	"2021/12"	1454	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Jan., 2022 (provisional)"	"2022/01"	1568	Not Applicable	Not Applicable
+	"Division 4: West North Central"	"CENS-D4"	"Feb., 2022 (provisional)"	"2022/02"	1059	Not Applicable	Not Applicable
+"Total"	"Division 4: West North Central"	"CENS-D4"			21342	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Mar., 2020"	"2020/03"	42	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Apr., 2020"	"2020/04"	526	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"May, 2020"	"2020/05"	622	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jun., 2020"	"2020/06"	420	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jul., 2020"	"2020/07"	874	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Aug., 2020"	"2020/08"	1404	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Sep., 2020"	"2020/09"	1125	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Oct., 2020"	"2020/10"	978	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Nov., 2020"	"2020/11"	1183	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Dec., 2020"	"2020/12"	2079	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jan., 2021 (provisional)"	"2021/01"	3416	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Feb., 2021 (provisional)"	"2021/02"	1520	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Mar., 2021 (provisional)"	"2021/03"	553	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Apr., 2021 (provisional)"	"2021/04"	422	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"May, 2021 (provisional)"	"2021/05"	405	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jun., 2021 (provisional)"	"2021/06"	244	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jul., 2021 (provisional)"	"2021/07"	316	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Aug., 2021 (provisional)"	"2021/08"	2323	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Sep., 2021 (provisional)"	"2021/09"	3434	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Oct., 2021 (provisional)"	"2021/10"	1771	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Nov., 2021 (provisional)"	"2021/11"	823	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Dec., 2021 (provisional)"	"2021/12"	922	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Jan., 2022 (provisional)"	"2022/01"	2117	Not Applicable	Not Applicable
+	"Division 5: South Atlantic"	"CENS-D5"	"Feb., 2022 (provisional)"	"2022/02"	1860	Not Applicable	Not Applicable
+"Total"	"Division 5: South Atlantic"	"CENS-D5"			29379	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Mar., 2020"	"2020/03"	52	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Apr., 2020"	"2020/04"	425	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"May, 2020"	"2020/05"	543	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jun., 2020"	"2020/06"	429	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jul., 2020"	"2020/07"	861	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Aug., 2020"	"2020/08"	1085	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Sep., 2020"	"2020/09"	733	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Oct., 2020"	"2020/10"	967	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Nov., 2020"	"2020/11"	1481	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Dec., 2020"	"2020/12"	2650	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jan., 2021 (provisional)"	"2021/01"	2769	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Feb., 2021 (provisional)"	"2021/02"	1042	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Mar., 2021 (provisional)"	"2021/03"	457	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Apr., 2021 (provisional)"	"2021/04"	318	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"May, 2021 (provisional)"	"2021/05"	318	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jun., 2021 (provisional)"	"2021/06"	170	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jul., 2021 (provisional)"	"2021/07"	325	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Aug., 2021 (provisional)"	"2021/08"	1986	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Sep., 2021 (provisional)"	"2021/09"	3064	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Oct., 2021 (provisional)"	"2021/10"	1454	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Nov., 2021 (provisional)"	"2021/11"	593	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Dec., 2021 (provisional)"	"2021/12"	856	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Jan., 2022 (provisional)"	"2022/01"	1946	Not Applicable	Not Applicable
+	"Division 6: East South Central"	"CENS-D6"	"Feb., 2022 (provisional)"	"2022/02"	1851	Not Applicable	Not Applicable
+"Total"	"Division 6: East South Central"	"CENS-D6"			26375	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Mar., 2020"	"2020/03"	29	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Apr., 2020"	"2020/04"	374	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"May, 2020"	"2020/05"	298	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jun., 2020"	"2020/06"	299	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jul., 2020"	"2020/07"	1123	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Aug., 2020"	"2020/08"	1389	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Sep., 2020"	"2020/09"	863	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Oct., 2020"	"2020/10"	1182	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Nov., 2020"	"2020/11"	2033	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Dec., 2020"	"2020/12"	3094	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jan., 2021 (provisional)"	"2021/01"	3366	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Feb., 2021 (provisional)"	"2021/02"	1402	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Mar., 2021 (provisional)"	"2021/03"	527	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Apr., 2021 (provisional)"	"2021/04"	249	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"May, 2021 (provisional)"	"2021/05"	255	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jun., 2021 (provisional)"	"2021/06"	185	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jul., 2021 (provisional)"	"2021/07"	527	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Aug., 2021 (provisional)"	"2021/08"	2258	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Sep., 2021 (provisional)"	"2021/09"	2723	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Oct., 2021 (provisional)"	"2021/10"	1287	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Nov., 2021 (provisional)"	"2021/11"	606	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Dec., 2021 (provisional)"	"2021/12"	857	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Jan., 2022 (provisional)"	"2022/01"	2062	Not Applicable	Not Applicable
+	"Division 7: West South Central"	"CENS-D7"	"Feb., 2022 (provisional)"	"2022/02"	1701	Not Applicable	Not Applicable
+"Total"	"Division 7: West South Central"	"CENS-D7"			28689	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Mar., 2020"	"2020/03"	29	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Apr., 2020"	"2020/04"	203	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"May, 2020"	"2020/05"	271	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jun., 2020"	"2020/06"	235	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jul., 2020"	"2020/07"	321	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Aug., 2020"	"2020/08"	223	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Sep., 2020"	"2020/09"	174	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Oct., 2020"	"2020/10"	456	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Nov., 2020"	"2020/11"	1164	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Dec., 2020"	"2020/12"	1673	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jan., 2021 (provisional)"	"2021/01"	1050	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Feb., 2021 (provisional)"	"2021/02"	478	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Mar., 2021 (provisional)"	"2021/03"	195	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Apr., 2021 (provisional)"	"2021/04"	102	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"May, 2021 (provisional)"	"2021/05"	129	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jun., 2021 (provisional)"	"2021/06"	143	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jul., 2021 (provisional)"	"2021/07"	187	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Aug., 2021 (provisional)"	"2021/08"	556	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Sep., 2021 (provisional)"	"2021/09"	1057	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Oct., 2021 (provisional)"	"2021/10"	1285	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Nov., 2021 (provisional)"	"2021/11"	1168	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Dec., 2021 (provisional)"	"2021/12"	941	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Jan., 2022 (provisional)"	"2022/01"	822	Not Applicable	Not Applicable
+	"Division 8: Mountain"	"CENS-D8"	"Feb., 2022 (provisional)"	"2022/02"	694	Not Applicable	Not Applicable
+"Total"	"Division 8: Mountain"	"CENS-D8"			13556	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Mar., 2020"	"2020/03"	13	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Apr., 2020"	"2020/04"	31	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"May, 2020"	"2020/05"	18	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jun., 2020"	"2020/06"	16	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jul., 2020"	"2020/07"	97	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Aug., 2020"	"2020/08"	133	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Sep., 2020"	"2020/09"	96	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Oct., 2020"	"2020/10"	123	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Nov., 2020"	"2020/11"	187	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Dec., 2020"	"2020/12"	406	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jan., 2021 (provisional)"	"2021/01"	344	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Feb., 2021 (provisional)"	"2021/02"	142	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Mar., 2021 (provisional)"	"2021/03"	82	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Apr., 2021 (provisional)"	"2021/04"	65	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"May, 2021 (provisional)"	"2021/05"	122	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jun., 2021 (provisional)"	"2021/06"	67	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jul., 2021 (provisional)"	"2021/07"	76	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Aug., 2021 (provisional)"	"2021/08"	493	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Sep., 2021 (provisional)"	"2021/09"	766	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Oct., 2021 (provisional)"	"2021/10"	565	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Nov., 2021 (provisional)"	"2021/11"	364	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Dec., 2021 (provisional)"	"2021/12"	248	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Jan., 2022 (provisional)"	"2022/01"	385	Not Applicable	Not Applicable
+	"Division 9: Pacific"	"CENS-D9"	"Feb., 2022 (provisional)"	"2022/02"	359	Not Applicable	Not Applicable
+"Total"	"Division 9: Pacific"	"CENS-D9"			5198	Not Applicable	Not Applicable
+"Total"					166050	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Month"
+"Query Parameters:"
+"Title: census_divison_non_metro_monthly"
+"Residence 2013 Urbanization: Micropolitan (Nonmetro); NonCore (Nonmetro)"
+"UCD - ICD-10 Codes: U07.1 (COVID-19)"
+"Year/Month: Mar., 2020; Apr., 2020; May, 2020; Jun., 2020; Jul., 2020; Aug., 2020; Sep., 2020; Oct., 2020; Nov., 2020; Dec.,"
+"2020; 2021 (provisional); Jan., 2022 (provisional); Feb., 2022 (provisional)"
+"Group By: Residence Census Division; Month"
+"Show Totals: True"
+"Show Zero Values: True"
+"Show Suppressed: True"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Dec 12, 2022 10:05:04 AM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2020,"
+"and from provisional data for years 2021-2022, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Dec 12, 2022 10:05:04"
+"AM"
+"---"
+Messages:
+"1. Selections made to any variable in [Residence Census Regions, Residence HHS Regions, Residence States, Residence 2013"
+"Urbanization] cause equivalent selections in the other variables. More Information:"
+"http://wonder.cdc.gov/wonder/help/faq.html#related-variables."
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. These items in the results table are not fully selected: Division 1: New England, Division 2: Middle Atlantic, Division 3:"
+"East North Central, Division 4: West North Central, Division 5: South Atlantic, Division 6: East South Central, Division 7: West"
+"South Central, Division 8: Mountain, Division 9: Pacific. The Query Description lists the actual values selected."
+"3. Data are Suppressed when the data meet the criteria for confidentiality constraints. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Assurance of Confidentiality."
+"4. Death rates are flagged as Unreliable when the rate is calculated with a numerator of 20 or less. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Unreliable."
+"5. Changes to cause of death classification affect reporting trends. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#ICD-10 Changes."
+"6. Deaths occurring through November 19, 2022 as of December 04, 2022."

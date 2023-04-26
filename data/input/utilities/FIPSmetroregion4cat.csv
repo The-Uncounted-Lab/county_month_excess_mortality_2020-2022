@@ -1,0 +1,3128 @@
+fips,state,county,metro,region,metroname,regionname
+1001,AL,Autauga,3,6,Md/Sm metro,East South Central
+1003,AL,Baldwin,3,6,Md/Sm metro,East South Central
+1005,AL,Barbour,4,6,Nonmetro,East South Central
+1007,AL,Bibb,2,10,Lg fringe metro,Appalachia
+1009,AL,Blount,2,10,Lg fringe metro,Appalachia
+1011,AL,Bullock,4,6,Nonmetro,East South Central
+1013,AL,Butler,4,6,Nonmetro,East South Central
+1015,AL,Calhoun,3,10,Md/Sm metro,Appalachia
+1017,AL,Chambers,4,10,Nonmetro,Appalachia
+1019,AL,Cherokee,4,10,Nonmetro,Appalachia
+1021,AL,Chilton,2,10,Lg fringe metro,Appalachia
+1023,AL,Choctaw,4,6,Nonmetro,East South Central
+1025,AL,Clarke,4,6,Nonmetro,East South Central
+1027,AL,Clay,4,10,Nonmetro,Appalachia
+1029,AL,Cleburne,4,10,Nonmetro,Appalachia
+1031,AL,Coffee,4,6,Nonmetro,East South Central
+1033,AL,Colbert,3,10,Md/Sm metro,Appalachia
+1035,AL,Conecuh,4,6,Nonmetro,East South Central
+1037,AL,Coosa,4,10,Nonmetro,Appalachia
+1039,AL,Covington,4,6,Nonmetro,East South Central
+1041,AL,Crenshaw,4,6,Nonmetro,East South Central
+1043,AL,Cullman,4,10,Nonmetro,Appalachia
+1045,AL,Dale,4,6,Nonmetro,East South Central
+1047,AL,Dallas,4,6,Nonmetro,East South Central
+1049,AL,DeKalb,4,10,Nonmetro,Appalachia
+1051,AL,Elmore,3,10,Md/Sm metro,Appalachia
+1053,AL,Escambia,4,6,Nonmetro,East South Central
+1055,AL,Etowah,3,10,Md/Sm metro,Appalachia
+1057,AL,Fayette,4,10,Nonmetro,Appalachia
+1059,AL,Franklin,4,10,Nonmetro,Appalachia
+1061,AL,Geneva,3,6,Md/Sm metro,East South Central
+1063,AL,Greene,4,6,Nonmetro,East South Central
+1065,AL,Hale,3,10,Md/Sm metro,Appalachia
+1067,AL,Henry,3,6,Md/Sm metro,East South Central
+1069,AL,Houston,3,6,Md/Sm metro,East South Central
+1071,AL,Jackson,4,10,Nonmetro,Appalachia
+1073,AL,Jefferson,1,10,Lg central metro,Appalachia
+1075,AL,Lamar,4,10,Nonmetro,Appalachia
+1077,AL,Lauderdale,3,10,Md/Sm metro,Appalachia
+1079,AL,Lawrence,3,10,Md/Sm metro,Appalachia
+1081,AL,Lee,3,6,Md/Sm metro,East South Central
+1083,AL,Limestone,3,10,Md/Sm metro,Appalachia
+1085,AL,Lowndes,3,6,Md/Sm metro,East South Central
+1087,AL,Macon,4,10,Nonmetro,Appalachia
+1089,AL,Madison,3,10,Md/Sm metro,Appalachia
+1091,AL,Marengo,4,6,Nonmetro,East South Central
+1093,AL,Marion,4,10,Nonmetro,Appalachia
+1095,AL,Marshall,4,10,Nonmetro,Appalachia
+1097,AL,Mobile,3,6,Md/Sm metro,East South Central
+1099,AL,Monroe,4,6,Nonmetro,East South Central
+1101,AL,Montgomery,3,6,Md/Sm metro,East South Central
+1103,AL,Morgan,3,10,Md/Sm metro,Appalachia
+1105,AL,Perry,4,6,Nonmetro,East South Central
+1107,AL,Pickens,3,10,Md/Sm metro,Appalachia
+1109,AL,Pike,4,6,Nonmetro,East South Central
+1111,AL,Randolph,4,10,Nonmetro,Appalachia
+1113,AL,Russell,3,6,Md/Sm metro,East South Central
+1115,AL,St. Clair,2,10,Lg fringe metro,Appalachia
+1117,AL,Shelby,2,10,Lg fringe metro,Appalachia
+1119,AL,Sumter,4,6,Nonmetro,East South Central
+1121,AL,Talladega,4,10,Nonmetro,Appalachia
+1123,AL,Tallapoosa,4,10,Nonmetro,Appalachia
+1125,AL,Tuscaloosa,3,10,Md/Sm metro,Appalachia
+1127,AL,Walker,2,10,Lg fringe metro,Appalachia
+1129,AL,Washington,4,6,Nonmetro,East South Central
+1131,AL,Wilcox,4,6,Nonmetro,East South Central
+1133,AL,Winston,4,10,Nonmetro,Appalachia
+2010,AK,Aleutian Islands Census Area/Aleutian East Borough/Aleutian West Census Area,4,9,Nonmetro,Pacific
+2020,AK,Anchorage Municipality,3,9,Md/Sm metro,Pacific
+2050,AK,Bethel Census Area,4,9,Nonmetro,Pacific
+2060,AK,Bristol Bay Borough,4,9,Nonmetro,Pacific
+2070,AK,Dillingham Census Area,4,9,Nonmetro,Pacific
+2090,AK,Fairbanks North Star Borough,3,9,Md/Sm metro,Pacific
+2100,AK,Haines Borough,4,9,Nonmetro,Pacific
+2110,AK,Juneau City and Borough,4,9,Nonmetro,Pacific
+2122,AK,Kenai Peninsula Borough,4,9,Nonmetro,Pacific
+2140,AK,Kobuk Census Area/Northwest Arctic Borough,4,9,Nonmetro,Pacific
+2150,AK,Kodiak Island Borough,4,9,Nonmetro,Pacific
+2158,AK,Wade Hampton Census Area/Kusilvak Census Area,4,9,Nonmetro,Pacific
+2170,AK,Matanuska-Susitna Borough,3,9,Md/Sm metro,Pacific
+2180,AK,Nome Census Area,4,9,Nonmetro,Pacific
+2185,AK,North Slope Borough,4,9,Nonmetro,Pacific
+2195,AK,Petersburg Census Area,4,9,Nonmetro,Pacific
+2220,AK,Sitka City and Borough,4,9,Nonmetro,Pacific
+2232,AK,Skagway-Hoonah-Angoon Census Area,4,9,Nonmetro,Pacific
+2240,AK,Southeast Fairbanks Census Area,4,9,Nonmetro,Pacific
+2261,AK,Valdez-Cordova Census Area,4,9,Nonmetro,Pacific
+4001,AZ,Apache,4,8,Nonmetro,Mountain
+4003,AZ,Cochise,3,8,Md/Sm metro,Mountain
+4005,AZ,Coconino,3,8,Md/Sm metro,Mountain
+4007,AZ,Gila,4,8,Nonmetro,Mountain
+4009,AZ,Graham,4,8,Nonmetro,Mountain
+4011,AZ,Greenlee,4,8,Nonmetro,Mountain
+4013,AZ,Maricopa,1,8,Lg central metro,Mountain
+4015,AZ,Mohave,3,8,Md/Sm metro,Mountain
+4017,AZ,Navajo,4,8,Nonmetro,Mountain
+4019,AZ,Pima,3,8,Md/Sm metro,Mountain
+4021,AZ,Pinal,2,8,Lg fringe metro,Mountain
+4023,AZ,Santa Cruz,4,8,Nonmetro,Mountain
+4025,AZ,Yavapai,3,8,Md/Sm metro,Mountain
+4027,AZ,Yuma,3,8,Md/Sm metro,Mountain
+5001,AR,Arkansas,4,7,Nonmetro,West South Central
+5003,AR,Ashley,4,7,Nonmetro,West South Central
+5005,AR,Baxter,4,7,Nonmetro,West South Central
+5007,AR,Benton,3,7,Md/Sm metro,West South Central
+5009,AR,Boone,4,7,Nonmetro,West South Central
+5011,AR,Bradley,4,7,Nonmetro,West South Central
+5013,AR,Calhoun,4,7,Nonmetro,West South Central
+5015,AR,Carroll,4,7,Nonmetro,West South Central
+5017,AR,Chicot,4,7,Nonmetro,West South Central
+5019,AR,Clark,4,7,Nonmetro,West South Central
+5021,AR,Clay,4,7,Nonmetro,West South Central
+5023,AR,Cleburne,4,7,Nonmetro,West South Central
+5025,AR,Cleveland,3,7,Md/Sm metro,West South Central
+5027,AR,Columbia,4,7,Nonmetro,West South Central
+5029,AR,Conway,4,7,Nonmetro,West South Central
+5031,AR,Craighead,3,7,Md/Sm metro,West South Central
+5033,AR,Crawford,3,7,Md/Sm metro,West South Central
+5035,AR,Crittenden,2,7,Lg fringe metro,West South Central
+5037,AR,Cross,4,7,Nonmetro,West South Central
+5039,AR,Dallas,4,7,Nonmetro,West South Central
+5041,AR,Desha,4,7,Nonmetro,West South Central
+5043,AR,Drew,4,7,Nonmetro,West South Central
+5045,AR,Faulkner,3,7,Md/Sm metro,West South Central
+5047,AR,Franklin,4,7,Nonmetro,West South Central
+5049,AR,Fulton,4,7,Nonmetro,West South Central
+5051,AR,Garland,3,7,Md/Sm metro,West South Central
+5053,AR,Grant,3,7,Md/Sm metro,West South Central
+5055,AR,Greene,4,7,Nonmetro,West South Central
+5057,AR,Hempstead,4,7,Nonmetro,West South Central
+5059,AR,Hot Spring,4,7,Nonmetro,West South Central
+5061,AR,Howard,4,7,Nonmetro,West South Central
+5063,AR,Independence,4,7,Nonmetro,West South Central
+5065,AR,Izard,4,7,Nonmetro,West South Central
+5067,AR,Jackson,4,7,Nonmetro,West South Central
+5069,AR,Jefferson,3,7,Md/Sm metro,West South Central
+5071,AR,Johnson,4,7,Nonmetro,West South Central
+5073,AR,Lafayette,4,7,Nonmetro,West South Central
+5075,AR,Lawrence,4,7,Nonmetro,West South Central
+5077,AR,Lee,4,7,Nonmetro,West South Central
+5079,AR,Lincoln,3,7,Md/Sm metro,West South Central
+5081,AR,Little River,3,7,Md/Sm metro,West South Central
+5083,AR,Logan,4,7,Nonmetro,West South Central
+5085,AR,Lonoke,3,7,Md/Sm metro,West South Central
+5087,AR,Madison,3,7,Md/Sm metro,West South Central
+5089,AR,Marion,4,7,Nonmetro,West South Central
+5091,AR,Miller,3,7,Md/Sm metro,West South Central
+5093,AR,Mississippi,4,7,Nonmetro,West South Central
+5095,AR,Monroe,4,7,Nonmetro,West South Central
+5097,AR,Montgomery,4,7,Nonmetro,West South Central
+5099,AR,Nevada,4,7,Nonmetro,West South Central
+5101,AR,Newton,4,7,Nonmetro,West South Central
+5103,AR,Ouachita,4,7,Nonmetro,West South Central
+5105,AR,Perry,3,7,Md/Sm metro,West South Central
+5107,AR,Phillips,4,7,Nonmetro,West South Central
+5109,AR,Pike,4,7,Nonmetro,West South Central
+5111,AR,Poinsett,3,7,Md/Sm metro,West South Central
+5113,AR,Polk,4,7,Nonmetro,West South Central
+5115,AR,Pope,4,7,Nonmetro,West South Central
+5117,AR,Prairie,4,7,Nonmetro,West South Central
+5119,AR,Pulaski,3,7,Md/Sm metro,West South Central
+5121,AR,Randolph,4,7,Nonmetro,West South Central
+5123,AR,St. Francis,4,7,Nonmetro,West South Central
+5125,AR,Saline,3,7,Md/Sm metro,West South Central
+5127,AR,Scott,4,7,Nonmetro,West South Central
+5129,AR,Searcy,4,7,Nonmetro,West South Central
+5131,AR,Sebastian,3,7,Md/Sm metro,West South Central
+5133,AR,Sevier,4,7,Nonmetro,West South Central
+5135,AR,Sharp,4,7,Nonmetro,West South Central
+5137,AR,Stone,4,7,Nonmetro,West South Central
+5139,AR,Union,4,7,Nonmetro,West South Central
+5141,AR,Van Buren,4,7,Nonmetro,West South Central
+5143,AR,Washington,3,7,Md/Sm metro,West South Central
+5145,AR,White,4,7,Nonmetro,West South Central
+5147,AR,Woodruff,4,7,Nonmetro,West South Central
+5149,AR,Yell,4,7,Nonmetro,West South Central
+6001,CA,Alameda,1,9,Lg central metro,Pacific
+6003,CA,Alpine,4,9,Nonmetro,Pacific
+6005,CA,Amador,4,9,Nonmetro,Pacific
+6007,CA,Butte,3,9,Md/Sm metro,Pacific
+6009,CA,Calaveras,4,9,Nonmetro,Pacific
+6011,CA,Colusa,4,9,Nonmetro,Pacific
+6013,CA,Contra Costa,2,9,Lg fringe metro,Pacific
+6015,CA,Del Norte,4,9,Nonmetro,Pacific
+6017,CA,El Dorado,2,9,Lg fringe metro,Pacific
+6019,CA,Fresno,3,9,Md/Sm metro,Pacific
+6021,CA,Glenn,4,9,Nonmetro,Pacific
+6023,CA,Humboldt,4,9,Nonmetro,Pacific
+6025,CA,Imperial,3,9,Md/Sm metro,Pacific
+6027,CA,Inyo,4,9,Nonmetro,Pacific
+6029,CA,Kern,3,9,Md/Sm metro,Pacific
+6031,CA,Kings,3,9,Md/Sm metro,Pacific
+6033,CA,Lake,4,9,Nonmetro,Pacific
+6035,CA,Lassen,4,9,Nonmetro,Pacific
+6037,CA,Los Angeles,1,9,Lg central metro,Pacific
+6039,CA,Madera,3,9,Md/Sm metro,Pacific
+6041,CA,Marin,2,9,Lg fringe metro,Pacific
+6043,CA,Mariposa,4,9,Nonmetro,Pacific
+6045,CA,Mendocino,4,9,Nonmetro,Pacific
+6047,CA,Merced,3,9,Md/Sm metro,Pacific
+6049,CA,Modoc,4,9,Nonmetro,Pacific
+6051,CA,Mono,4,9,Nonmetro,Pacific
+6053,CA,Monterey,3,9,Md/Sm metro,Pacific
+6055,CA,Napa,3,9,Md/Sm metro,Pacific
+6057,CA,Nevada,4,9,Nonmetro,Pacific
+6059,CA,Orange,1,9,Lg central metro,Pacific
+6061,CA,Placer,2,9,Lg fringe metro,Pacific
+6063,CA,Plumas,4,9,Nonmetro,Pacific
+6065,CA,Riverside,1,9,Lg central metro,Pacific
+6067,CA,Sacramento,1,9,Lg central metro,Pacific
+6069,CA,San Benito,2,9,Lg fringe metro,Pacific
+6071,CA,San Bernardino,2,9,Lg fringe metro,Pacific
+6073,CA,San Diego,1,9,Lg central metro,Pacific
+6075,CA,San Francisco,1,9,Lg central metro,Pacific
+6077,CA,San Joaquin,3,9,Md/Sm metro,Pacific
+6079,CA,San Luis Obispo,3,9,Md/Sm metro,Pacific
+6081,CA,San Mateo,2,9,Lg fringe metro,Pacific
+6083,CA,Santa Barbara,3,9,Md/Sm metro,Pacific
+6085,CA,Santa Clara,1,9,Lg central metro,Pacific
+6087,CA,Santa Cruz,3,9,Md/Sm metro,Pacific
+6089,CA,Shasta,3,9,Md/Sm metro,Pacific
+6091,CA,Sierra,4,9,Nonmetro,Pacific
+6093,CA,Siskiyou,4,9,Nonmetro,Pacific
+6095,CA,Solano,3,9,Md/Sm metro,Pacific
+6097,CA,Sonoma,3,9,Md/Sm metro,Pacific
+6099,CA,Stanislaus,3,9,Md/Sm metro,Pacific
+6101,CA,Sutter,3,9,Md/Sm metro,Pacific
+6103,CA,Tehama,4,9,Nonmetro,Pacific
+6105,CA,Trinity,4,9,Nonmetro,Pacific
+6107,CA,Tulare,3,9,Md/Sm metro,Pacific
+6109,CA,Tuolumne,4,9,Nonmetro,Pacific
+6111,CA,Ventura,3,9,Md/Sm metro,Pacific
+6113,CA,Yolo,2,9,Lg fringe metro,Pacific
+6115,CA,Yuba,3,9,Md/Sm metro,Pacific
+8003,CO,Alamosa,4,8,Nonmetro,Mountain
+8005,CO,Arapahoe,2,8,Lg fringe metro,Mountain
+8007,CO,Archuleta,4,8,Nonmetro,Mountain
+8009,CO,Baca,4,8,Nonmetro,Mountain
+8011,CO,Bent,4,8,Nonmetro,Mountain
+8015,CO,Chaffee,4,8,Nonmetro,Mountain
+8017,CO,Cheyenne,4,8,Nonmetro,Mountain
+8019,CO,Clear Creek,2,8,Lg fringe metro,Mountain
+8021,CO,Conejos,4,8,Nonmetro,Mountain
+8023,CO,Costilla,4,8,Nonmetro,Mountain
+8025,CO,Crowley,4,8,Nonmetro,Mountain
+8027,CO,Custer,4,8,Nonmetro,Mountain
+8029,CO,Delta,4,8,Nonmetro,Mountain
+8031,CO,Denver,1,8,Lg central metro,Mountain
+8033,CO,Dolores,4,8,Nonmetro,Mountain
+8035,CO,Douglas,2,8,Lg fringe metro,Mountain
+8037,CO,Eagle,4,8,Nonmetro,Mountain
+8039,CO,Elbert,2,8,Lg fringe metro,Mountain
+8041,CO,El Paso,3,8,Md/Sm metro,Mountain
+8043,CO,Fremont,4,8,Nonmetro,Mountain
+8045,CO,Garfield,4,8,Nonmetro,Mountain
+8047,CO,Gilpin,2,8,Lg fringe metro,Mountain
+8049,CO,Grand,4,8,Nonmetro,Mountain
+8051,CO,Gunnison,4,8,Nonmetro,Mountain
+8053,CO,Hinsdale,4,8,Nonmetro,Mountain
+8055,CO,Huerfano,4,8,Nonmetro,Mountain
+8057,CO,Jackson,4,8,Nonmetro,Mountain
+8059,CO,Jefferson,2,8,Lg fringe metro,Mountain
+8061,CO,Kiowa,4,8,Nonmetro,Mountain
+8063,CO,Kit Carson,4,8,Nonmetro,Mountain
+8065,CO,Lake,4,8,Nonmetro,Mountain
+8067,CO,La Plata,4,8,Nonmetro,Mountain
+8069,CO,Larimer,3,8,Md/Sm metro,Mountain
+8071,CO,Las Animas,4,8,Nonmetro,Mountain
+8073,CO,Lincoln,4,8,Nonmetro,Mountain
+8075,CO,Logan,4,8,Nonmetro,Mountain
+8077,CO,Mesa,3,8,Md/Sm metro,Mountain
+8079,CO,Mineral,4,8,Nonmetro,Mountain
+8081,CO,Moffat,4,8,Nonmetro,Mountain
+8083,CO,Montezuma,4,8,Nonmetro,Mountain
+8085,CO,Montrose,4,8,Nonmetro,Mountain
+8087,CO,Morgan,4,8,Nonmetro,Mountain
+8089,CO,Otero,4,8,Nonmetro,Mountain
+8091,CO,Ouray,4,8,Nonmetro,Mountain
+8093,CO,Park,2,8,Lg fringe metro,Mountain
+8095,CO,Phillips,4,8,Nonmetro,Mountain
+8097,CO,Pitkin,4,8,Nonmetro,Mountain
+8099,CO,Prowers,4,8,Nonmetro,Mountain
+8101,CO,Pueblo,3,8,Md/Sm metro,Mountain
+8103,CO,Rio Blanco,4,8,Nonmetro,Mountain
+8105,CO,Rio Grande,4,8,Nonmetro,Mountain
+8107,CO,Routt,4,8,Nonmetro,Mountain
+8109,CO,Saguache,4,8,Nonmetro,Mountain
+8111,CO,San Juan,4,8,Nonmetro,Mountain
+8113,CO,San Miguel,4,8,Nonmetro,Mountain
+8115,CO,Sedgwick,4,8,Nonmetro,Mountain
+8117,CO,Summit,4,8,Nonmetro,Mountain
+8119,CO,Teller,3,8,Md/Sm metro,Mountain
+8121,CO,Washington,4,8,Nonmetro,Mountain
+8125,CO,Yuma,4,8,Nonmetro,Mountain
+9001,CT,Fairfield,3,1,Md/Sm metro,New England
+9003,CT,Hartford,1,1,Lg central metro,New England
+9005,CT,Litchfield,4,1,Nonmetro,New England
+9007,CT,Middlesex,2,1,Lg fringe metro,New England
+9009,CT,New Haven,3,1,Md/Sm metro,New England
+9011,CT,New London,3,1,Md/Sm metro,New England
+9013,CT,Tolland,2,1,Lg fringe metro,New England
+9015,CT,Windham,3,1,Md/Sm metro,New England
+10001,DE,Kent,3,5,Md/Sm metro,South Atlantic
+10003,DE,New Castle,2,5,Lg fringe metro,South Atlantic
+10005,DE,Sussex,3,5,Md/Sm metro,South Atlantic
+11001,DC,District of Columbia,1,5,Lg central metro,South Atlantic
+12001,FL,Alachua,3,5,Md/Sm metro,South Atlantic
+12003,FL,Baker,2,5,Lg fringe metro,South Atlantic
+12005,FL,Bay,3,5,Md/Sm metro,South Atlantic
+12007,FL,Bradford,4,5,Nonmetro,South Atlantic
+12009,FL,Brevard,3,5,Md/Sm metro,South Atlantic
+12011,FL,Broward,2,5,Lg fringe metro,South Atlantic
+12013,FL,Calhoun,4,5,Nonmetro,South Atlantic
+12015,FL,Charlotte,3,5,Md/Sm metro,South Atlantic
+12017,FL,Citrus,3,5,Md/Sm metro,South Atlantic
+12019,FL,Clay,2,5,Lg fringe metro,South Atlantic
+12021,FL,Collier,3,5,Md/Sm metro,South Atlantic
+12023,FL,Columbia,4,5,Nonmetro,South Atlantic
+12027,FL,DeSoto,4,5,Nonmetro,South Atlantic
+12029,FL,Dixie,4,5,Nonmetro,South Atlantic
+12031,FL,Duval,1,5,Lg central metro,South Atlantic
+12033,FL,Escambia,3,5,Md/Sm metro,South Atlantic
+12035,FL,Flagler,3,5,Md/Sm metro,South Atlantic
+12037,FL,Franklin,4,5,Nonmetro,South Atlantic
+12039,FL,Gadsden,3,5,Md/Sm metro,South Atlantic
+12041,FL,Gilchrist,3,5,Md/Sm metro,South Atlantic
+12043,FL,Glades,4,5,Nonmetro,South Atlantic
+12045,FL,Gulf,3,5,Md/Sm metro,South Atlantic
+12047,FL,Hamilton,4,5,Nonmetro,South Atlantic
+12049,FL,Hardee,4,5,Nonmetro,South Atlantic
+12051,FL,Hendry,4,5,Nonmetro,South Atlantic
+12053,FL,Hernando,2,5,Lg fringe metro,South Atlantic
+12055,FL,Highlands,3,5,Md/Sm metro,South Atlantic
+12057,FL,Hillsborough,1,5,Lg central metro,South Atlantic
+12059,FL,Holmes,4,5,Nonmetro,South Atlantic
+12061,FL,Indian River,3,5,Md/Sm metro,South Atlantic
+12063,FL,Jackson,4,5,Nonmetro,South Atlantic
+12065,FL,Jefferson,3,5,Md/Sm metro,South Atlantic
+12067,FL,Lafayette,4,5,Nonmetro,South Atlantic
+12069,FL,Lake,2,5,Lg fringe metro,South Atlantic
+12071,FL,Lee,3,5,Md/Sm metro,South Atlantic
+12073,FL,Leon,3,5,Md/Sm metro,South Atlantic
+12075,FL,Levy,4,5,Nonmetro,South Atlantic
+12077,FL,Liberty,4,5,Nonmetro,South Atlantic
+12079,FL,Madison,4,5,Nonmetro,South Atlantic
+12081,FL,Manatee,3,5,Md/Sm metro,South Atlantic
+12083,FL,Marion,3,5,Md/Sm metro,South Atlantic
+12085,FL,Martin,3,5,Md/Sm metro,South Atlantic
+12086,FL,Miami-Dade,1,5,Lg central metro,South Atlantic
+12087,FL,Monroe,4,5,Nonmetro,South Atlantic
+12089,FL,Nassau,2,5,Lg fringe metro,South Atlantic
+12091,FL,Okaloosa,3,5,Md/Sm metro,South Atlantic
+12093,FL,Okeechobee,4,5,Nonmetro,South Atlantic
+12095,FL,Orange,1,5,Lg central metro,South Atlantic
+12097,FL,Osceola,2,5,Lg fringe metro,South Atlantic
+12099,FL,Palm Beach,2,5,Lg fringe metro,South Atlantic
+12101,FL,Pasco,2,5,Lg fringe metro,South Atlantic
+12103,FL,Pinellas,1,5,Lg central metro,South Atlantic
+12105,FL,Polk,3,5,Md/Sm metro,South Atlantic
+12107,FL,Putnam,4,5,Nonmetro,South Atlantic
+12109,FL,St. Johns,2,5,Lg fringe metro,South Atlantic
+12111,FL,St. Lucie,3,5,Md/Sm metro,South Atlantic
+12113,FL,Santa Rosa,3,5,Md/Sm metro,South Atlantic
+12115,FL,Sarasota,3,5,Md/Sm metro,South Atlantic
+12117,FL,Seminole,2,5,Lg fringe metro,South Atlantic
+12119,FL,Sumter,3,5,Md/Sm metro,South Atlantic
+12121,FL,Suwannee,4,5,Nonmetro,South Atlantic
+12123,FL,Taylor,4,5,Nonmetro,South Atlantic
+12125,FL,Union,4,5,Nonmetro,South Atlantic
+12127,FL,Volusia,3,5,Md/Sm metro,South Atlantic
+12129,FL,Wakulla,3,5,Md/Sm metro,South Atlantic
+12131,FL,Walton,3,5,Md/Sm metro,South Atlantic
+12133,FL,Washington,4,5,Nonmetro,South Atlantic
+13001,GA,Appling,4,5,Nonmetro,South Atlantic
+13003,GA,Atkinson,4,5,Nonmetro,South Atlantic
+13005,GA,Bacon,4,5,Nonmetro,South Atlantic
+13007,GA,Baker,3,5,Md/Sm metro,South Atlantic
+13009,GA,Baldwin,4,5,Nonmetro,South Atlantic
+13011,GA,Banks,4,10,Nonmetro,Appalachia
+13013,GA,Barrow,2,10,Lg fringe metro,Appalachia
+13015,GA,Bartow,2,10,Lg fringe metro,Appalachia
+13017,GA,Ben Hill,4,5,Nonmetro,South Atlantic
+13019,GA,Berrien,4,5,Nonmetro,South Atlantic
+13021,GA,Bibb,3,5,Md/Sm metro,South Atlantic
+13023,GA,Bleckley,4,5,Nonmetro,South Atlantic
+13025,GA,Brantley,3,5,Md/Sm metro,South Atlantic
+13027,GA,Brooks,3,5,Md/Sm metro,South Atlantic
+13029,GA,Bryan,3,5,Md/Sm metro,South Atlantic
+13031,GA,Bulloch,4,5,Nonmetro,South Atlantic
+13033,GA,Burke,3,5,Md/Sm metro,South Atlantic
+13035,GA,Butts,2,5,Lg fringe metro,South Atlantic
+13037,GA,Calhoun,4,5,Nonmetro,South Atlantic
+13039,GA,Camden,4,5,Nonmetro,South Atlantic
+13043,GA,Candler,4,5,Nonmetro,South Atlantic
+13045,GA,Carroll,2,10,Lg fringe metro,Appalachia
+13047,GA,Catoosa,3,10,Md/Sm metro,Appalachia
+13049,GA,Charlton,4,5,Nonmetro,South Atlantic
+13051,GA,Chatham,3,5,Md/Sm metro,South Atlantic
+13053,GA,Chattahoochee,3,5,Md/Sm metro,South Atlantic
+13055,GA,Chattooga,4,10,Nonmetro,Appalachia
+13057,GA,Cherokee,2,10,Lg fringe metro,Appalachia
+13059,GA,Clarke,3,5,Md/Sm metro,South Atlantic
+13061,GA,Clay,4,5,Nonmetro,South Atlantic
+13063,GA,Clayton,2,5,Lg fringe metro,South Atlantic
+13065,GA,Clinch,4,5,Nonmetro,South Atlantic
+13067,GA,Cobb,2,5,Lg fringe metro,South Atlantic
+13069,GA,Coffee,4,5,Nonmetro,South Atlantic
+13071,GA,Colquitt,4,5,Nonmetro,South Atlantic
+13073,GA,Columbia,3,5,Md/Sm metro,South Atlantic
+13075,GA,Cook,4,5,Nonmetro,South Atlantic
+13077,GA,Coweta,2,5,Lg fringe metro,South Atlantic
+13079,GA,Crawford,3,5,Md/Sm metro,South Atlantic
+13081,GA,Crisp,4,5,Nonmetro,South Atlantic
+13083,GA,Dade,3,10,Md/Sm metro,Appalachia
+13085,GA,Dawson,2,10,Lg fringe metro,Appalachia
+13087,GA,Decatur,4,5,Nonmetro,South Atlantic
+13089,GA,DeKalb,2,5,Lg fringe metro,South Atlantic
+13091,GA,Dodge,4,5,Nonmetro,South Atlantic
+13093,GA,Dooly,4,5,Nonmetro,South Atlantic
+13095,GA,Dougherty,3,5,Md/Sm metro,South Atlantic
+13097,GA,Douglas,2,10,Lg fringe metro,Appalachia
+13099,GA,Early,4,5,Nonmetro,South Atlantic
+13101,GA,Echols,3,5,Md/Sm metro,South Atlantic
+13103,GA,Effingham,3,5,Md/Sm metro,South Atlantic
+13105,GA,Elbert,4,10,Nonmetro,Appalachia
+13107,GA,Emanuel,4,5,Nonmetro,South Atlantic
+13109,GA,Evans,4,5,Nonmetro,South Atlantic
+13111,GA,Fannin,4,10,Nonmetro,Appalachia
+13113,GA,Fayette,2,5,Lg fringe metro,South Atlantic
+13115,GA,Floyd,3,10,Md/Sm metro,Appalachia
+13117,GA,Forsyth,2,10,Lg fringe metro,Appalachia
+13119,GA,Franklin,4,10,Nonmetro,Appalachia
+13121,GA,Fulton,1,5,Lg central metro,South Atlantic
+13123,GA,Gilmer,4,10,Nonmetro,Appalachia
+13125,GA,Glascock,4,5,Nonmetro,South Atlantic
+13127,GA,Glynn,3,5,Md/Sm metro,South Atlantic
+13129,GA,Gordon,4,10,Nonmetro,Appalachia
+13131,GA,Grady,4,5,Nonmetro,South Atlantic
+13133,GA,Greene,4,5,Nonmetro,South Atlantic
+13135,GA,Gwinnett,2,10,Lg fringe metro,Appalachia
+13137,GA,Habersham,4,10,Nonmetro,Appalachia
+13139,GA,Hall,3,10,Md/Sm metro,Appalachia
+13141,GA,Hancock,4,5,Nonmetro,South Atlantic
+13143,GA,Haralson,2,10,Lg fringe metro,Appalachia
+13145,GA,Harris,3,5,Md/Sm metro,South Atlantic
+13147,GA,Hart,4,10,Nonmetro,Appalachia
+13149,GA,Heard,2,10,Lg fringe metro,Appalachia
+13151,GA,Henry,2,5,Lg fringe metro,South Atlantic
+13153,GA,Houston,3,5,Md/Sm metro,South Atlantic
+13155,GA,Irwin,4,5,Nonmetro,South Atlantic
+13157,GA,Jackson,4,10,Nonmetro,Appalachia
+13159,GA,Jasper,2,5,Lg fringe metro,South Atlantic
+13161,GA,Jeff Davis,4,5,Nonmetro,South Atlantic
+13163,GA,Jefferson,4,5,Nonmetro,South Atlantic
+13165,GA,Jenkins,4,5,Nonmetro,South Atlantic
+13167,GA,Johnson,4,5,Nonmetro,South Atlantic
+13169,GA,Jones,3,5,Md/Sm metro,South Atlantic
+13171,GA,Lamar,2,5,Lg fringe metro,South Atlantic
+13173,GA,Lanier,3,5,Md/Sm metro,South Atlantic
+13175,GA,Laurens,4,5,Nonmetro,South Atlantic
+13177,GA,Lee,3,5,Md/Sm metro,South Atlantic
+13179,GA,Liberty,3,5,Md/Sm metro,South Atlantic
+13181,GA,Lincoln,3,5,Md/Sm metro,South Atlantic
+13183,GA,Long,3,5,Md/Sm metro,South Atlantic
+13185,GA,Lowndes,3,5,Md/Sm metro,South Atlantic
+13187,GA,Lumpkin,4,10,Nonmetro,Appalachia
+13189,GA,McDuffie,3,5,Md/Sm metro,South Atlantic
+13191,GA,McIntosh,3,5,Md/Sm metro,South Atlantic
+13193,GA,Macon,4,5,Nonmetro,South Atlantic
+13195,GA,Madison,3,10,Md/Sm metro,Appalachia
+13197,GA,Marion,3,5,Md/Sm metro,South Atlantic
+13199,GA,Meriwether,2,5,Lg fringe metro,South Atlantic
+13201,GA,Miller,4,5,Nonmetro,South Atlantic
+13205,GA,Mitchell,4,5,Nonmetro,South Atlantic
+13207,GA,Monroe,3,5,Md/Sm metro,South Atlantic
+13209,GA,Montgomery,4,5,Nonmetro,South Atlantic
+13211,GA,Morgan,2,5,Lg fringe metro,South Atlantic
+13213,GA,Murray,3,10,Md/Sm metro,Appalachia
+13215,GA,Muscogee,3,5,Md/Sm metro,South Atlantic
+13217,GA,Newton,2,5,Lg fringe metro,South Atlantic
+13219,GA,Oconee,3,5,Md/Sm metro,South Atlantic
+13221,GA,Oglethorpe,3,5,Md/Sm metro,South Atlantic
+13223,GA,Paulding,2,10,Lg fringe metro,Appalachia
+13225,GA,Peach,3,5,Md/Sm metro,South Atlantic
+13227,GA,Pickens,2,10,Lg fringe metro,Appalachia
+13229,GA,Pierce,4,5,Nonmetro,South Atlantic
+13231,GA,Pike,2,5,Lg fringe metro,South Atlantic
+13233,GA,Polk,4,10,Nonmetro,Appalachia
+13235,GA,Pulaski,3,5,Md/Sm metro,South Atlantic
+13237,GA,Putnam,4,5,Nonmetro,South Atlantic
+13239,GA,Quitman,4,5,Nonmetro,South Atlantic
+13241,GA,Rabun,4,10,Nonmetro,Appalachia
+13243,GA,Randolph,4,5,Nonmetro,South Atlantic
+13245,GA,Richmond,3,5,Md/Sm metro,South Atlantic
+13247,GA,Rockdale,2,5,Lg fringe metro,South Atlantic
+13249,GA,Schley,4,5,Nonmetro,South Atlantic
+13251,GA,Screven,4,5,Nonmetro,South Atlantic
+13253,GA,Seminole,4,5,Nonmetro,South Atlantic
+13255,GA,Spalding,2,5,Lg fringe metro,South Atlantic
+13257,GA,Stephens,4,10,Nonmetro,Appalachia
+13259,GA,Stewart,4,5,Nonmetro,South Atlantic
+13261,GA,Sumter,4,5,Nonmetro,South Atlantic
+13263,GA,Talbot,4,5,Nonmetro,South Atlantic
+13265,GA,Taliaferro,4,5,Nonmetro,South Atlantic
+13267,GA,Tattnall,4,5,Nonmetro,South Atlantic
+13269,GA,Taylor,4,5,Nonmetro,South Atlantic
+13271,GA,Telfair,4,5,Nonmetro,South Atlantic
+13273,GA,Terrell,3,5,Md/Sm metro,South Atlantic
+13275,GA,Thomas,4,5,Nonmetro,South Atlantic
+13277,GA,Tift,4,5,Nonmetro,South Atlantic
+13279,GA,Toombs,4,5,Nonmetro,South Atlantic
+13281,GA,Towns,4,10,Nonmetro,Appalachia
+13283,GA,Treutlen,4,5,Nonmetro,South Atlantic
+13285,GA,Troup,4,5,Nonmetro,South Atlantic
+13287,GA,Turner,4,5,Nonmetro,South Atlantic
+13289,GA,Twiggs,3,5,Md/Sm metro,South Atlantic
+13291,GA,Union,4,10,Nonmetro,Appalachia
+13293,GA,Upson,4,5,Nonmetro,South Atlantic
+13295,GA,Walker,3,10,Md/Sm metro,Appalachia
+13297,GA,Walton,2,5,Lg fringe metro,South Atlantic
+13299,GA,Ware,4,5,Nonmetro,South Atlantic
+13301,GA,Warren,4,5,Nonmetro,South Atlantic
+13303,GA,Washington,4,5,Nonmetro,South Atlantic
+13305,GA,Wayne,4,5,Nonmetro,South Atlantic
+13307,GA,Webster,4,5,Nonmetro,South Atlantic
+13309,GA,Wheeler,4,5,Nonmetro,South Atlantic
+13311,GA,White,4,10,Nonmetro,Appalachia
+13313,GA,Whitfield,3,10,Md/Sm metro,Appalachia
+13315,GA,Wilcox,4,5,Nonmetro,South Atlantic
+13317,GA,Wilkes,4,5,Nonmetro,South Atlantic
+13319,GA,Wilkinson,4,5,Nonmetro,South Atlantic
+13321,GA,Worth,3,5,Md/Sm metro,South Atlantic
+15001,HI,Hawaii,4,9,Nonmetro,Pacific
+15003,HI,Honolulu,3,9,Md/Sm metro,Pacific
+15005,HI,Kalawao,3,9,Md/Sm metro,Pacific
+15007,HI,Kauai,4,9,Nonmetro,Pacific
+15009,HI,Maui,3,9,Md/Sm metro,Pacific
+16001,ID,Ada,3,8,Md/Sm metro,Mountain
+16003,ID,Adams,4,8,Nonmetro,Mountain
+16005,ID,Bannock,3,8,Md/Sm metro,Mountain
+16007,ID,Bear Lake,4,8,Nonmetro,Mountain
+16009,ID,Benewah,4,8,Nonmetro,Mountain
+16011,ID,Bingham,4,8,Nonmetro,Mountain
+16013,ID,Blaine,4,8,Nonmetro,Mountain
+16015,ID,Boise,3,8,Md/Sm metro,Mountain
+16017,ID,Bonner,4,8,Nonmetro,Mountain
+16019,ID,Bonneville,3,8,Md/Sm metro,Mountain
+16021,ID,Boundary,4,8,Nonmetro,Mountain
+16023,ID,Butte,3,8,Md/Sm metro,Mountain
+16025,ID,Camas,4,8,Nonmetro,Mountain
+16027,ID,Canyon,3,8,Md/Sm metro,Mountain
+16029,ID,Caribou,4,8,Nonmetro,Mountain
+16031,ID,Cassia,4,8,Nonmetro,Mountain
+16033,ID,Clark,4,8,Nonmetro,Mountain
+16035,ID,Clearwater,4,8,Nonmetro,Mountain
+16037,ID,Custer,4,8,Nonmetro,Mountain
+16039,ID,Elmore,4,8,Nonmetro,Mountain
+16041,ID,Franklin,3,8,Md/Sm metro,Mountain
+16043,ID,Fremont,4,8,Nonmetro,Mountain
+16045,ID,Gem,3,8,Md/Sm metro,Mountain
+16047,ID,Gooding,4,8,Nonmetro,Mountain
+16049,ID,Idaho,4,8,Nonmetro,Mountain
+16051,ID,Jefferson,3,8,Md/Sm metro,Mountain
+16053,ID,Jerome,4,8,Nonmetro,Mountain
+16055,ID,Kootenai,3,8,Md/Sm metro,Mountain
+16057,ID,Latah,4,8,Nonmetro,Mountain
+16059,ID,Lemhi,4,8,Nonmetro,Mountain
+16061,ID,Lewis,4,8,Nonmetro,Mountain
+16063,ID,Lincoln,4,8,Nonmetro,Mountain
+16065,ID,Madison,4,8,Nonmetro,Mountain
+16067,ID,Minidoka,4,8,Nonmetro,Mountain
+16069,ID,Nez Perce,3,8,Md/Sm metro,Mountain
+16071,ID,Oneida,4,8,Nonmetro,Mountain
+16073,ID,Owyhee,3,8,Md/Sm metro,Mountain
+16075,ID,Payette,4,8,Nonmetro,Mountain
+16077,ID,Power,4,8,Nonmetro,Mountain
+16079,ID,Shoshone,4,8,Nonmetro,Mountain
+16081,ID,Teton,4,8,Nonmetro,Mountain
+16083,ID,Twin Falls,4,8,Nonmetro,Mountain
+16085,ID,Valley,4,8,Nonmetro,Mountain
+16087,ID,Washington,4,8,Nonmetro,Mountain
+17001,IL,Adams,4,3,Nonmetro,East North Central
+17003,IL,Alexander,3,3,Md/Sm metro,East North Central
+17005,IL,Bond,2,3,Lg fringe metro,East North Central
+17007,IL,Boone,3,3,Md/Sm metro,East North Central
+17009,IL,Brown,4,3,Nonmetro,East North Central
+17011,IL,Bureau,4,3,Nonmetro,East North Central
+17013,IL,Calhoun,2,3,Lg fringe metro,East North Central
+17015,IL,Carroll,4,3,Nonmetro,East North Central
+17017,IL,Cass,4,3,Nonmetro,East North Central
+17019,IL,Champaign,3,3,Md/Sm metro,East North Central
+17021,IL,Christian,4,3,Nonmetro,East North Central
+17023,IL,Clark,4,3,Nonmetro,East North Central
+17025,IL,Clay,4,3,Nonmetro,East North Central
+17027,IL,Clinton,2,3,Lg fringe metro,East North Central
+17029,IL,Coles,4,3,Nonmetro,East North Central
+17031,IL,Cook,1,3,Lg central metro,East North Central
+17033,IL,Crawford,4,3,Nonmetro,East North Central
+17035,IL,Cumberland,4,3,Nonmetro,East North Central
+17037,IL,DeKalb,2,3,Lg fringe metro,East North Central
+17039,IL,De Witt,3,3,Md/Sm metro,East North Central
+17041,IL,Douglas,4,3,Nonmetro,East North Central
+17043,IL,DuPage,2,3,Lg fringe metro,East North Central
+17045,IL,Edgar,4,3,Nonmetro,East North Central
+17047,IL,Edwards,4,3,Nonmetro,East North Central
+17049,IL,Effingham,4,3,Nonmetro,East North Central
+17051,IL,Fayette,4,3,Nonmetro,East North Central
+17053,IL,Ford,3,3,Md/Sm metro,East North Central
+17055,IL,Franklin,4,3,Nonmetro,East North Central
+17057,IL,Fulton,4,3,Nonmetro,East North Central
+17059,IL,Gallatin,4,3,Nonmetro,East North Central
+17061,IL,Greene,4,3,Nonmetro,East North Central
+17063,IL,Grundy,2,3,Lg fringe metro,East North Central
+17065,IL,Hamilton,4,3,Nonmetro,East North Central
+17067,IL,Hancock,4,3,Nonmetro,East North Central
+17069,IL,Hardin,4,3,Nonmetro,East North Central
+17071,IL,Henderson,4,3,Nonmetro,East North Central
+17073,IL,Henry,3,3,Md/Sm metro,East North Central
+17075,IL,Iroquois,4,3,Nonmetro,East North Central
+17077,IL,Jackson,3,3,Md/Sm metro,East North Central
+17079,IL,Jasper,4,3,Nonmetro,East North Central
+17081,IL,Jefferson,4,3,Nonmetro,East North Central
+17083,IL,Jersey,2,3,Lg fringe metro,East North Central
+17085,IL,Jo Daviess,4,3,Nonmetro,East North Central
+17087,IL,Johnson,4,3,Nonmetro,East North Central
+17089,IL,Kane,2,3,Lg fringe metro,East North Central
+17091,IL,Kankakee,3,3,Md/Sm metro,East North Central
+17093,IL,Kendall,2,3,Lg fringe metro,East North Central
+17095,IL,Knox,4,3,Nonmetro,East North Central
+17097,IL,Lake,2,3,Lg fringe metro,East North Central
+17099,IL,LaSalle,4,3,Nonmetro,East North Central
+17101,IL,Lawrence,4,3,Nonmetro,East North Central
+17103,IL,Lee,4,3,Nonmetro,East North Central
+17105,IL,Livingston,4,3,Nonmetro,East North Central
+17107,IL,Logan,4,3,Nonmetro,East North Central
+17109,IL,McDonough,4,3,Nonmetro,East North Central
+17111,IL,McHenry,2,3,Lg fringe metro,East North Central
+17113,IL,McLean,3,3,Md/Sm metro,East North Central
+17115,IL,Macon,3,3,Md/Sm metro,East North Central
+17117,IL,Macoupin,2,3,Lg fringe metro,East North Central
+17119,IL,Madison,2,3,Lg fringe metro,East North Central
+17121,IL,Marion,4,3,Nonmetro,East North Central
+17123,IL,Marshall,3,3,Md/Sm metro,East North Central
+17125,IL,Mason,4,3,Nonmetro,East North Central
+17127,IL,Massac,4,3,Nonmetro,East North Central
+17129,IL,Menard,3,3,Md/Sm metro,East North Central
+17131,IL,Mercer,3,3,Md/Sm metro,East North Central
+17133,IL,Monroe,2,3,Lg fringe metro,East North Central
+17135,IL,Montgomery,4,3,Nonmetro,East North Central
+17137,IL,Morgan,4,3,Nonmetro,East North Central
+17139,IL,Moultrie,4,3,Nonmetro,East North Central
+17141,IL,Ogle,4,3,Nonmetro,East North Central
+17143,IL,Peoria,3,3,Md/Sm metro,East North Central
+17145,IL,Perry,4,3,Nonmetro,East North Central
+17147,IL,Piatt,3,3,Md/Sm metro,East North Central
+17149,IL,Pike,4,3,Nonmetro,East North Central
+17151,IL,Pope,4,3,Nonmetro,East North Central
+17153,IL,Pulaski,4,3,Nonmetro,East North Central
+17155,IL,Putnam,4,3,Nonmetro,East North Central
+17157,IL,Randolph,4,3,Nonmetro,East North Central
+17159,IL,Richland,4,3,Nonmetro,East North Central
+17161,IL,Rock Island,3,3,Md/Sm metro,East North Central
+17163,IL,St. Clair,2,3,Lg fringe metro,East North Central
+17165,IL,Saline,4,3,Nonmetro,East North Central
+17167,IL,Sangamon,3,3,Md/Sm metro,East North Central
+17169,IL,Schuyler,4,3,Nonmetro,East North Central
+17171,IL,Scott,4,3,Nonmetro,East North Central
+17173,IL,Shelby,4,3,Nonmetro,East North Central
+17175,IL,Stark,3,3,Md/Sm metro,East North Central
+17177,IL,Stephenson,4,3,Nonmetro,East North Central
+17179,IL,Tazewell,3,3,Md/Sm metro,East North Central
+17181,IL,Union,4,3,Nonmetro,East North Central
+17183,IL,Vermilion,3,3,Md/Sm metro,East North Central
+17185,IL,Wabash,4,3,Nonmetro,East North Central
+17187,IL,Warren,4,3,Nonmetro,East North Central
+17189,IL,Washington,4,3,Nonmetro,East North Central
+17191,IL,Wayne,4,3,Nonmetro,East North Central
+17193,IL,White,4,3,Nonmetro,East North Central
+17195,IL,Whiteside,4,3,Nonmetro,East North Central
+17197,IL,Will,2,3,Lg fringe metro,East North Central
+17199,IL,Williamson,3,3,Md/Sm metro,East North Central
+17201,IL,Winnebago,3,3,Md/Sm metro,East North Central
+17203,IL,Woodford,3,3,Md/Sm metro,East North Central
+18001,IN,Adams,4,3,Nonmetro,East North Central
+18003,IN,Allen,3,3,Md/Sm metro,East North Central
+18005,IN,Bartholomew,3,3,Md/Sm metro,East North Central
+18007,IN,Benton,3,3,Md/Sm metro,East North Central
+18009,IN,Blackford,4,3,Nonmetro,East North Central
+18011,IN,Boone,2,3,Lg fringe metro,East North Central
+18013,IN,Brown,2,3,Lg fringe metro,East North Central
+18015,IN,Carroll,3,3,Md/Sm metro,East North Central
+18017,IN,Cass,4,3,Nonmetro,East North Central
+18019,IN,Clark,2,3,Lg fringe metro,East North Central
+18021,IN,Clay,3,3,Md/Sm metro,East North Central
+18023,IN,Clinton,4,3,Nonmetro,East North Central
+18025,IN,Crawford,4,3,Nonmetro,East North Central
+18027,IN,Daviess,4,3,Nonmetro,East North Central
+18029,IN,Dearborn,2,3,Lg fringe metro,East North Central
+18031,IN,Decatur,4,3,Nonmetro,East North Central
+18033,IN,DeKalb,4,3,Nonmetro,East North Central
+18035,IN,Delaware,3,3,Md/Sm metro,East North Central
+18037,IN,Dubois,4,3,Nonmetro,East North Central
+18039,IN,Elkhart,3,3,Md/Sm metro,East North Central
+18041,IN,Fayette,4,3,Nonmetro,East North Central
+18043,IN,Floyd,2,3,Lg fringe metro,East North Central
+18045,IN,Fountain,4,3,Nonmetro,East North Central
+18047,IN,Franklin,4,3,Nonmetro,East North Central
+18049,IN,Fulton,4,3,Nonmetro,East North Central
+18051,IN,Gibson,4,3,Nonmetro,East North Central
+18053,IN,Grant,4,3,Nonmetro,East North Central
+18055,IN,Greene,4,3,Nonmetro,East North Central
+18057,IN,Hamilton,2,3,Lg fringe metro,East North Central
+18059,IN,Hancock,2,3,Lg fringe metro,East North Central
+18061,IN,Harrison,2,3,Lg fringe metro,East North Central
+18063,IN,Hendricks,2,3,Lg fringe metro,East North Central
+18065,IN,Henry,4,3,Nonmetro,East North Central
+18067,IN,Howard,3,3,Md/Sm metro,East North Central
+18069,IN,Huntington,4,3,Nonmetro,East North Central
+18071,IN,Jackson,4,3,Nonmetro,East North Central
+18073,IN,Jasper,2,3,Lg fringe metro,East North Central
+18075,IN,Jay,4,3,Nonmetro,East North Central
+18077,IN,Jefferson,4,3,Nonmetro,East North Central
+18079,IN,Jennings,4,3,Nonmetro,East North Central
+18081,IN,Johnson,2,3,Lg fringe metro,East North Central
+18083,IN,Knox,4,3,Nonmetro,East North Central
+18085,IN,Kosciusko,4,3,Nonmetro,East North Central
+18087,IN,LaGrange,4,3,Nonmetro,East North Central
+18089,IN,Lake,2,3,Lg fringe metro,East North Central
+18091,IN,LaPorte,3,3,Md/Sm metro,East North Central
+18093,IN,Lawrence,4,3,Nonmetro,East North Central
+18095,IN,Madison,2,3,Lg fringe metro,East North Central
+18097,IN,Marion,1,3,Lg central metro,East North Central
+18099,IN,Marshall,4,3,Nonmetro,East North Central
+18101,IN,Martin,4,3,Nonmetro,East North Central
+18103,IN,Miami,4,3,Nonmetro,East North Central
+18105,IN,Monroe,3,3,Md/Sm metro,East North Central
+18107,IN,Montgomery,4,3,Nonmetro,East North Central
+18109,IN,Morgan,2,3,Lg fringe metro,East North Central
+18111,IN,Newton,2,3,Lg fringe metro,East North Central
+18113,IN,Noble,4,3,Nonmetro,East North Central
+18115,IN,Ohio,2,3,Lg fringe metro,East North Central
+18117,IN,Orange,4,3,Nonmetro,East North Central
+18119,IN,Owen,3,3,Md/Sm metro,East North Central
+18121,IN,Parke,4,3,Nonmetro,East North Central
+18123,IN,Perry,4,3,Nonmetro,East North Central
+18125,IN,Pike,4,3,Nonmetro,East North Central
+18127,IN,Porter,2,3,Lg fringe metro,East North Central
+18129,IN,Posey,3,3,Md/Sm metro,East North Central
+18131,IN,Pulaski,4,3,Nonmetro,East North Central
+18133,IN,Putnam,2,3,Lg fringe metro,East North Central
+18135,IN,Randolph,4,3,Nonmetro,East North Central
+18137,IN,Ripley,4,3,Nonmetro,East North Central
+18139,IN,Rush,4,3,Nonmetro,East North Central
+18141,IN,St. Joseph,3,3,Md/Sm metro,East North Central
+18143,IN,Scott,2,3,Lg fringe metro,East North Central
+18145,IN,Shelby,2,3,Lg fringe metro,East North Central
+18147,IN,Spencer,4,3,Nonmetro,East North Central
+18149,IN,Starke,4,3,Nonmetro,East North Central
+18151,IN,Steuben,4,3,Nonmetro,East North Central
+18153,IN,Sullivan,3,3,Md/Sm metro,East North Central
+18155,IN,Switzerland,4,3,Nonmetro,East North Central
+18157,IN,Tippecanoe,3,3,Md/Sm metro,East North Central
+18159,IN,Tipton,4,3,Nonmetro,East North Central
+18161,IN,Union,2,3,Lg fringe metro,East North Central
+18163,IN,Vanderburgh,3,3,Md/Sm metro,East North Central
+18165,IN,Vermillion,3,3,Md/Sm metro,East North Central
+18167,IN,Vigo,3,3,Md/Sm metro,East North Central
+18169,IN,Wabash,4,3,Nonmetro,East North Central
+18171,IN,Warren,4,3,Nonmetro,East North Central
+18173,IN,Warrick,3,3,Md/Sm metro,East North Central
+18175,IN,Washington,2,3,Lg fringe metro,East North Central
+18177,IN,Wayne,4,3,Nonmetro,East North Central
+18179,IN,Wells,3,3,Md/Sm metro,East North Central
+18181,IN,White,4,3,Nonmetro,East North Central
+18183,IN,Whitley,3,3,Md/Sm metro,East North Central
+19001,IA,Adair,4,4,Nonmetro,West North Central
+19003,IA,Adams,4,4,Nonmetro,West North Central
+19005,IA,Allamakee,4,4,Nonmetro,West North Central
+19007,IA,Appanoose,4,4,Nonmetro,West North Central
+19009,IA,Audubon,4,4,Nonmetro,West North Central
+19011,IA,Benton,3,4,Md/Sm metro,West North Central
+19013,IA,Black Hawk,3,4,Md/Sm metro,West North Central
+19015,IA,Boone,4,4,Nonmetro,West North Central
+19017,IA,Bremer,3,4,Md/Sm metro,West North Central
+19019,IA,Buchanan,4,4,Nonmetro,West North Central
+19021,IA,Buena Vista,4,4,Nonmetro,West North Central
+19023,IA,Butler,4,4,Nonmetro,West North Central
+19025,IA,Calhoun,4,4,Nonmetro,West North Central
+19027,IA,Carroll,4,4,Nonmetro,West North Central
+19029,IA,Cass,4,4,Nonmetro,West North Central
+19031,IA,Cedar,4,4,Nonmetro,West North Central
+19033,IA,Cerro Gordo,4,4,Nonmetro,West North Central
+19035,IA,Cherokee,4,4,Nonmetro,West North Central
+19037,IA,Chickasaw,4,4,Nonmetro,West North Central
+19039,IA,Clarke,4,4,Nonmetro,West North Central
+19041,IA,Clay,4,4,Nonmetro,West North Central
+19043,IA,Clayton,4,4,Nonmetro,West North Central
+19045,IA,Clinton,4,4,Nonmetro,West North Central
+19047,IA,Crawford,4,4,Nonmetro,West North Central
+19049,IA,Dallas,3,4,Md/Sm metro,West North Central
+19051,IA,Davis,4,4,Nonmetro,West North Central
+19053,IA,Decatur,4,4,Nonmetro,West North Central
+19055,IA,Delaware,4,4,Nonmetro,West North Central
+19057,IA,Des Moines,4,4,Nonmetro,West North Central
+19059,IA,Dickinson,4,4,Nonmetro,West North Central
+19061,IA,Dubuque,3,4,Md/Sm metro,West North Central
+19063,IA,Emmet,4,4,Nonmetro,West North Central
+19065,IA,Fayette,4,4,Nonmetro,West North Central
+19067,IA,Floyd,4,4,Nonmetro,West North Central
+19069,IA,Franklin,4,4,Nonmetro,West North Central
+19071,IA,Fremont,4,4,Nonmetro,West North Central
+19073,IA,Greene,4,4,Nonmetro,West North Central
+19075,IA,Grundy,3,4,Md/Sm metro,West North Central
+19077,IA,Guthrie,3,4,Md/Sm metro,West North Central
+19079,IA,Hamilton,4,4,Nonmetro,West North Central
+19081,IA,Hancock,4,4,Nonmetro,West North Central
+19083,IA,Hardin,4,4,Nonmetro,West North Central
+19085,IA,Harrison,3,4,Md/Sm metro,West North Central
+19087,IA,Henry,4,4,Nonmetro,West North Central
+19089,IA,Howard,4,4,Nonmetro,West North Central
+19091,IA,Humboldt,4,4,Nonmetro,West North Central
+19093,IA,Ida,4,4,Nonmetro,West North Central
+19095,IA,Iowa,4,4,Nonmetro,West North Central
+19097,IA,Jackson,4,4,Nonmetro,West North Central
+19099,IA,Jasper,4,4,Nonmetro,West North Central
+19101,IA,Jefferson,4,4,Nonmetro,West North Central
+19103,IA,Johnson,3,4,Md/Sm metro,West North Central
+19105,IA,Jones,3,4,Md/Sm metro,West North Central
+19107,IA,Keokuk,4,4,Nonmetro,West North Central
+19109,IA,Kossuth,4,4,Nonmetro,West North Central
+19111,IA,Lee,4,4,Nonmetro,West North Central
+19113,IA,Linn,3,4,Md/Sm metro,West North Central
+19115,IA,Louisa,4,4,Nonmetro,West North Central
+19117,IA,Lucas,4,4,Nonmetro,West North Central
+19119,IA,Lyon,4,4,Nonmetro,West North Central
+19121,IA,Madison,3,4,Md/Sm metro,West North Central
+19123,IA,Mahaska,4,4,Nonmetro,West North Central
+19125,IA,Marion,4,4,Nonmetro,West North Central
+19127,IA,Marshall,4,4,Nonmetro,West North Central
+19129,IA,Mills,3,4,Md/Sm metro,West North Central
+19131,IA,Mitchell,4,4,Nonmetro,West North Central
+19133,IA,Monona,4,4,Nonmetro,West North Central
+19135,IA,Monroe,4,4,Nonmetro,West North Central
+19137,IA,Montgomery,4,4,Nonmetro,West North Central
+19139,IA,Muscatine,4,4,Nonmetro,West North Central
+19141,IA,O'Brien,4,4,Nonmetro,West North Central
+19143,IA,Osceola,4,4,Nonmetro,West North Central
+19145,IA,Page,4,4,Nonmetro,West North Central
+19147,IA,Palo Alto,4,4,Nonmetro,West North Central
+19149,IA,Plymouth,3,4,Md/Sm metro,West North Central
+19151,IA,Pocahontas,4,4,Nonmetro,West North Central
+19153,IA,Polk,3,4,Md/Sm metro,West North Central
+19155,IA,Pottawattamie,3,4,Md/Sm metro,West North Central
+19157,IA,Poweshiek,4,4,Nonmetro,West North Central
+19159,IA,Ringgold,4,4,Nonmetro,West North Central
+19161,IA,Sac,4,4,Nonmetro,West North Central
+19163,IA,Scott,3,4,Md/Sm metro,West North Central
+19165,IA,Shelby,4,4,Nonmetro,West North Central
+19167,IA,Sioux,4,4,Nonmetro,West North Central
+19169,IA,Story,3,4,Md/Sm metro,West North Central
+19171,IA,Tama,4,4,Nonmetro,West North Central
+19173,IA,Taylor,4,4,Nonmetro,West North Central
+19175,IA,Union,4,4,Nonmetro,West North Central
+19177,IA,Van Buren,4,4,Nonmetro,West North Central
+19179,IA,Wapello,4,4,Nonmetro,West North Central
+19181,IA,Warren,3,4,Md/Sm metro,West North Central
+19183,IA,Washington,3,4,Md/Sm metro,West North Central
+19185,IA,Wayne,4,4,Nonmetro,West North Central
+19187,IA,Webster,4,4,Nonmetro,West North Central
+19189,IA,Winnebago,4,4,Nonmetro,West North Central
+19191,IA,Winneshiek,4,4,Nonmetro,West North Central
+19193,IA,Woodbury,3,4,Md/Sm metro,West North Central
+19195,IA,Worth,4,4,Nonmetro,West North Central
+19197,IA,Wright,4,4,Nonmetro,West North Central
+20001,KS,Allen,4,4,Nonmetro,West North Central
+20003,KS,Anderson,4,4,Nonmetro,West North Central
+20005,KS,Atchison,4,4,Nonmetro,West North Central
+20007,KS,Barber,4,4,Nonmetro,West North Central
+20009,KS,Barton,4,4,Nonmetro,West North Central
+20011,KS,Bourbon,4,4,Nonmetro,West North Central
+20013,KS,Brown,4,4,Nonmetro,West North Central
+20015,KS,Butler,3,4,Md/Sm metro,West North Central
+20017,KS,Chase,4,4,Nonmetro,West North Central
+20019,KS,Chautauqua,4,4,Nonmetro,West North Central
+20021,KS,Cherokee,4,4,Nonmetro,West North Central
+20023,KS,Cheyenne,4,4,Nonmetro,West North Central
+20025,KS,Clark,4,4,Nonmetro,West North Central
+20027,KS,Clay,4,4,Nonmetro,West North Central
+20029,KS,Cloud,4,4,Nonmetro,West North Central
+20031,KS,Coffey,4,4,Nonmetro,West North Central
+20033,KS,Comanche,4,4,Nonmetro,West North Central
+20035,KS,Cowley,4,4,Nonmetro,West North Central
+20037,KS,Crawford,4,4,Nonmetro,West North Central
+20039,KS,Decatur,4,4,Nonmetro,West North Central
+20041,KS,Dickinson,4,4,Nonmetro,West North Central
+20043,KS,Doniphan,3,4,Md/Sm metro,West North Central
+20045,KS,Douglas,3,4,Md/Sm metro,West North Central
+20047,KS,Edwards,4,4,Nonmetro,West North Central
+20049,KS,Elk,4,4,Nonmetro,West North Central
+20051,KS,Ellis,4,4,Nonmetro,West North Central
+20053,KS,Ellsworth,4,4,Nonmetro,West North Central
+20055,KS,Finney,4,4,Nonmetro,West North Central
+20057,KS,Ford,4,4,Nonmetro,West North Central
+20059,KS,Franklin,4,4,Nonmetro,West North Central
+20061,KS,Geary,4,4,Nonmetro,West North Central
+20063,KS,Gove,4,4,Nonmetro,West North Central
+20065,KS,Graham,4,4,Nonmetro,West North Central
+20067,KS,Grant,4,4,Nonmetro,West North Central
+20069,KS,Gray,4,4,Nonmetro,West North Central
+20071,KS,Greeley,4,4,Nonmetro,West North Central
+20073,KS,Greenwood,4,4,Nonmetro,West North Central
+20075,KS,Hamilton,4,4,Nonmetro,West North Central
+20077,KS,Harper,4,4,Nonmetro,West North Central
+20079,KS,Harvey,3,4,Md/Sm metro,West North Central
+20081,KS,Haskell,4,4,Nonmetro,West North Central
+20083,KS,Hodgeman,4,4,Nonmetro,West North Central
+20085,KS,Jackson,3,4,Md/Sm metro,West North Central
+20087,KS,Jefferson,3,4,Md/Sm metro,West North Central
+20089,KS,Jewell,4,4,Nonmetro,West North Central
+20091,KS,Johnson,2,4,Lg fringe metro,West North Central
+20093,KS,Kearny,4,4,Nonmetro,West North Central
+20095,KS,Kingman,3,4,Md/Sm metro,West North Central
+20097,KS,Kiowa,4,4,Nonmetro,West North Central
+20099,KS,Labette,4,4,Nonmetro,West North Central
+20101,KS,Lane,4,4,Nonmetro,West North Central
+20103,KS,Leavenworth,2,4,Lg fringe metro,West North Central
+20105,KS,Lincoln,4,4,Nonmetro,West North Central
+20107,KS,Linn,2,4,Lg fringe metro,West North Central
+20109,KS,Logan,4,4,Nonmetro,West North Central
+20111,KS,Lyon,4,4,Nonmetro,West North Central
+20113,KS,McPherson,4,4,Nonmetro,West North Central
+20115,KS,Marion,4,4,Nonmetro,West North Central
+20117,KS,Marshall,4,4,Nonmetro,West North Central
+20119,KS,Meade,4,4,Nonmetro,West North Central
+20121,KS,Miami,2,4,Lg fringe metro,West North Central
+20123,KS,Mitchell,4,4,Nonmetro,West North Central
+20125,KS,Montgomery,4,4,Nonmetro,West North Central
+20127,KS,Morris,4,4,Nonmetro,West North Central
+20129,KS,Morton,4,4,Nonmetro,West North Central
+20131,KS,Nemaha,4,4,Nonmetro,West North Central
+20133,KS,Neosho,4,4,Nonmetro,West North Central
+20135,KS,Ness,4,4,Nonmetro,West North Central
+20137,KS,Norton,4,4,Nonmetro,West North Central
+20139,KS,Osage,3,4,Md/Sm metro,West North Central
+20141,KS,Osborne,4,4,Nonmetro,West North Central
+20143,KS,Ottawa,4,4,Nonmetro,West North Central
+20145,KS,Pawnee,4,4,Nonmetro,West North Central
+20147,KS,Phillips,4,4,Nonmetro,West North Central
+20149,KS,Pottawatomie,3,4,Md/Sm metro,West North Central
+20151,KS,Pratt,4,4,Nonmetro,West North Central
+20153,KS,Rawlins,4,4,Nonmetro,West North Central
+20155,KS,Reno,4,4,Nonmetro,West North Central
+20157,KS,Republic,4,4,Nonmetro,West North Central
+20159,KS,Rice,4,4,Nonmetro,West North Central
+20161,KS,Riley,3,4,Md/Sm metro,West North Central
+20163,KS,Rooks,4,4,Nonmetro,West North Central
+20165,KS,Rush,4,4,Nonmetro,West North Central
+20167,KS,Russell,4,4,Nonmetro,West North Central
+20169,KS,Saline,4,4,Nonmetro,West North Central
+20171,KS,Scott,4,4,Nonmetro,West North Central
+20173,KS,Sedgwick,3,4,Md/Sm metro,West North Central
+20175,KS,Seward,4,4,Nonmetro,West North Central
+20177,KS,Shawnee,3,4,Md/Sm metro,West North Central
+20179,KS,Sheridan,4,4,Nonmetro,West North Central
+20181,KS,Sherman,4,4,Nonmetro,West North Central
+20183,KS,Smith,4,4,Nonmetro,West North Central
+20185,KS,Stafford,4,4,Nonmetro,West North Central
+20187,KS,Stanton,4,4,Nonmetro,West North Central
+20189,KS,Stevens,4,4,Nonmetro,West North Central
+20191,KS,Sumner,3,4,Md/Sm metro,West North Central
+20193,KS,Thomas,4,4,Nonmetro,West North Central
+20195,KS,Trego,4,4,Nonmetro,West North Central
+20197,KS,Wabaunsee,3,4,Md/Sm metro,West North Central
+20199,KS,Wallace,4,4,Nonmetro,West North Central
+20201,KS,Washington,4,4,Nonmetro,West North Central
+20203,KS,Wichita,4,4,Nonmetro,West North Central
+20205,KS,Wilson,4,4,Nonmetro,West North Central
+20207,KS,Woodson,4,4,Nonmetro,West North Central
+20209,KS,Wyandotte,2,4,Lg fringe metro,West North Central
+21001,KY,Adair,4,10,Nonmetro,Appalachia
+21003,KY,Allen,3,6,Md/Sm metro,East South Central
+21005,KY,Anderson,4,6,Nonmetro,East South Central
+21007,KY,Ballard,4,6,Nonmetro,East South Central
+21009,KY,Barren,4,6,Nonmetro,East South Central
+21011,KY,Bath,4,10,Nonmetro,Appalachia
+21013,KY,Bell,4,10,Nonmetro,Appalachia
+21015,KY,Boone,2,6,Lg fringe metro,East South Central
+21017,KY,Bourbon,3,6,Md/Sm metro,East South Central
+21019,KY,Boyd,3,10,Md/Sm metro,Appalachia
+21021,KY,Boyle,4,6,Nonmetro,East South Central
+21023,KY,Bracken,2,6,Lg fringe metro,East South Central
+21025,KY,Breathitt,4,10,Nonmetro,Appalachia
+21027,KY,Breckinridge,4,6,Nonmetro,East South Central
+21029,KY,Bullitt,2,6,Lg fringe metro,East South Central
+21031,KY,Butler,3,6,Md/Sm metro,East South Central
+21033,KY,Caldwell,4,6,Nonmetro,East South Central
+21035,KY,Calloway,4,6,Nonmetro,East South Central
+21037,KY,Campbell,2,6,Lg fringe metro,East South Central
+21039,KY,Carlisle,4,6,Nonmetro,East South Central
+21041,KY,Carroll,4,6,Nonmetro,East South Central
+21043,KY,Carter,4,10,Nonmetro,Appalachia
+21045,KY,Casey,4,10,Nonmetro,Appalachia
+21047,KY,Christian,3,6,Md/Sm metro,East South Central
+21049,KY,Clark,3,10,Md/Sm metro,Appalachia
+21051,KY,Clay,4,10,Nonmetro,Appalachia
+21053,KY,Clinton,4,10,Nonmetro,Appalachia
+21055,KY,Crittenden,4,6,Nonmetro,East South Central
+21057,KY,Cumberland,4,10,Nonmetro,Appalachia
+21059,KY,Daviess,3,6,Md/Sm metro,East South Central
+21061,KY,Edmonson,3,10,Md/Sm metro,Appalachia
+21063,KY,Elliott,4,10,Nonmetro,Appalachia
+21065,KY,Estill,4,10,Nonmetro,Appalachia
+21067,KY,Fayette,3,6,Md/Sm metro,East South Central
+21069,KY,Fleming,4,10,Nonmetro,Appalachia
+21071,KY,Floyd,4,10,Nonmetro,Appalachia
+21073,KY,Franklin,4,6,Nonmetro,East South Central
+21075,KY,Fulton,4,6,Nonmetro,East South Central
+21077,KY,Gallatin,2,6,Lg fringe metro,East South Central
+21079,KY,Garrard,4,10,Nonmetro,Appalachia
+21081,KY,Grant,2,6,Lg fringe metro,East South Central
+21083,KY,Graves,4,6,Nonmetro,East South Central
+21085,KY,Grayson,4,6,Nonmetro,East South Central
+21087,KY,Green,4,10,Nonmetro,Appalachia
+21089,KY,Greenup,3,10,Md/Sm metro,Appalachia
+21091,KY,Hancock,3,6,Md/Sm metro,East South Central
+21093,KY,Hardin,3,6,Md/Sm metro,East South Central
+21095,KY,Harlan,4,10,Nonmetro,Appalachia
+21097,KY,Harrison,4,6,Nonmetro,East South Central
+21099,KY,Hart,4,10,Nonmetro,Appalachia
+21101,KY,Henderson,3,6,Md/Sm metro,East South Central
+21103,KY,Henry,2,6,Lg fringe metro,East South Central
+21105,KY,Hickman,4,6,Nonmetro,East South Central
+21107,KY,Hopkins,4,6,Nonmetro,East South Central
+21109,KY,Jackson,4,10,Nonmetro,Appalachia
+21111,KY,Jefferson,1,6,Lg central metro,East South Central
+21113,KY,Jessamine,3,6,Md/Sm metro,East South Central
+21115,KY,Johnson,4,10,Nonmetro,Appalachia
+21117,KY,Kenton,2,6,Lg fringe metro,East South Central
+21119,KY,Knott,4,10,Nonmetro,Appalachia
+21121,KY,Knox,4,10,Nonmetro,Appalachia
+21123,KY,Larue,3,6,Md/Sm metro,East South Central
+21125,KY,Laurel,4,10,Nonmetro,Appalachia
+21127,KY,Lawrence,4,10,Nonmetro,Appalachia
+21129,KY,Lee,4,10,Nonmetro,Appalachia
+21131,KY,Leslie,4,10,Nonmetro,Appalachia
+21133,KY,Letcher,4,10,Nonmetro,Appalachia
+21135,KY,Lewis,4,10,Nonmetro,Appalachia
+21137,KY,Lincoln,4,10,Nonmetro,Appalachia
+21139,KY,Livingston,4,6,Nonmetro,East South Central
+21141,KY,Logan,4,6,Nonmetro,East South Central
+21143,KY,Lyon,4,6,Nonmetro,East South Central
+21145,KY,McCracken,4,6,Nonmetro,East South Central
+21147,KY,McCreary,4,10,Nonmetro,Appalachia
+21149,KY,McLean,3,6,Md/Sm metro,East South Central
+21151,KY,Madison,4,10,Nonmetro,Appalachia
+21153,KY,Magoffin,4,10,Nonmetro,Appalachia
+21155,KY,Marion,4,6,Nonmetro,East South Central
+21157,KY,Marshall,4,6,Nonmetro,East South Central
+21159,KY,Martin,4,10,Nonmetro,Appalachia
+21161,KY,Mason,4,6,Nonmetro,East South Central
+21163,KY,Meade,3,6,Md/Sm metro,East South Central
+21165,KY,Menifee,4,10,Nonmetro,Appalachia
+21167,KY,Mercer,4,6,Nonmetro,East South Central
+21169,KY,Metcalfe,4,10,Nonmetro,Appalachia
+21171,KY,Monroe,4,10,Nonmetro,Appalachia
+21173,KY,Montgomery,4,10,Nonmetro,Appalachia
+21175,KY,Morgan,4,10,Nonmetro,Appalachia
+21177,KY,Muhlenberg,4,6,Nonmetro,East South Central
+21179,KY,Nelson,4,6,Nonmetro,East South Central
+21181,KY,Nicholas,4,10,Nonmetro,Appalachia
+21183,KY,Ohio,4,6,Nonmetro,East South Central
+21185,KY,Oldham,2,6,Lg fringe metro,East South Central
+21187,KY,Owen,4,6,Nonmetro,East South Central
+21189,KY,Owsley,4,10,Nonmetro,Appalachia
+21191,KY,Pendleton,2,6,Lg fringe metro,East South Central
+21193,KY,Perry,4,10,Nonmetro,Appalachia
+21195,KY,Pike,4,10,Nonmetro,Appalachia
+21197,KY,Powell,4,10,Nonmetro,Appalachia
+21199,KY,Pulaski,4,10,Nonmetro,Appalachia
+21201,KY,Robertson,4,10,Nonmetro,Appalachia
+21203,KY,Rockcastle,4,10,Nonmetro,Appalachia
+21205,KY,Rowan,4,10,Nonmetro,Appalachia
+21207,KY,Russell,4,10,Nonmetro,Appalachia
+21209,KY,Scott,3,6,Md/Sm metro,East South Central
+21211,KY,Shelby,2,6,Lg fringe metro,East South Central
+21213,KY,Simpson,4,6,Nonmetro,East South Central
+21215,KY,Spencer,2,6,Lg fringe metro,East South Central
+21217,KY,Taylor,4,6,Nonmetro,East South Central
+21219,KY,Todd,4,6,Nonmetro,East South Central
+21221,KY,Trigg,3,6,Md/Sm metro,East South Central
+21223,KY,Trimble,2,6,Lg fringe metro,East South Central
+21225,KY,Union,4,6,Nonmetro,East South Central
+21227,KY,Warren,3,6,Md/Sm metro,East South Central
+21229,KY,Washington,4,6,Nonmetro,East South Central
+21231,KY,Wayne,4,10,Nonmetro,Appalachia
+21233,KY,Webster,4,6,Nonmetro,East South Central
+21235,KY,Whitley,4,10,Nonmetro,Appalachia
+21237,KY,Wolfe,4,10,Nonmetro,Appalachia
+21239,KY,Woodford,3,6,Md/Sm metro,East South Central
+22001,LA,Acadia Parish,3,7,Md/Sm metro,West South Central
+22003,LA,Allen Parish,4,7,Nonmetro,West South Central
+22005,LA,Ascension Parish,3,7,Md/Sm metro,West South Central
+22007,LA,Assumption Parish,4,7,Nonmetro,West South Central
+22009,LA,Avoyelles Parish,4,7,Nonmetro,West South Central
+22011,LA,Beauregard Parish,4,7,Nonmetro,West South Central
+22013,LA,Bienville Parish,4,7,Nonmetro,West South Central
+22015,LA,Bossier Parish,3,7,Md/Sm metro,West South Central
+22017,LA,Caddo Parish,3,7,Md/Sm metro,West South Central
+22019,LA,Calcasieu Parish,3,7,Md/Sm metro,West South Central
+22021,LA,Caldwell Parish,4,7,Nonmetro,West South Central
+22023,LA,Cameron Parish,3,7,Md/Sm metro,West South Central
+22025,LA,Catahoula Parish,4,7,Nonmetro,West South Central
+22027,LA,Claiborne Parish,4,7,Nonmetro,West South Central
+22029,LA,Concordia Parish,4,7,Nonmetro,West South Central
+22031,LA,De Soto Parish,3,7,Md/Sm metro,West South Central
+22033,LA,East Baton Rouge Parish,3,7,Md/Sm metro,West South Central
+22035,LA,East Carroll Parish,4,7,Nonmetro,West South Central
+22037,LA,East Feliciana Parish,3,7,Md/Sm metro,West South Central
+22039,LA,Evangeline Parish,4,7,Nonmetro,West South Central
+22041,LA,Franklin Parish,4,7,Nonmetro,West South Central
+22043,LA,Grant Parish,3,7,Md/Sm metro,West South Central
+22045,LA,Iberia Parish,3,7,Md/Sm metro,West South Central
+22047,LA,Iberville Parish,3,7,Md/Sm metro,West South Central
+22049,LA,Jackson Parish,4,7,Nonmetro,West South Central
+22051,LA,Jefferson Parish,2,7,Lg fringe metro,West South Central
+22053,LA,Jefferson Davis Parish,4,7,Nonmetro,West South Central
+22055,LA,Lafayette Parish,3,7,Md/Sm metro,West South Central
+22057,LA,Lafourche Parish,3,7,Md/Sm metro,West South Central
+22059,LA,La Salle Parish,4,7,Nonmetro,West South Central
+22061,LA,Lincoln Parish,4,7,Nonmetro,West South Central
+22063,LA,Livingston Parish,3,7,Md/Sm metro,West South Central
+22065,LA,Madison Parish,4,7,Nonmetro,West South Central
+22067,LA,Morehouse Parish,4,7,Nonmetro,West South Central
+22069,LA,Natchitoches Parish,4,7,Nonmetro,West South Central
+22071,LA,Orleans Parish,1,7,Lg central metro,West South Central
+22073,LA,Ouachita Parish,3,7,Md/Sm metro,West South Central
+22075,LA,Plaquemines Parish,2,7,Lg fringe metro,West South Central
+22077,LA,Pointe Coupee Parish,3,7,Md/Sm metro,West South Central
+22079,LA,Rapides Parish,3,7,Md/Sm metro,West South Central
+22081,LA,Red River Parish,4,7,Nonmetro,West South Central
+22083,LA,Richland Parish,4,7,Nonmetro,West South Central
+22085,LA,Sabine Parish,4,7,Nonmetro,West South Central
+22087,LA,St. Bernard Parish,2,7,Lg fringe metro,West South Central
+22089,LA,St. Charles Parish,2,7,Lg fringe metro,West South Central
+22091,LA,St. Helena Parish,3,7,Md/Sm metro,West South Central
+22093,LA,St. James Parish,2,7,Lg fringe metro,West South Central
+22095,LA,St. John the Baptist Parish,2,7,Lg fringe metro,West South Central
+22097,LA,St. Landry Parish,4,7,Nonmetro,West South Central
+22099,LA,St. Martin Parish,3,7,Md/Sm metro,West South Central
+22101,LA,St. Mary Parish,4,7,Nonmetro,West South Central
+22103,LA,St. Tammany Parish,2,7,Lg fringe metro,West South Central
+22105,LA,Tangipahoa Parish,3,7,Md/Sm metro,West South Central
+22107,LA,Tensas Parish,4,7,Nonmetro,West South Central
+22109,LA,Terrebonne Parish,3,7,Md/Sm metro,West South Central
+22111,LA,Union Parish,3,7,Md/Sm metro,West South Central
+22113,LA,Vermilion Parish,3,7,Md/Sm metro,West South Central
+22115,LA,Vernon Parish,4,7,Nonmetro,West South Central
+22117,LA,Washington Parish,4,7,Nonmetro,West South Central
+22119,LA,Webster Parish,3,7,Md/Sm metro,West South Central
+22121,LA,West Baton Rouge Parish,3,7,Md/Sm metro,West South Central
+22123,LA,West Carroll Parish,4,7,Nonmetro,West South Central
+22125,LA,West Feliciana Parish,3,7,Md/Sm metro,West South Central
+22127,LA,Winn Parish,4,7,Nonmetro,West South Central
+23001,ME,Androscoggin,3,1,Md/Sm metro,New England
+23003,ME,Aroostook,4,1,Nonmetro,New England
+23005,ME,Cumberland,3,1,Md/Sm metro,New England
+23007,ME,Franklin,4,1,Nonmetro,New England
+23009,ME,Hancock,4,1,Nonmetro,New England
+23011,ME,Kennebec,4,1,Nonmetro,New England
+23013,ME,Knox,4,1,Nonmetro,New England
+23015,ME,Lincoln,4,1,Nonmetro,New England
+23017,ME,Oxford,4,1,Nonmetro,New England
+23019,ME,Penobscot,3,1,Md/Sm metro,New England
+23021,ME,Piscataquis,4,1,Nonmetro,New England
+23023,ME,Sagadahoc,3,1,Md/Sm metro,New England
+23025,ME,Somerset,4,1,Nonmetro,New England
+23027,ME,Waldo,4,1,Nonmetro,New England
+23029,ME,Washington,4,1,Nonmetro,New England
+23031,ME,York,3,1,Md/Sm metro,New England
+24001,MD,Allegany,3,10,Md/Sm metro,Appalachia
+24003,MD,Anne Arundel,2,5,Lg fringe metro,South Atlantic
+24005,MD,Baltimore,2,5,Lg fringe metro,South Atlantic
+24009,MD,Calvert,2,5,Lg fringe metro,South Atlantic
+24011,MD,Caroline,4,5,Nonmetro,South Atlantic
+24013,MD,Carroll,2,5,Lg fringe metro,South Atlantic
+24015,MD,Cecil,2,5,Lg fringe metro,South Atlantic
+24017,MD,Charles,2,5,Lg fringe metro,South Atlantic
+24019,MD,Dorchester,4,5,Nonmetro,South Atlantic
+24021,MD,Frederick,2,5,Lg fringe metro,South Atlantic
+24023,MD,Garrett,4,10,Nonmetro,Appalachia
+24025,MD,Harford,2,5,Lg fringe metro,South Atlantic
+24027,MD,Howard,2,5,Lg fringe metro,South Atlantic
+24029,MD,Kent,4,5,Nonmetro,South Atlantic
+24031,MD,Montgomery,2,5,Lg fringe metro,South Atlantic
+24033,MD,Prince George's,2,5,Lg fringe metro,South Atlantic
+24035,MD,Queen Anne's,2,5,Lg fringe metro,South Atlantic
+24037,MD,St. Mary's,3,5,Md/Sm metro,South Atlantic
+24039,MD,Somerset,3,5,Md/Sm metro,South Atlantic
+24041,MD,Talbot,4,5,Nonmetro,South Atlantic
+24043,MD,Washington,3,10,Md/Sm metro,Appalachia
+24045,MD,Wicomico,3,5,Md/Sm metro,South Atlantic
+24047,MD,Worcester,3,5,Md/Sm metro,South Atlantic
+24510,MD,Baltimore city,1,5,Lg central metro,South Atlantic
+25001,MA,Barnstable,3,1,Md/Sm metro,New England
+25003,MA,Berkshire,3,1,Md/Sm metro,New England
+25005,MA,Bristol,2,1,Lg fringe metro,New England
+25007,MA,Dukes,4,1,Nonmetro,New England
+25009,MA,Essex,2,1,Lg fringe metro,New England
+25011,MA,Franklin,4,1,Nonmetro,New England
+25013,MA,Hampden,3,1,Md/Sm metro,New England
+25015,MA,Hampshire,3,1,Md/Sm metro,New England
+25017,MA,Middlesex,2,1,Lg fringe metro,New England
+25019,MA,Nantucket,4,1,Nonmetro,New England
+25021,MA,Norfolk,2,1,Lg fringe metro,New England
+25023,MA,Plymouth,2,1,Lg fringe metro,New England
+25025,MA,Suffolk,1,1,Lg central metro,New England
+25027,MA,Worcester,3,1,Md/Sm metro,New England
+26001,MI,Alcona,4,3,Nonmetro,East North Central
+26003,MI,Alger,4,3,Nonmetro,East North Central
+26005,MI,Allegan,4,3,Nonmetro,East North Central
+26007,MI,Alpena,4,3,Nonmetro,East North Central
+26009,MI,Antrim,4,3,Nonmetro,East North Central
+26011,MI,Arenac,4,3,Nonmetro,East North Central
+26013,MI,Baraga,4,3,Nonmetro,East North Central
+26015,MI,Barry,2,3,Lg fringe metro,East North Central
+26017,MI,Bay,3,3,Md/Sm metro,East North Central
+26019,MI,Benzie,4,3,Nonmetro,East North Central
+26021,MI,Berrien,3,3,Md/Sm metro,East North Central
+26023,MI,Branch,4,3,Nonmetro,East North Central
+26025,MI,Calhoun,3,3,Md/Sm metro,East North Central
+26027,MI,Cass,3,3,Md/Sm metro,East North Central
+26029,MI,Charlevoix,4,3,Nonmetro,East North Central
+26031,MI,Cheboygan,4,3,Nonmetro,East North Central
+26033,MI,Chippewa,4,3,Nonmetro,East North Central
+26035,MI,Clare,4,3,Nonmetro,East North Central
+26037,MI,Clinton,3,3,Md/Sm metro,East North Central
+26039,MI,Crawford,4,3,Nonmetro,East North Central
+26041,MI,Delta,4,3,Nonmetro,East North Central
+26043,MI,Dickinson,4,3,Nonmetro,East North Central
+26045,MI,Eaton,3,3,Md/Sm metro,East North Central
+26047,MI,Emmet,4,3,Nonmetro,East North Central
+26049,MI,Genesee,3,3,Md/Sm metro,East North Central
+26051,MI,Gladwin,4,3,Nonmetro,East North Central
+26053,MI,Gogebic,4,3,Nonmetro,East North Central
+26055,MI,Grand Traverse,4,3,Nonmetro,East North Central
+26057,MI,Gratiot,4,3,Nonmetro,East North Central
+26059,MI,Hillsdale,4,3,Nonmetro,East North Central
+26061,MI,Houghton,4,3,Nonmetro,East North Central
+26063,MI,Huron,4,3,Nonmetro,East North Central
+26065,MI,Ingham,3,3,Md/Sm metro,East North Central
+26067,MI,Ionia,4,3,Nonmetro,East North Central
+26069,MI,Iosco,4,3,Nonmetro,East North Central
+26071,MI,Iron,4,3,Nonmetro,East North Central
+26073,MI,Isabella,4,3,Nonmetro,East North Central
+26075,MI,Jackson,3,3,Md/Sm metro,East North Central
+26077,MI,Kalamazoo,3,3,Md/Sm metro,East North Central
+26079,MI,Kalkaska,4,3,Nonmetro,East North Central
+26081,MI,Kent,1,3,Lg central metro,East North Central
+26083,MI,Keweenaw,4,3,Nonmetro,East North Central
+26085,MI,Lake,4,3,Nonmetro,East North Central
+26087,MI,Lapeer,2,3,Lg fringe metro,East North Central
+26089,MI,Leelanau,4,3,Nonmetro,East North Central
+26091,MI,Lenawee,4,3,Nonmetro,East North Central
+26093,MI,Livingston,2,3,Lg fringe metro,East North Central
+26095,MI,Luce,4,3,Nonmetro,East North Central
+26097,MI,Mackinac,4,3,Nonmetro,East North Central
+26099,MI,Macomb,2,3,Lg fringe metro,East North Central
+26101,MI,Manistee,4,3,Nonmetro,East North Central
+26103,MI,Marquette,4,3,Nonmetro,East North Central
+26105,MI,Mason,4,3,Nonmetro,East North Central
+26107,MI,Mecosta,4,3,Nonmetro,East North Central
+26109,MI,Menominee,4,3,Nonmetro,East North Central
+26111,MI,Midland,3,3,Md/Sm metro,East North Central
+26113,MI,Missaukee,4,3,Nonmetro,East North Central
+26115,MI,Monroe,3,3,Md/Sm metro,East North Central
+26117,MI,Montcalm,2,3,Lg fringe metro,East North Central
+26119,MI,Montmorency,4,3,Nonmetro,East North Central
+26121,MI,Muskegon,3,3,Md/Sm metro,East North Central
+26123,MI,Newaygo,4,3,Nonmetro,East North Central
+26125,MI,Oakland,2,3,Lg fringe metro,East North Central
+26127,MI,Oceana,4,3,Nonmetro,East North Central
+26129,MI,Ogemaw,4,3,Nonmetro,East North Central
+26131,MI,Ontonagon,4,3,Nonmetro,East North Central
+26133,MI,Osceola,4,3,Nonmetro,East North Central
+26135,MI,Oscoda,4,3,Nonmetro,East North Central
+26137,MI,Otsego,4,3,Nonmetro,East North Central
+26139,MI,Ottawa,2,3,Lg fringe metro,East North Central
+26141,MI,Presque Isle,4,3,Nonmetro,East North Central
+26143,MI,Roscommon,4,3,Nonmetro,East North Central
+26145,MI,Saginaw,3,3,Md/Sm metro,East North Central
+26147,MI,St. Clair,2,3,Lg fringe metro,East North Central
+26149,MI,St. Joseph,4,3,Nonmetro,East North Central
+26151,MI,Sanilac,4,3,Nonmetro,East North Central
+26153,MI,Schoolcraft,4,3,Nonmetro,East North Central
+26155,MI,Shiawassee,4,3,Nonmetro,East North Central
+26157,MI,Tuscola,4,3,Nonmetro,East North Central
+26159,MI,Van Buren,3,3,Md/Sm metro,East North Central
+26161,MI,Washtenaw,3,3,Md/Sm metro,East North Central
+26163,MI,Wayne,1,3,Lg central metro,East North Central
+26165,MI,Wexford,4,3,Nonmetro,East North Central
+27001,MN,Aitkin,4,4,Nonmetro,West North Central
+27003,MN,Anoka,2,4,Lg fringe metro,West North Central
+27005,MN,Becker,4,4,Nonmetro,West North Central
+27007,MN,Beltrami,4,4,Nonmetro,West North Central
+27009,MN,Benton,3,4,Md/Sm metro,West North Central
+27011,MN,Big Stone,4,4,Nonmetro,West North Central
+27013,MN,Blue Earth,3,4,Md/Sm metro,West North Central
+27015,MN,Brown,4,4,Nonmetro,West North Central
+27017,MN,Carlton,3,4,Md/Sm metro,West North Central
+27019,MN,Carver,2,4,Lg fringe metro,West North Central
+27021,MN,Cass,4,4,Nonmetro,West North Central
+27023,MN,Chippewa,4,4,Nonmetro,West North Central
+27025,MN,Chisago,2,4,Lg fringe metro,West North Central
+27027,MN,Clay,3,4,Md/Sm metro,West North Central
+27029,MN,Clearwater,4,4,Nonmetro,West North Central
+27031,MN,Cook,4,4,Nonmetro,West North Central
+27033,MN,Cottonwood,4,4,Nonmetro,West North Central
+27035,MN,Crow Wing,4,4,Nonmetro,West North Central
+27037,MN,Dakota,2,4,Lg fringe metro,West North Central
+27039,MN,Dodge,3,4,Md/Sm metro,West North Central
+27041,MN,Douglas,4,4,Nonmetro,West North Central
+27043,MN,Faribault,4,4,Nonmetro,West North Central
+27045,MN,Fillmore,3,4,Md/Sm metro,West North Central
+27047,MN,Freeborn,4,4,Nonmetro,West North Central
+27049,MN,Goodhue,4,4,Nonmetro,West North Central
+27051,MN,Grant,4,4,Nonmetro,West North Central
+27053,MN,Hennepin,1,4,Lg central metro,West North Central
+27055,MN,Houston,3,4,Md/Sm metro,West North Central
+27057,MN,Hubbard,4,4,Nonmetro,West North Central
+27059,MN,Isanti,2,4,Lg fringe metro,West North Central
+27061,MN,Itasca,4,4,Nonmetro,West North Central
+27063,MN,Jackson,4,4,Nonmetro,West North Central
+27065,MN,Kanabec,4,4,Nonmetro,West North Central
+27067,MN,Kandiyohi,4,4,Nonmetro,West North Central
+27069,MN,Kittson,4,4,Nonmetro,West North Central
+27071,MN,Koochiching,4,4,Nonmetro,West North Central
+27073,MN,Lac qui Parle,4,4,Nonmetro,West North Central
+27075,MN,Lake,4,4,Nonmetro,West North Central
+27077,MN,Lake of the Woods,4,4,Nonmetro,West North Central
+27079,MN,Le Sueur,2,4,Lg fringe metro,West North Central
+27081,MN,Lincoln,4,4,Nonmetro,West North Central
+27083,MN,Lyon,4,4,Nonmetro,West North Central
+27085,MN,McLeod,4,4,Nonmetro,West North Central
+27087,MN,Mahnomen,4,4,Nonmetro,West North Central
+27089,MN,Marshall,4,4,Nonmetro,West North Central
+27091,MN,Martin,4,4,Nonmetro,West North Central
+27093,MN,Meeker,4,4,Nonmetro,West North Central
+27095,MN,Mille Lacs,2,4,Lg fringe metro,West North Central
+27097,MN,Morrison,4,4,Nonmetro,West North Central
+27099,MN,Mower,4,4,Nonmetro,West North Central
+27101,MN,Murray,4,4,Nonmetro,West North Central
+27103,MN,Nicollet,3,4,Md/Sm metro,West North Central
+27105,MN,Nobles,4,4,Nonmetro,West North Central
+27107,MN,Norman,4,4,Nonmetro,West North Central
+27109,MN,Olmsted,3,4,Md/Sm metro,West North Central
+27111,MN,Otter Tail,4,4,Nonmetro,West North Central
+27113,MN,Pennington,4,4,Nonmetro,West North Central
+27115,MN,Pine,4,4,Nonmetro,West North Central
+27117,MN,Pipestone,4,4,Nonmetro,West North Central
+27119,MN,Polk,3,4,Md/Sm metro,West North Central
+27121,MN,Pope,4,4,Nonmetro,West North Central
+27123,MN,Ramsey,1,4,Lg central metro,West North Central
+27125,MN,Red Lake,4,4,Nonmetro,West North Central
+27127,MN,Redwood,4,4,Nonmetro,West North Central
+27129,MN,Renville,4,4,Nonmetro,West North Central
+27131,MN,Rice,4,4,Nonmetro,West North Central
+27133,MN,Rock,4,4,Nonmetro,West North Central
+27135,MN,Roseau,4,4,Nonmetro,West North Central
+27137,MN,St. Louis,3,4,Md/Sm metro,West North Central
+27139,MN,Scott,2,4,Lg fringe metro,West North Central
+27141,MN,Sherburne,2,4,Lg fringe metro,West North Central
+27143,MN,Sibley,2,4,Lg fringe metro,West North Central
+27145,MN,Stearns,3,4,Md/Sm metro,West North Central
+27147,MN,Steele,4,4,Nonmetro,West North Central
+27149,MN,Stevens,4,4,Nonmetro,West North Central
+27151,MN,Swift,4,4,Nonmetro,West North Central
+27153,MN,Todd,4,4,Nonmetro,West North Central
+27155,MN,Traverse,4,4,Nonmetro,West North Central
+27157,MN,Wabasha,3,4,Md/Sm metro,West North Central
+27159,MN,Wadena,4,4,Nonmetro,West North Central
+27161,MN,Waseca,4,4,Nonmetro,West North Central
+27163,MN,Washington,2,4,Lg fringe metro,West North Central
+27165,MN,Watonwan,4,4,Nonmetro,West North Central
+27167,MN,Wilkin,4,4,Nonmetro,West North Central
+27169,MN,Winona,4,4,Nonmetro,West North Central
+27171,MN,Wright,2,4,Lg fringe metro,West North Central
+27173,MN,Yellow Medicine,4,4,Nonmetro,West North Central
+28001,MS,Adams,4,6,Nonmetro,East South Central
+28003,MS,Alcorn,4,10,Nonmetro,Appalachia
+28005,MS,Amite,4,6,Nonmetro,East South Central
+28007,MS,Attala,4,6,Nonmetro,East South Central
+28009,MS,Benton,2,10,Lg fringe metro,Appalachia
+28011,MS,Bolivar,4,6,Nonmetro,East South Central
+28013,MS,Calhoun,4,10,Nonmetro,Appalachia
+28015,MS,Carroll,4,6,Nonmetro,East South Central
+28017,MS,Chickasaw,4,10,Nonmetro,Appalachia
+28019,MS,Choctaw,4,10,Nonmetro,Appalachia
+28021,MS,Claiborne,4,6,Nonmetro,East South Central
+28023,MS,Clarke,4,6,Nonmetro,East South Central
+28025,MS,Clay,4,10,Nonmetro,Appalachia
+28027,MS,Coahoma,4,6,Nonmetro,East South Central
+28029,MS,Copiah,3,6,Md/Sm metro,East South Central
+28031,MS,Covington,4,6,Nonmetro,East South Central
+28033,MS,DeSoto,2,6,Lg fringe metro,East South Central
+28035,MS,Forrest,3,6,Md/Sm metro,East South Central
+28037,MS,Franklin,4,6,Nonmetro,East South Central
+28039,MS,George,4,6,Nonmetro,East South Central
+28041,MS,Greene,4,6,Nonmetro,East South Central
+28043,MS,Grenada,4,6,Nonmetro,East South Central
+28045,MS,Hancock,3,6,Md/Sm metro,East South Central
+28047,MS,Harrison,3,6,Md/Sm metro,East South Central
+28049,MS,Hinds,3,6,Md/Sm metro,East South Central
+28051,MS,Holmes,4,6,Nonmetro,East South Central
+28053,MS,Humphreys,4,6,Nonmetro,East South Central
+28055,MS,Issaquena,4,6,Nonmetro,East South Central
+28057,MS,Itawamba,4,10,Nonmetro,Appalachia
+28059,MS,Jackson,3,6,Md/Sm metro,East South Central
+28061,MS,Jasper,4,6,Nonmetro,East South Central
+28063,MS,Jefferson,4,6,Nonmetro,East South Central
+28065,MS,Jefferson Davis,4,6,Nonmetro,East South Central
+28067,MS,Jones,4,6,Nonmetro,East South Central
+28069,MS,Kemper,4,10,Nonmetro,Appalachia
+28071,MS,Lafayette,4,6,Nonmetro,East South Central
+28073,MS,Lamar,3,6,Md/Sm metro,East South Central
+28075,MS,Lauderdale,4,6,Nonmetro,East South Central
+28077,MS,Lawrence,4,6,Nonmetro,East South Central
+28079,MS,Leake,4,6,Nonmetro,East South Central
+28081,MS,Lee,4,10,Nonmetro,Appalachia
+28083,MS,Leflore,4,6,Nonmetro,East South Central
+28085,MS,Lincoln,4,6,Nonmetro,East South Central
+28087,MS,Lowndes,4,10,Nonmetro,Appalachia
+28089,MS,Madison,3,6,Md/Sm metro,East South Central
+28091,MS,Marion,4,6,Nonmetro,East South Central
+28093,MS,Marshall,2,10,Lg fringe metro,Appalachia
+28095,MS,Monroe,4,10,Nonmetro,Appalachia
+28097,MS,Montgomery,4,10,Nonmetro,Appalachia
+28099,MS,Neshoba,4,6,Nonmetro,East South Central
+28101,MS,Newton,4,6,Nonmetro,East South Central
+28103,MS,Noxubee,4,10,Nonmetro,Appalachia
+28105,MS,Oktibbeha,4,10,Nonmetro,Appalachia
+28107,MS,Panola,4,10,Nonmetro,Appalachia
+28109,MS,Pearl River,4,6,Nonmetro,East South Central
+28111,MS,Perry,3,6,Md/Sm metro,East South Central
+28113,MS,Pike,4,6,Nonmetro,East South Central
+28115,MS,Pontotoc,4,10,Nonmetro,Appalachia
+28117,MS,Prentiss,4,10,Nonmetro,Appalachia
+28119,MS,Quitman,4,6,Nonmetro,East South Central
+28121,MS,Rankin,3,6,Md/Sm metro,East South Central
+28123,MS,Scott,4,6,Nonmetro,East South Central
+28125,MS,Sharkey,4,6,Nonmetro,East South Central
+28127,MS,Simpson,3,6,Md/Sm metro,East South Central
+28129,MS,Smith,4,6,Nonmetro,East South Central
+28131,MS,Stone,4,6,Nonmetro,East South Central
+28133,MS,Sunflower,4,6,Nonmetro,East South Central
+28135,MS,Tallahatchie,4,6,Nonmetro,East South Central
+28137,MS,Tate,2,6,Lg fringe metro,East South Central
+28139,MS,Tippah,4,10,Nonmetro,Appalachia
+28141,MS,Tishomingo,4,10,Nonmetro,Appalachia
+28143,MS,Tunica,2,6,Lg fringe metro,East South Central
+28145,MS,Union,4,10,Nonmetro,Appalachia
+28147,MS,Walthall,4,6,Nonmetro,East South Central
+28149,MS,Warren,4,6,Nonmetro,East South Central
+28151,MS,Washington,4,6,Nonmetro,East South Central
+28153,MS,Wayne,4,6,Nonmetro,East South Central
+28155,MS,Webster,4,10,Nonmetro,Appalachia
+28157,MS,Wilkinson,4,6,Nonmetro,East South Central
+28159,MS,Winston,4,10,Nonmetro,Appalachia
+28161,MS,Yalobusha,4,10,Nonmetro,Appalachia
+28163,MS,Yazoo,3,6,Md/Sm metro,East South Central
+29001,MO,Adair,4,4,Nonmetro,West North Central
+29003,MO,Andrew,3,4,Md/Sm metro,West North Central
+29005,MO,Atchison,4,4,Nonmetro,West North Central
+29007,MO,Audrain,4,4,Nonmetro,West North Central
+29009,MO,Barry,4,4,Nonmetro,West North Central
+29011,MO,Barton,4,4,Nonmetro,West North Central
+29013,MO,Bates,2,4,Lg fringe metro,West North Central
+29015,MO,Benton,4,4,Nonmetro,West North Central
+29017,MO,Bollinger,3,4,Md/Sm metro,West North Central
+29019,MO,Boone,3,4,Md/Sm metro,West North Central
+29021,MO,Buchanan,3,4,Md/Sm metro,West North Central
+29023,MO,Butler,4,4,Nonmetro,West North Central
+29025,MO,Caldwell,2,4,Lg fringe metro,West North Central
+29027,MO,Callaway,3,4,Md/Sm metro,West North Central
+29029,MO,Camden,4,4,Nonmetro,West North Central
+29031,MO,Cape Girardeau,3,4,Md/Sm metro,West North Central
+29033,MO,Carroll,4,4,Nonmetro,West North Central
+29035,MO,Carter,4,4,Nonmetro,West North Central
+29037,MO,Cass,2,4,Lg fringe metro,West North Central
+29039,MO,Cedar,4,4,Nonmetro,West North Central
+29041,MO,Chariton,4,4,Nonmetro,West North Central
+29043,MO,Christian,3,4,Md/Sm metro,West North Central
+29045,MO,Clark,4,4,Nonmetro,West North Central
+29047,MO,Clay,2,4,Lg fringe metro,West North Central
+29049,MO,Clinton,2,4,Lg fringe metro,West North Central
+29051,MO,Cole,3,4,Md/Sm metro,West North Central
+29053,MO,Cooper,4,4,Nonmetro,West North Central
+29055,MO,Crawford,4,4,Nonmetro,West North Central
+29057,MO,Dade,4,4,Nonmetro,West North Central
+29059,MO,Dallas,3,4,Md/Sm metro,West North Central
+29061,MO,Daviess,4,4,Nonmetro,West North Central
+29063,MO,DeKalb,3,4,Md/Sm metro,West North Central
+29065,MO,Dent,4,4,Nonmetro,West North Central
+29067,MO,Douglas,4,4,Nonmetro,West North Central
+29069,MO,Dunklin,4,4,Nonmetro,West North Central
+29071,MO,Franklin,2,4,Lg fringe metro,West North Central
+29073,MO,Gasconade,4,4,Nonmetro,West North Central
+29075,MO,Gentry,4,4,Nonmetro,West North Central
+29077,MO,Greene,3,4,Md/Sm metro,West North Central
+29079,MO,Grundy,4,4,Nonmetro,West North Central
+29081,MO,Harrison,4,4,Nonmetro,West North Central
+29083,MO,Henry,4,4,Nonmetro,West North Central
+29085,MO,Hickory,4,4,Nonmetro,West North Central
+29087,MO,Holt,4,4,Nonmetro,West North Central
+29089,MO,Howard,4,4,Nonmetro,West North Central
+29091,MO,Howell,4,4,Nonmetro,West North Central
+29093,MO,Iron,4,4,Nonmetro,West North Central
+29095,MO,Jackson,1,4,Lg central metro,West North Central
+29097,MO,Jasper,3,4,Md/Sm metro,West North Central
+29099,MO,Jefferson,2,4,Lg fringe metro,West North Central
+29101,MO,Johnson,4,4,Nonmetro,West North Central
+29103,MO,Knox,4,4,Nonmetro,West North Central
+29105,MO,Laclede,4,4,Nonmetro,West North Central
+29107,MO,Lafayette,2,4,Lg fringe metro,West North Central
+29109,MO,Lawrence,4,4,Nonmetro,West North Central
+29111,MO,Lewis,4,4,Nonmetro,West North Central
+29113,MO,Lincoln,2,4,Lg fringe metro,West North Central
+29115,MO,Linn,4,4,Nonmetro,West North Central
+29117,MO,Livingston,4,4,Nonmetro,West North Central
+29119,MO,McDonald,3,4,Md/Sm metro,West North Central
+29121,MO,Macon,4,4,Nonmetro,West North Central
+29123,MO,Madison,4,4,Nonmetro,West North Central
+29125,MO,Maries,4,4,Nonmetro,West North Central
+29127,MO,Marion,4,4,Nonmetro,West North Central
+29129,MO,Mercer,4,4,Nonmetro,West North Central
+29131,MO,Miller,4,4,Nonmetro,West North Central
+29133,MO,Mississippi,4,4,Nonmetro,West North Central
+29135,MO,Moniteau,3,4,Md/Sm metro,West North Central
+29137,MO,Monroe,4,4,Nonmetro,West North Central
+29139,MO,Montgomery,4,4,Nonmetro,West North Central
+29141,MO,Morgan,4,4,Nonmetro,West North Central
+29143,MO,New Madrid,4,4,Nonmetro,West North Central
+29145,MO,Newton,3,4,Md/Sm metro,West North Central
+29147,MO,Nodaway,4,4,Nonmetro,West North Central
+29149,MO,Oregon,4,4,Nonmetro,West North Central
+29151,MO,Osage,3,4,Md/Sm metro,West North Central
+29153,MO,Ozark,4,4,Nonmetro,West North Central
+29155,MO,Pemiscot,4,4,Nonmetro,West North Central
+29157,MO,Perry,4,4,Nonmetro,West North Central
+29159,MO,Pettis,4,4,Nonmetro,West North Central
+29161,MO,Phelps,4,4,Nonmetro,West North Central
+29163,MO,Pike,4,4,Nonmetro,West North Central
+29165,MO,Platte,2,4,Lg fringe metro,West North Central
+29167,MO,Polk,3,4,Md/Sm metro,West North Central
+29169,MO,Pulaski,4,4,Nonmetro,West North Central
+29171,MO,Putnam,4,4,Nonmetro,West North Central
+29173,MO,Ralls,4,4,Nonmetro,West North Central
+29175,MO,Randolph,4,4,Nonmetro,West North Central
+29177,MO,Ray,2,4,Lg fringe metro,West North Central
+29179,MO,Reynolds,4,4,Nonmetro,West North Central
+29181,MO,Ripley,4,4,Nonmetro,West North Central
+29183,MO,St. Charles,2,4,Lg fringe metro,West North Central
+29185,MO,St. Clair,4,4,Nonmetro,West North Central
+29186,MO,Ste. Genevieve,4,4,Nonmetro,West North Central
+29187,MO,St. Francois,4,4,Nonmetro,West North Central
+29189,MO,St. Louis,2,4,Lg fringe metro,West North Central
+29195,MO,Saline,4,4,Nonmetro,West North Central
+29197,MO,Schuyler,4,4,Nonmetro,West North Central
+29199,MO,Scotland,4,4,Nonmetro,West North Central
+29201,MO,Scott,4,4,Nonmetro,West North Central
+29203,MO,Shannon,4,4,Nonmetro,West North Central
+29205,MO,Shelby,4,4,Nonmetro,West North Central
+29207,MO,Stoddard,4,4,Nonmetro,West North Central
+29209,MO,Stone,4,4,Nonmetro,West North Central
+29211,MO,Sullivan,4,4,Nonmetro,West North Central
+29213,MO,Taney,4,4,Nonmetro,West North Central
+29215,MO,Texas,4,4,Nonmetro,West North Central
+29217,MO,Vernon,4,4,Nonmetro,West North Central
+29219,MO,Warren,2,4,Lg fringe metro,West North Central
+29221,MO,Washington,4,4,Nonmetro,West North Central
+29223,MO,Wayne,4,4,Nonmetro,West North Central
+29225,MO,Webster,3,4,Md/Sm metro,West North Central
+29227,MO,Worth,4,4,Nonmetro,West North Central
+29229,MO,Wright,4,4,Nonmetro,West North Central
+29510,MO,St. Louis city,1,4,Lg central metro,West North Central
+30001,MT,Beaverhead,4,8,Nonmetro,Mountain
+30003,MT,Big Horn,4,8,Nonmetro,Mountain
+30005,MT,Blaine,4,8,Nonmetro,Mountain
+30007,MT,Broadwater,4,8,Nonmetro,Mountain
+30009,MT,Carbon,3,8,Md/Sm metro,Mountain
+30011,MT,Carter,4,8,Nonmetro,Mountain
+30013,MT,Cascade,3,8,Md/Sm metro,Mountain
+30015,MT,Chouteau,4,8,Nonmetro,Mountain
+30017,MT,Custer,4,8,Nonmetro,Mountain
+30019,MT,Daniels,4,8,Nonmetro,Mountain
+30021,MT,Dawson,4,8,Nonmetro,Mountain
+30023,MT,Deer Lodge,4,8,Nonmetro,Mountain
+30025,MT,Fallon,4,8,Nonmetro,Mountain
+30027,MT,Fergus,4,8,Nonmetro,Mountain
+30029,MT,Flathead,4,8,Nonmetro,Mountain
+30031,MT,Gallatin,4,8,Nonmetro,Mountain
+30033,MT,Garfield,4,8,Nonmetro,Mountain
+30035,MT,Glacier,4,8,Nonmetro,Mountain
+30037,MT,Golden Valley,3,8,Md/Sm metro,Mountain
+30039,MT,Granite,4,8,Nonmetro,Mountain
+30041,MT,Hill,4,8,Nonmetro,Mountain
+30043,MT,Jefferson,4,8,Nonmetro,Mountain
+30045,MT,Judith Basin,4,8,Nonmetro,Mountain
+30047,MT,Lake,4,8,Nonmetro,Mountain
+30049,MT,Lewis and Clark,4,8,Nonmetro,Mountain
+30051,MT,Liberty,4,8,Nonmetro,Mountain
+30053,MT,Lincoln,4,8,Nonmetro,Mountain
+30055,MT,McCone,4,8,Nonmetro,Mountain
+30057,MT,Madison,4,8,Nonmetro,Mountain
+30059,MT,Meagher,4,8,Nonmetro,Mountain
+30061,MT,Mineral,4,8,Nonmetro,Mountain
+30063,MT,Missoula,3,8,Md/Sm metro,Mountain
+30065,MT,Musselshell,4,8,Nonmetro,Mountain
+30069,MT,Petroleum,4,8,Nonmetro,Mountain
+30071,MT,Phillips,4,8,Nonmetro,Mountain
+30073,MT,Pondera,4,8,Nonmetro,Mountain
+30075,MT,Powder River,4,8,Nonmetro,Mountain
+30077,MT,Powell,4,8,Nonmetro,Mountain
+30079,MT,Prairie,4,8,Nonmetro,Mountain
+30081,MT,Ravalli,4,8,Nonmetro,Mountain
+30083,MT,Richland,4,8,Nonmetro,Mountain
+30085,MT,Roosevelt,4,8,Nonmetro,Mountain
+30087,MT,Rosebud,4,8,Nonmetro,Mountain
+30089,MT,Sanders,4,8,Nonmetro,Mountain
+30091,MT,Sheridan,4,8,Nonmetro,Mountain
+30093,MT,Silver Bow,4,8,Nonmetro,Mountain
+30095,MT,Stillwater,4,8,Nonmetro,Mountain
+30097,MT,Sweet Grass,4,8,Nonmetro,Mountain
+30099,MT,Teton,4,8,Nonmetro,Mountain
+30101,MT,Toole,4,8,Nonmetro,Mountain
+30103,MT,Treasure,4,8,Nonmetro,Mountain
+30105,MT,Valley,4,8,Nonmetro,Mountain
+30107,MT,Wheatland,4,8,Nonmetro,Mountain
+30109,MT,Wibaux,4,8,Nonmetro,Mountain
+30111,MT,Yellowstone,3,8,Md/Sm metro,Mountain
+31001,NE,Adams,4,4,Nonmetro,West North Central
+31003,NE,Antelope,4,4,Nonmetro,West North Central
+31005,NE,Arthur,4,4,Nonmetro,West North Central
+31007,NE,Banner,4,4,Nonmetro,West North Central
+31009,NE,Blaine,4,4,Nonmetro,West North Central
+31011,NE,Boone,4,4,Nonmetro,West North Central
+31013,NE,Box Butte,4,4,Nonmetro,West North Central
+31015,NE,Boyd,4,4,Nonmetro,West North Central
+31017,NE,Brown,4,4,Nonmetro,West North Central
+31019,NE,Buffalo,4,4,Nonmetro,West North Central
+31021,NE,Burt,4,4,Nonmetro,West North Central
+31023,NE,Butler,4,4,Nonmetro,West North Central
+31025,NE,Cass,3,4,Md/Sm metro,West North Central
+31027,NE,Cedar,4,4,Nonmetro,West North Central
+31029,NE,Chase,4,4,Nonmetro,West North Central
+31031,NE,Cherry,4,4,Nonmetro,West North Central
+31033,NE,Cheyenne,4,4,Nonmetro,West North Central
+31035,NE,Clay,4,4,Nonmetro,West North Central
+31037,NE,Colfax,4,4,Nonmetro,West North Central
+31039,NE,Cuming,4,4,Nonmetro,West North Central
+31041,NE,Custer,4,4,Nonmetro,West North Central
+31043,NE,Dakota,3,4,Md/Sm metro,West North Central
+31045,NE,Dawes,4,4,Nonmetro,West North Central
+31047,NE,Dawson,4,4,Nonmetro,West North Central
+31049,NE,Deuel,4,4,Nonmetro,West North Central
+31051,NE,Dixon,3,4,Md/Sm metro,West North Central
+31053,NE,Dodge,4,4,Nonmetro,West North Central
+31055,NE,Douglas,3,4,Md/Sm metro,West North Central
+31057,NE,Dundy,4,4,Nonmetro,West North Central
+31059,NE,Fillmore,4,4,Nonmetro,West North Central
+31061,NE,Franklin,4,4,Nonmetro,West North Central
+31063,NE,Frontier,4,4,Nonmetro,West North Central
+31065,NE,Furnas,4,4,Nonmetro,West North Central
+31067,NE,Gage,4,4,Nonmetro,West North Central
+31069,NE,Garden,4,4,Nonmetro,West North Central
+31071,NE,Garfield,4,4,Nonmetro,West North Central
+31073,NE,Gosper,4,4,Nonmetro,West North Central
+31075,NE,Grant,4,4,Nonmetro,West North Central
+31077,NE,Greeley,4,4,Nonmetro,West North Central
+31079,NE,Hall,3,4,Md/Sm metro,West North Central
+31081,NE,Hamilton,3,4,Md/Sm metro,West North Central
+31083,NE,Harlan,4,4,Nonmetro,West North Central
+31085,NE,Hayes,4,4,Nonmetro,West North Central
+31087,NE,Hitchcock,4,4,Nonmetro,West North Central
+31089,NE,Holt,4,4,Nonmetro,West North Central
+31091,NE,Hooker,4,4,Nonmetro,West North Central
+31093,NE,Howard,3,4,Md/Sm metro,West North Central
+31095,NE,Jefferson,4,4,Nonmetro,West North Central
+31097,NE,Johnson,4,4,Nonmetro,West North Central
+31099,NE,Kearney,4,4,Nonmetro,West North Central
+31101,NE,Keith,4,4,Nonmetro,West North Central
+31103,NE,Keya Paha,4,4,Nonmetro,West North Central
+31105,NE,Kimball,4,4,Nonmetro,West North Central
+31107,NE,Knox,4,4,Nonmetro,West North Central
+31109,NE,Lancaster,3,4,Md/Sm metro,West North Central
+31111,NE,Lincoln,4,4,Nonmetro,West North Central
+31113,NE,Logan,4,4,Nonmetro,West North Central
+31115,NE,Loup,4,4,Nonmetro,West North Central
+31117,NE,McPherson,4,4,Nonmetro,West North Central
+31119,NE,Madison,4,4,Nonmetro,West North Central
+31121,NE,Merrick,3,4,Md/Sm metro,West North Central
+31123,NE,Morrill,4,4,Nonmetro,West North Central
+31125,NE,Nance,4,4,Nonmetro,West North Central
+31127,NE,Nemaha,4,4,Nonmetro,West North Central
+31129,NE,Nuckolls,4,4,Nonmetro,West North Central
+31131,NE,Otoe,4,4,Nonmetro,West North Central
+31133,NE,Pawnee,4,4,Nonmetro,West North Central
+31135,NE,Perkins,4,4,Nonmetro,West North Central
+31137,NE,Phelps,4,4,Nonmetro,West North Central
+31139,NE,Pierce,4,4,Nonmetro,West North Central
+31141,NE,Platte,4,4,Nonmetro,West North Central
+31143,NE,Polk,4,4,Nonmetro,West North Central
+31145,NE,Red Willow,4,4,Nonmetro,West North Central
+31147,NE,Richardson,4,4,Nonmetro,West North Central
+31149,NE,Rock,4,4,Nonmetro,West North Central
+31151,NE,Saline,4,4,Nonmetro,West North Central
+31153,NE,Sarpy,3,4,Md/Sm metro,West North Central
+31155,NE,Saunders,3,4,Md/Sm metro,West North Central
+31157,NE,Scotts Bluff,4,4,Nonmetro,West North Central
+31159,NE,Seward,3,4,Md/Sm metro,West North Central
+31161,NE,Sheridan,4,4,Nonmetro,West North Central
+31163,NE,Sherman,4,4,Nonmetro,West North Central
+31165,NE,Sioux,4,4,Nonmetro,West North Central
+31167,NE,Stanton,4,4,Nonmetro,West North Central
+31169,NE,Thayer,4,4,Nonmetro,West North Central
+31171,NE,Thomas,4,4,Nonmetro,West North Central
+31173,NE,Thurston,4,4,Nonmetro,West North Central
+31175,NE,Valley,4,4,Nonmetro,West North Central
+31177,NE,Washington,3,4,Md/Sm metro,West North Central
+31179,NE,Wayne,4,4,Nonmetro,West North Central
+31181,NE,Webster,4,4,Nonmetro,West North Central
+31183,NE,Wheeler,4,4,Nonmetro,West North Central
+31185,NE,York,4,4,Nonmetro,West North Central
+32001,NV,Churchill,4,8,Nonmetro,Mountain
+32003,NV,Clark,1,8,Lg central metro,Mountain
+32005,NV,Douglas,4,8,Nonmetro,Mountain
+32007,NV,Elko,4,8,Nonmetro,Mountain
+32009,NV,Esmeralda,4,8,Nonmetro,Mountain
+32011,NV,Eureka,4,8,Nonmetro,Mountain
+32013,NV,Humboldt,4,8,Nonmetro,Mountain
+32015,NV,Lander,4,8,Nonmetro,Mountain
+32017,NV,Lincoln,4,8,Nonmetro,Mountain
+32019,NV,Lyon,4,8,Nonmetro,Mountain
+32021,NV,Mineral,4,8,Nonmetro,Mountain
+32023,NV,Nye,4,8,Nonmetro,Mountain
+32027,NV,Pershing,4,8,Nonmetro,Mountain
+32029,NV,Storey,3,8,Md/Sm metro,Mountain
+32031,NV,Washoe,3,8,Md/Sm metro,Mountain
+32033,NV,White Pine,4,8,Nonmetro,Mountain
+32510,NV,Carson City,3,8,Md/Sm metro,Mountain
+33001,NH,Belknap,4,1,Nonmetro,New England
+33003,NH,Carroll,4,1,Nonmetro,New England
+33005,NH,Cheshire,4,1,Nonmetro,New England
+33007,NH,Coos,4,1,Nonmetro,New England
+33009,NH,Grafton,4,1,Nonmetro,New England
+33011,NH,Hillsborough,3,1,Md/Sm metro,New England
+33013,NH,Merrimack,4,1,Nonmetro,New England
+33015,NH,Rockingham,2,1,Lg fringe metro,New England
+33017,NH,Strafford,2,1,Lg fringe metro,New England
+33019,NH,Sullivan,4,1,Nonmetro,New England
+34001,NJ,Atlantic,3,2,Md/Sm metro,Middle Atlantic
+34003,NJ,Bergen,2,2,Lg fringe metro,Middle Atlantic
+34005,NJ,Burlington,2,2,Lg fringe metro,Middle Atlantic
+34007,NJ,Camden,2,2,Lg fringe metro,Middle Atlantic
+34009,NJ,Cape May,3,2,Md/Sm metro,Middle Atlantic
+34011,NJ,Cumberland,3,2,Md/Sm metro,Middle Atlantic
+34013,NJ,Essex,1,2,Lg central metro,Middle Atlantic
+34015,NJ,Gloucester,2,2,Lg fringe metro,Middle Atlantic
+34017,NJ,Hudson,1,2,Lg central metro,Middle Atlantic
+34019,NJ,Hunterdon,2,2,Lg fringe metro,Middle Atlantic
+34021,NJ,Mercer,3,2,Md/Sm metro,Middle Atlantic
+34023,NJ,Middlesex,2,2,Lg fringe metro,Middle Atlantic
+34025,NJ,Monmouth,2,2,Lg fringe metro,Middle Atlantic
+34027,NJ,Morris,2,2,Lg fringe metro,Middle Atlantic
+34029,NJ,Ocean,2,2,Lg fringe metro,Middle Atlantic
+34031,NJ,Passaic,2,2,Lg fringe metro,Middle Atlantic
+34033,NJ,Salem,2,2,Lg fringe metro,Middle Atlantic
+34035,NJ,Somerset,2,2,Lg fringe metro,Middle Atlantic
+34037,NJ,Sussex,2,2,Lg fringe metro,Middle Atlantic
+34039,NJ,Union,1,2,Lg central metro,Middle Atlantic
+34041,NJ,Warren,3,2,Md/Sm metro,Middle Atlantic
+35001,NM,Bernalillo,3,8,Md/Sm metro,Mountain
+35003,NM,Catron,4,8,Nonmetro,Mountain
+35005,NM,Chaves,4,8,Nonmetro,Mountain
+35006,NM,Cibola,4,8,Nonmetro,Mountain
+35007,NM,Colfax,4,8,Nonmetro,Mountain
+35009,NM,Curry,4,8,Nonmetro,Mountain
+35011,NM,De Baca,4,8,Nonmetro,Mountain
+35013,NM,Dona Ana,3,8,Md/Sm metro,Mountain
+35015,NM,Eddy,4,8,Nonmetro,Mountain
+35017,NM,Grant,4,8,Nonmetro,Mountain
+35019,NM,Guadalupe,4,8,Nonmetro,Mountain
+35021,NM,Harding,4,8,Nonmetro,Mountain
+35023,NM,Hidalgo,4,8,Nonmetro,Mountain
+35025,NM,Lea,4,8,Nonmetro,Mountain
+35027,NM,Lincoln,4,8,Nonmetro,Mountain
+35028,NM,Los Alamos,4,8,Nonmetro,Mountain
+35029,NM,Luna,4,8,Nonmetro,Mountain
+35031,NM,McKinley,4,8,Nonmetro,Mountain
+35033,NM,Mora,4,8,Nonmetro,Mountain
+35035,NM,Otero,4,8,Nonmetro,Mountain
+35037,NM,Quay,4,8,Nonmetro,Mountain
+35039,NM,Rio Arriba,4,8,Nonmetro,Mountain
+35041,NM,Roosevelt,4,8,Nonmetro,Mountain
+35043,NM,Sandoval,3,8,Md/Sm metro,Mountain
+35045,NM,San Juan,3,8,Md/Sm metro,Mountain
+35047,NM,San Miguel,4,8,Nonmetro,Mountain
+35049,NM,Santa Fe,3,8,Md/Sm metro,Mountain
+35051,NM,Sierra,4,8,Nonmetro,Mountain
+35053,NM,Socorro,4,8,Nonmetro,Mountain
+35055,NM,Taos,4,8,Nonmetro,Mountain
+35057,NM,Torrance,3,8,Md/Sm metro,Mountain
+35059,NM,Union,4,8,Nonmetro,Mountain
+35061,NM,Valencia,3,8,Md/Sm metro,Mountain
+36001,NY,Albany,3,2,Md/Sm metro,Middle Atlantic
+36003,NY,Allegany,4,10,Nonmetro,Appalachia
+36005,NY,Bronx,1,2,Lg central metro,Middle Atlantic
+36007,NY,Broome,3,10,Md/Sm metro,Appalachia
+36009,NY,Cattaraugus,4,10,Nonmetro,Appalachia
+36011,NY,Cayuga,4,2,Nonmetro,Middle Atlantic
+36013,NY,Chautauqua,4,10,Nonmetro,Appalachia
+36015,NY,Chemung,3,10,Md/Sm metro,Appalachia
+36017,NY,Chenango,4,10,Nonmetro,Appalachia
+36019,NY,Clinton,4,2,Nonmetro,Middle Atlantic
+36021,NY,Columbia,4,2,Nonmetro,Middle Atlantic
+36023,NY,Cortland,4,10,Nonmetro,Appalachia
+36025,NY,Delaware,4,10,Nonmetro,Appalachia
+36027,NY,Dutchess,2,2,Lg fringe metro,Middle Atlantic
+36029,NY,Erie,1,2,Lg central metro,Middle Atlantic
+36031,NY,Essex,4,2,Nonmetro,Middle Atlantic
+36033,NY,Franklin,4,2,Nonmetro,Middle Atlantic
+36035,NY,Fulton,4,2,Nonmetro,Middle Atlantic
+36037,NY,Genesee,4,2,Nonmetro,Middle Atlantic
+36039,NY,Greene,4,2,Nonmetro,Middle Atlantic
+36041,NY,Hamilton,4,2,Nonmetro,Middle Atlantic
+36043,NY,Herkimer,3,2,Md/Sm metro,Middle Atlantic
+36045,NY,Jefferson,3,2,Md/Sm metro,Middle Atlantic
+36047,NY,Kings,1,2,Lg central metro,Middle Atlantic
+36049,NY,Lewis,4,2,Nonmetro,Middle Atlantic
+36051,NY,Livingston,2,2,Lg fringe metro,Middle Atlantic
+36053,NY,Madison,3,2,Md/Sm metro,Middle Atlantic
+36055,NY,Monroe,1,2,Lg central metro,Middle Atlantic
+36057,NY,Montgomery,4,2,Nonmetro,Middle Atlantic
+36059,NY,Nassau,2,2,Lg fringe metro,Middle Atlantic
+36061,NY,New York,1,2,Lg central metro,Middle Atlantic
+36063,NY,Niagara,2,2,Lg fringe metro,Middle Atlantic
+36065,NY,Oneida,3,2,Md/Sm metro,Middle Atlantic
+36067,NY,Onondaga,3,2,Md/Sm metro,Middle Atlantic
+36069,NY,Ontario,2,2,Lg fringe metro,Middle Atlantic
+36071,NY,Orange,2,2,Lg fringe metro,Middle Atlantic
+36073,NY,Orleans,2,2,Lg fringe metro,Middle Atlantic
+36075,NY,Oswego,3,2,Md/Sm metro,Middle Atlantic
+36077,NY,Otsego,4,10,Nonmetro,Appalachia
+36079,NY,Putnam,2,2,Lg fringe metro,Middle Atlantic
+36081,NY,Queens,1,2,Lg central metro,Middle Atlantic
+36083,NY,Rensselaer,3,2,Md/Sm metro,Middle Atlantic
+36085,NY,Richmond,1,2,Lg central metro,Middle Atlantic
+36087,NY,Rockland,2,2,Lg fringe metro,Middle Atlantic
+36089,NY,St. Lawrence,4,2,Nonmetro,Middle Atlantic
+36091,NY,Saratoga,3,2,Md/Sm metro,Middle Atlantic
+36093,NY,Schenectady,3,2,Md/Sm metro,Middle Atlantic
+36095,NY,Schoharie,3,10,Md/Sm metro,Appalachia
+36097,NY,Schuyler,4,10,Nonmetro,Appalachia
+36099,NY,Seneca,4,2,Nonmetro,Middle Atlantic
+36101,NY,Steuben,4,10,Nonmetro,Appalachia
+36103,NY,Suffolk,2,2,Lg fringe metro,Middle Atlantic
+36105,NY,Sullivan,4,2,Nonmetro,Middle Atlantic
+36107,NY,Tioga,3,10,Md/Sm metro,Appalachia
+36109,NY,Tompkins,3,10,Md/Sm metro,Appalachia
+36111,NY,Ulster,3,2,Md/Sm metro,Middle Atlantic
+36113,NY,Warren,3,2,Md/Sm metro,Middle Atlantic
+36115,NY,Washington,3,2,Md/Sm metro,Middle Atlantic
+36117,NY,Wayne,2,2,Lg fringe metro,Middle Atlantic
+36119,NY,Westchester,2,2,Lg fringe metro,Middle Atlantic
+36121,NY,Wyoming,4,2,Nonmetro,Middle Atlantic
+36123,NY,Yates,2,2,Lg fringe metro,Middle Atlantic
+37001,NC,Alamance,3,5,Md/Sm metro,South Atlantic
+37003,NC,Alexander,3,10,Md/Sm metro,Appalachia
+37005,NC,Alleghany,4,10,Nonmetro,Appalachia
+37007,NC,Anson,4,5,Nonmetro,South Atlantic
+37009,NC,Ashe,4,10,Nonmetro,Appalachia
+37011,NC,Avery,4,10,Nonmetro,Appalachia
+37013,NC,Beaufort,4,5,Nonmetro,South Atlantic
+37015,NC,Bertie,4,5,Nonmetro,South Atlantic
+37017,NC,Bladen,4,5,Nonmetro,South Atlantic
+37019,NC,Brunswick,3,5,Md/Sm metro,South Atlantic
+37021,NC,Buncombe,3,10,Md/Sm metro,Appalachia
+37023,NC,Burke,3,10,Md/Sm metro,Appalachia
+37025,NC,Cabarrus,2,5,Lg fringe metro,South Atlantic
+37027,NC,Caldwell,3,10,Md/Sm metro,Appalachia
+37029,NC,Camden,4,5,Nonmetro,South Atlantic
+37031,NC,Carteret,4,5,Nonmetro,South Atlantic
+37033,NC,Caswell,4,5,Nonmetro,South Atlantic
+37035,NC,Catawba,3,5,Md/Sm metro,South Atlantic
+37037,NC,Chatham,3,5,Md/Sm metro,South Atlantic
+37039,NC,Cherokee,4,10,Nonmetro,Appalachia
+37041,NC,Chowan,4,5,Nonmetro,South Atlantic
+37043,NC,Clay,4,10,Nonmetro,Appalachia
+37045,NC,Cleveland,4,5,Nonmetro,South Atlantic
+37047,NC,Columbus,4,5,Nonmetro,South Atlantic
+37049,NC,Craven,3,5,Md/Sm metro,South Atlantic
+37051,NC,Cumberland,3,5,Md/Sm metro,South Atlantic
+37053,NC,Currituck,2,5,Lg fringe metro,South Atlantic
+37055,NC,Dare,4,5,Nonmetro,South Atlantic
+37057,NC,Davidson,3,5,Md/Sm metro,South Atlantic
+37059,NC,Davie,3,10,Md/Sm metro,Appalachia
+37061,NC,Duplin,4,5,Nonmetro,South Atlantic
+37063,NC,Durham,3,5,Md/Sm metro,South Atlantic
+37065,NC,Edgecombe,3,5,Md/Sm metro,South Atlantic
+37067,NC,Forsyth,3,10,Md/Sm metro,Appalachia
+37069,NC,Franklin,2,5,Lg fringe metro,South Atlantic
+37071,NC,Gaston,2,5,Lg fringe metro,South Atlantic
+37073,NC,Gates,2,5,Lg fringe metro,South Atlantic
+37075,NC,Graham,4,10,Nonmetro,Appalachia
+37077,NC,Granville,4,5,Nonmetro,South Atlantic
+37079,NC,Greene,4,5,Nonmetro,South Atlantic
+37081,NC,Guilford,3,5,Md/Sm metro,South Atlantic
+37083,NC,Halifax,4,5,Nonmetro,South Atlantic
+37085,NC,Harnett,4,5,Nonmetro,South Atlantic
+37087,NC,Haywood,3,10,Md/Sm metro,Appalachia
+37089,NC,Henderson,3,10,Md/Sm metro,Appalachia
+37091,NC,Hertford,4,5,Nonmetro,South Atlantic
+37093,NC,Hoke,3,5,Md/Sm metro,South Atlantic
+37095,NC,Hyde,4,5,Nonmetro,South Atlantic
+37097,NC,Iredell,2,5,Lg fringe metro,South Atlantic
+37099,NC,Jackson,4,10,Nonmetro,Appalachia
+37101,NC,Johnston,2,5,Lg fringe metro,South Atlantic
+37103,NC,Jones,3,5,Md/Sm metro,South Atlantic
+37105,NC,Lee,4,5,Nonmetro,South Atlantic
+37107,NC,Lenoir,4,5,Nonmetro,South Atlantic
+37109,NC,Lincoln,2,5,Lg fringe metro,South Atlantic
+37111,NC,McDowell,4,10,Nonmetro,Appalachia
+37113,NC,Macon,4,10,Nonmetro,Appalachia
+37115,NC,Madison,3,10,Md/Sm metro,Appalachia
+37117,NC,Martin,4,5,Nonmetro,South Atlantic
+37119,NC,Mecklenburg,1,5,Lg central metro,South Atlantic
+37121,NC,Mitchell,4,10,Nonmetro,Appalachia
+37123,NC,Montgomery,4,5,Nonmetro,South Atlantic
+37125,NC,Moore,4,5,Nonmetro,South Atlantic
+37127,NC,Nash,3,5,Md/Sm metro,South Atlantic
+37129,NC,New Hanover,3,5,Md/Sm metro,South Atlantic
+37131,NC,Northampton,4,5,Nonmetro,South Atlantic
+37133,NC,Onslow,3,5,Md/Sm metro,South Atlantic
+37135,NC,Orange,3,5,Md/Sm metro,South Atlantic
+37137,NC,Pamlico,3,5,Md/Sm metro,South Atlantic
+37139,NC,Pasquotank,4,5,Nonmetro,South Atlantic
+37141,NC,Pender,3,5,Md/Sm metro,South Atlantic
+37143,NC,Perquimans,4,5,Nonmetro,South Atlantic
+37145,NC,Person,3,5,Md/Sm metro,South Atlantic
+37147,NC,Pitt,3,5,Md/Sm metro,South Atlantic
+37149,NC,Polk,4,10,Nonmetro,Appalachia
+37151,NC,Randolph,3,5,Md/Sm metro,South Atlantic
+37153,NC,Richmond,4,5,Nonmetro,South Atlantic
+37155,NC,Robeson,4,5,Nonmetro,South Atlantic
+37157,NC,Rockingham,3,5,Md/Sm metro,South Atlantic
+37159,NC,Rowan,2,5,Lg fringe metro,South Atlantic
+37161,NC,Rutherford,4,10,Nonmetro,Appalachia
+37163,NC,Sampson,4,5,Nonmetro,South Atlantic
+37165,NC,Scotland,4,5,Nonmetro,South Atlantic
+37167,NC,Stanly,4,5,Nonmetro,South Atlantic
+37169,NC,Stokes,3,10,Md/Sm metro,Appalachia
+37171,NC,Surry,4,10,Nonmetro,Appalachia
+37173,NC,Swain,4,10,Nonmetro,Appalachia
+37175,NC,Transylvania,4,10,Nonmetro,Appalachia
+37177,NC,Tyrrell,4,5,Nonmetro,South Atlantic
+37179,NC,Union,2,5,Lg fringe metro,South Atlantic
+37181,NC,Vance,4,5,Nonmetro,South Atlantic
+37183,NC,Wake,1,5,Lg central metro,South Atlantic
+37185,NC,Warren,4,5,Nonmetro,South Atlantic
+37187,NC,Washington,4,5,Nonmetro,South Atlantic
+37189,NC,Watauga,4,10,Nonmetro,Appalachia
+37191,NC,Wayne,3,5,Md/Sm metro,South Atlantic
+37193,NC,Wilkes,4,10,Nonmetro,Appalachia
+37195,NC,Wilson,4,5,Nonmetro,South Atlantic
+37197,NC,Yadkin,3,10,Md/Sm metro,Appalachia
+37199,NC,Yancey,4,10,Nonmetro,Appalachia
+38001,ND,Adams,4,4,Nonmetro,West North Central
+38003,ND,Barnes,4,4,Nonmetro,West North Central
+38005,ND,Benson,4,4,Nonmetro,West North Central
+38007,ND,Billings,4,4,Nonmetro,West North Central
+38009,ND,Bottineau,4,4,Nonmetro,West North Central
+38011,ND,Bowman,4,4,Nonmetro,West North Central
+38013,ND,Burke,4,4,Nonmetro,West North Central
+38015,ND,Burleigh,3,4,Md/Sm metro,West North Central
+38017,ND,Cass,3,4,Md/Sm metro,West North Central
+38019,ND,Cavalier,4,4,Nonmetro,West North Central
+38021,ND,Dickey,4,4,Nonmetro,West North Central
+38023,ND,Divide,4,4,Nonmetro,West North Central
+38025,ND,Dunn,4,4,Nonmetro,West North Central
+38027,ND,Eddy,4,4,Nonmetro,West North Central
+38029,ND,Emmons,4,4,Nonmetro,West North Central
+38031,ND,Foster,4,4,Nonmetro,West North Central
+38033,ND,Golden Valley,4,4,Nonmetro,West North Central
+38035,ND,Grand Forks,3,4,Md/Sm metro,West North Central
+38037,ND,Grant,4,4,Nonmetro,West North Central
+38039,ND,Griggs,4,4,Nonmetro,West North Central
+38041,ND,Hettinger,4,4,Nonmetro,West North Central
+38043,ND,Kidder,4,4,Nonmetro,West North Central
+38045,ND,LaMoure,4,4,Nonmetro,West North Central
+38047,ND,Logan,4,4,Nonmetro,West North Central
+38049,ND,McHenry,4,4,Nonmetro,West North Central
+38051,ND,McIntosh,4,4,Nonmetro,West North Central
+38053,ND,McKenzie,4,4,Nonmetro,West North Central
+38055,ND,McLean,4,4,Nonmetro,West North Central
+38057,ND,Mercer,4,4,Nonmetro,West North Central
+38059,ND,Morton,3,4,Md/Sm metro,West North Central
+38061,ND,Mountrail,4,4,Nonmetro,West North Central
+38063,ND,Nelson,4,4,Nonmetro,West North Central
+38065,ND,Oliver,3,4,Md/Sm metro,West North Central
+38067,ND,Pembina,4,4,Nonmetro,West North Central
+38069,ND,Pierce,4,4,Nonmetro,West North Central
+38071,ND,Ramsey,4,4,Nonmetro,West North Central
+38073,ND,Ransom,4,4,Nonmetro,West North Central
+38075,ND,Renville,4,4,Nonmetro,West North Central
+38077,ND,Richland,4,4,Nonmetro,West North Central
+38079,ND,Rolette,4,4,Nonmetro,West North Central
+38081,ND,Sargent,4,4,Nonmetro,West North Central
+38083,ND,Sheridan,4,4,Nonmetro,West North Central
+38085,ND,Sioux,3,4,Md/Sm metro,West North Central
+38087,ND,Slope,4,4,Nonmetro,West North Central
+38089,ND,Stark,4,4,Nonmetro,West North Central
+38091,ND,Steele,4,4,Nonmetro,West North Central
+38093,ND,Stutsman,4,4,Nonmetro,West North Central
+38095,ND,Towner,4,4,Nonmetro,West North Central
+38097,ND,Traill,4,4,Nonmetro,West North Central
+38099,ND,Walsh,4,4,Nonmetro,West North Central
+38101,ND,Ward,4,4,Nonmetro,West North Central
+38103,ND,Wells,4,4,Nonmetro,West North Central
+38105,ND,Williams,4,4,Nonmetro,West North Central
+39001,OH,Adams,4,10,Nonmetro,Appalachia
+39003,OH,Allen,3,3,Md/Sm metro,East North Central
+39005,OH,Ashland,4,3,Nonmetro,East North Central
+39007,OH,Ashtabula,4,10,Nonmetro,Appalachia
+39009,OH,Athens,4,10,Nonmetro,Appalachia
+39011,OH,Auglaize,4,3,Nonmetro,East North Central
+39013,OH,Belmont,3,10,Md/Sm metro,Appalachia
+39015,OH,Brown,2,10,Lg fringe metro,Appalachia
+39017,OH,Butler,2,3,Lg fringe metro,East North Central
+39019,OH,Carroll,3,10,Md/Sm metro,Appalachia
+39021,OH,Champaign,4,3,Nonmetro,East North Central
+39023,OH,Clark,3,3,Md/Sm metro,East North Central
+39025,OH,Clermont,2,10,Lg fringe metro,Appalachia
+39027,OH,Clinton,4,3,Nonmetro,East North Central
+39029,OH,Columbiana,4,10,Nonmetro,Appalachia
+39031,OH,Coshocton,4,10,Nonmetro,Appalachia
+39033,OH,Crawford,4,3,Nonmetro,East North Central
+39035,OH,Cuyahoga,1,3,Lg central metro,East North Central
+39037,OH,Darke,4,3,Nonmetro,East North Central
+39039,OH,Defiance,4,3,Nonmetro,East North Central
+39041,OH,Delaware,2,3,Lg fringe metro,East North Central
+39043,OH,Erie,4,3,Nonmetro,East North Central
+39045,OH,Fairfield,2,3,Lg fringe metro,East North Central
+39047,OH,Fayette,4,3,Nonmetro,East North Central
+39049,OH,Franklin,1,3,Lg central metro,East North Central
+39051,OH,Fulton,3,3,Md/Sm metro,East North Central
+39053,OH,Gallia,4,10,Nonmetro,Appalachia
+39055,OH,Geauga,2,3,Lg fringe metro,East North Central
+39057,OH,Greene,3,3,Md/Sm metro,East North Central
+39059,OH,Guernsey,4,10,Nonmetro,Appalachia
+39061,OH,Hamilton,1,3,Lg central metro,East North Central
+39063,OH,Hancock,4,3,Nonmetro,East North Central
+39065,OH,Hardin,4,3,Nonmetro,East North Central
+39067,OH,Harrison,4,10,Nonmetro,Appalachia
+39069,OH,Henry,4,3,Nonmetro,East North Central
+39071,OH,Highland,4,10,Nonmetro,Appalachia
+39073,OH,Hocking,2,10,Lg fringe metro,Appalachia
+39075,OH,Holmes,4,10,Nonmetro,Appalachia
+39077,OH,Huron,4,3,Nonmetro,East North Central
+39079,OH,Jackson,4,10,Nonmetro,Appalachia
+39081,OH,Jefferson,3,10,Md/Sm metro,Appalachia
+39083,OH,Knox,4,3,Nonmetro,East North Central
+39085,OH,Lake,2,3,Lg fringe metro,East North Central
+39087,OH,Lawrence,3,10,Md/Sm metro,Appalachia
+39089,OH,Licking,2,3,Lg fringe metro,East North Central
+39091,OH,Logan,4,3,Nonmetro,East North Central
+39093,OH,Lorain,2,3,Lg fringe metro,East North Central
+39095,OH,Lucas,3,3,Md/Sm metro,East North Central
+39097,OH,Madison,2,3,Lg fringe metro,East North Central
+39099,OH,Mahoning,3,10,Md/Sm metro,Appalachia
+39101,OH,Marion,4,3,Nonmetro,East North Central
+39103,OH,Medina,2,3,Lg fringe metro,East North Central
+39105,OH,Meigs,4,10,Nonmetro,Appalachia
+39107,OH,Mercer,4,3,Nonmetro,East North Central
+39109,OH,Miami,3,3,Md/Sm metro,East North Central
+39111,OH,Monroe,4,10,Nonmetro,Appalachia
+39113,OH,Montgomery,3,3,Md/Sm metro,East North Central
+39115,OH,Morgan,4,10,Nonmetro,Appalachia
+39117,OH,Morrow,2,3,Lg fringe metro,East North Central
+39119,OH,Muskingum,4,10,Nonmetro,Appalachia
+39121,OH,Noble,4,10,Nonmetro,Appalachia
+39123,OH,Ottawa,4,3,Nonmetro,East North Central
+39125,OH,Paulding,4,3,Nonmetro,East North Central
+39127,OH,Perry,2,10,Lg fringe metro,Appalachia
+39129,OH,Pickaway,2,3,Lg fringe metro,East North Central
+39131,OH,Pike,4,10,Nonmetro,Appalachia
+39133,OH,Portage,3,3,Md/Sm metro,East North Central
+39135,OH,Preble,4,3,Nonmetro,East North Central
+39137,OH,Putnam,4,3,Nonmetro,East North Central
+39139,OH,Richland,3,3,Md/Sm metro,East North Central
+39141,OH,Ross,4,10,Nonmetro,Appalachia
+39143,OH,Sandusky,4,3,Nonmetro,East North Central
+39145,OH,Scioto,4,10,Nonmetro,Appalachia
+39147,OH,Seneca,4,3,Nonmetro,East North Central
+39149,OH,Shelby,4,3,Nonmetro,East North Central
+39151,OH,Stark,3,3,Md/Sm metro,East North Central
+39153,OH,Summit,3,3,Md/Sm metro,East North Central
+39155,OH,Trumbull,3,10,Md/Sm metro,Appalachia
+39157,OH,Tuscarawas,4,10,Nonmetro,Appalachia
+39159,OH,Union,2,3,Lg fringe metro,East North Central
+39161,OH,Van Wert,4,3,Nonmetro,East North Central
+39163,OH,Vinton,4,10,Nonmetro,Appalachia
+39165,OH,Warren,2,3,Lg fringe metro,East North Central
+39167,OH,Washington,4,10,Nonmetro,Appalachia
+39169,OH,Wayne,4,3,Nonmetro,East North Central
+39171,OH,Williams,4,3,Nonmetro,East North Central
+39173,OH,Wood,3,3,Md/Sm metro,East North Central
+39175,OH,Wyandot,4,3,Nonmetro,East North Central
+40001,OK,Adair,4,7,Nonmetro,West South Central
+40003,OK,Alfalfa,4,7,Nonmetro,West South Central
+40005,OK,Atoka,4,7,Nonmetro,West South Central
+40007,OK,Beaver,4,7,Nonmetro,West South Central
+40009,OK,Beckham,4,7,Nonmetro,West South Central
+40011,OK,Blaine,4,7,Nonmetro,West South Central
+40013,OK,Bryan,4,7,Nonmetro,West South Central
+40015,OK,Caddo,4,7,Nonmetro,West South Central
+40017,OK,Canadian,2,7,Lg fringe metro,West South Central
+40019,OK,Carter,4,7,Nonmetro,West South Central
+40021,OK,Cherokee,4,7,Nonmetro,West South Central
+40023,OK,Choctaw,4,7,Nonmetro,West South Central
+40025,OK,Cimarron,4,7,Nonmetro,West South Central
+40027,OK,Cleveland,2,7,Lg fringe metro,West South Central
+40029,OK,Coal,4,7,Nonmetro,West South Central
+40031,OK,Comanche,3,7,Md/Sm metro,West South Central
+40033,OK,Cotton,3,7,Md/Sm metro,West South Central
+40035,OK,Craig,4,7,Nonmetro,West South Central
+40037,OK,Creek,3,7,Md/Sm metro,West South Central
+40039,OK,Custer,4,7,Nonmetro,West South Central
+40041,OK,Delaware,4,7,Nonmetro,West South Central
+40043,OK,Dewey,4,7,Nonmetro,West South Central
+40045,OK,Ellis,4,7,Nonmetro,West South Central
+40047,OK,Garfield,4,7,Nonmetro,West South Central
+40049,OK,Garvin,4,7,Nonmetro,West South Central
+40051,OK,Grady,2,7,Lg fringe metro,West South Central
+40053,OK,Grant,4,7,Nonmetro,West South Central
+40055,OK,Greer,4,7,Nonmetro,West South Central
+40057,OK,Harmon,4,7,Nonmetro,West South Central
+40059,OK,Harper,4,7,Nonmetro,West South Central
+40061,OK,Haskell,4,7,Nonmetro,West South Central
+40063,OK,Hughes,4,7,Nonmetro,West South Central
+40065,OK,Jackson,4,7,Nonmetro,West South Central
+40067,OK,Jefferson,4,7,Nonmetro,West South Central
+40069,OK,Johnston,4,7,Nonmetro,West South Central
+40071,OK,Kay,4,7,Nonmetro,West South Central
+40073,OK,Kingfisher,4,7,Nonmetro,West South Central
+40075,OK,Kiowa,4,7,Nonmetro,West South Central
+40077,OK,Latimer,4,7,Nonmetro,West South Central
+40079,OK,Le Flore,3,7,Md/Sm metro,West South Central
+40081,OK,Lincoln,2,7,Lg fringe metro,West South Central
+40083,OK,Logan,2,7,Lg fringe metro,West South Central
+40085,OK,Love,4,7,Nonmetro,West South Central
+40087,OK,McClain,2,7,Lg fringe metro,West South Central
+40089,OK,McCurtain,4,7,Nonmetro,West South Central
+40091,OK,McIntosh,4,7,Nonmetro,West South Central
+40093,OK,Major,4,7,Nonmetro,West South Central
+40095,OK,Marshall,4,7,Nonmetro,West South Central
+40097,OK,Mayes,4,7,Nonmetro,West South Central
+40099,OK,Murray,4,7,Nonmetro,West South Central
+40101,OK,Muskogee,4,7,Nonmetro,West South Central
+40103,OK,Noble,4,7,Nonmetro,West South Central
+40105,OK,Nowata,4,7,Nonmetro,West South Central
+40107,OK,Okfuskee,4,7,Nonmetro,West South Central
+40109,OK,Oklahoma,1,7,Lg central metro,West South Central
+40111,OK,Okmulgee,3,7,Md/Sm metro,West South Central
+40113,OK,Osage,3,7,Md/Sm metro,West South Central
+40115,OK,Ottawa,4,7,Nonmetro,West South Central
+40117,OK,Pawnee,3,7,Md/Sm metro,West South Central
+40119,OK,Payne,4,7,Nonmetro,West South Central
+40121,OK,Pittsburg,4,7,Nonmetro,West South Central
+40123,OK,Pontotoc,4,7,Nonmetro,West South Central
+40125,OK,Pottawatomie,4,7,Nonmetro,West South Central
+40127,OK,Pushmataha,4,7,Nonmetro,West South Central
+40129,OK,Roger Mills,4,7,Nonmetro,West South Central
+40131,OK,Rogers,3,7,Md/Sm metro,West South Central
+40133,OK,Seminole,4,7,Nonmetro,West South Central
+40135,OK,Sequoyah,3,7,Md/Sm metro,West South Central
+40137,OK,Stephens,4,7,Nonmetro,West South Central
+40139,OK,Texas,4,7,Nonmetro,West South Central
+40141,OK,Tillman,4,7,Nonmetro,West South Central
+40143,OK,Tulsa,3,7,Md/Sm metro,West South Central
+40145,OK,Wagoner,3,7,Md/Sm metro,West South Central
+40147,OK,Washington,4,7,Nonmetro,West South Central
+40149,OK,Washita,4,7,Nonmetro,West South Central
+40151,OK,Woods,4,7,Nonmetro,West South Central
+40153,OK,Woodward,4,7,Nonmetro,West South Central
+41001,OR,Baker,4,9,Nonmetro,Pacific
+41003,OR,Benton,3,9,Md/Sm metro,Pacific
+41005,OR,Clackamas,2,9,Lg fringe metro,Pacific
+41007,OR,Clatsop,4,9,Nonmetro,Pacific
+41009,OR,Columbia,2,9,Lg fringe metro,Pacific
+41011,OR,Coos,4,9,Nonmetro,Pacific
+41013,OR,Crook,4,9,Nonmetro,Pacific
+41015,OR,Curry,4,9,Nonmetro,Pacific
+41017,OR,Deschutes,3,9,Md/Sm metro,Pacific
+41019,OR,Douglas,4,9,Nonmetro,Pacific
+41021,OR,Gilliam,4,9,Nonmetro,Pacific
+41023,OR,Grant,4,9,Nonmetro,Pacific
+41025,OR,Harney,4,9,Nonmetro,Pacific
+41027,OR,Hood River,4,9,Nonmetro,Pacific
+41029,OR,Jackson,3,9,Md/Sm metro,Pacific
+41031,OR,Jefferson,4,9,Nonmetro,Pacific
+41033,OR,Josephine,3,9,Md/Sm metro,Pacific
+41035,OR,Klamath,4,9,Nonmetro,Pacific
+41037,OR,Lake,4,9,Nonmetro,Pacific
+41039,OR,Lane,3,9,Md/Sm metro,Pacific
+41041,OR,Lincoln,4,9,Nonmetro,Pacific
+41043,OR,Linn,3,9,Md/Sm metro,Pacific
+41045,OR,Malheur,4,9,Nonmetro,Pacific
+41047,OR,Marion,3,9,Md/Sm metro,Pacific
+41049,OR,Morrow,4,9,Nonmetro,Pacific
+41051,OR,Multnomah,1,9,Lg central metro,Pacific
+41053,OR,Polk,3,9,Md/Sm metro,Pacific
+41055,OR,Sherman,4,9,Nonmetro,Pacific
+41057,OR,Tillamook,4,9,Nonmetro,Pacific
+41059,OR,Umatilla,4,9,Nonmetro,Pacific
+41061,OR,Union,4,9,Nonmetro,Pacific
+41063,OR,Wallowa,4,9,Nonmetro,Pacific
+41065,OR,Wasco,4,9,Nonmetro,Pacific
+41067,OR,Washington,2,9,Lg fringe metro,Pacific
+41069,OR,Wheeler,4,9,Nonmetro,Pacific
+41071,OR,Yamhill,2,9,Lg fringe metro,Pacific
+42001,PA,Adams,3,2,Md/Sm metro,Middle Atlantic
+42003,PA,Allegheny,1,10,Lg central metro,Appalachia
+42005,PA,Armstrong,2,10,Lg fringe metro,Appalachia
+42007,PA,Beaver,2,10,Lg fringe metro,Appalachia
+42009,PA,Bedford,4,10,Nonmetro,Appalachia
+42011,PA,Berks,3,2,Md/Sm metro,Middle Atlantic
+42013,PA,Blair,3,10,Md/Sm metro,Appalachia
+42015,PA,Bradford,4,10,Nonmetro,Appalachia
+42017,PA,Bucks,2,2,Lg fringe metro,Middle Atlantic
+42019,PA,Butler,2,10,Lg fringe metro,Appalachia
+42021,PA,Cambria,3,10,Md/Sm metro,Appalachia
+42023,PA,Cameron,4,10,Nonmetro,Appalachia
+42025,PA,Carbon,3,10,Md/Sm metro,Appalachia
+42027,PA,Centre,3,10,Md/Sm metro,Appalachia
+42029,PA,Chester,2,2,Lg fringe metro,Middle Atlantic
+42031,PA,Clarion,4,10,Nonmetro,Appalachia
+42033,PA,Clearfield,4,10,Nonmetro,Appalachia
+42035,PA,Clinton,4,10,Nonmetro,Appalachia
+42037,PA,Columbia,3,10,Md/Sm metro,Appalachia
+42039,PA,Crawford,4,10,Nonmetro,Appalachia
+42041,PA,Cumberland,3,2,Md/Sm metro,Middle Atlantic
+42043,PA,Dauphin,3,2,Md/Sm metro,Middle Atlantic
+42045,PA,Delaware,2,2,Lg fringe metro,Middle Atlantic
+42047,PA,Elk,4,10,Nonmetro,Appalachia
+42049,PA,Erie,3,10,Md/Sm metro,Appalachia
+42051,PA,Fayette,2,10,Lg fringe metro,Appalachia
+42053,PA,Forest,4,10,Nonmetro,Appalachia
+42055,PA,Franklin,3,2,Md/Sm metro,Middle Atlantic
+42057,PA,Fulton,4,10,Nonmetro,Appalachia
+42059,PA,Greene,4,10,Nonmetro,Appalachia
+42061,PA,Huntingdon,4,10,Nonmetro,Appalachia
+42063,PA,Indiana,4,10,Nonmetro,Appalachia
+42065,PA,Jefferson,4,10,Nonmetro,Appalachia
+42067,PA,Juniata,4,10,Nonmetro,Appalachia
+42069,PA,Lackawanna,3,10,Md/Sm metro,Appalachia
+42071,PA,Lancaster,3,2,Md/Sm metro,Middle Atlantic
+42073,PA,Lawrence,4,10,Nonmetro,Appalachia
+42075,PA,Lebanon,3,2,Md/Sm metro,Middle Atlantic
+42077,PA,Lehigh,3,2,Md/Sm metro,Middle Atlantic
+42079,PA,Luzerne,3,10,Md/Sm metro,Appalachia
+42081,PA,Lycoming,3,10,Md/Sm metro,Appalachia
+42083,PA,McKean,4,10,Nonmetro,Appalachia
+42085,PA,Mercer,3,10,Md/Sm metro,Appalachia
+42087,PA,Mifflin,4,10,Nonmetro,Appalachia
+42089,PA,Monroe,3,10,Md/Sm metro,Appalachia
+42091,PA,Montgomery,2,2,Lg fringe metro,Middle Atlantic
+42093,PA,Montour,3,10,Md/Sm metro,Appalachia
+42095,PA,Northampton,3,2,Md/Sm metro,Middle Atlantic
+42097,PA,Northumberland,4,10,Nonmetro,Appalachia
+42099,PA,Perry,3,10,Md/Sm metro,Appalachia
+42101,PA,Philadelphia,1,2,Lg central metro,Middle Atlantic
+42103,PA,Pike,2,10,Lg fringe metro,Appalachia
+42105,PA,Potter,4,10,Nonmetro,Appalachia
+42107,PA,Schuylkill,4,10,Nonmetro,Appalachia
+42109,PA,Snyder,4,10,Nonmetro,Appalachia
+42111,PA,Somerset,4,10,Nonmetro,Appalachia
+42113,PA,Sullivan,4,10,Nonmetro,Appalachia
+42115,PA,Susquehanna,4,10,Nonmetro,Appalachia
+42117,PA,Tioga,4,10,Nonmetro,Appalachia
+42119,PA,Union,4,10,Nonmetro,Appalachia
+42121,PA,Venango,4,10,Nonmetro,Appalachia
+42123,PA,Warren,4,10,Nonmetro,Appalachia
+42125,PA,Washington,2,10,Lg fringe metro,Appalachia
+42127,PA,Wayne,4,10,Nonmetro,Appalachia
+42129,PA,Westmoreland,2,10,Lg fringe metro,Appalachia
+42131,PA,Wyoming,3,10,Md/Sm metro,Appalachia
+42133,PA,York,3,2,Md/Sm metro,Middle Atlantic
+44001,RI,Bristol,2,1,Lg fringe metro,New England
+44003,RI,Kent,2,1,Lg fringe metro,New England
+44005,RI,Newport,2,1,Lg fringe metro,New England
+44007,RI,Providence,1,1,Lg central metro,New England
+44009,RI,Washington,2,1,Lg fringe metro,New England
+45001,SC,Abbeville,4,5,Nonmetro,South Atlantic
+45003,SC,Aiken,3,5,Md/Sm metro,South Atlantic
+45005,SC,Allendale,4,5,Nonmetro,South Atlantic
+45007,SC,Anderson,3,10,Md/Sm metro,Appalachia
+45009,SC,Bamberg,4,5,Nonmetro,South Atlantic
+45011,SC,Barnwell,4,5,Nonmetro,South Atlantic
+45013,SC,Beaufort,3,5,Md/Sm metro,South Atlantic
+45015,SC,Berkeley,3,5,Md/Sm metro,South Atlantic
+45017,SC,Calhoun,3,5,Md/Sm metro,South Atlantic
+45019,SC,Charleston,3,5,Md/Sm metro,South Atlantic
+45021,SC,Cherokee,4,10,Nonmetro,Appalachia
+45023,SC,Chester,2,5,Lg fringe metro,South Atlantic
+45025,SC,Chesterfield,4,5,Nonmetro,South Atlantic
+45027,SC,Clarendon,4,5,Nonmetro,South Atlantic
+45029,SC,Colleton,4,5,Nonmetro,South Atlantic
+45031,SC,Darlington,3,5,Md/Sm metro,South Atlantic
+45033,SC,Dillon,4,5,Nonmetro,South Atlantic
+45035,SC,Dorchester,3,5,Md/Sm metro,South Atlantic
+45037,SC,Edgefield,3,5,Md/Sm metro,South Atlantic
+45039,SC,Fairfield,3,5,Md/Sm metro,South Atlantic
+45041,SC,Florence,3,5,Md/Sm metro,South Atlantic
+45043,SC,Georgetown,4,5,Nonmetro,South Atlantic
+45045,SC,Greenville,3,10,Md/Sm metro,Appalachia
+45047,SC,Greenwood,4,5,Nonmetro,South Atlantic
+45049,SC,Hampton,4,5,Nonmetro,South Atlantic
+45051,SC,Horry,3,5,Md/Sm metro,South Atlantic
+45053,SC,Jasper,3,5,Md/Sm metro,South Atlantic
+45055,SC,Kershaw,3,5,Md/Sm metro,South Atlantic
+45057,SC,Lancaster,2,5,Lg fringe metro,South Atlantic
+45059,SC,Laurens,3,5,Md/Sm metro,South Atlantic
+45061,SC,Lee,4,5,Nonmetro,South Atlantic
+45063,SC,Lexington,3,5,Md/Sm metro,South Atlantic
+45065,SC,McCormick,4,5,Nonmetro,South Atlantic
+45067,SC,Marion,4,5,Nonmetro,South Atlantic
+45069,SC,Marlboro,4,5,Nonmetro,South Atlantic
+45071,SC,Newberry,4,5,Nonmetro,South Atlantic
+45073,SC,Oconee,4,10,Nonmetro,Appalachia
+45075,SC,Orangeburg,4,5,Nonmetro,South Atlantic
+45077,SC,Pickens,3,10,Md/Sm metro,Appalachia
+45079,SC,Richland,3,5,Md/Sm metro,South Atlantic
+45081,SC,Saluda,3,5,Md/Sm metro,South Atlantic
+45083,SC,Spartanburg,3,10,Md/Sm metro,Appalachia
+45085,SC,Sumter,3,5,Md/Sm metro,South Atlantic
+45087,SC,Union,3,5,Md/Sm metro,South Atlantic
+45089,SC,Williamsburg,4,5,Nonmetro,South Atlantic
+45091,SC,York,2,5,Lg fringe metro,South Atlantic
+46003,SD,Aurora,4,4,Nonmetro,West North Central
+46005,SD,Beadle,4,4,Nonmetro,West North Central
+46007,SD,Bennett,4,4,Nonmetro,West North Central
+46009,SD,Bon Homme,4,4,Nonmetro,West North Central
+46011,SD,Brookings,4,4,Nonmetro,West North Central
+46013,SD,Brown,4,4,Nonmetro,West North Central
+46015,SD,Brule,4,4,Nonmetro,West North Central
+46017,SD,Buffalo,4,4,Nonmetro,West North Central
+46019,SD,Butte,4,4,Nonmetro,West North Central
+46021,SD,Campbell,4,4,Nonmetro,West North Central
+46023,SD,Charles Mix,4,4,Nonmetro,West North Central
+46025,SD,Clark,4,4,Nonmetro,West North Central
+46027,SD,Clay,4,4,Nonmetro,West North Central
+46029,SD,Codington,4,4,Nonmetro,West North Central
+46031,SD,Corson,4,4,Nonmetro,West North Central
+46033,SD,Custer,3,4,Md/Sm metro,West North Central
+46035,SD,Davison,4,4,Nonmetro,West North Central
+46037,SD,Day,4,4,Nonmetro,West North Central
+46039,SD,Deuel,4,4,Nonmetro,West North Central
+46041,SD,Dewey,4,4,Nonmetro,West North Central
+46043,SD,Douglas,4,4,Nonmetro,West North Central
+46045,SD,Edmunds,4,4,Nonmetro,West North Central
+46047,SD,Fall River,4,4,Nonmetro,West North Central
+46049,SD,Faulk,4,4,Nonmetro,West North Central
+46051,SD,Grant,4,4,Nonmetro,West North Central
+46053,SD,Gregory,4,4,Nonmetro,West North Central
+46055,SD,Haakon,4,4,Nonmetro,West North Central
+46057,SD,Hamlin,4,4,Nonmetro,West North Central
+46059,SD,Hand,4,4,Nonmetro,West North Central
+46061,SD,Hanson,4,4,Nonmetro,West North Central
+46063,SD,Harding,4,4,Nonmetro,West North Central
+46065,SD,Hughes,4,4,Nonmetro,West North Central
+46067,SD,Hutchinson,4,4,Nonmetro,West North Central
+46069,SD,Hyde,4,4,Nonmetro,West North Central
+46071,SD,Jackson,4,4,Nonmetro,West North Central
+46073,SD,Jerauld,4,4,Nonmetro,West North Central
+46075,SD,Jones,4,4,Nonmetro,West North Central
+46077,SD,Kingsbury,4,4,Nonmetro,West North Central
+46079,SD,Lake,4,4,Nonmetro,West North Central
+46081,SD,Lawrence,4,4,Nonmetro,West North Central
+46083,SD,Lincoln,3,4,Md/Sm metro,West North Central
+46085,SD,Lyman,4,4,Nonmetro,West North Central
+46087,SD,McCook,3,4,Md/Sm metro,West North Central
+46089,SD,McPherson,4,4,Nonmetro,West North Central
+46091,SD,Marshall,4,4,Nonmetro,West North Central
+46093,SD,Meade,3,4,Md/Sm metro,West North Central
+46095,SD,Mellette,4,4,Nonmetro,West North Central
+46097,SD,Miner,4,4,Nonmetro,West North Central
+46099,SD,Minnehaha,3,4,Md/Sm metro,West North Central
+46101,SD,Moody,4,4,Nonmetro,West North Central
+46102,SD,Oglala Lakota/Shannon,4,4,Nonmetro,West North Central
+46103,SD,Pennington,3,4,Md/Sm metro,West North Central
+46105,SD,Perkins,4,4,Nonmetro,West North Central
+46107,SD,Potter,4,4,Nonmetro,West North Central
+46109,SD,Roberts,4,4,Nonmetro,West North Central
+46111,SD,Sanborn,4,4,Nonmetro,West North Central
+46115,SD,Spink,4,4,Nonmetro,West North Central
+46117,SD,Stanley,4,4,Nonmetro,West North Central
+46119,SD,Sully,4,4,Nonmetro,West North Central
+46121,SD,Todd,4,4,Nonmetro,West North Central
+46123,SD,Tripp,4,4,Nonmetro,West North Central
+46125,SD,Turner,3,4,Md/Sm metro,West North Central
+46127,SD,Union,3,4,Md/Sm metro,West North Central
+46129,SD,Walworth,4,4,Nonmetro,West North Central
+46135,SD,Yankton,4,4,Nonmetro,West North Central
+46137,SD,Ziebach,4,4,Nonmetro,West North Central
+47001,TN,Anderson,3,10,Md/Sm metro,Appalachia
+47003,TN,Bedford,4,6,Nonmetro,East South Central
+47005,TN,Benton,4,6,Nonmetro,East South Central
+47007,TN,Bledsoe,4,10,Nonmetro,Appalachia
+47009,TN,Blount,3,10,Md/Sm metro,Appalachia
+47011,TN,Bradley,3,10,Md/Sm metro,Appalachia
+47013,TN,Campbell,3,10,Md/Sm metro,Appalachia
+47015,TN,Cannon,2,10,Lg fringe metro,Appalachia
+47017,TN,Carroll,4,6,Nonmetro,East South Central
+47019,TN,Carter,3,10,Md/Sm metro,Appalachia
+47021,TN,Cheatham,2,6,Lg fringe metro,East South Central
+47023,TN,Chester,3,6,Md/Sm metro,East South Central
+47025,TN,Claiborne,4,10,Nonmetro,Appalachia
+47027,TN,Clay,4,10,Nonmetro,Appalachia
+47029,TN,Cocke,4,10,Nonmetro,Appalachia
+47031,TN,Coffee,4,10,Nonmetro,Appalachia
+47033,TN,Crockett,3,6,Md/Sm metro,East South Central
+47035,TN,Cumberland,4,10,Nonmetro,Appalachia
+47037,TN,Davidson,1,6,Lg central metro,East South Central
+47039,TN,Decatur,4,6,Nonmetro,East South Central
+47041,TN,DeKalb,4,10,Nonmetro,Appalachia
+47043,TN,Dickson,2,6,Lg fringe metro,East South Central
+47045,TN,Dyer,4,6,Nonmetro,East South Central
+47047,TN,Fayette,2,6,Lg fringe metro,East South Central
+47049,TN,Fentress,4,10,Nonmetro,Appalachia
+47051,TN,Franklin,4,10,Nonmetro,Appalachia
+47053,TN,Gibson,4,6,Nonmetro,East South Central
+47055,TN,Giles,4,6,Nonmetro,East South Central
+47057,TN,Grainger,3,10,Md/Sm metro,Appalachia
+47059,TN,Greene,4,10,Nonmetro,Appalachia
+47061,TN,Grundy,4,10,Nonmetro,Appalachia
+47063,TN,Hamblen,3,10,Md/Sm metro,Appalachia
+47065,TN,Hamilton,3,10,Md/Sm metro,Appalachia
+47067,TN,Hancock,4,10,Nonmetro,Appalachia
+47069,TN,Hardeman,4,6,Nonmetro,East South Central
+47071,TN,Hardin,4,6,Nonmetro,East South Central
+47073,TN,Hawkins,3,10,Md/Sm metro,Appalachia
+47075,TN,Haywood,4,6,Nonmetro,East South Central
+47077,TN,Henderson,4,6,Nonmetro,East South Central
+47079,TN,Henry,4,6,Nonmetro,East South Central
+47081,TN,Hickman,2,6,Lg fringe metro,East South Central
+47083,TN,Houston,4,6,Nonmetro,East South Central
+47085,TN,Humphreys,4,6,Nonmetro,East South Central
+47087,TN,Jackson,4,10,Nonmetro,Appalachia
+47089,TN,Jefferson,3,10,Md/Sm metro,Appalachia
+47091,TN,Johnson,4,10,Nonmetro,Appalachia
+47093,TN,Knox,3,10,Md/Sm metro,Appalachia
+47095,TN,Lake,4,6,Nonmetro,East South Central
+47097,TN,Lauderdale,4,6,Nonmetro,East South Central
+47099,TN,Lawrence,4,10,Nonmetro,Appalachia
+47101,TN,Lewis,4,10,Nonmetro,Appalachia
+47103,TN,Lincoln,4,6,Nonmetro,East South Central
+47105,TN,Loudon,3,10,Md/Sm metro,Appalachia
+47107,TN,McMinn,4,10,Nonmetro,Appalachia
+47109,TN,McNairy,4,6,Nonmetro,East South Central
+47111,TN,Macon,2,10,Lg fringe metro,Appalachia
+47113,TN,Madison,3,6,Md/Sm metro,East South Central
+47115,TN,Marion,3,10,Md/Sm metro,Appalachia
+47117,TN,Marshall,4,6,Nonmetro,East South Central
+47119,TN,Maury,2,6,Lg fringe metro,East South Central
+47121,TN,Meigs,4,10,Nonmetro,Appalachia
+47123,TN,Monroe,4,10,Nonmetro,Appalachia
+47125,TN,Montgomery,3,6,Md/Sm metro,East South Central
+47127,TN,Moore,4,6,Nonmetro,East South Central
+47129,TN,Morgan,3,10,Md/Sm metro,Appalachia
+47131,TN,Obion,4,6,Nonmetro,East South Central
+47133,TN,Overton,4,10,Nonmetro,Appalachia
+47135,TN,Perry,4,6,Nonmetro,East South Central
+47137,TN,Pickett,4,10,Nonmetro,Appalachia
+47139,TN,Polk,3,10,Md/Sm metro,Appalachia
+47141,TN,Putnam,4,10,Nonmetro,Appalachia
+47143,TN,Rhea,4,10,Nonmetro,Appalachia
+47145,TN,Roane,3,10,Md/Sm metro,Appalachia
+47147,TN,Robertson,2,6,Lg fringe metro,East South Central
+47149,TN,Rutherford,2,6,Lg fringe metro,East South Central
+47151,TN,Scott,4,10,Nonmetro,Appalachia
+47153,TN,Sequatchie,3,10,Md/Sm metro,Appalachia
+47155,TN,Sevier,4,10,Nonmetro,Appalachia
+47157,TN,Shelby,1,6,Lg central metro,East South Central
+47159,TN,Smith,2,10,Lg fringe metro,Appalachia
+47161,TN,Stewart,4,6,Nonmetro,East South Central
+47163,TN,Sullivan,3,10,Md/Sm metro,Appalachia
+47165,TN,Sumner,2,6,Lg fringe metro,East South Central
+47167,TN,Tipton,2,6,Lg fringe metro,East South Central
+47169,TN,Trousdale,2,6,Lg fringe metro,East South Central
+47171,TN,Unicoi,3,10,Md/Sm metro,Appalachia
+47173,TN,Union,3,10,Md/Sm metro,Appalachia
+47175,TN,Van Buren,4,10,Nonmetro,Appalachia
+47177,TN,Warren,4,10,Nonmetro,Appalachia
+47179,TN,Washington,3,10,Md/Sm metro,Appalachia
+47181,TN,Wayne,4,6,Nonmetro,East South Central
+47183,TN,Weakley,4,6,Nonmetro,East South Central
+47185,TN,White,4,10,Nonmetro,Appalachia
+47187,TN,Williamson,2,6,Lg fringe metro,East South Central
+47189,TN,Wilson,2,6,Lg fringe metro,East South Central
+48001,TX,Anderson,4,7,Nonmetro,West South Central
+48003,TX,Andrews,4,7,Nonmetro,West South Central
+48005,TX,Angelina,4,7,Nonmetro,West South Central
+48007,TX,Aransas,3,7,Md/Sm metro,West South Central
+48009,TX,Archer,3,7,Md/Sm metro,West South Central
+48011,TX,Armstrong,3,7,Md/Sm metro,West South Central
+48013,TX,Atascosa,2,7,Lg fringe metro,West South Central
+48015,TX,Austin,2,7,Lg fringe metro,West South Central
+48017,TX,Bailey,4,7,Nonmetro,West South Central
+48019,TX,Bandera,2,7,Lg fringe metro,West South Central
+48021,TX,Bastrop,2,7,Lg fringe metro,West South Central
+48023,TX,Baylor,4,7,Nonmetro,West South Central
+48025,TX,Bee,4,7,Nonmetro,West South Central
+48027,TX,Bell,3,7,Md/Sm metro,West South Central
+48029,TX,Bexar,1,7,Lg central metro,West South Central
+48031,TX,Blanco,4,7,Nonmetro,West South Central
+48033,TX,Borden,4,7,Nonmetro,West South Central
+48035,TX,Bosque,4,7,Nonmetro,West South Central
+48037,TX,Bowie,3,7,Md/Sm metro,West South Central
+48039,TX,Brazoria,2,7,Lg fringe metro,West South Central
+48041,TX,Brazos,3,7,Md/Sm metro,West South Central
+48043,TX,Brewster,4,7,Nonmetro,West South Central
+48045,TX,Briscoe,4,7,Nonmetro,West South Central
+48047,TX,Brooks,4,7,Nonmetro,West South Central
+48049,TX,Brown,4,7,Nonmetro,West South Central
+48051,TX,Burleson,3,7,Md/Sm metro,West South Central
+48053,TX,Burnet,4,7,Nonmetro,West South Central
+48055,TX,Caldwell,2,7,Lg fringe metro,West South Central
+48057,TX,Calhoun,4,7,Nonmetro,West South Central
+48059,TX,Callahan,3,7,Md/Sm metro,West South Central
+48061,TX,Cameron,3,7,Md/Sm metro,West South Central
+48063,TX,Camp,4,7,Nonmetro,West South Central
+48065,TX,Carson,3,7,Md/Sm metro,West South Central
+48067,TX,Cass,4,7,Nonmetro,West South Central
+48069,TX,Castro,4,7,Nonmetro,West South Central
+48071,TX,Chambers,2,7,Lg fringe metro,West South Central
+48073,TX,Cherokee,4,7,Nonmetro,West South Central
+48075,TX,Childress,4,7,Nonmetro,West South Central
+48077,TX,Clay,3,7,Md/Sm metro,West South Central
+48079,TX,Cochran,4,7,Nonmetro,West South Central
+48081,TX,Coke,4,7,Nonmetro,West South Central
+48083,TX,Coleman,4,7,Nonmetro,West South Central
+48085,TX,Collin,1,7,Lg central metro,West South Central
+48087,TX,Collingsworth,4,7,Nonmetro,West South Central
+48089,TX,Colorado,4,7,Nonmetro,West South Central
+48091,TX,Comal,2,7,Lg fringe metro,West South Central
+48093,TX,Comanche,4,7,Nonmetro,West South Central
+48095,TX,Concho,4,7,Nonmetro,West South Central
+48097,TX,Cooke,4,7,Nonmetro,West South Central
+48099,TX,Coryell,3,7,Md/Sm metro,West South Central
+48101,TX,Cottle,4,7,Nonmetro,West South Central
+48103,TX,Crane,4,7,Nonmetro,West South Central
+48105,TX,Crockett,4,7,Nonmetro,West South Central
+48107,TX,Crosby,3,7,Md/Sm metro,West South Central
+48109,TX,Culberson,4,7,Nonmetro,West South Central
+48111,TX,Dallam,4,7,Nonmetro,West South Central
+48113,TX,Dallas,1,7,Lg central metro,West South Central
+48115,TX,Dawson,4,7,Nonmetro,West South Central
+48117,TX,Deaf Smith,4,7,Nonmetro,West South Central
+48119,TX,Delta,4,7,Nonmetro,West South Central
+48121,TX,Denton,2,7,Lg fringe metro,West South Central
+48123,TX,DeWitt,4,7,Nonmetro,West South Central
+48125,TX,Dickens,4,7,Nonmetro,West South Central
+48127,TX,Dimmit,4,7,Nonmetro,West South Central
+48129,TX,Donley,4,7,Nonmetro,West South Central
+48131,TX,Duval,4,7,Nonmetro,West South Central
+48133,TX,Eastland,4,7,Nonmetro,West South Central
+48135,TX,Ector,3,7,Md/Sm metro,West South Central
+48137,TX,Edwards,4,7,Nonmetro,West South Central
+48139,TX,Ellis,2,7,Lg fringe metro,West South Central
+48141,TX,El Paso,3,7,Md/Sm metro,West South Central
+48143,TX,Erath,4,7,Nonmetro,West South Central
+48145,TX,Falls,3,7,Md/Sm metro,West South Central
+48147,TX,Fannin,4,7,Nonmetro,West South Central
+48149,TX,Fayette,4,7,Nonmetro,West South Central
+48151,TX,Fisher,4,7,Nonmetro,West South Central
+48153,TX,Floyd,4,7,Nonmetro,West South Central
+48155,TX,Foard,4,7,Nonmetro,West South Central
+48157,TX,Fort Bend,2,7,Lg fringe metro,West South Central
+48159,TX,Franklin,4,7,Nonmetro,West South Central
+48161,TX,Freestone,4,7,Nonmetro,West South Central
+48163,TX,Frio,4,7,Nonmetro,West South Central
+48165,TX,Gaines,4,7,Nonmetro,West South Central
+48167,TX,Galveston,2,7,Lg fringe metro,West South Central
+48169,TX,Garza,4,7,Nonmetro,West South Central
+48171,TX,Gillespie,4,7,Nonmetro,West South Central
+48173,TX,Glasscock,4,7,Nonmetro,West South Central
+48175,TX,Goliad,3,7,Md/Sm metro,West South Central
+48177,TX,Gonzales,4,7,Nonmetro,West South Central
+48179,TX,Gray,4,7,Nonmetro,West South Central
+48181,TX,Grayson,3,7,Md/Sm metro,West South Central
+48183,TX,Gregg,3,7,Md/Sm metro,West South Central
+48185,TX,Grimes,4,7,Nonmetro,West South Central
+48187,TX,Guadalupe,2,7,Lg fringe metro,West South Central
+48189,TX,Hale,4,7,Nonmetro,West South Central
+48191,TX,Hall,4,7,Nonmetro,West South Central
+48193,TX,Hamilton,4,7,Nonmetro,West South Central
+48195,TX,Hansford,4,7,Nonmetro,West South Central
+48197,TX,Hardeman,4,7,Nonmetro,West South Central
+48199,TX,Hardin,3,7,Md/Sm metro,West South Central
+48201,TX,Harris,1,7,Lg central metro,West South Central
+48203,TX,Harrison,4,7,Nonmetro,West South Central
+48205,TX,Hartley,4,7,Nonmetro,West South Central
+48207,TX,Haskell,4,7,Nonmetro,West South Central
+48209,TX,Hays,2,7,Lg fringe metro,West South Central
+48211,TX,Hemphill,4,7,Nonmetro,West South Central
+48213,TX,Henderson,4,7,Nonmetro,West South Central
+48215,TX,Hidalgo,3,7,Md/Sm metro,West South Central
+48217,TX,Hill,4,7,Nonmetro,West South Central
+48219,TX,Hockley,4,7,Nonmetro,West South Central
+48221,TX,Hood,2,7,Lg fringe metro,West South Central
+48223,TX,Hopkins,4,7,Nonmetro,West South Central
+48225,TX,Houston,4,7,Nonmetro,West South Central
+48227,TX,Howard,4,7,Nonmetro,West South Central
+48229,TX,Hudspeth,3,7,Md/Sm metro,West South Central
+48231,TX,Hunt,2,7,Lg fringe metro,West South Central
+48233,TX,Hutchinson,4,7,Nonmetro,West South Central
+48235,TX,Irion,3,7,Md/Sm metro,West South Central
+48237,TX,Jack,4,7,Nonmetro,West South Central
+48239,TX,Jackson,4,7,Nonmetro,West South Central
+48241,TX,Jasper,4,7,Nonmetro,West South Central
+48243,TX,Jeff Davis,4,7,Nonmetro,West South Central
+48245,TX,Jefferson,3,7,Md/Sm metro,West South Central
+48247,TX,Jim Hogg,4,7,Nonmetro,West South Central
+48249,TX,Jim Wells,4,7,Nonmetro,West South Central
+48251,TX,Johnson,2,7,Lg fringe metro,West South Central
+48253,TX,Jones,3,7,Md/Sm metro,West South Central
+48255,TX,Karnes,4,7,Nonmetro,West South Central
+48257,TX,Kaufman,2,7,Lg fringe metro,West South Central
+48259,TX,Kendall,2,7,Lg fringe metro,West South Central
+48261,TX,Kenedy,4,7,Nonmetro,West South Central
+48263,TX,Kent,4,7,Nonmetro,West South Central
+48265,TX,Kerr,4,7,Nonmetro,West South Central
+48267,TX,Kimble,4,7,Nonmetro,West South Central
+48269,TX,King,4,7,Nonmetro,West South Central
+48271,TX,Kinney,4,7,Nonmetro,West South Central
+48273,TX,Kleberg,4,7,Nonmetro,West South Central
+48275,TX,Knox,4,7,Nonmetro,West South Central
+48277,TX,Lamar,4,7,Nonmetro,West South Central
+48279,TX,Lamb,4,7,Nonmetro,West South Central
+48281,TX,Lampasas,3,7,Md/Sm metro,West South Central
+48283,TX,La Salle,4,7,Nonmetro,West South Central
+48285,TX,Lavaca,4,7,Nonmetro,West South Central
+48287,TX,Lee,4,7,Nonmetro,West South Central
+48289,TX,Leon,4,7,Nonmetro,West South Central
+48291,TX,Liberty,2,7,Lg fringe metro,West South Central
+48293,TX,Limestone,4,7,Nonmetro,West South Central
+48295,TX,Lipscomb,4,7,Nonmetro,West South Central
+48297,TX,Live Oak,4,7,Nonmetro,West South Central
+48299,TX,Llano,4,7,Nonmetro,West South Central
+48301,TX,Loving,4,7,Nonmetro,West South Central
+48303,TX,Lubbock,3,7,Md/Sm metro,West South Central
+48305,TX,Lynn,3,7,Md/Sm metro,West South Central
+48307,TX,McCulloch,4,7,Nonmetro,West South Central
+48309,TX,McLennan,3,7,Md/Sm metro,West South Central
+48311,TX,McMullen,4,7,Nonmetro,West South Central
+48313,TX,Madison,4,7,Nonmetro,West South Central
+48315,TX,Marion,4,7,Nonmetro,West South Central
+48317,TX,Martin,3,7,Md/Sm metro,West South Central
+48319,TX,Mason,4,7,Nonmetro,West South Central
+48321,TX,Matagorda,4,7,Nonmetro,West South Central
+48323,TX,Maverick,4,7,Nonmetro,West South Central
+48325,TX,Medina,2,7,Lg fringe metro,West South Central
+48327,TX,Menard,4,7,Nonmetro,West South Central
+48329,TX,Midland,3,7,Md/Sm metro,West South Central
+48331,TX,Milam,4,7,Nonmetro,West South Central
+48333,TX,Mills,4,7,Nonmetro,West South Central
+48335,TX,Mitchell,4,7,Nonmetro,West South Central
+48337,TX,Montague,4,7,Nonmetro,West South Central
+48339,TX,Montgomery,2,7,Lg fringe metro,West South Central
+48341,TX,Moore,4,7,Nonmetro,West South Central
+48343,TX,Morris,4,7,Nonmetro,West South Central
+48345,TX,Motley,4,7,Nonmetro,West South Central
+48347,TX,Nacogdoches,4,7,Nonmetro,West South Central
+48349,TX,Navarro,4,7,Nonmetro,West South Central
+48351,TX,Newton,3,7,Md/Sm metro,West South Central
+48353,TX,Nolan,4,7,Nonmetro,West South Central
+48355,TX,Nueces,3,7,Md/Sm metro,West South Central
+48357,TX,Ochiltree,4,7,Nonmetro,West South Central
+48359,TX,Oldham,3,7,Md/Sm metro,West South Central
+48361,TX,Orange,3,7,Md/Sm metro,West South Central
+48363,TX,Palo Pinto,4,7,Nonmetro,West South Central
+48365,TX,Panola,4,7,Nonmetro,West South Central
+48367,TX,Parker,2,7,Lg fringe metro,West South Central
+48369,TX,Parmer,4,7,Nonmetro,West South Central
+48371,TX,Pecos,4,7,Nonmetro,West South Central
+48373,TX,Polk,4,7,Nonmetro,West South Central
+48375,TX,Potter,3,7,Md/Sm metro,West South Central
+48377,TX,Presidio,4,7,Nonmetro,West South Central
+48379,TX,Rains,4,7,Nonmetro,West South Central
+48381,TX,Randall,3,7,Md/Sm metro,West South Central
+48383,TX,Reagan,4,7,Nonmetro,West South Central
+48385,TX,Real,4,7,Nonmetro,West South Central
+48387,TX,Red River,4,7,Nonmetro,West South Central
+48389,TX,Reeves,4,7,Nonmetro,West South Central
+48391,TX,Refugio,4,7,Nonmetro,West South Central
+48393,TX,Roberts,4,7,Nonmetro,West South Central
+48395,TX,Robertson,3,7,Md/Sm metro,West South Central
+48397,TX,Rockwall,2,7,Lg fringe metro,West South Central
+48399,TX,Runnels,4,7,Nonmetro,West South Central
+48401,TX,Rusk,3,7,Md/Sm metro,West South Central
+48403,TX,Sabine,4,7,Nonmetro,West South Central
+48405,TX,San Augustine,4,7,Nonmetro,West South Central
+48407,TX,San Jacinto,4,7,Nonmetro,West South Central
+48409,TX,San Patricio,3,7,Md/Sm metro,West South Central
+48411,TX,San Saba,4,7,Nonmetro,West South Central
+48413,TX,Schleicher,4,7,Nonmetro,West South Central
+48415,TX,Scurry,4,7,Nonmetro,West South Central
+48417,TX,Shackelford,4,7,Nonmetro,West South Central
+48419,TX,Shelby,4,7,Nonmetro,West South Central
+48421,TX,Sherman,4,7,Nonmetro,West South Central
+48423,TX,Smith,3,7,Md/Sm metro,West South Central
+48425,TX,Somervell,2,7,Lg fringe metro,West South Central
+48427,TX,Starr,4,7,Nonmetro,West South Central
+48429,TX,Stephens,4,7,Nonmetro,West South Central
+48431,TX,Sterling,4,7,Nonmetro,West South Central
+48433,TX,Stonewall,4,7,Nonmetro,West South Central
+48435,TX,Sutton,4,7,Nonmetro,West South Central
+48437,TX,Swisher,4,7,Nonmetro,West South Central
+48439,TX,Tarrant,1,7,Lg central metro,West South Central
+48441,TX,Taylor,3,7,Md/Sm metro,West South Central
+48443,TX,Terrell,4,7,Nonmetro,West South Central
+48445,TX,Terry,4,7,Nonmetro,West South Central
+48447,TX,Throckmorton,4,7,Nonmetro,West South Central
+48449,TX,Titus,4,7,Nonmetro,West South Central
+48451,TX,Tom Green,3,7,Md/Sm metro,West South Central
+48453,TX,Travis,1,7,Lg central metro,West South Central
+48455,TX,Trinity,4,7,Nonmetro,West South Central
+48457,TX,Tyler,4,7,Nonmetro,West South Central
+48459,TX,Upshur,3,7,Md/Sm metro,West South Central
+48461,TX,Upton,4,7,Nonmetro,West South Central
+48463,TX,Uvalde,4,7,Nonmetro,West South Central
+48465,TX,Val Verde,4,7,Nonmetro,West South Central
+48467,TX,Van Zandt,4,7,Nonmetro,West South Central
+48469,TX,Victoria,3,7,Md/Sm metro,West South Central
+48471,TX,Walker,4,7,Nonmetro,West South Central
+48473,TX,Waller,2,7,Lg fringe metro,West South Central
+48475,TX,Ward,4,7,Nonmetro,West South Central
+48477,TX,Washington,4,7,Nonmetro,West South Central
+48479,TX,Webb,3,7,Md/Sm metro,West South Central
+48481,TX,Wharton,4,7,Nonmetro,West South Central
+48483,TX,Wheeler,4,7,Nonmetro,West South Central
+48485,TX,Wichita,3,7,Md/Sm metro,West South Central
+48487,TX,Wilbarger,4,7,Nonmetro,West South Central
+48489,TX,Willacy,4,7,Nonmetro,West South Central
+48491,TX,Williamson,2,7,Lg fringe metro,West South Central
+48493,TX,Wilson,2,7,Lg fringe metro,West South Central
+48495,TX,Winkler,4,7,Nonmetro,West South Central
+48497,TX,Wise,2,7,Lg fringe metro,West South Central
+48499,TX,Wood,4,7,Nonmetro,West South Central
+48501,TX,Yoakum,4,7,Nonmetro,West South Central
+48503,TX,Young,4,7,Nonmetro,West South Central
+48505,TX,Zapata,4,7,Nonmetro,West South Central
+48507,TX,Zavala,4,7,Nonmetro,West South Central
+49001,UT,Beaver,4,8,Nonmetro,Mountain
+49003,UT,Box Elder,3,8,Md/Sm metro,Mountain
+49005,UT,Cache,3,8,Md/Sm metro,Mountain
+49007,UT,Carbon,4,8,Nonmetro,Mountain
+49009,UT,Daggett,4,8,Nonmetro,Mountain
+49011,UT,Davis,3,8,Md/Sm metro,Mountain
+49013,UT,Duchesne,4,8,Nonmetro,Mountain
+49015,UT,Emery,4,8,Nonmetro,Mountain
+49017,UT,Garfield,4,8,Nonmetro,Mountain
+49019,UT,Grand,4,8,Nonmetro,Mountain
+49021,UT,Iron,4,8,Nonmetro,Mountain
+49023,UT,Juab,3,8,Md/Sm metro,Mountain
+49025,UT,Kane,4,8,Nonmetro,Mountain
+49027,UT,Millard,4,8,Nonmetro,Mountain
+49029,UT,Morgan,3,8,Md/Sm metro,Mountain
+49031,UT,Piute,4,8,Nonmetro,Mountain
+49033,UT,Rich,4,8,Nonmetro,Mountain
+49035,UT,Salt Lake,1,8,Lg central metro,Mountain
+49037,UT,San Juan,4,8,Nonmetro,Mountain
+49039,UT,Sanpete,4,8,Nonmetro,Mountain
+49041,UT,Sevier,4,8,Nonmetro,Mountain
+49043,UT,Summit,4,8,Nonmetro,Mountain
+49045,UT,Tooele,2,8,Lg fringe metro,Mountain
+49047,UT,Uintah,4,8,Nonmetro,Mountain
+49049,UT,Utah,3,8,Md/Sm metro,Mountain
+49051,UT,Wasatch,4,8,Nonmetro,Mountain
+49053,UT,Washington,3,8,Md/Sm metro,Mountain
+49055,UT,Wayne,4,8,Nonmetro,Mountain
+49057,UT,Weber,3,8,Md/Sm metro,Mountain
+50001,VT,Addison,4,1,Nonmetro,New England
+50003,VT,Bennington,4,1,Nonmetro,New England
+50005,VT,Caledonia,4,1,Nonmetro,New England
+50007,VT,Chittenden,3,1,Md/Sm metro,New England
+50009,VT,Essex,4,1,Nonmetro,New England
+50011,VT,Franklin,3,1,Md/Sm metro,New England
+50013,VT,Grand Isle,3,1,Md/Sm metro,New England
+50015,VT,Lamoille,4,1,Nonmetro,New England
+50017,VT,Orange,4,1,Nonmetro,New England
+50019,VT,Orleans,4,1,Nonmetro,New England
+50021,VT,Rutland,4,1,Nonmetro,New England
+50023,VT,Washington,4,1,Nonmetro,New England
+50025,VT,Windham,4,1,Nonmetro,New England
+50027,VT,Windsor,4,1,Nonmetro,New England
+51001,VA,Accomack,4,5,Nonmetro,South Atlantic
+51003,VA,Albemarle,3,5,Md/Sm metro,South Atlantic
+51005,VA,Alleghany,4,10,Nonmetro,Appalachia
+51007,VA,Amelia,2,5,Lg fringe metro,South Atlantic
+51009,VA,Amherst,3,5,Md/Sm metro,South Atlantic
+51011,VA,Appomattox,3,5,Md/Sm metro,South Atlantic
+51013,VA,Arlington,1,5,Lg central metro,South Atlantic
+51015,VA,Augusta,3,5,Md/Sm metro,South Atlantic
+51017,VA,Bath,4,10,Nonmetro,Appalachia
+51019,VA,Bedford,3,5,Md/Sm metro,South Atlantic
+51021,VA,Bland,4,10,Nonmetro,Appalachia
+51023,VA,Botetourt,3,10,Md/Sm metro,Appalachia
+51025,VA,Brunswick,4,5,Nonmetro,South Atlantic
+51027,VA,Buchanan,4,10,Nonmetro,Appalachia
+51029,VA,Buckingham,3,5,Md/Sm metro,South Atlantic
+51031,VA,Campbell,3,5,Md/Sm metro,South Atlantic
+51033,VA,Caroline,2,5,Lg fringe metro,South Atlantic
+51035,VA,Carroll,4,10,Nonmetro,Appalachia
+51036,VA,Charles City,2,5,Lg fringe metro,South Atlantic
+51037,VA,Charlotte,4,5,Nonmetro,South Atlantic
+51041,VA,Chesterfield,2,5,Lg fringe metro,South Atlantic
+51043,VA,Clarke,2,5,Lg fringe metro,South Atlantic
+51045,VA,Craig,3,10,Md/Sm metro,Appalachia
+51047,VA,Culpeper,2,5,Lg fringe metro,South Atlantic
+51049,VA,Cumberland,4,5,Nonmetro,South Atlantic
+51051,VA,Dickenson,4,10,Nonmetro,Appalachia
+51053,VA,Dinwiddie,2,5,Lg fringe metro,South Atlantic
+51057,VA,Essex,4,5,Nonmetro,South Atlantic
+51059,VA,Fairfax,2,5,Lg fringe metro,South Atlantic
+51061,VA,Fauquier,2,5,Lg fringe metro,South Atlantic
+51063,VA,Floyd,3,10,Md/Sm metro,Appalachia
+51065,VA,Fluvanna,3,5,Md/Sm metro,South Atlantic
+51067,VA,Franklin,3,5,Md/Sm metro,South Atlantic
+51069,VA,Frederick,3,5,Md/Sm metro,South Atlantic
+51071,VA,Giles,3,10,Md/Sm metro,Appalachia
+51073,VA,Gloucester,2,5,Lg fringe metro,South Atlantic
+51075,VA,Goochland,2,5,Lg fringe metro,South Atlantic
+51077,VA,Grayson,4,10,Nonmetro,Appalachia
+51079,VA,Greene,3,5,Md/Sm metro,South Atlantic
+51081,VA,Greensville,4,5,Nonmetro,South Atlantic
+51083,VA,Halifax,4,5,Nonmetro,South Atlantic
+51085,VA,Hanover,2,5,Lg fringe metro,South Atlantic
+51087,VA,Henrico,2,5,Lg fringe metro,South Atlantic
+51089,VA,Henry,4,10,Nonmetro,Appalachia
+51091,VA,Highland,4,10,Nonmetro,Appalachia
+51093,VA,Isle of Wight,2,5,Lg fringe metro,South Atlantic
+51095,VA,James City,2,5,Lg fringe metro,South Atlantic
+51097,VA,King and Queen,4,5,Nonmetro,South Atlantic
+51099,VA,King George,4,5,Nonmetro,South Atlantic
+51101,VA,King William,2,5,Lg fringe metro,South Atlantic
+51103,VA,Lancaster,4,5,Nonmetro,South Atlantic
+51105,VA,Lee,4,10,Nonmetro,Appalachia
+51107,VA,Loudoun,2,5,Lg fringe metro,South Atlantic
+51109,VA,Louisa,4,5,Nonmetro,South Atlantic
+51111,VA,Lunenburg,4,5,Nonmetro,South Atlantic
+51113,VA,Madison,4,5,Nonmetro,South Atlantic
+51115,VA,Mathews,2,5,Lg fringe metro,South Atlantic
+51117,VA,Mecklenburg,4,5,Nonmetro,South Atlantic
+51119,VA,Middlesex,4,5,Nonmetro,South Atlantic
+51121,VA,Montgomery,3,10,Md/Sm metro,Appalachia
+51125,VA,Nelson,3,5,Md/Sm metro,South Atlantic
+51127,VA,New Kent,2,5,Lg fringe metro,South Atlantic
+51131,VA,Northampton,4,5,Nonmetro,South Atlantic
+51133,VA,Northumberland,4,5,Nonmetro,South Atlantic
+51135,VA,Nottoway,4,5,Nonmetro,South Atlantic
+51137,VA,Orange,4,5,Nonmetro,South Atlantic
+51139,VA,Page,4,5,Nonmetro,South Atlantic
+51141,VA,Patrick,4,10,Nonmetro,Appalachia
+51143,VA,Pittsylvania,4,5,Nonmetro,South Atlantic
+51145,VA,Powhatan,2,5,Lg fringe metro,South Atlantic
+51147,VA,Prince Edward,4,5,Nonmetro,South Atlantic
+51149,VA,Prince George,2,5,Lg fringe metro,South Atlantic
+51153,VA,Prince William,2,5,Lg fringe metro,South Atlantic
+51155,VA,Pulaski,3,10,Md/Sm metro,Appalachia
+51157,VA,Rappahannock,2,5,Lg fringe metro,South Atlantic
+51159,VA,Richmond,4,5,Nonmetro,South Atlantic
+51161,VA,Roanoke,3,5,Md/Sm metro,South Atlantic
+51163,VA,Rockbridge,4,10,Nonmetro,Appalachia
+51165,VA,Rockingham,3,5,Md/Sm metro,South Atlantic
+51167,VA,Russell,4,10,Nonmetro,Appalachia
+51169,VA,Scott,3,10,Md/Sm metro,Appalachia
+51171,VA,Shenandoah,4,5,Nonmetro,South Atlantic
+51173,VA,Smyth,4,10,Nonmetro,Appalachia
+51175,VA,Southampton,4,5,Nonmetro,South Atlantic
+51177,VA,Spotsylvania,2,5,Lg fringe metro,South Atlantic
+51179,VA,Stafford,2,5,Lg fringe metro,South Atlantic
+51181,VA,Surry,4,5,Nonmetro,South Atlantic
+51183,VA,Sussex,2,5,Lg fringe metro,South Atlantic
+51185,VA,Tazewell,4,10,Nonmetro,Appalachia
+51187,VA,Warren,2,5,Lg fringe metro,South Atlantic
+51191,VA,Washington,3,10,Md/Sm metro,Appalachia
+51193,VA,Westmoreland,4,5,Nonmetro,South Atlantic
+51195,VA,Wise,4,10,Nonmetro,Appalachia
+51197,VA,Wythe,4,10,Nonmetro,Appalachia
+51199,VA,York,2,5,Lg fringe metro,South Atlantic
+51510,VA,Alexandria city,1,5,Lg central metro,South Atlantic
+51520,VA,Bristol city,3,5,Md/Sm metro,South Atlantic
+51530,VA,Buena Vista city,4,5,Nonmetro,South Atlantic
+51540,VA,Charlottesville city,3,5,Md/Sm metro,South Atlantic
+51550,VA,Chesapeake city,2,5,Lg fringe metro,South Atlantic
+51570,VA,Colonial Heights city,2,5,Lg fringe metro,South Atlantic
+51580,VA,Covington city,4,5,Nonmetro,South Atlantic
+51590,VA,Danville city,4,5,Nonmetro,South Atlantic
+51595,VA,Emporia city,4,5,Nonmetro,South Atlantic
+51600,VA,Fairfax city,2,5,Lg fringe metro,South Atlantic
+51610,VA,Falls Church city,2,5,Lg fringe metro,South Atlantic
+51620,VA,Franklin city,4,5,Nonmetro,South Atlantic
+51630,VA,Fredericksburg city,2,5,Lg fringe metro,South Atlantic
+51640,VA,Galax city,4,5,Nonmetro,South Atlantic
+51650,VA,Hampton city,2,5,Lg fringe metro,South Atlantic
+51660,VA,Harrisonburg city,3,5,Md/Sm metro,South Atlantic
+51670,VA,Hopewell city,2,5,Lg fringe metro,South Atlantic
+51678,VA,Lexington city,4,5,Nonmetro,South Atlantic
+51680,VA,Lynchburg city,3,5,Md/Sm metro,South Atlantic
+51683,VA,Manassas city,2,5,Lg fringe metro,South Atlantic
+51685,VA,Manassas Park city,2,5,Lg fringe metro,South Atlantic
+51690,VA,Martinsville city,4,5,Nonmetro,South Atlantic
+51700,VA,Newport News city,2,5,Lg fringe metro,South Atlantic
+51710,VA,Norfolk city,1,5,Lg central metro,South Atlantic
+51720,VA,Norton city,4,5,Nonmetro,South Atlantic
+51730,VA,Petersburg city,2,5,Lg fringe metro,South Atlantic
+51735,VA,Poquoson city,2,5,Lg fringe metro,South Atlantic
+51740,VA,Portsmouth city,2,5,Lg fringe metro,South Atlantic
+51750,VA,Radford city,3,5,Md/Sm metro,South Atlantic
+51760,VA,Richmond city,1,5,Lg central metro,South Atlantic
+51770,VA,Roanoke city,3,5,Md/Sm metro,South Atlantic
+51775,VA,Salem city,3,5,Md/Sm metro,South Atlantic
+51790,VA,Staunton city,3,5,Md/Sm metro,South Atlantic
+51800,VA,Suffolk city,2,5,Lg fringe metro,South Atlantic
+51810,VA,Virginia Beach city,1,5,Lg central metro,South Atlantic
+51820,VA,Waynesboro city,3,5,Md/Sm metro,South Atlantic
+51830,VA,Williamsburg city,2,5,Lg fringe metro,South Atlantic
+51840,VA,Winchester city,3,5,Md/Sm metro,South Atlantic
+53001,WA,Adams,4,9,Nonmetro,Pacific
+53003,WA,Asotin,3,9,Md/Sm metro,Pacific
+53005,WA,Benton,3,9,Md/Sm metro,Pacific
+53007,WA,Chelan,3,9,Md/Sm metro,Pacific
+53009,WA,Clallam,4,9,Nonmetro,Pacific
+53011,WA,Clark,2,9,Lg fringe metro,Pacific
+53013,WA,Columbia,3,9,Md/Sm metro,Pacific
+53015,WA,Cowlitz,3,9,Md/Sm metro,Pacific
+53017,WA,Douglas,3,9,Md/Sm metro,Pacific
+53019,WA,Ferry,4,9,Nonmetro,Pacific
+53021,WA,Franklin,3,9,Md/Sm metro,Pacific
+53023,WA,Garfield,4,9,Nonmetro,Pacific
+53025,WA,Grant,4,9,Nonmetro,Pacific
+53027,WA,Grays Harbor,4,9,Nonmetro,Pacific
+53029,WA,Island,4,9,Nonmetro,Pacific
+53031,WA,Jefferson,4,9,Nonmetro,Pacific
+53033,WA,King,1,9,Lg central metro,Pacific
+53035,WA,Kitsap,3,9,Md/Sm metro,Pacific
+53037,WA,Kittitas,4,9,Nonmetro,Pacific
+53039,WA,Klickitat,4,9,Nonmetro,Pacific
+53041,WA,Lewis,4,9,Nonmetro,Pacific
+53043,WA,Lincoln,4,9,Nonmetro,Pacific
+53045,WA,Mason,4,9,Nonmetro,Pacific
+53047,WA,Okanogan,4,9,Nonmetro,Pacific
+53049,WA,Pacific,4,9,Nonmetro,Pacific
+53051,WA,Pend Oreille,3,9,Md/Sm metro,Pacific
+53053,WA,Pierce,2,9,Lg fringe metro,Pacific
+53055,WA,San Juan,4,9,Nonmetro,Pacific
+53057,WA,Skagit,3,9,Md/Sm metro,Pacific
+53059,WA,Skamania,2,9,Lg fringe metro,Pacific
+53061,WA,Snohomish,2,9,Lg fringe metro,Pacific
+53063,WA,Spokane,3,9,Md/Sm metro,Pacific
+53065,WA,Stevens,3,9,Md/Sm metro,Pacific
+53067,WA,Thurston,3,9,Md/Sm metro,Pacific
+53069,WA,Wahkiakum,4,9,Nonmetro,Pacific
+53071,WA,Walla Walla,3,9,Md/Sm metro,Pacific
+53073,WA,Whatcom,3,9,Md/Sm metro,Pacific
+53075,WA,Whitman,4,9,Nonmetro,Pacific
+53077,WA,Yakima,3,9,Md/Sm metro,Pacific
+54001,WV,Barbour,4,10,Nonmetro,Appalachia
+54003,WV,Berkeley,3,10,Md/Sm metro,Appalachia
+54005,WV,Boone,3,10,Md/Sm metro,Appalachia
+54007,WV,Braxton,4,10,Nonmetro,Appalachia
+54009,WV,Brooke,3,10,Md/Sm metro,Appalachia
+54011,WV,Cabell,3,10,Md/Sm metro,Appalachia
+54013,WV,Calhoun,4,10,Nonmetro,Appalachia
+54015,WV,Clay,3,10,Md/Sm metro,Appalachia
+54017,WV,Doddridge,4,10,Nonmetro,Appalachia
+54019,WV,Fayette,3,10,Md/Sm metro,Appalachia
+54021,WV,Gilmer,4,10,Nonmetro,Appalachia
+54023,WV,Grant,4,10,Nonmetro,Appalachia
+54025,WV,Greenbrier,4,10,Nonmetro,Appalachia
+54027,WV,Hampshire,3,10,Md/Sm metro,Appalachia
+54029,WV,Hancock,3,10,Md/Sm metro,Appalachia
+54031,WV,Hardy,4,10,Nonmetro,Appalachia
+54033,WV,Harrison,4,10,Nonmetro,Appalachia
+54035,WV,Jackson,4,10,Nonmetro,Appalachia
+54037,WV,Jefferson,2,10,Lg fringe metro,Appalachia
+54039,WV,Kanawha,3,10,Md/Sm metro,Appalachia
+54041,WV,Lewis,4,10,Nonmetro,Appalachia
+54043,WV,Lincoln,3,10,Md/Sm metro,Appalachia
+54045,WV,Logan,4,10,Nonmetro,Appalachia
+54047,WV,McDowell,4,10,Nonmetro,Appalachia
+54049,WV,Marion,4,10,Nonmetro,Appalachia
+54051,WV,Marshall,3,10,Md/Sm metro,Appalachia
+54053,WV,Mason,4,10,Nonmetro,Appalachia
+54055,WV,Mercer,4,10,Nonmetro,Appalachia
+54057,WV,Mineral,3,10,Md/Sm metro,Appalachia
+54059,WV,Mingo,4,10,Nonmetro,Appalachia
+54061,WV,Monongalia,3,10,Md/Sm metro,Appalachia
+54063,WV,Monroe,4,10,Nonmetro,Appalachia
+54065,WV,Morgan,4,10,Nonmetro,Appalachia
+54067,WV,Nicholas,4,10,Nonmetro,Appalachia
+54069,WV,Ohio,3,10,Md/Sm metro,Appalachia
+54071,WV,Pendleton,4,10,Nonmetro,Appalachia
+54073,WV,Pleasants,4,10,Nonmetro,Appalachia
+54075,WV,Pocahontas,4,10,Nonmetro,Appalachia
+54077,WV,Preston,3,10,Md/Sm metro,Appalachia
+54079,WV,Putnam,3,10,Md/Sm metro,Appalachia
+54081,WV,Raleigh,3,10,Md/Sm metro,Appalachia
+54083,WV,Randolph,4,10,Nonmetro,Appalachia
+54085,WV,Ritchie,4,10,Nonmetro,Appalachia
+54087,WV,Roane,4,10,Nonmetro,Appalachia
+54089,WV,Summers,4,10,Nonmetro,Appalachia
+54091,WV,Taylor,4,10,Nonmetro,Appalachia
+54093,WV,Tucker,4,10,Nonmetro,Appalachia
+54095,WV,Tyler,4,10,Nonmetro,Appalachia
+54097,WV,Upshur,4,10,Nonmetro,Appalachia
+54099,WV,Wayne,3,10,Md/Sm metro,Appalachia
+54101,WV,Webster,4,10,Nonmetro,Appalachia
+54103,WV,Wetzel,4,10,Nonmetro,Appalachia
+54105,WV,Wirt,3,10,Md/Sm metro,Appalachia
+54107,WV,Wood,3,10,Md/Sm metro,Appalachia
+54109,WV,Wyoming,4,10,Nonmetro,Appalachia
+55001,WI,Adams,4,3,Nonmetro,East North Central
+55003,WI,Ashland,4,3,Nonmetro,East North Central
+55005,WI,Barron,4,3,Nonmetro,East North Central
+55007,WI,Bayfield,4,3,Nonmetro,East North Central
+55009,WI,Brown,3,3,Md/Sm metro,East North Central
+55011,WI,Buffalo,4,3,Nonmetro,East North Central
+55013,WI,Burnett,4,3,Nonmetro,East North Central
+55015,WI,Calumet,3,3,Md/Sm metro,East North Central
+55017,WI,Chippewa,3,3,Md/Sm metro,East North Central
+55019,WI,Clark,4,3,Nonmetro,East North Central
+55021,WI,Columbia,3,3,Md/Sm metro,East North Central
+55023,WI,Crawford,4,3,Nonmetro,East North Central
+55025,WI,Dane,3,3,Md/Sm metro,East North Central
+55027,WI,Dodge,4,3,Nonmetro,East North Central
+55029,WI,Door,4,3,Nonmetro,East North Central
+55031,WI,Douglas,3,3,Md/Sm metro,East North Central
+55033,WI,Dunn,4,3,Nonmetro,East North Central
+55035,WI,Eau Claire,3,3,Md/Sm metro,East North Central
+55037,WI,Florence,4,3,Nonmetro,East North Central
+55039,WI,Fond du Lac,3,3,Md/Sm metro,East North Central
+55041,WI,Forest,4,3,Nonmetro,East North Central
+55043,WI,Grant,4,3,Nonmetro,East North Central
+55045,WI,Green,3,3,Md/Sm metro,East North Central
+55047,WI,Green Lake,4,3,Nonmetro,East North Central
+55049,WI,Iowa,3,3,Md/Sm metro,East North Central
+55051,WI,Iron,4,3,Nonmetro,East North Central
+55053,WI,Jackson,4,3,Nonmetro,East North Central
+55055,WI,Jefferson,4,3,Nonmetro,East North Central
+55057,WI,Juneau,4,3,Nonmetro,East North Central
+55059,WI,Kenosha,2,3,Lg fringe metro,East North Central
+55061,WI,Kewaunee,3,3,Md/Sm metro,East North Central
+55063,WI,La Crosse,3,3,Md/Sm metro,East North Central
+55065,WI,Lafayette,4,3,Nonmetro,East North Central
+55067,WI,Langlade,4,3,Nonmetro,East North Central
+55069,WI,Lincoln,4,3,Nonmetro,East North Central
+55071,WI,Manitowoc,4,3,Nonmetro,East North Central
+55073,WI,Marathon,3,3,Md/Sm metro,East North Central
+55075,WI,Marinette,4,3,Nonmetro,East North Central
+55077,WI,Marquette,4,3,Nonmetro,East North Central
+55078,WI,Menominee,4,3,Nonmetro,East North Central
+55079,WI,Milwaukee,1,3,Lg central metro,East North Central
+55081,WI,Monroe,4,3,Nonmetro,East North Central
+55083,WI,Oconto,3,3,Md/Sm metro,East North Central
+55085,WI,Oneida,4,3,Nonmetro,East North Central
+55087,WI,Outagamie,3,3,Md/Sm metro,East North Central
+55089,WI,Ozaukee,2,3,Lg fringe metro,East North Central
+55091,WI,Pepin,4,3,Nonmetro,East North Central
+55093,WI,Pierce,2,3,Lg fringe metro,East North Central
+55095,WI,Polk,4,3,Nonmetro,East North Central
+55097,WI,Portage,4,3,Nonmetro,East North Central
+55099,WI,Price,4,3,Nonmetro,East North Central
+55101,WI,Racine,3,3,Md/Sm metro,East North Central
+55103,WI,Richland,4,3,Nonmetro,East North Central
+55105,WI,Rock,3,3,Md/Sm metro,East North Central
+55107,WI,Rusk,4,3,Nonmetro,East North Central
+55109,WI,St. Croix,2,3,Lg fringe metro,East North Central
+55111,WI,Sauk,4,3,Nonmetro,East North Central
+55113,WI,Sawyer,4,3,Nonmetro,East North Central
+55115,WI,Shawano,4,3,Nonmetro,East North Central
+55117,WI,Sheboygan,3,3,Md/Sm metro,East North Central
+55119,WI,Taylor,4,3,Nonmetro,East North Central
+55121,WI,Trempealeau,4,3,Nonmetro,East North Central
+55123,WI,Vernon,4,3,Nonmetro,East North Central
+55125,WI,Vilas,4,3,Nonmetro,East North Central
+55127,WI,Walworth,4,3,Nonmetro,East North Central
+55129,WI,Washburn,4,3,Nonmetro,East North Central
+55131,WI,Washington,2,3,Lg fringe metro,East North Central
+55133,WI,Waukesha,2,3,Lg fringe metro,East North Central
+55135,WI,Waupaca,4,3,Nonmetro,East North Central
+55137,WI,Waushara,4,3,Nonmetro,East North Central
+55139,WI,Winnebago,3,3,Md/Sm metro,East North Central
+55141,WI,Wood,4,3,Nonmetro,East North Central
+56001,WY,Albany,4,8,Nonmetro,Mountain
+56003,WY,Big Horn,4,8,Nonmetro,Mountain
+56005,WY,Campbell,4,8,Nonmetro,Mountain
+56007,WY,Carbon,4,8,Nonmetro,Mountain
+56009,WY,Converse,4,8,Nonmetro,Mountain
+56011,WY,Crook,4,8,Nonmetro,Mountain
+56013,WY,Fremont,4,8,Nonmetro,Mountain
+56015,WY,Goshen,4,8,Nonmetro,Mountain
+56017,WY,Hot Springs,4,8,Nonmetro,Mountain
+56019,WY,Johnson,4,8,Nonmetro,Mountain
+56021,WY,Laramie,3,8,Md/Sm metro,Mountain
+56023,WY,Lincoln,4,8,Nonmetro,Mountain
+56025,WY,Natrona,3,8,Md/Sm metro,Mountain
+56027,WY,Niobrara,4,8,Nonmetro,Mountain
+56029,WY,Park,4,8,Nonmetro,Mountain
+56031,WY,Platte,4,8,Nonmetro,Mountain
+56033,WY,Sheridan,4,8,Nonmetro,Mountain
+56035,WY,Sublette,4,8,Nonmetro,Mountain
+56037,WY,Sweetwater,4,8,Nonmetro,Mountain
+56039,WY,Teton,4,8,Nonmetro,Mountain
+56041,WY,Uinta,4,8,Nonmetro,Mountain
+56043,WY,Washakie,4,8,Nonmetro,Mountain
+56045,WY,Weston,4,8,Nonmetro,Mountain

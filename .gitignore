@@ -1,7 +1,4 @@
-/data/input
-/R/RObjects/simMonthly.RData
-/R/RObjects/simYearly.RData
-/R/RObjects/simYearlySimple.RData
-/R/map_by_period_relative_exc_to_eugenio.R
+/data/input/CDC/COVIDMCDData
+/data/input/CDC/mortalityNCData
 .Rhistory
 .DS_Store

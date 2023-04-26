@@ -1,0 +1,61 @@
+"Notes"	"Year"	"Year Code"	"Month"	"Month Code"	Deaths	Population	Crude Rate
+	"2020"	"2020"	"Mar., 2020"	"2020/03"	269239	Not Applicable	Not Applicable
+	"2020"	"2020"	"Apr., 2020"	"2020/04"	321879	Not Applicable	Not Applicable
+	"2020"	"2020"	"May, 2020"	"2020/05"	280152	Not Applicable	Not Applicable
+	"2020"	"2020"	"Jun., 2020"	"2020/06"	249993	Not Applicable	Not Applicable
+	"2020"	"2020"	"Jul., 2020"	"2020/07"	278409	Not Applicable	Not Applicable
+	"2020"	"2020"	"Aug., 2020"	"2020/08"	276731	Not Applicable	Not Applicable
+	"2020"	"2020"	"Sep., 2020"	"2020/09"	256732	Not Applicable	Not Applicable
+	"2020"	"2020"	"Oct., 2020"	"2020/10"	273443	Not Applicable	Not Applicable
+	"2020"	"2020"	"Nov., 2020"	"2020/11"	302090	Not Applicable	Not Applicable
+	"2020"	"2020"	"Dec., 2020"	"2020/12"	366568	Not Applicable	Not Applicable
+	"2021"	"2021"	"Jan., 2021"	"2021/01"	372916	Not Applicable	Not Applicable
+	"2021"	"2021"	"Feb., 2021"	"2021/02"	282015	Not Applicable	Not Applicable
+	"2021"	"2021"	"Mar., 2021"	"2021/03"	270527	Not Applicable	Not Applicable
+	"2021"	"2021"	"Apr., 2021"	"2021/04"	256523	Not Applicable	Not Applicable
+	"2021"	"2021"	"May, 2021"	"2021/05"	257798	Not Applicable	Not Applicable
+	"2021"	"2021"	"Jun., 2021"	"2021/06"	244671	Not Applicable	Not Applicable
+	"2021"	"2021"	"Jul., 2021"	"2021/07"	257328	Not Applicable	Not Applicable
+	"2021"	"2021"	"Aug., 2021"	"2021/08"	303261	Not Applicable	Not Applicable
+	"2021"	"2021"	"Sep., 2021"	"2021/09"	311830	Not Applicable	Not Applicable
+	"2021"	"2021"	"Oct., 2021"	"2021/10"	299591	Not Applicable	Not Applicable
+	"2021"	"2021"	"Nov., 2021"	"2021/11"	288483	Not Applicable	Not Applicable
+	"2021"	"2021"	"Dec., 2021"	"2021/12"	319288	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Jan., 2022 (provisional)"	"2022/01"	369028	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Feb., 2022 (provisional)"	"2022/02"	289340	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Mar., 2022 (provisional)"	"2022/03"	267733	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Apr., 2022 (provisional)"	"2022/04"	245591	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"May, 2022 (provisional)"	"2022/05"	254237	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Jun., 2022 (provisional)"	"2022/06"	247855	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Jul., 2022 (provisional)"	"2022/07"	259860	Not Applicable	Not Applicable
+	"2022 (provisional)"	"2022"	"Aug., 2022 (provisional)"	"2022/08"	258594	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Month"
+"Query Parameters:"
+"Year/Month: Mar., 2020; Apr., 2020; May, 2020; Jun., 2020; Jul., 2020; Aug., 2020; Sep., 2020; Oct., 2020; Nov., 2020; Dec.,"
+"2020; 2021; Jan., 2022 (provisional); Feb., 2022 (provisional); Mar., 2022 (provisional); Apr., 2022 (provisional); May, 2022"
+"(provisional); Jun., 2022 (provisional); Jul., 2022 (provisional); Aug., 2022 (provisional)"
+"Group By: Year; Month"
+"Show Totals: False"
+"Show Zero Values: True"
+"Show Suppressed: True"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Mar 9, 2023 11:34:00 AM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2021,"
+"and from provisional data for years 2022-2023, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Mar 9, 2023 11:34:00"
+"AM"
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. These items in the results table are not fully selected: 2020, 2022 (provisional). The Query Description lists the actual"
+"values selected."
+"3. Deaths occurring through February 18, 2023 as of March 05, 2023."

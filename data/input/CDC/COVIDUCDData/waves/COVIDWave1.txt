@@ -1,0 +1,1327 @@
+"Notes"	"Residence County"	"Residence County Code"	Deaths	Population	Crude Rate
+	"Autauga County, AL"	"01001"	23	Not Applicable	Not Applicable
+	"Baldwin County, AL"	"01003"	76	Not Applicable	Not Applicable
+	"Barbour County, AL"	"01005"	23	Not Applicable	Not Applicable
+	"Bibb County, AL"	"01007"	22	Not Applicable	Not Applicable
+	"Blount County, AL"	"01009"	27	Not Applicable	Not Applicable
+	"Bullock County, AL"	"01011"	17	Not Applicable	Not Applicable
+	"Butler County, AL"	"01013"	42	Not Applicable	Not Applicable
+	"Calhoun County, AL"	"01015"	60	Not Applicable	Not Applicable
+	"Chambers County, AL"	"01017"	52	Not Applicable	Not Applicable
+	"Chilton County, AL"	"01021"	22	Not Applicable	Not Applicable
+	"Choctaw County, AL"	"01023"	17	Not Applicable	Not Applicable
+	"Clarke County, AL"	"01025"	21	Not Applicable	Not Applicable
+	"Clay County, AL"	"01027"	15	Not Applicable	Not Applicable
+	"Coffee County, AL"	"01031"	25	Not Applicable	Not Applicable
+	"Colbert County, AL"	"01033"	24	Not Applicable	Not Applicable
+	"Conecuh County, AL"	"01035"	13	Not Applicable	Not Applicable
+	"Covington County, AL"	"01039"	57	Not Applicable	Not Applicable
+	"Crenshaw County, AL"	"01041"	25	Not Applicable	Not Applicable
+	"Cullman County, AL"	"01043"	18	Not Applicable	Not Applicable
+	"Dale County, AL"	"01045"	57	Not Applicable	Not Applicable
+	"Dallas County, AL"	"01047"	50	Not Applicable	Not Applicable
+	"DeKalb County, AL"	"01049"	36	Not Applicable	Not Applicable
+	"Elmore County, AL"	"01051"	52	Not Applicable	Not Applicable
+	"Escambia County, AL"	"01053"	36	Not Applicable	Not Applicable
+	"Etowah County, AL"	"01055"	93	Not Applicable	Not Applicable
+	"Franklin County, AL"	"01059"	27	Not Applicable	Not Applicable
+	"Geneva County, AL"	"01061"	13	Not Applicable	Not Applicable
+	"Greene County, AL"	"01063"	16	Not Applicable	Not Applicable
+	"Hale County, AL"	"01065"	26	Not Applicable	Not Applicable
+	"Henry County, AL"	"01067"	12	Not Applicable	Not Applicable
+	"Houston County, AL"	"01069"	80	Not Applicable	Not Applicable
+	"Jackson County, AL"	"01071"	18	Not Applicable	Not Applicable
+	"Jefferson County, AL"	"01073"	313	Not Applicable	Not Applicable
+	"Lauderdale County, AL"	"01077"	33	Not Applicable	Not Applicable
+	"Lawrence County, AL"	"01079"	16	Not Applicable	Not Applicable
+	"Lee County, AL"	"01081"	83	Not Applicable	Not Applicable
+	"Limestone County, AL"	"01083"	30	Not Applicable	Not Applicable
+	"Lowndes County, AL"	"01085"	28	Not Applicable	Not Applicable
+	"Macon County, AL"	"01087"	21	Not Applicable	Not Applicable
+	"Madison County, AL"	"01089"	73	Not Applicable	Not Applicable
+	"Marengo County, AL"	"01091"	21	Not Applicable	Not Applicable
+	"Marion County, AL"	"01093"	30	Not Applicable	Not Applicable
+	"Marshall County, AL"	"01095"	51	Not Applicable	Not Applicable
+	"Mobile County, AL"	"01097"	302	Not Applicable	Not Applicable
+	"Monroe County, AL"	"01099"	18	Not Applicable	Not Applicable
+	"Montgomery County, AL"	"01101"	191	Not Applicable	Not Applicable
+	"Morgan County, AL"	"01103"	39	Not Applicable	Not Applicable
+	"Perry County, AL"	"01105"	12	Not Applicable	Not Applicable
+	"Pickens County, AL"	"01107"	13	Not Applicable	Not Applicable
+	"Pike County, AL"	"01109"	22	Not Applicable	Not Applicable
+	"Randolph County, AL"	"01111"	15	Not Applicable	Not Applicable
+	"Russell County, AL"	"01113"	42	Not Applicable	Not Applicable
+	"St. Clair County, AL"	"01115"	50	Not Applicable	Not Applicable
+	"Shelby County, AL"	"01117"	65	Not Applicable	Not Applicable
+	"Sumter County, AL"	"01119"	21	Not Applicable	Not Applicable
+	"Talladega County, AL"	"01121"	49	Not Applicable	Not Applicable
+	"Tallapoosa County, AL"	"01123"	54	Not Applicable	Not Applicable
+	"Tuscaloosa County, AL"	"01125"	114	Not Applicable	Not Applicable
+	"Walker County, AL"	"01127"	82	Not Applicable	Not Applicable
+	"Washington County, AL"	"01129"	14	Not Applicable	Not Applicable
+	"Wilcox County, AL"	"01131"	22	Not Applicable	Not Applicable
+	"Winston County, AL"	"01133"	12	Not Applicable	Not Applicable
+	"Anchorage Borough, AK"	"02020"	20	Not Applicable	Not Applicable
+	"Apache County, AZ"	"04001"	178	Not Applicable	Not Applicable
+	"Cochise County, AZ"	"04003"	64	Not Applicable	Not Applicable
+	"Coconino County, AZ"	"04005"	125	Not Applicable	Not Applicable
+	"Gila County, AZ"	"04007"	48	Not Applicable	Not Applicable
+	"Graham County, AZ"	"04009"	20	Not Applicable	Not Applicable
+	"La Paz County, AZ"	"04012"	14	Not Applicable	Not Applicable
+	"Maricopa County, AZ"	"04013"	2522	Not Applicable	Not Applicable
+	"Mohave County, AZ"	"04015"	180	Not Applicable	Not Applicable
+	"Navajo County, AZ"	"04017"	222	Not Applicable	Not Applicable
+	"Pima County, AZ"	"04019"	524	Not Applicable	Not Applicable
+	"Pinal County, AZ"	"04021"	179	Not Applicable	Not Applicable
+	"Santa Cruz County, AZ"	"04023"	49	Not Applicable	Not Applicable
+	"Yavapai County, AZ"	"04025"	76	Not Applicable	Not Applicable
+	"Yuma County, AZ"	"04027"	313	Not Applicable	Not Applicable
+	"Benton County, AR"	"05007"	63	Not Applicable	Not Applicable
+	"Chicot County, AR"	"05017"	15	Not Applicable	Not Applicable
+	"Craighead County, AR"	"05031"	11	Not Applicable	Not Applicable
+	"Crawford County, AR"	"05033"	12	Not Applicable	Not Applicable
+	"Crittenden County, AR"	"05035"	28	Not Applicable	Not Applicable
+	"Faulkner County, AR"	"05045"	13	Not Applicable	Not Applicable
+	"Garland County, AR"	"05051"	36	Not Applicable	Not Applicable
+	"Hot Spring County, AR"	"05059"	18	Not Applicable	Not Applicable
+	"Howard County, AR"	"05061"	10	Not Applicable	Not Applicable
+	"Jefferson County, AR"	"05069"	56	Not Applicable	Not Applicable
+	"Lincoln County, AR"	"05079"	13	Not Applicable	Not Applicable
+	"Little River County, AR"	"05081"	19	Not Applicable	Not Applicable
+	"Lonoke County, AR"	"05085"	10	Not Applicable	Not Applicable
+	"Miller County, AR"	"05091"	21	Not Applicable	Not Applicable
+	"Mississippi County, AR"	"05093"	35	Not Applicable	Not Applicable
+	"Nevada County, AR"	"05099"	11	Not Applicable	Not Applicable
+	"Newton County, AR"	"05101"	10	Not Applicable	Not Applicable
+	"Phillips County, AR"	"05107"	12	Not Applicable	Not Applicable
+	"Pope County, AR"	"05115"	18	Not Applicable	Not Applicable
+	"Pulaski County, AR"	"05119"	98	Not Applicable	Not Applicable
+	"Randolph County, AR"	"05121"	17	Not Applicable	Not Applicable
+	"Saline County, AR"	"05125"	14	Not Applicable	Not Applicable
+	"Sebastian County, AR"	"05131"	33	Not Applicable	Not Applicable
+	"Sevier County, AR"	"05133"	19	Not Applicable	Not Applicable
+	"Union County, AR"	"05139"	32	Not Applicable	Not Applicable
+	"Washington County, AR"	"05143"	92	Not Applicable	Not Applicable
+	"White County, AR"	"05145"	12	Not Applicable	Not Applicable
+	"Yell County, AR"	"05149"	18	Not Applicable	Not Applicable
+	"Alameda County, CA"	"06001"	277	Not Applicable	Not Applicable
+	"Amador County, CA"	"06005"	11	Not Applicable	Not Applicable
+	"Butte County, CA"	"06007"	24	Not Applicable	Not Applicable
+	"Contra Costa County, CA"	"06013"	174	Not Applicable	Not Applicable
+	"Fresno County, CA"	"06019"	373	Not Applicable	Not Applicable
+	"Imperial County, CA"	"06025"	321	Not Applicable	Not Applicable
+	"Inyo County, CA"	"06027"	15	Not Applicable	Not Applicable
+	"Kern County, CA"	"06029"	325	Not Applicable	Not Applicable
+	"Kings County, CA"	"06031"	67	Not Applicable	Not Applicable
+	"Los Angeles County, CA"	"06037"	5322	Not Applicable	Not Applicable
+	"Madera County, CA"	"06039"	85	Not Applicable	Not Applicable
+	"Marin County, CA"	"06041"	71	Not Applicable	Not Applicable
+	"Mendocino County, CA"	"06045"	19	Not Applicable	Not Applicable
+	"Merced County, CA"	"06047"	115	Not Applicable	Not Applicable
+	"Monterey County, CA"	"06053"	62	Not Applicable	Not Applicable
+	"Napa County, CA"	"06055"	14	Not Applicable	Not Applicable
+	"Orange County, CA"	"06059"	1036	Not Applicable	Not Applicable
+	"Placer County, CA"	"06061"	30	Not Applicable	Not Applicable
+	"Riverside County, CA"	"06065"	1156	Not Applicable	Not Applicable
+	"Sacramento County, CA"	"06067"	318	Not Applicable	Not Applicable
+	"San Bernardino County, CA"	"06071"	947	Not Applicable	Not Applicable
+	"San Diego County, CA"	"06073"	688	Not Applicable	Not Applicable
+	"San Francisco County, CA"	"06075"	87	Not Applicable	Not Applicable
+	"San Joaquin County, CA"	"06077"	396	Not Applicable	Not Applicable
+	"San Luis Obispo County, CA"	"06079"	28	Not Applicable	Not Applicable
+	"San Mateo County, CA"	"06081"	131	Not Applicable	Not Applicable
+	"Santa Barbara County, CA"	"06083"	100	Not Applicable	Not Applicable
+	"Santa Clara County, CA"	"06085"	243	Not Applicable	Not Applicable
+	"Shasta County, CA"	"06089"	14	Not Applicable	Not Applicable
+	"Solano County, CA"	"06095"	70	Not Applicable	Not Applicable
+	"Sonoma County, CA"	"06097"	74	Not Applicable	Not Applicable
+	"Stanislaus County, CA"	"06099"	282	Not Applicable	Not Applicable
+	"Tulare County, CA"	"06107"	210	Not Applicable	Not Applicable
+	"Ventura County, CA"	"06111"	133	Not Applicable	Not Applicable
+	"Yolo County, CA"	"06113"	42	Not Applicable	Not Applicable
+	"Adams County, CO"	"08001"	184	Not Applicable	Not Applicable
+	"Arapahoe County, CO"	"08005"	308	Not Applicable	Not Applicable
+	"Boulder County, CO"	"08013"	61	Not Applicable	Not Applicable
+	"Broomfield County, CO"	"08014"	25	Not Applicable	Not Applicable
+	"Chaffee County, CO"	"08015"	12	Not Applicable	Not Applicable
+	"Denver County, CO"	"08031"	355	Not Applicable	Not Applicable
+	"Douglas County, CO"	"08035"	56	Not Applicable	Not Applicable
+	"El Paso County, CO"	"08041"	145	Not Applicable	Not Applicable
+	"Jefferson County, CO"	"08059"	180	Not Applicable	Not Applicable
+	"Larimer County, CO"	"08069"	33	Not Applicable	Not Applicable
+	"Morgan County, CO"	"08087"	41	Not Applicable	Not Applicable
+	"Pueblo County, CO"	"08101"	22	Not Applicable	Not Applicable
+	"Weld County, CO"	"08123"	140	Not Applicable	Not Applicable
+	"Fairfield County, CT"	"09001"	1312	Not Applicable	Not Applicable
+	"Hartford County, CT"	"09003"	1272	Not Applicable	Not Applicable
+	"Litchfield County, CT"	"09005"	153	Not Applicable	Not Applicable
+	"Middlesex County, CT"	"09007"	161	Not Applicable	Not Applicable
+	"New Haven County, CT"	"09009"	1040	Not Applicable	Not Applicable
+	"New London County, CT"	"09011"	118	Not Applicable	Not Applicable
+	"Tolland County, CT"	"09013"	72	Not Applicable	Not Applicable
+	"Windham County, CT"	"09015"	20	Not Applicable	Not Applicable
+	"Kent County, DE"	"10001"	103	Not Applicable	Not Applicable
+	"New Castle County, DE"	"10003"	270	Not Applicable	Not Applicable
+	"Sussex County, DE"	"10005"	201	Not Applicable	Not Applicable
+	"District of Columbia, DC"	"11001"	638	Not Applicable	Not Applicable
+	"Alachua County, FL"	"12001"	60	Not Applicable	Not Applicable
+	"Baker County, FL"	"12003"	11	Not Applicable	Not Applicable
+	"Bay County, FL"	"12005"	86	Not Applicable	Not Applicable
+	"Brevard County, FL"	"12009"	262	Not Applicable	Not Applicable
+	"Broward County, FL"	"12011"	1278	Not Applicable	Not Applicable
+	"Charlotte County, FL"	"12015"	118	Not Applicable	Not Applicable
+	"Citrus County, FL"	"12017"	64	Not Applicable	Not Applicable
+	"Clay County, FL"	"12019"	75	Not Applicable	Not Applicable
+	"Collier County, FL"	"12021"	192	Not Applicable	Not Applicable
+	"Columbia County, FL"	"12023"	45	Not Applicable	Not Applicable
+	"DeSoto County, FL"	"12027"	26	Not Applicable	Not Applicable
+	"Duval County, FL"	"12031"	395	Not Applicable	Not Applicable
+	"Escambia County, FL"	"12033"	211	Not Applicable	Not Applicable
+	"Flagler County, FL"	"12035"	21	Not Applicable	Not Applicable
+	"Gadsden County, FL"	"12039"	37	Not Applicable	Not Applicable
+	"Gulf County, FL"	"12045"	12	Not Applicable	Not Applicable
+	"Hamilton County, FL"	"12047"	10	Not Applicable	Not Applicable
+	"Hardee County, FL"	"12049"	10	Not Applicable	Not Applicable
+	"Hendry County, FL"	"12051"	33	Not Applicable	Not Applicable
+	"Hernando County, FL"	"12053"	100	Not Applicable	Not Applicable
+	"Highlands County, FL"	"12055"	69	Not Applicable	Not Applicable
+	"Hillsborough County, FL"	"12057"	571	Not Applicable	Not Applicable
+	"Holmes County, FL"	"12059"	10	Not Applicable	Not Applicable
+	"Indian River County, FL"	"12061"	91	Not Applicable	Not Applicable
+	"Jackson County, FL"	"12063"	54	Not Applicable	Not Applicable
+	"Lake County, FL"	"12069"	140	Not Applicable	Not Applicable
+	"Lee County, FL"	"12071"	393	Not Applicable	Not Applicable
+	"Leon County, FL"	"12073"	60	Not Applicable	Not Applicable
+	"Levy County, FL"	"12075"	16	Not Applicable	Not Applicable
+	"Madison County, FL"	"12079"	19	Not Applicable	Not Applicable
+	"Manatee County, FL"	"12081"	264	Not Applicable	Not Applicable
+	"Marion County, FL"	"12083"	199	Not Applicable	Not Applicable
+	"Martin County, FL"	"12085"	112	Not Applicable	Not Applicable
+	"Miami-Dade County, FL"	"12086"	2676	Not Applicable	Not Applicable
+	"Monroe County, FL"	"12087"	22	Not Applicable	Not Applicable
+	"Nassau County, FL"	"12089"	29	Not Applicable	Not Applicable
+	"Okaloosa County, FL"	"12091"	92	Not Applicable	Not Applicable
+	"Okeechobee County, FL"	"12093"	27	Not Applicable	Not Applicable
+	"Orange County, FL"	"12095"	468	Not Applicable	Not Applicable
+	"Osceola County, FL"	"12097"	150	Not Applicable	Not Applicable
+	"Palm Beach County, FL"	"12099"	1075	Not Applicable	Not Applicable
+	"Pasco County, FL"	"12101"	165	Not Applicable	Not Applicable
+	"Pinellas County, FL"	"12103"	491	Not Applicable	Not Applicable
+	"Polk County, FL"	"12105"	459	Not Applicable	Not Applicable
+	"Putnam County, FL"	"12107"	37	Not Applicable	Not Applicable
+	"St. Johns County, FL"	"12109"	58	Not Applicable	Not Applicable
+	"St. Lucie County, FL"	"12111"	249	Not Applicable	Not Applicable
+	"Santa Rosa County, FL"	"12113"	62	Not Applicable	Not Applicable
+	"Sarasota County, FL"	"12115"	181	Not Applicable	Not Applicable
+	"Seminole County, FL"	"12117"	161	Not Applicable	Not Applicable
+	"Sumter County, FL"	"12119"	56	Not Applicable	Not Applicable
+	"Suwannee County, FL"	"12121"	48	Not Applicable	Not Applicable
+	"Union County, FL"	"12125"	12	Not Applicable	Not Applicable
+	"Volusia County, FL"	"12127"	218	Not Applicable	Not Applicable
+	"Walton County, FL"	"12131"	24	Not Applicable	Not Applicable
+	"Washington County, FL"	"12133"	13	Not Applicable	Not Applicable
+	"Appling County, GA"	"13001"	26	Not Applicable	Not Applicable
+	"Baldwin County, GA"	"13009"	27	Not Applicable	Not Applicable
+	"Barrow County, GA"	"13013"	32	Not Applicable	Not Applicable
+	"Bartow County, GA"	"13015"	69	Not Applicable	Not Applicable
+	"Ben Hill County, GA"	"13017"	19	Not Applicable	Not Applicable
+	"Berrien County, GA"	"13019"	19	Not Applicable	Not Applicable
+	"Bibb County, GA"	"13021"	126	Not Applicable	Not Applicable
+	"Bleckley County, GA"	"13023"	17	Not Applicable	Not Applicable
+	"Brantley County, GA"	"13025"	14	Not Applicable	Not Applicable
+	"Brooks County, GA"	"13027"	20	Not Applicable	Not Applicable
+	"Bulloch County, GA"	"13031"	30	Not Applicable	Not Applicable
+	"Burke County, GA"	"13033"	16	Not Applicable	Not Applicable
+	"Butts County, GA"	"13035"	33	Not Applicable	Not Applicable
+	"Camden County, GA"	"13039"	11	Not Applicable	Not Applicable
+	"Candler County, GA"	"13043"	17	Not Applicable	Not Applicable
+	"Carroll County, GA"	"13045"	45	Not Applicable	Not Applicable
+	"Catoosa County, GA"	"13047"	15	Not Applicable	Not Applicable
+	"Chatham County, GA"	"13051"	108	Not Applicable	Not Applicable
+	"Chattooga County, GA"	"13055"	10	Not Applicable	Not Applicable
+	"Cherokee County, GA"	"13057"	62	Not Applicable	Not Applicable
+	"Clarke County, GA"	"13059"	21	Not Applicable	Not Applicable
+	"Clayton County, GA"	"13063"	116	Not Applicable	Not Applicable
+	"Cobb County, GA"	"13067"	289	Not Applicable	Not Applicable
+	"Coffee County, GA"	"13069"	41	Not Applicable	Not Applicable
+	"Colquitt County, GA"	"13071"	29	Not Applicable	Not Applicable
+	"Columbia County, GA"	"13073"	53	Not Applicable	Not Applicable
+	"Cook County, GA"	"13075"	15	Not Applicable	Not Applicable
+	"Coweta County, GA"	"13077"	35	Not Applicable	Not Applicable
+	"Crisp County, GA"	"13081"	16	Not Applicable	Not Applicable
+	"Decatur County, GA"	"13087"	15	Not Applicable	Not Applicable
+	"DeKalb County, GA"	"13089"	303	Not Applicable	Not Applicable
+	"Dodge County, GA"	"13091"	16	Not Applicable	Not Applicable
+	"Dooly County, GA"	"13093"	11	Not Applicable	Not Applicable
+	"Dougherty County, GA"	"13095"	146	Not Applicable	Not Applicable
+	"Douglas County, GA"	"13097"	60	Not Applicable	Not Applicable
+	"Early County, GA"	"13099"	25	Not Applicable	Not Applicable
+	"Effingham County, GA"	"13103"	17	Not Applicable	Not Applicable
+	"Emanuel County, GA"	"13107"	23	Not Applicable	Not Applicable
+	"Fayette County, GA"	"13113"	35	Not Applicable	Not Applicable
+	"Floyd County, GA"	"13115"	35	Not Applicable	Not Applicable
+	"Forsyth County, GA"	"13117"	36	Not Applicable	Not Applicable
+	"Franklin County, GA"	"13119"	18	Not Applicable	Not Applicable
+	"Fulton County, GA"	"13121"	469	Not Applicable	Not Applicable
+	"Glynn County, GA"	"13127"	63	Not Applicable	Not Applicable
+	"Gordon County, GA"	"13129"	26	Not Applicable	Not Applicable
+	"Grady County, GA"	"13131"	24	Not Applicable	Not Applicable
+	"Greene County, GA"	"13133"	15	Not Applicable	Not Applicable
+	"Gwinnett County, GA"	"13135"	331	Not Applicable	Not Applicable
+	"Habersham County, GA"	"13137"	41	Not Applicable	Not Applicable
+	"Hall County, GA"	"13139"	91	Not Applicable	Not Applicable
+	"Hancock County, GA"	"13141"	32	Not Applicable	Not Applicable
+	"Harris County, GA"	"13145"	20	Not Applicable	Not Applicable
+	"Hart County, GA"	"13147"	19	Not Applicable	Not Applicable
+	"Henry County, GA"	"13151"	93	Not Applicable	Not Applicable
+	"Houston County, GA"	"13153"	50	Not Applicable	Not Applicable
+	"Jackson County, GA"	"13157"	27	Not Applicable	Not Applicable
+	"Jeff Davis County, GA"	"13161"	13	Not Applicable	Not Applicable
+	"Jefferson County, GA"	"13163"	19	Not Applicable	Not Applicable
+	"Jenkins County, GA"	"13165"	19	Not Applicable	Not Applicable
+	"Johnson County, GA"	"13167"	16	Not Applicable	Not Applicable
+	"Jones County, GA"	"13169"	12	Not Applicable	Not Applicable
+	"Lamar County, GA"	"13171"	17	Not Applicable	Not Applicable
+	"Laurens County, GA"	"13175"	53	Not Applicable	Not Applicable
+	"Lee County, GA"	"13177"	22	Not Applicable	Not Applicable
+	"Liberty County, GA"	"13179"	24	Not Applicable	Not Applicable
+	"Lincoln County, GA"	"13181"	10	Not Applicable	Not Applicable
+	"Lowndes County, GA"	"13185"	72	Not Applicable	Not Applicable
+	"McDuffie County, GA"	"13189"	10	Not Applicable	Not Applicable
+	"Madison County, GA"	"13195"	14	Not Applicable	Not Applicable
+	"Meriwether County, GA"	"13199"	10	Not Applicable	Not Applicable
+	"Mitchell County, GA"	"13205"	36	Not Applicable	Not Applicable
+	"Monroe County, GA"	"13207"	27	Not Applicable	Not Applicable
+	"Muscogee County, GA"	"13215"	124	Not Applicable	Not Applicable
+	"Newton County, GA"	"13217"	55	Not Applicable	Not Applicable
+	"Oconee County, GA"	"13219"	13	Not Applicable	Not Applicable
+	"Paulding County, GA"	"13223"	47	Not Applicable	Not Applicable
+	"Peach County, GA"	"13225"	22	Not Applicable	Not Applicable
+	"Pierce County, GA"	"13229"	18	Not Applicable	Not Applicable
+	"Pike County, GA"	"13231"	20	Not Applicable	Not Applicable
+	"Polk County, GA"	"13233"	14	Not Applicable	Not Applicable
+	"Pulaski County, GA"	"13235"	13	Not Applicable	Not Applicable
+	"Putnam County, GA"	"13237"	20	Not Applicable	Not Applicable
+	"Randolph County, GA"	"13243"	21	Not Applicable	Not Applicable
+	"Richmond County, GA"	"13245"	118	Not Applicable	Not Applicable
+	"Rockdale County, GA"	"13247"	34	Not Applicable	Not Applicable
+	"Screven County, GA"	"13251"	12	Not Applicable	Not Applicable
+	"Spalding County, GA"	"13255"	56	Not Applicable	Not Applicable
+	"Stephens County, GA"	"13257"	22	Not Applicable	Not Applicable
+	"Sumter County, GA"	"13261"	54	Not Applicable	Not Applicable
+	"Tattnall County, GA"	"13267"	13	Not Applicable	Not Applicable
+	"Telfair County, GA"	"13271"	15	Not Applicable	Not Applicable
+	"Terrell County, GA"	"13273"	27	Not Applicable	Not Applicable
+	"Thomas County, GA"	"13275"	53	Not Applicable	Not Applicable
+	"Tift County, GA"	"13277"	49	Not Applicable	Not Applicable
+	"Toombs County, GA"	"13279"	25	Not Applicable	Not Applicable
+	"Troup County, GA"	"13285"	68	Not Applicable	Not Applicable
+	"Turner County, GA"	"13287"	20	Not Applicable	Not Applicable
+	"Twiggs County, GA"	"13289"	12	Not Applicable	Not Applicable
+	"Upson County, GA"	"13293"	41	Not Applicable	Not Applicable
+	"Walker County, GA"	"13295"	19	Not Applicable	Not Applicable
+	"Walton County, GA"	"13297"	42	Not Applicable	Not Applicable
+	"Ware County, GA"	"13299"	34	Not Applicable	Not Applicable
+	"Washington County, GA"	"13303"	13	Not Applicable	Not Applicable
+	"Wayne County, GA"	"13305"	22	Not Applicable	Not Applicable
+	"White County, GA"	"13311"	13	Not Applicable	Not Applicable
+	"Whitfield County, GA"	"13313"	49	Not Applicable	Not Applicable
+	"Wilcox County, GA"	"13315"	12	Not Applicable	Not Applicable
+	"Worth County, GA"	"13321"	31	Not Applicable	Not Applicable
+	"Honolulu County, HI"	"15003"	79	Not Applicable	Not Applicable
+	"Ada County, ID"	"16001"	124	Not Applicable	Not Applicable
+	"Bonneville County, ID"	"16019"	11	Not Applicable	Not Applicable
+	"Canyon County, ID"	"16027"	78	Not Applicable	Not Applicable
+	"Kootenai County, ID"	"16055"	32	Not Applicable	Not Applicable
+	"Nez Perce County, ID"	"16069"	17	Not Applicable	Not Applicable
+	"Shoshone County, ID"	"16079"	15	Not Applicable	Not Applicable
+	"Twin Falls County, ID"	"16083"	33	Not Applicable	Not Applicable
+	"Boone County, IL"	"17007"	15	Not Applicable	Not Applicable
+	"Cass County, IL"	"17017"	11	Not Applicable	Not Applicable
+	"Champaign County, IL"	"17019"	17	Not Applicable	Not Applicable
+	"Coles County, IL"	"17029"	16	Not Applicable	Not Applicable
+	"Cook County, IL"	"17031"	4752	Not Applicable	Not Applicable
+	"DeKalb County, IL"	"17037"	24	Not Applicable	Not Applicable
+	"DuPage County, IL"	"17043"	435	Not Applicable	Not Applicable
+	"Iroquois County, IL"	"17075"	13	Not Applicable	Not Applicable
+	"Jackson County, IL"	"17077"	26	Not Applicable	Not Applicable
+	"Jefferson County, IL"	"17081"	18	Not Applicable	Not Applicable
+	"Kane County, IL"	"17089"	253	Not Applicable	Not Applicable
+	"Kankakee County, IL"	"17091"	57	Not Applicable	Not Applicable
+	"Kendall County, IL"	"17093"	26	Not Applicable	Not Applicable
+	"Lake County, IL"	"17097"	404	Not Applicable	Not Applicable
+	"LaSalle County, IL"	"17099"	52	Not Applicable	Not Applicable
+	"McDonough County, IL"	"17109"	11	Not Applicable	Not Applicable
+	"McHenry County, IL"	"17111"	127	Not Applicable	Not Applicable
+	"McLean County, IL"	"17113"	16	Not Applicable	Not Applicable
+	"Macon County, IL"	"17115"	27	Not Applicable	Not Applicable
+	"Madison County, IL"	"17119"	77	Not Applicable	Not Applicable
+	"Monroe County, IL"	"17133"	10	Not Applicable	Not Applicable
+	"Montgomery County, IL"	"17135"	10	Not Applicable	Not Applicable
+	"Peoria County, IL"	"17143"	19	Not Applicable	Not Applicable
+	"Randolph County, IL"	"17157"	10	Not Applicable	Not Applicable
+	"Rock Island County, IL"	"17161"	45	Not Applicable	Not Applicable
+	"St. Clair County, IL"	"17163"	143	Not Applicable	Not Applicable
+	"Sangamon County, IL"	"17167"	39	Not Applicable	Not Applicable
+	"Union County, IL"	"17181"	15	Not Applicable	Not Applicable
+	"Whiteside County, IL"	"17195"	18	Not Applicable	Not Applicable
+	"Will County, IL"	"17197"	293	Not Applicable	Not Applicable
+	"Williamson County, IL"	"17199"	18	Not Applicable	Not Applicable
+	"Winnebago County, IL"	"17201"	125	Not Applicable	Not Applicable
+	"Allen County, IN"	"18003"	154	Not Applicable	Not Applicable
+	"Bartholomew County, IN"	"18005"	51	Not Applicable	Not Applicable
+	"Boone County, IN"	"18011"	45	Not Applicable	Not Applicable
+	"Carroll County, IN"	"18015"	12	Not Applicable	Not Applicable
+	"Cass County, IN"	"18017"	11	Not Applicable	Not Applicable
+	"Clark County, IN"	"18019"	60	Not Applicable	Not Applicable
+	"Clinton County, IN"	"18023"	12	Not Applicable	Not Applicable
+	"Daviess County, IN"	"18027"	20	Not Applicable	Not Applicable
+	"Dearborn County, IN"	"18029"	27	Not Applicable	Not Applicable
+	"Decatur County, IN"	"18031"	30	Not Applicable	Not Applicable
+	"De Kalb County, IN"	"18033"	10	Not Applicable	Not Applicable
+	"Delaware County, IN"	"18035"	46	Not Applicable	Not Applicable
+	"Dubois County, IN"	"18037"	14	Not Applicable	Not Applicable
+	"Elkhart County, IN"	"18039"	90	Not Applicable	Not Applicable
+	"Fayette County, IN"	"18041"	12	Not Applicable	Not Applicable
+	"Floyd County, IN"	"18043"	52	Not Applicable	Not Applicable
+	"Franklin County, IN"	"18047"	20	Not Applicable	Not Applicable
+	"Grant County, IN"	"18053"	31	Not Applicable	Not Applicable
+	"Greene County, IN"	"18055"	31	Not Applicable	Not Applicable
+	"Hamilton County, IN"	"18057"	102	Not Applicable	Not Applicable
+	"Hancock County, IN"	"18059"	43	Not Applicable	Not Applicable
+	"Harrison County, IN"	"18061"	21	Not Applicable	Not Applicable
+	"Hendricks County, IN"	"18063"	109	Not Applicable	Not Applicable
+	"Henry County, IN"	"18065"	19	Not Applicable	Not Applicable
+	"Howard County, IN"	"18067"	64	Not Applicable	Not Applicable
+	"Jennings County, IN"	"18079"	10	Not Applicable	Not Applicable
+	"Johnson County, IN"	"18081"	103	Not Applicable	Not Applicable
+	"Kosciusko County, IN"	"18085"	13	Not Applicable	Not Applicable
+	"Lagrange County, IN"	"18087"	18	Not Applicable	Not Applicable
+	"Lake County, IN"	"18089"	283	Not Applicable	Not Applicable
+	"La Porte County, IN"	"18091"	31	Not Applicable	Not Applicable
+	"Lawrence County, IN"	"18093"	28	Not Applicable	Not Applicable
+	"Madison County, IN"	"18095"	86	Not Applicable	Not Applicable
+	"Marion County, IN"	"18097"	762	Not Applicable	Not Applicable
+	"Marshall County, IN"	"18099"	27	Not Applicable	Not Applicable
+	"Monroe County, IN"	"18105"	34	Not Applicable	Not Applicable
+	"Montgomery County, IN"	"18107"	21	Not Applicable	Not Applicable
+	"Morgan County, IN"	"18109"	32	Not Applicable	Not Applicable
+	"Noble County, IN"	"18113"	22	Not Applicable	Not Applicable
+	"Orange County, IN"	"18117"	24	Not Applicable	Not Applicable
+	"Perry County, IN"	"18123"	11	Not Applicable	Not Applicable
+	"Porter County, IN"	"18127"	38	Not Applicable	Not Applicable
+	"Putnam County, IN"	"18133"	11	Not Applicable	Not Applicable
+	"Ripley County, IN"	"18137"	10	Not Applicable	Not Applicable
+	"St. Joseph County, IN"	"18141"	91	Not Applicable	Not Applicable
+	"Shelby County, IN"	"18145"	23	Not Applicable	Not Applicable
+	"Tippecanoe County, IN"	"18157"	19	Not Applicable	Not Applicable
+	"Tipton County, IN"	"18159"	22	Not Applicable	Not Applicable
+	"Vanderburgh County, IN"	"18163"	33	Not Applicable	Not Applicable
+	"Vigo County, IN"	"18167"	18	Not Applicable	Not Applicable
+	"Warrick County, IN"	"18173"	19	Not Applicable	Not Applicable
+	"White County, IN"	"18181"	11	Not Applicable	Not Applicable
+	"Black Hawk County, IA"	"19013"	72	Not Applicable	Not Applicable
+	"Buena Vista County, IA"	"19021"	10	Not Applicable	Not Applicable
+	"Cerro Gordo County, IA"	"19033"	20	Not Applicable	Not Applicable
+	"Clinton County, IA"	"19045"	14	Not Applicable	Not Applicable
+	"Dallas County, IA"	"19049"	30	Not Applicable	Not Applicable
+	"Dubuque County, IA"	"19061"	31	Not Applicable	Not Applicable
+	"Franklin County, IA"	"19069"	11	Not Applicable	Not Applicable
+	"Jasper County, IA"	"19099"	29	Not Applicable	Not Applicable
+	"Johnson County, IA"	"19103"	26	Not Applicable	Not Applicable
+	"Linn County, IA"	"19113"	90	Not Applicable	Not Applicable
+	"Louisa County, IA"	"19115"	12	Not Applicable	Not Applicable
+	"Mahaska County, IA"	"19123"	16	Not Applicable	Not Applicable
+	"Marshall County, IA"	"19127"	29	Not Applicable	Not Applicable
+	"Muscatine County, IA"	"19139"	43	Not Applicable	Not Applicable
+	"Plymouth County, IA"	"19149"	16	Not Applicable	Not Applicable
+	"Polk County, IA"	"19153"	216	Not Applicable	Not Applicable
+	"Pottawattamie County, IA"	"19155"	30	Not Applicable	Not Applicable
+	"Poweshiek County, IA"	"19157"	10	Not Applicable	Not Applicable
+	"Scott County, IA"	"19163"	18	Not Applicable	Not Applicable
+	"Story County, IA"	"19169"	14	Not Applicable	Not Applicable
+	"Tama County, IA"	"19171"	27	Not Applicable	Not Applicable
+	"Wapello County, IA"	"19179"	47	Not Applicable	Not Applicable
+	"Washington County, IA"	"19183"	12	Not Applicable	Not Applicable
+	"Webster County, IA"	"19187"	10	Not Applicable	Not Applicable
+	"Woodbury County, IA"	"19193"	47	Not Applicable	Not Applicable
+	"Finney County, KS"	"20055"	13	Not Applicable	Not Applicable
+	"Ford County, KS"	"20057"	13	Not Applicable	Not Applicable
+	"Johnson County, KS"	"20091"	121	Not Applicable	Not Applicable
+	"Leavenworth County, KS"	"20103"	12	Not Applicable	Not Applicable
+	"Lyon County, KS"	"20111"	34	Not Applicable	Not Applicable
+	"Sedgwick County, KS"	"20173"	88	Not Applicable	Not Applicable
+	"Shawnee County, KS"	"20177"	27	Not Applicable	Not Applicable
+	"Wyandotte County, KS"	"20209"	109	Not Applicable	Not Applicable
+	"Adair County, KY"	"21001"	21	Not Applicable	Not Applicable
+	"Allen County, KY"	"21003"	10	Not Applicable	Not Applicable
+	"Boone County, KY"	"21015"	38	Not Applicable	Not Applicable
+	"Bullitt County, KY"	"21029"	13	Not Applicable	Not Applicable
+	"Butler County, KY"	"21031"	16	Not Applicable	Not Applicable
+	"Campbell County, KY"	"21037"	16	Not Applicable	Not Applicable
+	"Casey County, KY"	"21045"	12	Not Applicable	Not Applicable
+	"Christian County, KY"	"21047"	12	Not Applicable	Not Applicable
+	"Daviess County, KY"	"21059"	13	Not Applicable	Not Applicable
+	"Edmonson County, KY"	"21061"	14	Not Applicable	Not Applicable
+	"Fayette County, KY"	"21067"	43	Not Applicable	Not Applicable
+	"Franklin County, KY"	"21073"	15	Not Applicable	Not Applicable
+	"Graves County, KY"	"21083"	29	Not Applicable	Not Applicable
+	"Grayson County, KY"	"21085"	11	Not Applicable	Not Applicable
+	"Hopkins County, KY"	"21107"	31	Not Applicable	Not Applicable
+	"Jackson County, KY"	"21109"	11	Not Applicable	Not Applicable
+	"Jefferson County, KY"	"21111"	293	Not Applicable	Not Applicable
+	"Kenton County, KY"	"21117"	53	Not Applicable	Not Applicable
+	"Lewis County, KY"	"21135"	11	Not Applicable	Not Applicable
+	"Lincoln County, KY"	"21137"	18	Not Applicable	Not Applicable
+	"Logan County, KY"	"21141"	20	Not Applicable	Not Applicable
+	"Oldham County, KY"	"21185"	18	Not Applicable	Not Applicable
+	"Shelby County, KY"	"21211"	14	Not Applicable	Not Applicable
+	"Warren County, KY"	"21227"	25	Not Applicable	Not Applicable
+	"Acadia Parish, LA"	"22001"	91	Not Applicable	Not Applicable
+	"Allen Parish, LA"	"22003"	38	Not Applicable	Not Applicable
+	"Ascension Parish, LA"	"22005"	88	Not Applicable	Not Applicable
+	"Assumption Parish, LA"	"22007"	18	Not Applicable	Not Applicable
+	"Avoyelles Parish, LA"	"22009"	37	Not Applicable	Not Applicable
+	"Beauregard Parish, LA"	"22011"	34	Not Applicable	Not Applicable
+	"Bienville Parish, LA"	"22013"	24	Not Applicable	Not Applicable
+	"Bossier Parish, LA"	"22015"	94	Not Applicable	Not Applicable
+	"Caddo Parish, LA"	"22017"	309	Not Applicable	Not Applicable
+	"Calcasieu Parish, LA"	"22019"	176	Not Applicable	Not Applicable
+	"Claiborne Parish, LA"	"22027"	15	Not Applicable	Not Applicable
+	"Concordia Parish, LA"	"22029"	20	Not Applicable	Not Applicable
+	"De Soto Parish, LA"	"22031"	34	Not Applicable	Not Applicable
+	"East Baton Rouge Parish, LA"	"22033"	393	Not Applicable	Not Applicable
+	"East Feliciana Parish, LA"	"22037"	38	Not Applicable	Not Applicable
+	"Evangeline Parish, LA"	"22039"	33	Not Applicable	Not Applicable
+	"Franklin Parish, LA"	"22041"	19	Not Applicable	Not Applicable
+	"Grant Parish, LA"	"22043"	25	Not Applicable	Not Applicable
+	"Iberia Parish, LA"	"22045"	67	Not Applicable	Not Applicable
+	"Iberville Parish, LA"	"22047"	40	Not Applicable	Not Applicable
+	"Jackson Parish, LA"	"22049"	13	Not Applicable	Not Applicable
+	"Jefferson Parish, LA"	"22051"	503	Not Applicable	Not Applicable
+	"Jefferson Davis Parish, LA"	"22053"	32	Not Applicable	Not Applicable
+	"Lafayette Parish, LA"	"22055"	82	Not Applicable	Not Applicable
+	"Lafourche Parish, LA"	"22057"	95	Not Applicable	Not Applicable
+	"LaSalle Parish, LA"	"22059"	10	Not Applicable	Not Applicable
+	"Lincoln Parish, LA"	"22061"	40	Not Applicable	Not Applicable
+	"Livingston Parish, LA"	"22063"	66	Not Applicable	Not Applicable
+	"Morehouse Parish, LA"	"22067"	18	Not Applicable	Not Applicable
+	"Natchitoches Parish, LA"	"22069"	19	Not Applicable	Not Applicable
+	"Orleans Parish, LA"	"22071"	502	Not Applicable	Not Applicable
+	"Ouachita Parish, LA"	"22073"	142	Not Applicable	Not Applicable
+	"Plaquemines Parish, LA"	"22075"	16	Not Applicable	Not Applicable
+	"Pointe Coupee Parish, LA"	"22077"	31	Not Applicable	Not Applicable
+	"Rapides Parish, LA"	"22079"	136	Not Applicable	Not Applicable
+	"Red River Parish, LA"	"22081"	21	Not Applicable	Not Applicable
+	"Richland Parish, LA"	"22083"	13	Not Applicable	Not Applicable
+	"Sabine Parish, LA"	"22085"	17	Not Applicable	Not Applicable
+	"St. Bernard Parish, LA"	"22087"	32	Not Applicable	Not Applicable
+	"St. Charles Parish, LA"	"22089"	46	Not Applicable	Not Applicable
+	"St. James Parish, LA"	"22093"	33	Not Applicable	Not Applicable
+	"St. John the Baptist Parish, LA"	"22095"	83	Not Applicable	Not Applicable
+	"St. Landry Parish, LA"	"22097"	95	Not Applicable	Not Applicable
+	"St. Martin Parish, LA"	"22099"	66	Not Applicable	Not Applicable
+	"St. Mary Parish, LA"	"22101"	63	Not Applicable	Not Applicable
+	"St. Tammany Parish, LA"	"22103"	185	Not Applicable	Not Applicable
+	"Tangipahoa Parish, LA"	"22105"	91	Not Applicable	Not Applicable
+	"Terrebonne Parish, LA"	"22109"	93	Not Applicable	Not Applicable
+	"Union Parish, LA"	"22111"	34	Not Applicable	Not Applicable
+	"Vermilion Parish, LA"	"22113"	45	Not Applicable	Not Applicable
+	"Vernon Parish, LA"	"22115"	36	Not Applicable	Not Applicable
+	"Washington Parish, LA"	"22117"	56	Not Applicable	Not Applicable
+	"Webster Parish, LA"	"22119"	27	Not Applicable	Not Applicable
+	"West Baton Rouge Parish, LA"	"22121"	32	Not Applicable	Not Applicable
+	"West Carroll Parish, LA"	"22123"	11	Not Applicable	Not Applicable
+	"West Feliciana Parish, LA"	"22125"	21	Not Applicable	Not Applicable
+	"Winn Parish, LA"	"22127"	13	Not Applicable	Not Applicable
+	"Cumberland County, ME"	"23005"	71	Not Applicable	Not Applicable
+	"Kennebec County, ME"	"23011"	10	Not Applicable	Not Applicable
+	"Waldo County, ME"	"23027"	15	Not Applicable	Not Applicable
+	"York County, ME"	"23031"	24	Not Applicable	Not Applicable
+	"Allegany County, MD"	"24001"	21	Not Applicable	Not Applicable
+	"Anne Arundel County, MD"	"24003"	223	Not Applicable	Not Applicable
+	"Baltimore County, MD"	"24005"	547	Not Applicable	Not Applicable
+	"Calvert County, MD"	"24009"	29	Not Applicable	Not Applicable
+	"Carroll County, MD"	"24013"	125	Not Applicable	Not Applicable
+	"Cecil County, MD"	"24015"	34	Not Applicable	Not Applicable
+	"Charles County, MD"	"24017"	112	Not Applicable	Not Applicable
+	"Frederick County, MD"	"24021"	117	Not Applicable	Not Applicable
+	"Harford County, MD"	"24025"	62	Not Applicable	Not Applicable
+	"Howard County, MD"	"24027"	109	Not Applicable	Not Applicable
+	"Kent County, MD"	"24029"	30	Not Applicable	Not Applicable
+	"Montgomery County, MD"	"24031"	807	Not Applicable	Not Applicable
+	"Prince George's County, MD"	"24033"	915	Not Applicable	Not Applicable
+	"Queen Anne's County, MD"	"24035"	25	Not Applicable	Not Applicable
+	"St. Mary's County, MD"	"24037"	55	Not Applicable	Not Applicable
+	"Washington County, MD"	"24043"	29	Not Applicable	Not Applicable
+	"Wicomico County, MD"	"24045"	45	Not Applicable	Not Applicable
+	"Worcester County, MD"	"24047"	26	Not Applicable	Not Applicable
+	"Baltimore city, MD"	"24510"	432	Not Applicable	Not Applicable
+	"Barnstable County, MA"	"25001"	149	Not Applicable	Not Applicable
+	"Berkshire County, MA"	"25003"	38	Not Applicable	Not Applicable
+	"Bristol County, MA"	"25005"	514	Not Applicable	Not Applicable
+	"Essex County, MA"	"25009"	982	Not Applicable	Not Applicable
+	"Franklin County, MA"	"25011"	54	Not Applicable	Not Applicable
+	"Hampden County, MA"	"25013"	582	Not Applicable	Not Applicable
+	"Hampshire County, MA"	"25015"	112	Not Applicable	Not Applicable
+	"Middlesex County, MA"	"25017"	1779	Not Applicable	Not Applicable
+	"Norfolk County, MA"	"25021"	779	Not Applicable	Not Applicable
+	"Plymouth County, MA"	"25023"	613	Not Applicable	Not Applicable
+	"Suffolk County, MA"	"25025"	955	Not Applicable	Not Applicable
+	"Worcester County, MA"	"25027"	866	Not Applicable	Not Applicable
+	"Bay County, MI"	"26017"	32	Not Applicable	Not Applicable
+	"Berrien County, MI"	"26021"	54	Not Applicable	Not Applicable
+	"Branch County, MI"	"26023"	28	Not Applicable	Not Applicable
+	"Calhoun County, MI"	"26025"	46	Not Applicable	Not Applicable
+	"Cass County, MI"	"26027"	19	Not Applicable	Not Applicable
+	"Clinton County, MI"	"26037"	10	Not Applicable	Not Applicable
+	"Genesee County, MI"	"26049"	247	Not Applicable	Not Applicable
+	"Gratiot County, MI"	"26057"	15	Not Applicable	Not Applicable
+	"Hillsdale County, MI"	"26059"	27	Not Applicable	Not Applicable
+	"Ingham County, MI"	"26065"	40	Not Applicable	Not Applicable
+	"Jackson County, MI"	"26075"	53	Not Applicable	Not Applicable
+	"Kalamazoo County, MI"	"26077"	62	Not Applicable	Not Applicable
+	"Kent County, MI"	"26081"	124	Not Applicable	Not Applicable
+	"Lapeer County, MI"	"26087"	36	Not Applicable	Not Applicable
+	"Lenawee County, MI"	"26091"	17	Not Applicable	Not Applicable
+	"Livingston County, MI"	"26093"	35	Not Applicable	Not Applicable
+	"Macomb County, MI"	"26099"	820	Not Applicable	Not Applicable
+	"Marquette County, MI"	"26103"	11	Not Applicable	Not Applicable
+	"Monroe County, MI"	"26115"	35	Not Applicable	Not Applicable
+	"Muskegon County, MI"	"26121"	60	Not Applicable	Not Applicable
+	"Oakland County, MI"	"26125"	965	Not Applicable	Not Applicable
+	"Ottawa County, MI"	"26139"	47	Not Applicable	Not Applicable
+	"Saginaw County, MI"	"26145"	101	Not Applicable	Not Applicable
+	"St. Clair County, MI"	"26147"	40	Not Applicable	Not Applicable
+	"St. Joseph County, MI"	"26149"	12	Not Applicable	Not Applicable
+	"Shiawassee County, MI"	"26155"	24	Not Applicable	Not Applicable
+	"Tuscola County, MI"	"26157"	27	Not Applicable	Not Applicable
+	"Van Buren County, MI"	"26159"	16	Not Applicable	Not Applicable
+	"Washtenaw County, MI"	"26161"	109	Not Applicable	Not Applicable
+	"Wayne County, MI"	"26163"	2451	Not Applicable	Not Applicable
+	"Anoka County, MN"	"27003"	122	Not Applicable	Not Applicable
+	"Clay County, MN"	"27027"	36	Not Applicable	Not Applicable
+	"Crow Wing County, MN"	"27035"	14	Not Applicable	Not Applicable
+	"Dakota County, MN"	"27037"	103	Not Applicable	Not Applicable
+	"Hennepin County, MN"	"27053"	781	Not Applicable	Not Applicable
+	"Itasca County, MN"	"27061"	10	Not Applicable	Not Applicable
+	"Nicollet County, MN"	"27103"	12	Not Applicable	Not Applicable
+	"Nobles County, MN"	"27105"	11	Not Applicable	Not Applicable
+	"Olmsted County, MN"	"27109"	17	Not Applicable	Not Applicable
+	"Ramsey County, MN"	"27123"	269	Not Applicable	Not Applicable
+	"St. Louis County, MN"	"27137"	24	Not Applicable	Not Applicable
+	"Scott County, MN"	"27139"	28	Not Applicable	Not Applicable
+	"Stearns County, MN"	"27145"	22	Not Applicable	Not Applicable
+	"Washington County, MN"	"27163"	49	Not Applicable	Not Applicable
+	"Winona County, MN"	"27169"	15	Not Applicable	Not Applicable
+	"Adams County, MS"	"28001"	30	Not Applicable	Not Applicable
+	"Attala County, MS"	"28007"	16	Not Applicable	Not Applicable
+	"Bolivar County, MS"	"28011"	52	Not Applicable	Not Applicable
+	"Calhoun County, MS"	"28013"	13	Not Applicable	Not Applicable
+	"Carroll County, MS"	"28015"	12	Not Applicable	Not Applicable
+	"Chickasaw County, MS"	"28017"	19	Not Applicable	Not Applicable
+	"Claiborne County, MS"	"28021"	14	Not Applicable	Not Applicable
+	"Clarke County, MS"	"28023"	27	Not Applicable	Not Applicable
+	"Clay County, MS"	"28025"	16	Not Applicable	Not Applicable
+	"Coahoma County, MS"	"28027"	29	Not Applicable	Not Applicable
+	"Copiah County, MS"	"28029"	28	Not Applicable	Not Applicable
+	"Covington County, MS"	"28031"	22	Not Applicable	Not Applicable
+	"DeSoto County, MS"	"28033"	54	Not Applicable	Not Applicable
+	"Forrest County, MS"	"28035"	56	Not Applicable	Not Applicable
+	"George County, MS"	"28039"	12	Not Applicable	Not Applicable
+	"Grenada County, MS"	"28043"	23	Not Applicable	Not Applicable
+	"Hancock County, MS"	"28045"	24	Not Applicable	Not Applicable
+	"Harrison County, MS"	"28047"	56	Not Applicable	Not Applicable
+	"Hinds County, MS"	"28049"	130	Not Applicable	Not Applicable
+	"Holmes County, MS"	"28051"	50	Not Applicable	Not Applicable
+	"Humphreys County, MS"	"28053"	14	Not Applicable	Not Applicable
+	"Itawamba County, MS"	"28057"	16	Not Applicable	Not Applicable
+	"Jackson County, MS"	"28059"	51	Not Applicable	Not Applicable
+	"Jasper County, MS"	"28061"	13	Not Applicable	Not Applicable
+	"Jones County, MS"	"28067"	63	Not Applicable	Not Applicable
+	"Kemper County, MS"	"28069"	15	Not Applicable	Not Applicable
+	"Lafayette County, MS"	"28071"	24	Not Applicable	Not Applicable
+	"Lamar County, MS"	"28073"	24	Not Applicable	Not Applicable
+	"Lauderdale County, MS"	"28075"	89	Not Applicable	Not Applicable
+	"Lawrence County, MS"	"28077"	13	Not Applicable	Not Applicable
+	"Leake County, MS"	"28079"	34	Not Applicable	Not Applicable
+	"Lee County, MS"	"28081"	48	Not Applicable	Not Applicable
+	"Leflore County, MS"	"28083"	72	Not Applicable	Not Applicable
+	"Lincoln County, MS"	"28085"	46	Not Applicable	Not Applicable
+	"Lowndes County, MS"	"28087"	47	Not Applicable	Not Applicable
+	"Madison County, MS"	"28089"	76	Not Applicable	Not Applicable
+	"Marion County, MS"	"28091"	33	Not Applicable	Not Applicable
+	"Marshall County, MS"	"28093"	13	Not Applicable	Not Applicable
+	"Monroe County, MS"	"28095"	54	Not Applicable	Not Applicable
+	"Montgomery County, MS"	"28097"	19	Not Applicable	Not Applicable
+	"Neshoba County, MS"	"28099"	83	Not Applicable	Not Applicable
+	"Newton County, MS"	"28101"	25	Not Applicable	Not Applicable
+	"Noxubee County, MS"	"28103"	12	Not Applicable	Not Applicable
+	"Oktibbeha County, MS"	"28105"	45	Not Applicable	Not Applicable
+	"Panola County, MS"	"28107"	25	Not Applicable	Not Applicable
+	"Pearl River County, MS"	"28109"	47	Not Applicable	Not Applicable
+	"Perry County, MS"	"28111"	10	Not Applicable	Not Applicable
+	"Pike County, MS"	"28113"	40	Not Applicable	Not Applicable
+	"Pontotoc County, MS"	"28115"	11	Not Applicable	Not Applicable
+	"Prentiss County, MS"	"28117"	21	Not Applicable	Not Applicable
+	"Rankin County, MS"	"28121"	54	Not Applicable	Not Applicable
+	"Scott County, MS"	"28123"	23	Not Applicable	Not Applicable
+	"Simpson County, MS"	"28127"	31	Not Applicable	Not Applicable
+	"Sunflower County, MS"	"28133"	38	Not Applicable	Not Applicable
+	"Tallahatchie County, MS"	"28135"	13	Not Applicable	Not Applicable
+	"Tate County, MS"	"28137"	35	Not Applicable	Not Applicable
+	"Tippah County, MS"	"28139"	17	Not Applicable	Not Applicable
+	"Tishomingo County, MS"	"28141"	25	Not Applicable	Not Applicable
+	"Tunica County, MS"	"28143"	10	Not Applicable	Not Applicable
+	"Union County, MS"	"28145"	18	Not Applicable	Not Applicable
+	"Walthall County, MS"	"28147"	20	Not Applicable	Not Applicable
+	"Warren County, MS"	"28149"	46	Not Applicable	Not Applicable
+	"Washington County, MS"	"28151"	59	Not Applicable	Not Applicable
+	"Wayne County, MS"	"28153"	22	Not Applicable	Not Applicable
+	"Webster County, MS"	"28155"	11	Not Applicable	Not Applicable
+	"Wilkinson County, MS"	"28157"	14	Not Applicable	Not Applicable
+	"Winston County, MS"	"28159"	16	Not Applicable	Not Applicable
+	"Yalobusha County, MS"	"28161"	12	Not Applicable	Not Applicable
+	"Yazoo County, MS"	"28163"	13	Not Applicable	Not Applicable
+	"Buchanan County, MO"	"29021"	11	Not Applicable	Not Applicable
+	"Cape Girardeau County, MO"	"29031"	11	Not Applicable	Not Applicable
+	"Cass County, MO"	"29037"	14	Not Applicable	Not Applicable
+	"Clay County, MO"	"29047"	45	Not Applicable	Not Applicable
+	"Dunklin County, MO"	"29069"	12	Not Applicable	Not Applicable
+	"Franklin County, MO"	"29071"	22	Not Applicable	Not Applicable
+	"Greene County, MO"	"29077"	33	Not Applicable	Not Applicable
+	"Jackson County, MO"	"29095"	166	Not Applicable	Not Applicable
+	"Jasper County, MO"	"29097"	31	Not Applicable	Not Applicable
+	"Jefferson County, MO"	"29099"	49	Not Applicable	Not Applicable
+	"McDonald County, MO"	"29119"	10	Not Applicable	Not Applicable
+	"New Madrid County, MO"	"29143"	11	Not Applicable	Not Applicable
+	"Newton County, MO"	"29145"	18	Not Applicable	Not Applicable
+	"St. Charles County, MO"	"29183"	112	Not Applicable	Not Applicable
+	"St. Louis County, MO"	"29189"	643	Not Applicable	Not Applicable
+	"Scott County, MO"	"29201"	12	Not Applicable	Not Applicable
+	"Stoddard County, MO"	"29207"	10	Not Applicable	Not Applicable
+	"Taney County, MO"	"29213"	25	Not Applicable	Not Applicable
+	"St. Louis city, MO"	"29510"	192	Not Applicable	Not Applicable
+	"Big Horn County, MT"	"30003"	15	Not Applicable	Not Applicable
+	"Yellowstone County, MT"	"30111"	35	Not Applicable	Not Applicable
+	"Adams County, NE"	"31001"	14	Not Applicable	Not Applicable
+	"Dakota County, NE"	"31043"	38	Not Applicable	Not Applicable
+	"Dawson County, NE"	"31047"	11	Not Applicable	Not Applicable
+	"Dodge County, NE"	"31053"	13	Not Applicable	Not Applicable
+	"Douglas County, NE"	"31055"	163	Not Applicable	Not Applicable
+	"Hall County, NE"	"31079"	44	Not Applicable	Not Applicable
+	"Hamilton County, NE"	"31081"	14	Not Applicable	Not Applicable
+	"Lancaster County, NE"	"31109"	21	Not Applicable	Not Applicable
+	"Perkins County, NE"	"31135"	10	Not Applicable	Not Applicable
+	"Sarpy County, NE"	"31153"	29	Not Applicable	Not Applicable
+	"Clark County, NV"	"32003"	1083	Not Applicable	Not Applicable
+	"Nye County, NV"	"32023"	14	Not Applicable	Not Applicable
+	"Washoe County, NV"	"32031"	123	Not Applicable	Not Applicable
+	"Hillsborough County, NH"	"33011"	253	Not Applicable	Not Applicable
+	"Merrimack County, NH"	"33013"	24	Not Applicable	Not Applicable
+	"Rockingham County, NH"	"33015"	129	Not Applicable	Not Applicable
+	"Atlantic County, NJ"	"34001"	177	Not Applicable	Not Applicable
+	"Bergen County, NJ"	"34003"	1668	Not Applicable	Not Applicable
+	"Burlington County, NJ"	"34005"	370	Not Applicable	Not Applicable
+	"Camden County, NJ"	"34007"	449	Not Applicable	Not Applicable
+	"Cape May County, NJ"	"34009"	72	Not Applicable	Not Applicable
+	"Cumberland County, NJ"	"34011"	107	Not Applicable	Not Applicable
+	"Essex County, NJ"	"34013"	1763	Not Applicable	Not Applicable
+	"Gloucester County, NJ"	"34015"	178	Not Applicable	Not Applicable
+	"Hudson County, NJ"	"34017"	1274	Not Applicable	Not Applicable
+	"Hunterdon County, NJ"	"34019"	125	Not Applicable	Not Applicable
+	"Mercer County, NJ"	"34021"	491	Not Applicable	Not Applicable
+	"Middlesex County, NJ"	"34023"	1163	Not Applicable	Not Applicable
+	"Monmouth County, NJ"	"34025"	729	Not Applicable	Not Applicable
+	"Morris County, NJ"	"34027"	677	Not Applicable	Not Applicable
+	"Ocean County, NJ"	"34029"	798	Not Applicable	Not Applicable
+	"Passaic County, NJ"	"34031"	1079	Not Applicable	Not Applicable
+	"Salem County, NJ"	"34033"	73	Not Applicable	Not Applicable
+	"Somerset County, NJ"	"34035"	442	Not Applicable	Not Applicable
+	"Sussex County, NJ"	"34037"	197	Not Applicable	Not Applicable
+	"Union County, NJ"	"34039"	1156	Not Applicable	Not Applicable
+	"Warren County, NJ"	"34041"	129	Not Applicable	Not Applicable
+	"Bernalillo County, NM"	"35001"	124	Not Applicable	Not Applicable
+	"Cibola County, NM"	"35006"	15	Not Applicable	Not Applicable
+	"Dona Ana County, NM"	"35013"	45	Not Applicable	Not Applicable
+	"Lea County, NM"	"35025"	19	Not Applicable	Not Applicable
+	"McKinley County, NM"	"35031"	233	Not Applicable	Not Applicable
+	"Rio Arriba County, NM"	"35039"	12	Not Applicable	Not Applicable
+	"Sandoval County, NM"	"35043"	43	Not Applicable	Not Applicable
+	"San Juan County, NM"	"35045"	183	Not Applicable	Not Applicable
+	"Albany County, NY"	"36001"	115	Not Applicable	Not Applicable
+	"Bronx County, NY"	"36005"	4079	Not Applicable	Not Applicable
+	"Broome County, NY"	"36007"	86	Not Applicable	Not Applicable
+	"Chenango County, NY"	"36017"	10	Not Applicable	Not Applicable
+	"Columbia County, NY"	"36021"	35	Not Applicable	Not Applicable
+	"Delaware County, NY"	"36025"	12	Not Applicable	Not Applicable
+	"Dutchess County, NY"	"36027"	173	Not Applicable	Not Applicable
+	"Erie County, NY"	"36029"	594	Not Applicable	Not Applicable
+	"Fulton County, NY"	"36035"	32	Not Applicable	Not Applicable
+	"Greene County, NY"	"36039"	17	Not Applicable	Not Applicable
+	"Herkimer County, NY"	"36043"	16	Not Applicable	Not Applicable
+	"Kings County, NY"	"36047"	6198	Not Applicable	Not Applicable
+	"Madison County, NY"	"36053"	12	Not Applicable	Not Applicable
+	"Monroe County, NY"	"36055"	293	Not Applicable	Not Applicable
+	"Nassau County, NY"	"36059"	2499	Not Applicable	Not Applicable
+	"New York County, NY"	"36061"	2594	Not Applicable	Not Applicable
+	"Niagara County, NY"	"36063"	112	Not Applicable	Not Applicable
+	"Oneida County, NY"	"36065"	118	Not Applicable	Not Applicable
+	"Onondaga County, NY"	"36067"	193	Not Applicable	Not Applicable
+	"Ontario County, NY"	"36069"	30	Not Applicable	Not Applicable
+	"Orange County, NY"	"36071"	480	Not Applicable	Not Applicable
+	"Orleans County, NY"	"36073"	41	Not Applicable	Not Applicable
+	"Oswego County, NY"	"36075"	11	Not Applicable	Not Applicable
+	"Putnam County, NY"	"36079"	100	Not Applicable	Not Applicable
+	"Queens County, NY"	"36081"	6199	Not Applicable	Not Applicable
+	"Rensselaer County, NY"	"36083"	35	Not Applicable	Not Applicable
+	"Richmond County, NY"	"36085"	934	Not Applicable	Not Applicable
+	"Rockland County, NY"	"36087"	703	Not Applicable	Not Applicable
+	"Saratoga County, NY"	"36091"	30	Not Applicable	Not Applicable
+	"Schenectady County, NY"	"36093"	49	Not Applicable	Not Applicable
+	"Steuben County, NY"	"36101"	44	Not Applicable	Not Applicable
+	"Suffolk County, NY"	"36103"	2428	Not Applicable	Not Applicable
+	"Sullivan County, NY"	"36105"	51	Not Applicable	Not Applicable
+	"Tioga County, NY"	"36107"	23	Not Applicable	Not Applicable
+	"Ulster County, NY"	"36111"	91	Not Applicable	Not Applicable
+	"Warren County, NY"	"36113"	28	Not Applicable	Not Applicable
+	"Washington County, NY"	"36115"	13	Not Applicable	Not Applicable
+	"Westchester County, NY"	"36119"	1685	Not Applicable	Not Applicable
+	"Alamance County, NC"	"37001"	44	Not Applicable	Not Applicable
+	"Beaufort County, NC"	"37013"	11	Not Applicable	Not Applicable
+	"Bertie County, NC"	"37015"	13	Not Applicable	Not Applicable
+	"Brunswick County, NC"	"37019"	28	Not Applicable	Not Applicable
+	"Buncombe County, NC"	"37021"	56	Not Applicable	Not Applicable
+	"Burke County, NC"	"37023"	31	Not Applicable	Not Applicable
+	"Cabarrus County, NC"	"37025"	37	Not Applicable	Not Applicable
+	"Caldwell County, NC"	"37027"	21	Not Applicable	Not Applicable
+	"Catawba County, NC"	"37035"	49	Not Applicable	Not Applicable
+	"Chatham County, NC"	"37037"	38	Not Applicable	Not Applicable
+	"Cherokee County, NC"	"37039"	10	Not Applicable	Not Applicable
+	"Cleveland County, NC"	"37045"	40	Not Applicable	Not Applicable
+	"Columbus County, NC"	"37047"	49	Not Applicable	Not Applicable
+	"Craven County, NC"	"37049"	26	Not Applicable	Not Applicable
+	"Cumberland County, NC"	"37051"	75	Not Applicable	Not Applicable
+	"Davidson County, NC"	"37057"	39	Not Applicable	Not Applicable
+	"Davie County, NC"	"37059"	13	Not Applicable	Not Applicable
+	"Duplin County, NC"	"37061"	42	Not Applicable	Not Applicable
+	"Durham County, NC"	"37063"	79	Not Applicable	Not Applicable
+	"Edgecombe County, NC"	"37065"	26	Not Applicable	Not Applicable
+	"Forsyth County, NC"	"37067"	75	Not Applicable	Not Applicable
+	"Franklin County, NC"	"37069"	29	Not Applicable	Not Applicable
+	"Gaston County, NC"	"37071"	67	Not Applicable	Not Applicable
+	"Granville County, NC"	"37077"	20	Not Applicable	Not Applicable
+	"Guilford County, NC"	"37081"	144	Not Applicable	Not Applicable
+	"Halifax County, NC"	"37083"	17	Not Applicable	Not Applicable
+	"Harnett County, NC"	"37085"	47	Not Applicable	Not Applicable
+	"Haywood County, NC"	"37087"	27	Not Applicable	Not Applicable
+	"Henderson County, NC"	"37089"	54	Not Applicable	Not Applicable
+	"Hertford County, NC"	"37091"	20	Not Applicable	Not Applicable
+	"Hoke County, NC"	"37093"	11	Not Applicable	Not Applicable
+	"Iredell County, NC"	"37097"	40	Not Applicable	Not Applicable
+	"Johnston County, NC"	"37101"	47	Not Applicable	Not Applicable
+	"Jones County, NC"	"37103"	12	Not Applicable	Not Applicable
+	"Lee County, NC"	"37105"	16	Not Applicable	Not Applicable
+	"Lenoir County, NC"	"37107"	17	Not Applicable	Not Applicable
+	"Lincoln County, NC"	"37109"	18	Not Applicable	Not Applicable
+	"McDowell County, NC"	"37111"	30	Not Applicable	Not Applicable
+	"Mecklenburg County, NC"	"37119"	291	Not Applicable	Not Applicable
+	"Montgomery County, NC"	"37123"	16	Not Applicable	Not Applicable
+	"Moore County, NC"	"37125"	20	Not Applicable	Not Applicable
+	"Nash County, NC"	"37127"	29	Not Applicable	Not Applicable
+	"New Hanover County, NC"	"37129"	27	Not Applicable	Not Applicable
+	"Northampton County, NC"	"37131"	10	Not Applicable	Not Applicable
+	"Onslow County, NC"	"37133"	19	Not Applicable	Not Applicable
+	"Orange County, NC"	"37135"	34	Not Applicable	Not Applicable
+	"Pasquotank County, NC"	"37139"	17	Not Applicable	Not Applicable
+	"Pitt County, NC"	"37147"	28	Not Applicable	Not Applicable
+	"Polk County, NC"	"37149"	10	Not Applicable	Not Applicable
+	"Randolph County, NC"	"37151"	51	Not Applicable	Not Applicable
+	"Richmond County, NC"	"37153"	15	Not Applicable	Not Applicable
+	"Robeson County, NC"	"37155"	70	Not Applicable	Not Applicable
+	"Rockingham County, NC"	"37157"	21	Not Applicable	Not Applicable
+	"Rowan County, NC"	"37159"	48	Not Applicable	Not Applicable
+	"Rutherford County, NC"	"37161"	21	Not Applicable	Not Applicable
+	"Sampson County, NC"	"37163"	17	Not Applicable	Not Applicable
+	"Stanly County, NC"	"37167"	39	Not Applicable	Not Applicable
+	"Surry County, NC"	"37171"	18	Not Applicable	Not Applicable
+	"Union County, NC"	"37179"	53	Not Applicable	Not Applicable
+	"Vance County, NC"	"37181"	37	Not Applicable	Not Applicable
+	"Wake County, NC"	"37183"	235	Not Applicable	Not Applicable
+	"Wayne County, NC"	"37191"	54	Not Applicable	Not Applicable
+	"Wilkes County, NC"	"37193"	23	Not Applicable	Not Applicable
+	"Wilson County, NC"	"37195"	34	Not Applicable	Not Applicable
+	"Burleigh County, ND"	"38015"	12	Not Applicable	Not Applicable
+	"Cass County, ND"	"38017"	67	Not Applicable	Not Applicable
+	"Allen County, OH"	"39003"	51	Not Applicable	Not Applicable
+	"Ashtabula County, OH"	"39007"	37	Not Applicable	Not Applicable
+	"Belmont County, OH"	"39013"	24	Not Applicable	Not Applicable
+	"Butler County, OH"	"39017"	89	Not Applicable	Not Applicable
+	"Clark County, OH"	"39023"	29	Not Applicable	Not Applicable
+	"Clermont County, OH"	"39025"	14	Not Applicable	Not Applicable
+	"Columbiana County, OH"	"39029"	71	Not Applicable	Not Applicable
+	"Crawford County, OH"	"39033"	11	Not Applicable	Not Applicable
+	"Cuyahoga County, OH"	"39035"	548	Not Applicable	Not Applicable
+	"Darke County, OH"	"39037"	32	Not Applicable	Not Applicable
+	"Delaware County, OH"	"39041"	20	Not Applicable	Not Applicable
+	"Erie County, OH"	"39043"	29	Not Applicable	Not Applicable
+	"Fairfield County, OH"	"39045"	41	Not Applicable	Not Applicable
+	"Franklin County, OH"	"39049"	480	Not Applicable	Not Applicable
+	"Geauga County, OH"	"39055"	44	Not Applicable	Not Applicable
+	"Greene County, OH"	"39057"	27	Not Applicable	Not Applicable
+	"Hamilton County, OH"	"39061"	263	Not Applicable	Not Applicable
+	"Hancock County, OH"	"39063"	10	Not Applicable	Not Applicable
+	"Hardin County, OH"	"39065"	11	Not Applicable	Not Applicable
+	"Knox County, OH"	"39083"	15	Not Applicable	Not Applicable
+	"Lake County, OH"	"39085"	42	Not Applicable	Not Applicable
+	"Lawrence County, OH"	"39087"	10	Not Applicable	Not Applicable
+	"Licking County, OH"	"39089"	57	Not Applicable	Not Applicable
+	"Lorain County, OH"	"39093"	82	Not Applicable	Not Applicable
+	"Lucas County, OH"	"39095"	318	Not Applicable	Not Applicable
+	"Madison County, OH"	"39097"	11	Not Applicable	Not Applicable
+	"Mahoning County, OH"	"39099"	241	Not Applicable	Not Applicable
+	"Marion County, OH"	"39101"	37	Not Applicable	Not Applicable
+	"Medina County, OH"	"39103"	42	Not Applicable	Not Applicable
+	"Mercer County, OH"	"39107"	17	Not Applicable	Not Applicable
+	"Miami County, OH"	"39109"	36	Not Applicable	Not Applicable
+	"Monroe County, OH"	"39111"	15	Not Applicable	Not Applicable
+	"Montgomery County, OH"	"39113"	135	Not Applicable	Not Applicable
+	"Ottawa County, OH"	"39123"	29	Not Applicable	Not Applicable
+	"Pickaway County, OH"	"39129"	38	Not Applicable	Not Applicable
+	"Portage County, OH"	"39133"	57	Not Applicable	Not Applicable
+	"Preble County, OH"	"39135"	11	Not Applicable	Not Applicable
+	"Putnam County, OH"	"39137"	15	Not Applicable	Not Applicable
+	"Richland County, OH"	"39139"	15	Not Applicable	Not Applicable
+	"Ross County, OH"	"39141"	17	Not Applicable	Not Applicable
+	"Sandusky County, OH"	"39143"	17	Not Applicable	Not Applicable
+	"Seneca County, OH"	"39147"	13	Not Applicable	Not Applicable
+	"Stark County, OH"	"39151"	138	Not Applicable	Not Applicable
+	"Summit County, OH"	"39153"	197	Not Applicable	Not Applicable
+	"Trumbull County, OH"	"39155"	116	Not Applicable	Not Applicable
+	"Tuscarawas County, OH"	"39157"	17	Not Applicable	Not Applicable
+	"Warren County, OH"	"39165"	36	Not Applicable	Not Applicable
+	"Washington County, OH"	"39167"	20	Not Applicable	Not Applicable
+	"Wayne County, OH"	"39169"	59	Not Applicable	Not Applicable
+	"Wood County, OH"	"39173"	54	Not Applicable	Not Applicable
+	"Adair County, OK"	"40001"	11	Not Applicable	Not Applicable
+	"Caddo County, OK"	"40015"	21	Not Applicable	Not Applicable
+	"Canadian County, OK"	"40017"	24	Not Applicable	Not Applicable
+	"Cleveland County, OK"	"40027"	55	Not Applicable	Not Applicable
+	"Comanche County, OK"	"40031"	10	Not Applicable	Not Applicable
+	"Creek County, OK"	"40037"	24	Not Applicable	Not Applicable
+	"Delaware County, OK"	"40041"	24	Not Applicable	Not Applicable
+	"Garfield County, OK"	"40047"	19	Not Applicable	Not Applicable
+	"Kay County, OK"	"40071"	16	Not Applicable	Not Applicable
+	"Le Flore County, OK"	"40079"	13	Not Applicable	Not Applicable
+	"McClain County, OK"	"40087"	10	Not Applicable	Not Applicable
+	"McCurtain County, OK"	"40089"	32	Not Applicable	Not Applicable
+	"Mayes County, OK"	"40097"	13	Not Applicable	Not Applicable
+	"Muskogee County, OK"	"40101"	19	Not Applicable	Not Applicable
+	"Oklahoma County, OK"	"40109"	163	Not Applicable	Not Applicable
+	"Osage County, OK"	"40113"	13	Not Applicable	Not Applicable
+	"Pittsburg County, OK"	"40121"	14	Not Applicable	Not Applicable
+	"Pottawatomie County, OK"	"40125"	10	Not Applicable	Not Applicable
+	"Rogers County, OK"	"40131"	36	Not Applicable	Not Applicable
+	"Sequoyah County, OK"	"40135"	18	Not Applicable	Not Applicable
+	"Tulsa County, OK"	"40143"	146	Not Applicable	Not Applicable
+	"Wagoner County, OK"	"40145"	23	Not Applicable	Not Applicable
+	"Washington County, OK"	"40147"	37	Not Applicable	Not Applicable
+	"Clackamas County, OR"	"41005"	50	Not Applicable	Not Applicable
+	"Deschutes County, OR"	"41017"	10	Not Applicable	Not Applicable
+	"Lincoln County, OR"	"41041"	11	Not Applicable	Not Applicable
+	"Linn County, OR"	"41043"	11	Not Applicable	Not Applicable
+	"Malheur County, OR"	"41045"	17	Not Applicable	Not Applicable
+	"Marion County, OR"	"41047"	74	Not Applicable	Not Applicable
+	"Multnomah County, OR"	"41051"	123	Not Applicable	Not Applicable
+	"Polk County, OR"	"41053"	12	Not Applicable	Not Applicable
+	"Umatilla County, OR"	"41059"	35	Not Applicable	Not Applicable
+	"Washington County, OR"	"41067"	43	Not Applicable	Not Applicable
+	"Yamhill County, OR"	"41071"	16	Not Applicable	Not Applicable
+	"Adams County, PA"	"42001"	23	Not Applicable	Not Applicable
+	"Allegheny County, PA"	"42003"	310	Not Applicable	Not Applicable
+	"Beaver County, PA"	"42007"	98	Not Applicable	Not Applicable
+	"Berks County, PA"	"42011"	372	Not Applicable	Not Applicable
+	"Blair County, PA"	"42013"	13	Not Applicable	Not Applicable
+	"Bucks County, PA"	"42017"	554	Not Applicable	Not Applicable
+	"Butler County, PA"	"42019"	18	Not Applicable	Not Applicable
+	"Carbon County, PA"	"42025"	27	Not Applicable	Not Applicable
+	"Centre County, PA"	"42027"	10	Not Applicable	Not Applicable
+	"Chester County, PA"	"42029"	343	Not Applicable	Not Applicable
+	"Columbia County, PA"	"42037"	38	Not Applicable	Not Applicable
+	"Cumberland County, PA"	"42041"	73	Not Applicable	Not Applicable
+	"Dauphin County, PA"	"42043"	160	Not Applicable	Not Applicable
+	"Delaware County, PA"	"42045"	712	Not Applicable	Not Applicable
+	"Erie County, PA"	"42049"	34	Not Applicable	Not Applicable
+	"Franklin County, PA"	"42055"	47	Not Applicable	Not Applicable
+	"Lackawanna County, PA"	"42069"	203	Not Applicable	Not Applicable
+	"Lancaster County, PA"	"42071"	425	Not Applicable	Not Applicable
+	"Lawrence County, PA"	"42073"	22	Not Applicable	Not Applicable
+	"Lebanon County, PA"	"42075"	55	Not Applicable	Not Applicable
+	"Lehigh County, PA"	"42077"	344	Not Applicable	Not Applicable
+	"Luzerne County, PA"	"42079"	177	Not Applicable	Not Applicable
+	"Lycoming County, PA"	"42081"	23	Not Applicable	Not Applicable
+	"Mercer County, PA"	"42085"	18	Not Applicable	Not Applicable
+	"Monroe County, PA"	"42089"	134	Not Applicable	Not Applicable
+	"Montgomery County, PA"	"42091"	829	Not Applicable	Not Applicable
+	"Northampton County, PA"	"42095"	282	Not Applicable	Not Applicable
+	"Northumberland County, PA"	"42097"	40	Not Applicable	Not Applicable
+	"Philadelphia County, PA"	"42101"	1669	Not Applicable	Not Applicable
+	"Pike County, PA"	"42103"	32	Not Applicable	Not Applicable
+	"Schuylkill County, PA"	"42107"	49	Not Applicable	Not Applicable
+	"Susquehanna County, PA"	"42115"	28	Not Applicable	Not Applicable
+	"Washington County, PA"	"42125"	28	Not Applicable	Not Applicable
+	"Wayne County, PA"	"42127"	12	Not Applicable	Not Applicable
+	"Westmoreland County, PA"	"42129"	46	Not Applicable	Not Applicable
+	"York County, PA"	"42133"	117	Not Applicable	Not Applicable
+	"Bristol County, RI"	"44001"	18	Not Applicable	Not Applicable
+	"Kent County, RI"	"44003"	107	Not Applicable	Not Applicable
+	"Newport County, RI"	"44005"	21	Not Applicable	Not Applicable
+	"Providence County, RI"	"44007"	685	Not Applicable	Not Applicable
+	"Washington County, RI"	"44009"	49	Not Applicable	Not Applicable
+	"Abbeville County, SC"	"45001"	15	Not Applicable	Not Applicable
+	"Aiken County, SC"	"45003"	64	Not Applicable	Not Applicable
+	"Allendale County, SC"	"45005"	10	Not Applicable	Not Applicable
+	"Anderson County, SC"	"45007"	125	Not Applicable	Not Applicable
+	"Bamberg County, SC"	"45009"	22	Not Applicable	Not Applicable
+	"Barnwell County, SC"	"45011"	13	Not Applicable	Not Applicable
+	"Beaufort County, SC"	"45013"	63	Not Applicable	Not Applicable
+	"Berkeley County, SC"	"45015"	80	Not Applicable	Not Applicable
+	"Calhoun County, SC"	"45017"	11	Not Applicable	Not Applicable
+	"Charleston County, SC"	"45019"	204	Not Applicable	Not Applicable
+	"Cherokee County, SC"	"45021"	32	Not Applicable	Not Applicable
+	"Chester County, SC"	"45023"	17	Not Applicable	Not Applicable
+	"Chesterfield County, SC"	"45025"	26	Not Applicable	Not Applicable
+	"Clarendon County, SC"	"45027"	65	Not Applicable	Not Applicable
+	"Colleton County, SC"	"45029"	38	Not Applicable	Not Applicable
+	"Darlington County, SC"	"45031"	56	Not Applicable	Not Applicable
+	"Dillon County, SC"	"45033"	22	Not Applicable	Not Applicable
+	"Dorchester County, SC"	"45035"	74	Not Applicable	Not Applicable
+	"Edgefield County, SC"	"45037"	14	Not Applicable	Not Applicable
+	"Fairfield County, SC"	"45039"	19	Not Applicable	Not Applicable
+	"Florence County, SC"	"45041"	142	Not Applicable	Not Applicable
+	"Georgetown County, SC"	"45043"	40	Not Applicable	Not Applicable
+	"Greenville County, SC"	"45045"	217	Not Applicable	Not Applicable
+	"Greenwood County, SC"	"45047"	40	Not Applicable	Not Applicable
+	"Hampton County, SC"	"45049"	21	Not Applicable	Not Applicable
+	"Horry County, SC"	"45051"	200	Not Applicable	Not Applicable
+	"Jasper County, SC"	"45053"	12	Not Applicable	Not Applicable
+	"Kershaw County, SC"	"45055"	27	Not Applicable	Not Applicable
+	"Lancaster County, SC"	"45057"	38	Not Applicable	Not Applicable
+	"Laurens County, SC"	"45059"	45	Not Applicable	Not Applicable
+	"Lee County, SC"	"45061"	41	Not Applicable	Not Applicable
+	"Lexington County, SC"	"45063"	123	Not Applicable	Not Applicable
+	"Marion County, SC"	"45067"	26	Not Applicable	Not Applicable
+	"Marlboro County, SC"	"45069"	12	Not Applicable	Not Applicable
+	"Newberry County, SC"	"45071"	15	Not Applicable	Not Applicable
+	"Oconee County, SC"	"45073"	24	Not Applicable	Not Applicable
+	"Orangeburg County, SC"	"45075"	92	Not Applicable	Not Applicable
+	"Pickens County, SC"	"45077"	41	Not Applicable	Not Applicable
+	"Richland County, SC"	"45079"	184	Not Applicable	Not Applicable
+	"Saluda County, SC"	"45081"	16	Not Applicable	Not Applicable
+	"Spartanburg County, SC"	"45083"	148	Not Applicable	Not Applicable
+	"Sumter County, SC"	"45085"	76	Not Applicable	Not Applicable
+	"Union County, SC"	"45087"	10	Not Applicable	Not Applicable
+	"Williamsburg County, SC"	"45089"	50	Not Applicable	Not Applicable
+	"York County, SC"	"45091"	78	Not Applicable	Not Applicable
+	"Minnehaha County, SD"	"46099"	66	Not Applicable	Not Applicable
+	"Pennington County, SD"	"46103"	35	Not Applicable	Not Applicable
+	"Bedford County, TN"	"47003"	13	Not Applicable	Not Applicable
+	"Blount County, TN"	"47009"	20	Not Applicable	Not Applicable
+	"Bradley County, TN"	"47011"	18	Not Applicable	Not Applicable
+	"Carroll County, TN"	"47017"	11	Not Applicable	Not Applicable
+	"Carter County, TN"	"47019"	21	Not Applicable	Not Applicable
+	"Cumberland County, TN"	"47035"	10	Not Applicable	Not Applicable
+	"Davidson County, TN"	"47037"	238	Not Applicable	Not Applicable
+	"Dyer County, TN"	"47045"	12	Not Applicable	Not Applicable
+	"Fayette County, TN"	"47047"	11	Not Applicable	Not Applicable
+	"Gibson County, TN"	"47053"	15	Not Applicable	Not Applicable
+	"Giles County, TN"	"47055"	10	Not Applicable	Not Applicable
+	"Greene County, TN"	"47059"	17	Not Applicable	Not Applicable
+	"Hamblen County, TN"	"47063"	24	Not Applicable	Not Applicable
+	"Hamilton County, TN"	"47065"	68	Not Applicable	Not Applicable
+	"Hardeman County, TN"	"47069"	24	Not Applicable	Not Applicable
+	"Hawkins County, TN"	"47073"	10	Not Applicable	Not Applicable
+	"Haywood County, TN"	"47075"	15	Not Applicable	Not Applicable
+	"Henderson County, TN"	"47077"	15	Not Applicable	Not Applicable
+	"Knox County, TN"	"47093"	50	Not Applicable	Not Applicable
+	"Lauderdale County, TN"	"47097"	12	Not Applicable	Not Applicable
+	"McMinn County, TN"	"47107"	22	Not Applicable	Not Applicable
+	"McNairy County, TN"	"47109"	14	Not Applicable	Not Applicable
+	"Macon County, TN"	"47111"	17	Not Applicable	Not Applicable
+	"Madison County, TN"	"47113"	43	Not Applicable	Not Applicable
+	"Maury County, TN"	"47119"	15	Not Applicable	Not Applicable
+	"Monroe County, TN"	"47123"	11	Not Applicable	Not Applicable
+	"Montgomery County, TN"	"47125"	19	Not Applicable	Not Applicable
+	"Putnam County, TN"	"47141"	23	Not Applicable	Not Applicable
+	"Robertson County, TN"	"47147"	22	Not Applicable	Not Applicable
+	"Rutherford County, TN"	"47149"	75	Not Applicable	Not Applicable
+	"Sevier County, TN"	"47155"	12	Not Applicable	Not Applicable
+	"Shelby County, TN"	"47157"	379	Not Applicable	Not Applicable
+	"Sullivan County, TN"	"47163"	24	Not Applicable	Not Applicable
+	"Sumner County, TN"	"47165"	77	Not Applicable	Not Applicable
+	"Tipton County, TN"	"47167"	15	Not Applicable	Not Applicable
+	"Williamson County, TN"	"47187"	32	Not Applicable	Not Applicable
+	"Wilson County, TN"	"47189"	32	Not Applicable	Not Applicable
+	"Anderson County, TX"	"48001"	25	Not Applicable	Not Applicable
+	"Angelina County, TX"	"48005"	76	Not Applicable	Not Applicable
+	"Aransas County, TX"	"48007"	16	Not Applicable	Not Applicable
+	"Atascosa County, TX"	"48013"	32	Not Applicable	Not Applicable
+	"Austin County, TX"	"48015"	12	Not Applicable	Not Applicable
+	"Bastrop County, TX"	"48021"	28	Not Applicable	Not Applicable
+	"Bee County, TX"	"48025"	29	Not Applicable	Not Applicable
+	"Bell County, TX"	"48027"	75	Not Applicable	Not Applicable
+	"Bexar County, TX"	"48029"	1252	Not Applicable	Not Applicable
+	"Bowie County, TX"	"48037"	41	Not Applicable	Not Applicable
+	"Brazoria County, TX"	"48039"	133	Not Applicable	Not Applicable
+	"Brazos County, TX"	"48041"	60	Not Applicable	Not Applicable
+	"Brooks County, TX"	"48047"	23	Not Applicable	Not Applicable
+	"Brown County, TX"	"48049"	22	Not Applicable	Not Applicable
+	"Burnet County, TX"	"48053"	11	Not Applicable	Not Applicable
+	"Caldwell County, TX"	"48055"	32	Not Applicable	Not Applicable
+	"Cameron County, TX"	"48061"	847	Not Applicable	Not Applicable
+	"Cass County, TX"	"48067"	15	Not Applicable	Not Applicable
+	"Chambers County, TX"	"48071"	11	Not Applicable	Not Applicable
+	"Cherokee County, TX"	"48073"	30	Not Applicable	Not Applicable
+	"Collin County, TX"	"48085"	132	Not Applicable	Not Applicable
+	"Comal County, TX"	"48091"	81	Not Applicable	Not Applicable
+	"Coryell County, TX"	"48099"	12	Not Applicable	Not Applicable
+	"Dallas County, TX"	"48113"	1019	Not Applicable	Not Applicable
+	"Deaf Smith County, TX"	"48117"	20	Not Applicable	Not Applicable
+	"Denton County, TX"	"48121"	143	Not Applicable	Not Applicable
+	"DeWitt County, TX"	"48123"	24	Not Applicable	Not Applicable
+	"Ector County, TX"	"48135"	72	Not Applicable	Not Applicable
+	"Ellis County, TX"	"48139"	61	Not Applicable	Not Applicable
+	"El Paso County, TX"	"48141"	494	Not Applicable	Not Applicable
+	"Erath County, TX"	"48143"	11	Not Applicable	Not Applicable
+	"Fannin County, TX"	"48147"	14	Not Applicable	Not Applicable
+	"Fayette County, TX"	"48149"	16	Not Applicable	Not Applicable
+	"Fort Bend County, TX"	"48157"	273	Not Applicable	Not Applicable
+	"Galveston County, TX"	"48167"	143	Not Applicable	Not Applicable
+	"Gonzales County, TX"	"48177"	15	Not Applicable	Not Applicable
+	"Grayson County, TX"	"48181"	34	Not Applicable	Not Applicable
+	"Gregg County, TX"	"48183"	46	Not Applicable	Not Applicable
+	"Grimes County, TX"	"48185"	28	Not Applicable	Not Applicable
+	"Guadalupe County, TX"	"48187"	76	Not Applicable	Not Applicable
+	"Hale County, TX"	"48189"	48	Not Applicable	Not Applicable
+	"Hardin County, TX"	"48199"	23	Not Applicable	Not Applicable
+	"Harris County, TX"	"48201"	2474	Not Applicable	Not Applicable
+	"Harrison County, TX"	"48203"	37	Not Applicable	Not Applicable
+	"Hays County, TX"	"48209"	52	Not Applicable	Not Applicable
+	"Henderson County, TX"	"48213"	20	Not Applicable	Not Applicable
+	"Hidalgo County, TX"	"48215"	1511	Not Applicable	Not Applicable
+	"Hill County, TX"	"48217"	13	Not Applicable	Not Applicable
+	"Hood County, TX"	"48221"	22	Not Applicable	Not Applicable
+	"Hopkins County, TX"	"48223"	10	Not Applicable	Not Applicable
+	"Houston County, TX"	"48225"	10	Not Applicable	Not Applicable
+	"Howard County, TX"	"48227"	11	Not Applicable	Not Applicable
+	"Hunt County, TX"	"48231"	34	Not Applicable	Not Applicable
+	"Jackson County, TX"	"48239"	15	Not Applicable	Not Applicable
+	"Jasper County, TX"	"48241"	24	Not Applicable	Not Applicable
+	"Jefferson County, TX"	"48245"	132	Not Applicable	Not Applicable
+	"Jim Wells County, TX"	"48249"	33	Not Applicable	Not Applicable
+	"Johnson County, TX"	"48251"	44	Not Applicable	Not Applicable
+	"Karnes County, TX"	"48255"	14	Not Applicable	Not Applicable
+	"Kaufman County, TX"	"48257"	43	Not Applicable	Not Applicable
+	"Kerr County, TX"	"48265"	11	Not Applicable	Not Applicable
+	"Kleberg County, TX"	"48273"	38	Not Applicable	Not Applicable
+	"Lamar County, TX"	"48277"	27	Not Applicable	Not Applicable
+	"Lamb County, TX"	"48279"	19	Not Applicable	Not Applicable
+	"La Salle County, TX"	"48283"	12	Not Applicable	Not Applicable
+	"Lavaca County, TX"	"48285"	28	Not Applicable	Not Applicable
+	"Lee County, TX"	"48287"	14	Not Applicable	Not Applicable
+	"Liberty County, TX"	"48291"	41	Not Applicable	Not Applicable
+	"Lubbock County, TX"	"48303"	106	Not Applicable	Not Applicable
+	"McLennan County, TX"	"48309"	88	Not Applicable	Not Applicable
+	"Marion County, TX"	"48315"	12	Not Applicable	Not Applicable
+	"Matagorda County, TX"	"48321"	41	Not Applicable	Not Applicable
+	"Maverick County, TX"	"48323"	125	Not Applicable	Not Applicable
+	"Medina County, TX"	"48325"	38	Not Applicable	Not Applicable
+	"Midland County, TX"	"48329"	62	Not Applicable	Not Applicable
+	"Montgomery County, TX"	"48339"	140	Not Applicable	Not Applicable
+	"Moore County, TX"	"48341"	19	Not Applicable	Not Applicable
+	"Nacogdoches County, TX"	"48347"	55	Not Applicable	Not Applicable
+	"Navarro County, TX"	"48349"	27	Not Applicable	Not Applicable
+	"Newton County, TX"	"48351"	10	Not Applicable	Not Applicable
+	"Nueces County, TX"	"48355"	357	Not Applicable	Not Applicable
+	"Orange County, TX"	"48361"	38	Not Applicable	Not Applicable
+	"Palo Pinto County, TX"	"48363"	14	Not Applicable	Not Applicable
+	"Panola County, TX"	"48365"	21	Not Applicable	Not Applicable
+	"Parker County, TX"	"48367"	29	Not Applicable	Not Applicable
+	"Polk County, TX"	"48373"	20	Not Applicable	Not Applicable
+	"Potter County, TX"	"48375"	55	Not Applicable	Not Applicable
+	"Randall County, TX"	"48381"	30	Not Applicable	Not Applicable
+	"Red River County, TX"	"48387"	13	Not Applicable	Not Applicable
+	"Refugio County, TX"	"48391"	15	Not Applicable	Not Applicable
+	"Rockwall County, TX"	"48397"	18	Not Applicable	Not Applicable
+	"San Augustine County, TX"	"48405"	15	Not Applicable	Not Applicable
+	"San Jacinto County, TX"	"48407"	12	Not Applicable	Not Applicable
+	"San Patricio County, TX"	"48409"	66	Not Applicable	Not Applicable
+	"Shelby County, TX"	"48419"	24	Not Applicable	Not Applicable
+	"Smith County, TX"	"48423"	81	Not Applicable	Not Applicable
+	"Starr County, TX"	"48427"	153	Not Applicable	Not Applicable
+	"Tarrant County, TX"	"48439"	684	Not Applicable	Not Applicable
+	"Taylor County, TX"	"48441"	34	Not Applicable	Not Applicable
+	"Titus County, TX"	"48449"	30	Not Applicable	Not Applicable
+	"Tom Green County, TX"	"48451"	58	Not Applicable	Not Applicable
+	"Travis County, TX"	"48453"	402	Not Applicable	Not Applicable
+	"Upshur County, TX"	"48459"	10	Not Applicable	Not Applicable
+	"Uvalde County, TX"	"48463"	28	Not Applicable	Not Applicable
+	"Val Verde County, TX"	"48465"	112	Not Applicable	Not Applicable
+	"Van Zandt County, TX"	"48467"	19	Not Applicable	Not Applicable
+	"Victoria County, TX"	"48469"	87	Not Applicable	Not Applicable
+	"Walker County, TX"	"48471"	54	Not Applicable	Not Applicable
+	"Waller County, TX"	"48473"	17	Not Applicable	Not Applicable
+	"Washington County, TX"	"48477"	48	Not Applicable	Not Applicable
+	"Webb County, TX"	"48479"	252	Not Applicable	Not Applicable
+	"Wharton County, TX"	"48481"	45	Not Applicable	Not Applicable
+	"Wichita County, TX"	"48485"	18	Not Applicable	Not Applicable
+	"Willacy County, TX"	"48489"	42	Not Applicable	Not Applicable
+	"Williamson County, TX"	"48491"	145	Not Applicable	Not Applicable
+	"Wilson County, TX"	"48493"	26	Not Applicable	Not Applicable
+	"Wise County, TX"	"48497"	15	Not Applicable	Not Applicable
+	"Wood County, TX"	"48499"	17	Not Applicable	Not Applicable
+	"Zavala County, TX"	"48507"	15	Not Applicable	Not Applicable
+	"Davis County, UT"	"49011"	23	Not Applicable	Not Applicable
+	"Salt Lake County, UT"	"49035"	202	Not Applicable	Not Applicable
+	"San Juan County, UT"	"49037"	31	Not Applicable	Not Applicable
+	"Utah County, UT"	"49049"	45	Not Applicable	Not Applicable
+	"Washington County, UT"	"49053"	23	Not Applicable	Not Applicable
+	"Weber County, UT"	"49057"	24	Not Applicable	Not Applicable
+	"Chittenden County, VT"	"50007"	34	Not Applicable	Not Applicable
+	"Accomack County, VA"	"51001"	23	Not Applicable	Not Applicable
+	"Albemarle County, VA"	"51003"	33	Not Applicable	Not Applicable
+	"Arlington County, VA"	"51013"	108	Not Applicable	Not Applicable
+	"Bedford County, VA"	"51019"	10	Not Applicable	Not Applicable
+	"Buckingham County, VA"	"51029"	10	Not Applicable	Not Applicable
+	"Caroline County, VA"	"51033"	10	Not Applicable	Not Applicable
+	"Carroll County, VA"	"51035"	29	Not Applicable	Not Applicable
+	"Chesterfield County, VA"	"51041"	95	Not Applicable	Not Applicable
+	"Culpeper County, VA"	"51047"	19	Not Applicable	Not Applicable
+	"Dinwiddie County, VA"	"51053"	10	Not Applicable	Not Applicable
+	"Fairfax County, VA"	"51059"	506	Not Applicable	Not Applicable
+	"Fauquier County, VA"	"51061"	13	Not Applicable	Not Applicable
+	"Fluvanna County, VA"	"51065"	11	Not Applicable	Not Applicable
+	"Frederick County, VA"	"51069"	10	Not Applicable	Not Applicable
+	"Grayson County, VA"	"51077"	11	Not Applicable	Not Applicable
+	"Greensville County, VA"	"51081"	15	Not Applicable	Not Applicable
+	"Hanover County, VA"	"51085"	30	Not Applicable	Not Applicable
+	"Henrico County, VA"	"51087"	155	Not Applicable	Not Applicable
+	"Henry County, VA"	"51089"	30	Not Applicable	Not Applicable
+	"Isle of Wight County, VA"	"51093"	12	Not Applicable	Not Applicable
+	"James City County, VA"	"51095"	22	Not Applicable	Not Applicable
+	"Loudoun County, VA"	"51107"	111	Not Applicable	Not Applicable
+	"Mecklenburg County, VA"	"51117"	33	Not Applicable	Not Applicable
+	"Northampton County, VA"	"51131"	23	Not Applicable	Not Applicable
+	"Page County, VA"	"51139"	27	Not Applicable	Not Applicable
+	"Patrick County, VA"	"51141"	20	Not Applicable	Not Applicable
+	"Pittsylvania County, VA"	"51143"	14	Not Applicable	Not Applicable
+	"Prince Edward County, VA"	"51147"	11	Not Applicable	Not Applicable
+	"Prince William County, VA"	"51153"	185	Not Applicable	Not Applicable
+	"Roanoke County, VA"	"51161"	17	Not Applicable	Not Applicable
+	"Rockingham County, VA"	"51165"	37	Not Applicable	Not Applicable
+	"Shenandoah County, VA"	"51171"	37	Not Applicable	Not Applicable
+	"Southampton County, VA"	"51175"	13	Not Applicable	Not Applicable
+	"Spotsylvania County, VA"	"51177"	39	Not Applicable	Not Applicable
+	"Stafford County, VA"	"51179"	19	Not Applicable	Not Applicable
+	"Sussex County, VA"	"51183"	13	Not Applicable	Not Applicable
+	"York County, VA"	"51199"	10	Not Applicable	Not Applicable
+	"Alexandria city, VA"	"51510"	63	Not Applicable	Not Applicable
+	"Charlottesville city, VA"	"51540"	15	Not Applicable	Not Applicable
+	"Chesapeake city, VA"	"51550"	68	Not Applicable	Not Applicable
+	"Danville city, VA"	"51590"	22	Not Applicable	Not Applicable
+	"Emporia city, VA"	"51595"	18	Not Applicable	Not Applicable
+	"Franklin city, VA"	"51620"	10	Not Applicable	Not Applicable
+	"Galax city, VA"	"51640"	12	Not Applicable	Not Applicable
+	"Hampton city, VA"	"51650"	22	Not Applicable	Not Applicable
+	"Harrisonburg city, VA"	"51660"	23	Not Applicable	Not Applicable
+	"Manassas city, VA"	"51683"	36	Not Applicable	Not Applicable
+	"Martinsville city, VA"	"51690"	10	Not Applicable	Not Applicable
+	"Newport News city, VA"	"51700"	41	Not Applicable	Not Applicable
+	"Norfolk city, VA"	"51710"	71	Not Applicable	Not Applicable
+	"Petersburg city, VA"	"51730"	31	Not Applicable	Not Applicable
+	"Portsmouth city, VA"	"51740"	52	Not Applicable	Not Applicable
+	"Richmond city, VA"	"51760"	77	Not Applicable	Not Applicable
+	"Roanoke city, VA"	"51770"	11	Not Applicable	Not Applicable
+	"Suffolk city, VA"	"51800"	52	Not Applicable	Not Applicable
+	"Virginia Beach city, VA"	"51810"	68	Not Applicable	Not Applicable
+	"Benton County, WA"	"53005"	102	Not Applicable	Not Applicable
+	"Chelan County, WA"	"53007"	11	Not Applicable	Not Applicable
+	"Clark County, WA"	"53011"	54	Not Applicable	Not Applicable
+	"Franklin County, WA"	"53021"	47	Not Applicable	Not Applicable
+	"Grant County, WA"	"53025"	22	Not Applicable	Not Applicable
+	"Island County, WA"	"53029"	14	Not Applicable	Not Applicable
+	"King County, WA"	"53033"	610	Not Applicable	Not Applicable
+	"Kitsap County, WA"	"53035"	13	Not Applicable	Not Applicable
+	"Kittitas County, WA"	"53037"	22	Not Applicable	Not Applicable
+	"Okanogan County, WA"	"53047"	10	Not Applicable	Not Applicable
+	"Pierce County, WA"	"53053"	131	Not Applicable	Not Applicable
+	"Skagit County, WA"	"53057"	21	Not Applicable	Not Applicable
+	"Snohomish County, WA"	"53061"	177	Not Applicable	Not Applicable
+	"Spokane County, WA"	"53063"	99	Not Applicable	Not Applicable
+	"Thurston County, WA"	"53067"	16	Not Applicable	Not Applicable
+	"Whatcom County, WA"	"53073"	37	Not Applicable	Not Applicable
+	"Yakima County, WA"	"53077"	229	Not Applicable	Not Applicable
+	"Berkeley County, WV"	"54003"	12	Not Applicable	Not Applicable
+	"Cabell County, WV"	"54011"	15	Not Applicable	Not Applicable
+	"Jackson County, WV"	"54035"	14	Not Applicable	Not Applicable
+	"Kanawha County, WV"	"54039"	28	Not Applicable	Not Applicable
+	"Logan County, WV"	"54045"	26	Not Applicable	Not Applicable
+	"Mercer County, WV"	"54055"	17	Not Applicable	Not Applicable
+	"Brown County, WI"	"55009"	51	Not Applicable	Not Applicable
+	"Dane County, WI"	"55025"	39	Not Applicable	Not Applicable
+	"Fond du Lac County, WI"	"55039"	13	Not Applicable	Not Applicable
+	"Grant County, WI"	"55043"	13	Not Applicable	Not Applicable
+	"Kenosha County, WI"	"55059"	71	Not Applicable	Not Applicable
+	"Marathon County, WI"	"55073"	10	Not Applicable	Not Applicable
+	"Milwaukee County, WI"	"55079"	428	Not Applicable	Not Applicable
+	"Outagamie County, WI"	"55087"	19	Not Applicable	Not Applicable
+	"Ozaukee County, WI"	"55089"	21	Not Applicable	Not Applicable
+	"Racine County, WI"	"55101"	88	Not Applicable	Not Applicable
+	"Rock County, WI"	"55105"	25	Not Applicable	Not Applicable
+	"Sheboygan County, WI"	"55117"	12	Not Applicable	Not Applicable
+	"Walworth County, WI"	"55127"	27	Not Applicable	Not Applicable
+	"Washington County, WI"	"55131"	24	Not Applicable	Not Applicable
+	"Waukesha County, WI"	"55133"	70	Not Applicable	Not Applicable
+	"Waupaca County, WI"	"55135"	15	Not Applicable	Not Applicable
+	"Winnebago County, WI"	"55139"	21	Not Applicable	Not Applicable
+	"Fremont County, WY"	"56013"	11	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Month"
+"Query Parameters:"
+"UCD - ICD-10 Codes: U07.1 (COVID-19)"
+"Year/Month: Mar., 2020; Apr., 2020; May, 2020; Jun., 2020; Jul., 2020; Aug., 2020"
+"Group By: Residence County"
+"Show Totals: False"
+"Show Zero Values: False"
+"Show Suppressed: False"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Oct 14, 2022 10:57:55 AM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2020,"
+"and from provisional data for years 2021-2022, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Oct 14, 2022 10:57:55"
+"AM"
+"---"
+Messages:
+"1. Rows with suppressed Deaths are hidden. Use Quick Options above to show suppressed rows."
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. Deaths and population estimates are shown separately from the adjacent counties for Carson City, Nevada (FIPS code 32510)."
+"3. Deaths and population estimates are reported separately for Baltimore City (FIPS code 24510) and Baltimore county (FIPS code"
+"24005)."
+"4. Deaths and population estimates are reported separately for St. Louis City (FIPS code 29510) and county (FIPS code 29189)."
+"5. Data are Suppressed when the data meet the criteria for confidentiality constraints. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Assurance of Confidentiality."
+"6. Death rates are flagged as Unreliable when the rate is calculated with a numerator of 20 or less. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#Unreliable."
+"7. Changes to cause of death classification affect reporting trends. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#ICD-10 Changes."
+"8. Deaths occurring through August 20, 2022 as of September 04, 2022."
