@@ -106,7 +106,7 @@ hyper.ar1 <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
 
 if (dataType == 'NC') {
   hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
-                    theta2 = list(prior='pc.cor0', param=c(0.25,0.02)))
+                    theta2 = list(prior='normal', param=c(0,5.5)))
 }
 
 formula <- deathsCensored ~ 1 + timeID + offset(log(pop)) + as.factor(month) +

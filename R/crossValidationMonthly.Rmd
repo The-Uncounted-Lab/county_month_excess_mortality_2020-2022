@@ -103,10 +103,7 @@ hyper.bym <- list(theta1 = list('PCprior', param=c(1, 0.01)),
                   theta2 = list('PCprior', param=c(0.5, 0.5)))
 hyper.iid <- list(theta = list(prior="pc.prec", param=c(1, 0.01)))
 
-if (dataType == 'AC') {
-  hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
-                    theta2 = list(prior='normal', param=c(0,5)))
-} else if (dataType == 'NC') {
+if (dataType == 'NC') {
   hyper.ar1 <- list(theta1 = list(prior="pc.prec", param=c(1, 0.01)),
                     theta2 = list(prior='normal', param=c(0,5.5)))
 }
