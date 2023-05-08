@@ -1,0 +1,69 @@
+---
+title: "Combine UCD and MCD Estimates in a Unique File"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(here)
+library(glue)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/combineUCDAndMCD.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'NC'
+dataInputFolderUCD <- here(outDir,'estimates',str_c(mortalityDataType,'UCD'))
+dataInputFolderMCD <- here(outDir,'estimates',str_c(mortalityDataType,'MCD'))
+dataOutputFolder <- here(outDir,'estimates',mortalityDataType)
+```
+
+```{r}
+estimateFiles <- c('Monthly','PYears','Total','MonthlyTotals','States')
+mergeVarsList <- list(c('year','month','FIPSCode','countyName','stateFIPS',
+                        'state','census_region','census_division','metroCat'),
+                      c('pandemicYear','FIPSCode','countyName','stateFIPS',
+                        'state','census_region','census_division','metroCat'),
+                      c('period','FIPSCode','countyName','stateFIPS',
+                        'state','census_region','census_division','metroCat'),
+                      c('year','month'),
+                      c('stateFIPS', 'state','census_region','census_division'))
+```
+
+```{r}
+combine_files <- function(fileType,mergeVars) {
+  
+  UCDFile <- read_csv(here(dataInputFolderUCD,glue('estimates{fileType}.csv')))
+  MCDFile <- read_csv(here(dataInputFolderMCD,glue('estimates{fileType}.csv')))
+  
+  combinedFile <- UCDFile %>%
+    left_join(MCDFile %>%
+                select(-deaths:-relExcDeathsUp),
+              by=mergeVars,suffix = c('UCD','MCD'))
+  
+  combinedFile %>%
+    write_csv(here(dataOutputFolder,glue('estimates{fileType}.csv')))
+}
+```
+
+```{r}
+for (i in 1:length(estimateFiles)) {
+  combine_files(estimateFiles[i],mergeVarsList[[i]])
+}
+```

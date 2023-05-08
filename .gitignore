@@ -1,4 +1,8 @@
 /data/input/CDC/COVIDMCDData
 /data/input/CDC/mortalityNCData
+/data/output/estimates/ACMCD
+/data/output/estimates/ACUCD
+/data/output/estimates/NCMCD
+/data/output/estimates/NCUCD
 .Rhistory
 .DS_Store

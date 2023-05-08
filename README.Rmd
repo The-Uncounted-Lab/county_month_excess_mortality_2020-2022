@@ -108,7 +108,6 @@ The following datasets are available:
 ```{r tree, comment = NA}
 twee(here::here("data", "output", "estimates"))
 ```
-
 ## Data Dictionaries and Descriptive Statistics
 
 The following tables contain variable names, descriptions, and descriptive statistics for each of the datasets in this repository.
@@ -173,8 +172,13 @@ variableDescriptions <-
       
       1 = suppression applied, 0 = not suppressed."
     ),
-    COVIDDeaths = glue::glue(
+    COVIDDeathsUCD = glue::glue(
       "Count of deaths reported in the the National Vital Statistics System (NVSS) with COVID-19 as the underlying cause of death (ICD-10 diagnosis code = U07.1).
+      Obtained via CDC WONDER.
+      Counts of 9 or fewer are suppressed."
+    ),
+    COVIDDeathsMCD = glue::glue(
+      "Count of deaths reported in the the National Vital Statistics System (NVSS) with COVID-19 as the contributing cause of death (ICD-10 diagnosis code = U07.1).
       Obtained via CDC WONDER.
       Counts of 9 or fewer are suppressed."
     ),
@@ -214,6 +218,9 @@ variableDescriptions <-
     excDeathsUp = glue::glue(
       "Upper 95th percentile of estimated excess deaths, calculated as (deaths - expDeaths)."
     ),
+    probPositiveExcess = glue::glue(
+      "Probability that excess deaths exceeds zero."
+    ),
     relExcDeathsMean = glue::glue(
       "Mean relative excess deaths, calculated as (excDeaths / expDeaths)."
     ),
@@ -226,29 +233,35 @@ variableDescriptions <-
     relExcDeathsUp = glue::glue(
       "Upper 95th percentile of relative excess deaths, calculated as (excDeaths / expDeaths)."
     ),
-    ratioMean = glue::glue(
-      "Mean ratio of excess deaths to COVID-19 deaths, calculated as (excDeathsMean / COVIDDeathsMean)."
+    ratioMeanUCD = glue::glue(
+      "Mean ratio of excess deaths to COVID-19 deaths (as underlying cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    ratioLow = glue::glue(
-      "Lower 5th percentile of ratio of excess deaths to COVID-19 deaths, calculated as (excDeathsLow / COVIDDeaths)."
+    ratioLowUCD = glue::glue(
+      "Lower 5th percentile of ratio of excess deaths to COVID-19 deaths (as underlying cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    ratioMed = glue::glue(
-      "Median ratio of excess deaths to COVID-19 deaths, calculated as (excDeathsMed / COVIDDeaths)."
+    ratioMedUCD = glue::glue(
+      "Median ratio of excess deaths to COVID-19 deaths (as underlying cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    ratioUp = glue::glue(
-      "Upper 95th percentile of ratio of excess deaths to COVID-19 deaths, calculated as (excDeathsUp / COVIDDeaths)."
+    ratioUpUCD = glue::glue(
+      "Upper 95th percentile of ratio of excess deaths to COVID-19 deaths (as underlying cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    probPositiveExcess = glue::glue(
-      "Probability that excess deaths exceeds zero."
+    probPositiveNCExcessUCD = glue::glue(
+      "Probability that excess deaths not assigned to COVID-19 (as underlying cause), exceeds zero."
     ),
-    probPositiveNCExcess = glue::glue(
-      "Probability that excess deaths not assigned to COVID-19 exceeds zero."
+    ratioMeanMCD = glue::glue(
+      "Mean ratio of excess deaths to COVID-19 deaths (as contributing cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    probPositive = glue::glue(
-      "Probability that excess deaths exceeds zero."
+    ratioLowMCD = glue::glue(
+      "Lower 5th percentile of ratio of excess deaths to COVID-19 deaths (as contributing cause), calculated as (excDeaths / COVIDDeaths)."
     ),
-    probRatioLargerThan1 = glue::glue(
-      "Probability that the ratio of excess deaths to COVID-19 deaths exceeds 1."
+    ratioMedMCD = glue::glue(
+      "Median ratio of excess deaths to COVID-19 deaths (as contributing cause), calculated as (excDeaths / COVIDDeaths)."
+    ),
+    ratioUpMCD = glue::glue(
+      "Upper 95th percentile of ratio of excess deaths to COVID-19 deaths (as contributing cause), calculated as (excDeaths / COVIDDeaths)."
+    ),
+    probPositiveNCExcessMCD = glue::glue(
+      "Probability that excess deaths not assigned to COVID-19 (as contributing cause), exceeds zero."
     )
   )
 ```
@@ -291,7 +304,6 @@ autoDictionary <- function(.file_path,
     data.title = .title,
     lush = TRUE,
     desc = "",
-    summ = c('mean(x)', 'median(x)', 'sd(x)', 'nuniq(x)'),
     ...
   ) %>% 
     kableExtra::kable_styling(
@@ -305,12 +317,21 @@ autoDictionary <- function(.file_path,
 ```
 
 ```{r print dictionary, results='asis'}
-fileNames <- list.files(
-  here::here("data", "output", "estimates"),
+fileNamesAC <- list.files(
+  here::here("data", "output", "estimates",'AC'),
   pattern = ".csv",
   full.names = TRUE,
   recursive = TRUE
 )
+
+fileNamesNC <- list.files(
+  here::here("data", "output", "estimates",'NC'),
+  pattern = ".csv",
+  full.names = TRUE,
+  recursive = TRUE
+)
+
+fileNames <- c(fileNamesAC,fileNamesNC)
 
 walk(
     fileNames,
