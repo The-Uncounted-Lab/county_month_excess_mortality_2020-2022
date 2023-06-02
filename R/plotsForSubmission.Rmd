@@ -65,12 +65,21 @@ theme_minimal2 <- theme_minimal() +
 ```
 
 ```{r import data}
-monthlyEstimates <- read_csv(file.path(outDir, "estimates", "estimatesMonthlyFull.csv")) %>% 
+# all-cause excess mortality estimates
+try(monthlyEstimates <- read_csv(file.path(outDir, "estimates", "AC", "estimatesMonthlyFull.csv")) %>% 
+  mutate(monthYear = make_date(year = year, month = month)))
+
+try(monthlyEstimatesState <- read_csv(file.path(outDir, "estimates", "AC", "estimatesStateMonths.csv")) %>% 
+  rename(monthYear = time))
+
+# natural-cause excess mortality estimates
+monthlyEstimatesNC <- read_csv(file.path(outDir, "estimates", "NC", "estimatesMonthly.csv")) %>% 
   mutate(monthYear = make_date(year = year, month = month))
-monthlyEstimatesState <- read_csv(file.path(outDir, "estimates", "estimatesStateMonths.csv")) %>% 
-  rename(monthYear = time)
+
+# other datasets
 # metroRaw <- read_csv(file.path(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 FIPSFixes <- read_csv(file.path(inDir, "FIPSHarmonization", "FIPSFixes.csv"))
+
 popEst <- read_csv(file.path(inDir, "popData", "popEst20202021.csv")) %>% 
   transmute(
     FIPSCode = paste0(STATE, COUNTY),
@@ -100,7 +109,27 @@ popEstDedup <- popEst %>%
   summarise(pop = sum(pop), .groups = "drop")
 
 # filter to first 24 pandemic months and add "sig" flag and pop
+## AC
 plotData <- monthlyEstimates %>%
+  filter(monthYear >= date("2020-03-01"), monthYear <= date("2022-02-01")) %>%
+  arrange(FIPSCode, monthYear) %>%
+  mutate(
+    significant = coalesce(excDeathsLow > 0, FALSE),
+    metroCat2 = case_when(
+      metroCat %in% c("Large Fringe Metro", "Large Central Metro") ~ "Large metro",
+      metroCat %in% c("Medium or Small Metro") ~ "Medium or small metro",
+      TRUE ~ "Nonmetro"
+    ),
+    census_region = if_else(
+      census_region == "North Central",
+      "Midwest",
+      census_region
+    )
+  ) %>% 
+  left_join(popEstDedup, by = "FIPSCode")
+
+## NC
+plotDataNC <- monthlyEstimatesNC %>%
   filter(monthYear >= date("2020-03-01"), monthYear <= date("2022-02-01")) %>%
   arrange(FIPSCode, monthYear) %>%
   mutate(
