@@ -155,31 +155,6 @@ colorscaleRedYellow11 <- colorspace::sequential_hcl(
   n = 11L,
   rev = TRUE
 )
-
-## Metropolitan status
-metro <- metroRaw %>%
-  select(
-    FIPSCode = fips,
-    metroCode = metro
-  ) %>%
-  mutate(
-    FIPSCode = if_else(nchar(FIPSCode) < 5, paste0("0", FIPSCode), as.character(FIPSCode)),
-    metroStatus = if_else(
-      metroCode %in% c(1, 2),
-      "Large Metro",
-      "Other"
-    ),
-    metroStatus2 = case_when(
-      metroCode %in% c(1, 2) ~ "Large Metro",
-      metroCode %in% c(3) ~ "Medium or Small Metro",
-      TRUE ~ "Nonmetro"
-    ),
-    metroStatus3 = case_when(
-      metroCode %in% c(1, 2, 3) ~ "All Metro",
-      TRUE ~ "Nonmetro"
-    )
-  )
-
 ```
 
 ```{r heatmap data prep}
