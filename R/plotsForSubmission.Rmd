@@ -108,8 +108,9 @@ popEstDedup <- popEst %>%
   group_by(FIPSCode) %>% 
   summarise(pop = sum(pop), .groups = "drop")
 
-# filter to first 24 pandemic months and add "sig" flag and pop
 ## AC
+# filter to first 24 pandemic months
+# add "sig" flag, pop, and metro categories
 plotData <- monthlyEstimates %>%
   filter(monthYear >= date("2020-03-01"), monthYear <= date("2022-02-01")) %>%
   arrange(FIPSCode, monthYear) %>%
@@ -129,8 +130,10 @@ plotData <- monthlyEstimates %>%
   left_join(popEstDedup, by = "FIPSCode")
 
 ## NC
+# filter to pandemic months
+# add "sig" flag, pop, and metro categories
 plotDataNC <- monthlyEstimatesNC %>%
-  filter(monthYear >= date("2020-03-01"), monthYear <= date("2022-02-01")) %>%
+  filter(monthYear >= date("2020-03-01")) %>%
   arrange(FIPSCode, monthYear) %>%
   mutate(
     significant = coalesce(excDeathsLow > 0, FALSE),
@@ -154,6 +157,11 @@ colorscaleRedYellow11 <- colorspace::sequential_hcl(
   palette = "Red-Yellow",
   n = 11L,
   rev = TRUE
+)
+
+colorscaleViridis11 <- colorspace::sequential_hcl(
+  palette = "viridis",
+  n = 11L
 )
 ```
 
@@ -1392,4 +1400,329 @@ cairo_pdf(
 )
 excessCumulativeOut
 dev.off()
+```
+
+# Cumulative COVID/excess
+```{r cumulative covid geofacet data prep}
+plotDataNCState <- plotDataNC %>%
+  group_by(year, month, monthYear, stateFIPS, state) %>% 
+  summarize(
+    across(
+      c(deaths, expDeathsMean, excDeathsMean, COVIDDeathsMCD, COVIDDeathsUCD, pop), 
+      sum,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>% 
+  group_by(state) %>% 
+  mutate(
+    expDeathsTotal = sum(expDeathsMean),
+    across(
+      c(
+        deaths:COVIDDeathsUCD
+      ),
+      ~ with_order(monthYear, cumsum, .x),
+      .names = "{.col}Cumulative"
+    ),
+    excDeathsRelativeMeanCumulative = excDeathsMeanCumulative / expDeathsMeanCumulative * 100,
+    excDeathsRelativeCumulative2 = excDeathsMeanCumulative / expDeathsTotal * 100,
+    COVIDDeathsMCDRelativeCumulative = COVIDDeathsMCDCumulative / expDeathsTotal * 100,
+    COVIDDeathsUCDRelativeCumulative = COVIDDeathsUCDCumulative / expDeathsTotal * 100
+  ) %>% 
+  ungroup()
+```
+
+```{r cumulative covid geofacet plot}
+gCOVIDGeofacet <- ggplot(
+  plotDataNCState,
+  aes(
+    x = monthYear,
+  )
+)
+
+(geofacetCOVIDOut <- gCOVIDGeofacet +
+    # geom_hline(
+    #   yintercept = 0,
+    #   color = "grey40",
+    #   linewidth = .2
+    # ) +
+    geom_line(
+      aes(y = excDeathsRelativeCumulative2),
+      color = colorscaleGeyser21[2],
+      linewidth = .3
+    ) +
+    geom_line(
+      aes(y = COVIDDeathsUCDRelativeCumulative),
+      color = colorscaleGeyser21[20],
+      linewidth = .3
+    ) +
+    scale_x_date(
+      # expand = c(0, 0),
+      breaks = scales::breaks_width(width = "12 months"),
+      minor_breaks = scales::breaks_width(width = "3 months"),
+      labels = scales::label_date_short(),
+      guide = "axis_minor"
+    ) +
+    # scale_y_continuous(
+    #   # expand = c(0, 0),
+    #   oob = scales::oob_keep,
+    #   breaks = c(seq.int(-100, 200, 50))
+    # ) +
+    coord_cartesian(
+      ylim = c(0, 30),
+      expand = FALSE,
+      clip = "off"
+    ) +
+    facet_geo(
+      facets = ~ state,
+      grid = us_state_grid_custom
+    ) +
+    labs(
+      y = "Relative mortality (%)",
+      x = NULL,
+      color = NULL,
+      linetype = NULL,
+      alpha = NULL
+    ) +
+    guides(
+      color = "legend",
+      alpha = "none"
+    ) +
+    theme_minimal2 +
+    theme(
+      text = element_text(size = 9),
+      panel.border = element_rect(fill = "transparent"),
+      panel.grid.minor = element_blank(),
+      panel.grid.major = element_line(),
+      axis.ticks = element_line(),
+      axis.ticks.length = unit(3.5, "points"),
+      ggh4x.axis.ticks.length.minor = rel(.61),
+      legend.direction = "vertical",
+      legend.position = c(0, 0),
+      legend.justification = "left"
+    )
+)
+
+```
+
+```{r cumulative covid region data prep}
+plotDataNCRegion <- plotDataNC %>% 
+  arrange(census_region, metroCat2, monthYear) %>% 
+  group_by(census_region, metroCat2, monthYear) %>% 
+  summarize(
+    across(
+      # despite summarizing all of these variables, really only observed values and mean estimates should be aggregated
+      c(deaths, expDeathsMean, excDeathsMean, COVIDDeathsMCD, COVIDDeathsUCD, pop),
+      sum,
+      na.rm = TRUE
+    ),
+    .groups = "drop"
+  ) %>% 
+  group_by(census_region, metroCat2) %>% 
+  mutate(
+    across(
+      c(deaths:COVIDDeathsUCD),
+      ~ with_order(monthYear, cumsum, .x),
+      .names = "{.col}Cumulative"
+    ),
+    COVIDRelativeToExcessCumulative = COVIDDeathsUCDCumulative / excDeathsMeanCumulative,
+    metroAbbr = str_replace_all(
+      metroCat2,
+      c(
+        "Large" = "Lrg",
+        "Medium or Small" = "Med/sm"
+      )
+    ),
+    label = as.character(
+      glue::glue(
+        "{census_region} – {metroCat2}"
+      )
+    ),
+    labelPoint = as.character(
+      glue::glue(
+        "{census_region}\n{metroAbbr}"
+      )
+    )
+  ) %>% 
+  ungroup() %>% 
+  mutate(
+    labelMargin = if_else(
+      monthYear == max(monthYear),
+      label,
+      NA_character_
+    ),
+    labelMarginLeft = if_else(
+      monthYear == min(monthYear),
+      label,
+      NA_character_
+    )
+  )
+```
+```{r cumulative covid region plot, include=TRUE}
+gCOVIDRelativeToExcessCumulative <- ggplot(
+  plotDataNCRegion,
+  aes(
+    x = monthYear,
+    y = COVIDRelativeToExcessCumulative,
+    color = census_region,
+    linetype = metroCat2
+  )
+)
+
+COVIDRelativeToExcessCumulative <- gCOVIDRelativeToExcessCumulative +
+  geom_line(
+    linewidth = .5
+  ) +
+  scale_color_manual(values = colorscaleCumulative) +
+  scale_linetype_manual(values = linetypeCumulative) +
+  scale_x_date(
+    breaks = scales::breaks_width(width = "1 months"),
+    minor_breaks = scales::breaks_width(width = "1 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor",
+    oob = scales::oob_keep
+  ) +
+  scale_y_continuous(
+    trans = scales::pseudo_log_trans(base = 10, sigma = .05),
+    breaks = c(seq(0, 1, .1), 1:7)
+  ) +
+  coord_cartesian(
+    ylim = c(0, 8),
+    expand = FALSE,
+    clip = "on"
+  ) +
+  labs(
+    y = "Ratio of COVID-19 deaths to excess deaths",
+    x = NULL,
+    color = "group",
+    linetype = "group"
+  ) +
+  guides(
+    color = "none",
+    linetype = "none",
+    fill = "none",
+    label = "none"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks = element_line(),
+    axis.ticks.length = unit(3.5, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.61)
+  )
+
+COVIDRelativeToExcessCumulativeLabelMargin <- gCOVIDRelativeToExcessCumulative +
+  geom_text_repel(
+    aes(label = labelMargin),
+    size = 2.5,
+    segment.size = .3,
+    segment.linetype = "16",
+    min.segment.length = 0,
+    direction = "y",
+    hjust = 0,
+    force_pull = .2,
+    xlim = c(ymd("2022-02-02"), Inf),
+    seed = 20230331,
+    show.legend = FALSE,
+    max.overlaps = 40
+  ) +
+  scale_y_continuous(
+    trans = scales::pseudo_log_trans(base = 10, sigma = .05),
+  ) +
+  scale_x_date() +
+  coord_cartesian(
+    ylim = c(0, 8),
+    xlim = c(ymd("2022-02-01"), ymd("2022-02-10")),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  scale_color_manual(values = colorscaleCumulative) +
+  labs(
+    y = NULL,
+    x = NULL,
+    color = NULL
+  ) +
+  theme_void()
+
+legendDF <- crossing(
+  census_division = c("Midwest", "Northeast", "South", "West"),
+  metroCat2 = c("Large metro", "Medium or small metro", "Nonmetro")
+) %>%
+  mutate(
+    y = as.integer(as_factor(metroCat2)),
+    x = as.integer(as_factor(census_division)) * 3.25 - 2.25
+  )
+
+gLegend <- ggplot(
+  legendDF,
+  aes(
+    x = x - .5,
+    xend = x + .5,
+    y = y + .5,
+    yend = y - .5,
+    color = census_division,
+    linetype = metroCat2
+  )
+) +
+  geom_segment() +
+  geom_label(
+    aes(
+      x = x,
+      label = stringr::str_wrap(census_division, width = 12)
+    ),
+    y = 0,
+    hjust = .5,
+    size = 2.5,
+    label.size = 0
+  ) +
+  geom_label(
+    aes(
+      y = y,
+      label = stringr::str_wrap(metroCat2, width = 12)
+    ),
+    x = 12,
+    color = "grey10",
+    hjust = 0,
+    vjust = .5,
+    size = 2.5,
+    label.size = 0
+  ) +
+  scale_color_manual(values = colorscaleCumulative) +
+  scale_linetype_manual(values = linetypeCumulative) +
+  scale_y_continuous(
+    trans = "reverse"
+  ) +
+  coord_cartesian(
+    clip = "off",
+    xlim = c(NA, 13)
+  ) +
+  guides(
+    color = "none",
+    linetype = "none",
+    label = "none"
+  ) +
+  theme_void() +
+  theme(
+    plot.margin = unit(c(0, 0, 0, 0), "points"),
+    panel.background = element_rect(fill = "white", color = "white"),
+    plot.background = element_rect(fill = "white", color = "white")
+  )
+
+layout <- c(
+  # plot
+  area(t = 1, l = 1, b = 13, r = 8),
+  # margin labels
+  area(t = 1, l = 9, b = 13, r = 11),
+  # legend
+  area(t = 2, l = 5, b = 4, r = 7)
+)
+
+(
+  COVIDRelativeToExcessCumulativeOut <- COVIDRelativeToExcessCumulative +
+    COVIDRelativeToExcessCumulativeLabelMargin +
+    gLegend +
+    plot_layout(design = layout)
+)
 ```
