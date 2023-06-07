@@ -76,6 +76,9 @@ try(monthlyEstimatesState <- read_csv(file.path(outDir, "estimates", "AC", "esti
 monthlyEstimatesNC <- read_csv(file.path(outDir, "estimates", "NC", "estimatesMonthly.csv")) %>% 
   mutate(monthYear = make_date(year = year, month = month))
 
+# load natural-cause, covid UCD posterior simulation draws
+load(file.path(outDir, 'modelsAndSimulations', 'modelNC', 'simulationsNCUCD.RData'))
+
 # other datasets
 # metroRaw <- read_csv(file.path(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 FIPSFixes <- read_csv(file.path(inDir, "FIPSHarmonization", "FIPSFixes.csv"))
@@ -87,6 +90,118 @@ popEst <- read_csv(file.path(inDir, "popData", "popEst20202021.csv")) %>%
   ) %>% 
   left_join(FIPSFixes, by = "FIPSCode") %>% 
   mutate(FIPSprovisional = coalesce(newFIPSCode, FIPSCode))
+```
+
+```{r simulation data prep}
+simDF <- simulationsDF %>%
+  mutate(monthYear = make_date(year = year, month = month)) %>%
+  filter(monthYear >= make_date(2020, 3, 1))
+
+metroDivisionMonth <- simDF %>%
+  group_by(census_division, metroCat3, monthYear) %>%
+  summarise(
+    across(V1:V1000, ~ (sum(imputedDeaths) - sum(.x))),
+    COVIDDeaths = sum(imputedCOVIDDeaths),
+    pop = sum(pop),
+    .groups = "drop"
+  ) %>%
+  rowwise() %>%
+  mutate(
+    excLow = quantile(c_across(V1:V1000), 0.05),
+    excMed = quantile(c_across(V1:V1000), 0.5),
+    excUp = quantile(c_across(V1:V1000), 0.95)
+  ) %>%
+  ungroup() %>%
+  select(-c(V1:V1000))
+
+cum_diff <- function(x, y) {
+  cumsum(x) - cumsum(y)
+}
+
+# summarize county-month to state-month and cumulative to date
+
+stateMonthCumulative <- simDF %>%
+  group_by(state, monthYear) %>%
+  summarise(
+    across(V1:V1000, sum, na.rm = TRUE),
+    deaths = sum(imputedDeaths, na.rm = TRUE),
+    COVIDDeaths = sum(imputedCOVIDDeaths, na.rm = TRUE),
+    pop = sum(pop),
+    .groups = "drop"
+  ) %>% 
+  group_by(state) %>% 
+  mutate(
+    across(
+      c(V1:V1000, deaths, COVIDDeaths),
+      .fns = c(Cumulative = ~ with_order(monthYear, cumsum, .x)),
+      .names = "{.col}{.fn}"
+    ),
+    across(
+      c(V1:V1000),
+      .fns = c(ExcCumulative = ~ with_order(monthYear, cum_diff, deaths, .x)),
+      .names = "{.col}{.fn}"
+    ),
+    across(
+      c(V1:V1000, deaths, COVIDDeaths),
+      .fns = c(Total = ~ sum(.x, na.rm = TRUE)),
+      .names = "{.col}{.fn}"
+    ),
+    across(
+      c(V1Total:V1000Total),
+      .fns = c(COVIDCumulativeRel = ~ 100 * COVIDDeathsCumulative / .x),
+      .names = "{.fn}{.col}"
+    )
+  ) %>%
+  ungroup() %>% 
+  rowwise() %>%
+  mutate(
+    excCumulativeRelLst = list(purrr::map2_dbl(
+        .x = c_across(V1ExcCumulative:V1000ExcCumulative), 
+        .y = c_across(V1Total:V1000Total),
+        ~ 100 * .x / .y
+      )),
+    excCumulativeRelLow = quantile(unlist(excCumulativeRelLst), 0.05),
+    excCumulativeRelMed = quantile(unlist(excCumulativeRelLst), 0.5),
+    excCumulativeRelHigh = quantile(unlist(excCumulativeRelLst), 0.95),
+    COVIDCumulativeRelLow = quantile(
+      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.05
+      ),
+    COVIDCumulativeRelMed = quantile(
+      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.5
+      ),
+    COVIDCumulativeRelUp = quantile(
+      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.95
+      ),
+    expTotalLow = quantile(
+      c_across(V1Total:V1000Total), 0.05
+      ),
+    expTotalMed = quantile(
+      c_across(V1Total:V1000Total), 0.5
+      ),
+    expTotalUp = quantile(
+      c_across(V1Total:V1000Total), 0.95
+      ),
+    expCumulativeLow = quantile(
+      c_across(V1Cumulative:V1000Cumulative), 0.05
+      ),
+    expCumulativeMed = quantile(
+      c_across(V1Cumulative:V1000Cumulative), 0.5
+      ),
+    expCumulativeUp = quantile(
+      c_across(V1Cumulative:V1000Cumulative), 0.95
+      ),
+    excCumulativeLow = quantile(
+      c_across(V1ExcCumulative:V1000ExcCumulative), 0.05
+      ),
+    excCumulativeMed = quantile(
+      c_across(V1ExcCumulative:V1000ExcCumulative), 0.5
+      ),
+    excCumulativeUp = quantile(
+      c_across(V1ExcCumulative:V1000ExcCumulative), 0.95
+      )
+  ) %>%
+  ungroup() %>%
+  select(-c(V1:V1000, V1Cumulative:V1000Cumulative, V1ExcCumulative:V1000ExcCumulative, V1Total:V1000Total, COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total, excCumulativeRelLst))
 ```
 
 ```{r plot data prep}
@@ -1434,7 +1549,7 @@ plotDataNCState <- plotDataNC %>%
 
 ```{r cumulative covid geofacet plot}
 gCOVIDGeofacet <- ggplot(
-  plotDataNCState,
+  stateMonthCumulative,
   aes(
     x = monthYear,
   )
@@ -1448,8 +1563,8 @@ gCOVIDGeofacet <- ggplot(
     # ) +
     ggh4x::stat_difference(
     aes(
-        ymax = COVIDDeathsUCDRelativeCumulative,
-        ymin = excDeathsRelativeCumulative2
+        ymax = COVIDCumulativeRelMed,
+        ymin = excCumulativeRelMed
     ),
     levels = c(
       "COVID-19 mortality > natural-cause excess mortality",
@@ -1460,7 +1575,7 @@ gCOVIDGeofacet <- ggplot(
     ) +
     geom_line(
       aes(
-        y = excDeathsRelativeCumulative2,
+        y = excCumulativeRelMed   ,
         color = "Natural-cause relative excess deaths (cumulative)",
         linetype = "Natural-cause relative excess deaths (cumulative)"
         ),
@@ -1468,7 +1583,7 @@ gCOVIDGeofacet <- ggplot(
     ) +
     geom_line(
       aes(
-        y = COVIDDeathsUCDRelativeCumulative,
+        y = COVIDCumulativeRelMed,
         color = "Relative COVID-19 deaths (cumulative)",
         linetype = "Relative COVID-19 deaths (cumulative)"
         ),
