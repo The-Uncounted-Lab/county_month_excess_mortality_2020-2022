@@ -1446,16 +1446,47 @@ gCOVIDGeofacet <- ggplot(
     #   color = "grey40",
     #   linewidth = .2
     # ) +
+    ggh4x::stat_difference(
+    aes(
+        ymax = COVIDDeathsUCDRelativeCumulative,
+        ymin = excDeathsRelativeCumulative2
+    ),
+    levels = c(
+      "COVID-19 mortality > natural-cause excess mortality",
+      "Natural-cause excess mortality > COVID-19 mortality", 
+      NA
+      ),
+    alpha = .75
+    ) +
     geom_line(
-      aes(y = excDeathsRelativeCumulative2),
-      color = colorscaleGeyser21[2],
+      aes(
+        y = excDeathsRelativeCumulative2,
+        color = "Natural-cause relative excess deaths (cumulative)",
+        linetype = "Natural-cause relative excess deaths (cumulative)"
+        ),
       linewidth = .3
     ) +
     geom_line(
-      aes(y = COVIDDeathsUCDRelativeCumulative),
-      color = colorscaleGeyser21[20],
+      aes(
+        y = COVIDDeathsUCDRelativeCumulative,
+        color = "Relative COVID-19 deaths (cumulative)",
+        linetype = "Relative COVID-19 deaths (cumulative)"
+        ),
       linewidth = .3
     ) +
+    scale_color_discrete_diverging(
+      palette = "Vik",
+      rev = TRUE,
+      nmax = 2
+    ) +
+    scale_fill_discrete_diverging(
+      palette = "Vik",
+      rev = FALSE,
+      nmax = 10,
+      order = c(5, 6),
+      na.translate = FALSE
+    ) +
+    scale_linetype_manual(values = linetypeCumulative[c(1:2)]) +
     scale_x_date(
       # expand = c(0, 0),
       breaks = scales::breaks_width(width = "12 months"),
@@ -1469,7 +1500,7 @@ gCOVIDGeofacet <- ggplot(
     #   breaks = c(seq.int(-100, 200, 50))
     # ) +
     coord_cartesian(
-      ylim = c(0, 30),
+      ylim = c(0, 35),
       expand = FALSE,
       clip = "off"
     ) +
@@ -1478,15 +1509,28 @@ gCOVIDGeofacet <- ggplot(
       grid = us_state_grid_custom
     ) +
     labs(
-      y = "Relative mortality (%)",
+      y = "Mortality relative to total expected deaths (%)",
       x = NULL,
       color = NULL,
       linetype = NULL,
-      alpha = NULL
+      fill = NULL
     ) +
     guides(
-      color = "legend",
-      alpha = "none"
+      color = guide_legend(nrow = 2),
+      linetype = guide_legend(
+        override.aes = list(
+          size = .2
+        )
+      ),
+      fill = guide_legend(
+        reverse = TRUE,
+        nrow = 2,
+        # title.position = "top",
+        override.aes = list(
+          color = "grey40",
+          size = .2
+        )
+      )
     ) +
     theme_minimal2 +
     theme(
@@ -1497,12 +1541,23 @@ gCOVIDGeofacet <- ggplot(
       axis.ticks = element_line(),
       axis.ticks.length = unit(3.5, "points"),
       ggh4x.axis.ticks.length.minor = rel(.61),
-      legend.direction = "vertical",
-      legend.position = c(0, 0),
-      legend.justification = "left"
+      legend.direction = "horizontal",
+      legend.position = c(0, 1),
+      legend.justification = "left",
+      legend.margin = margin(0, 0, 0, 0, unit = "cm"),
+      legend.box.margin = margin(0, 0, 0, 0, unit = "cm")
     )
 )
 
+```
+```{r export cumulative covid geofacet}
+cairo_pdf(
+  filename = here::here("figures", "covid_vs_excess_cumalitve_geofacet.pdf"),
+  width = 9,
+  height = 6.25
+)
+geofacetCOVIDOut
+dev.off()
 ```
 
 ```{r cumulative covid region data prep}
