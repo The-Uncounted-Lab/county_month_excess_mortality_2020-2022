@@ -27,7 +27,7 @@ library(lubridate)
 # likely to take a long time, but only needs to be done once
 # NOTE: requires a different version of Rttf2pt1 to work
 # remotes::install_version("Rttf2pt1", version = "1.3.8")
-if(is.null(extrafont::fonts())) extrafont::font_import()
+if (is.null(extrafont::fonts())) extrafont::font_import()
 loadfonts()
 windowsFonts(Arial = windowsFont("Arial"))
 
@@ -51,53 +51,161 @@ here::i_am("R/plotsForSubmission.Rmd")
 
 inDir <- here::here("data", "input")
 outDir <- here::here("data", "output")
+```
 
+```{r ggplot globals}
+# standard theme elements
 theme_minimal2 <- theme_minimal() +
   theme(
     line = element_line(color = "grey40", linewidth = .2),
     text = element_text(
       family = "Arial",
-      color = "grey10", 
+      color = "grey10",
       size = 6
     ),
     rect = element_rect(color = "grey40", fill = "transparent", linewidth = .2)
   )
+
+# color scales for corresponding number of bins
+colorscaleGeyser21 <- colorspace::divergingx_hcl(21)
+
+colorscaleRedYellow11 <- colorspace::sequential_hcl(
+  palette = "Red-Yellow",
+  n = 11L,
+  rev = TRUE
+)
+
+colorscaleViridis11 <- colorspace::sequential_hcl(
+  palette = "viridis",
+  n = 11L
+)
+
+colorscaleHeatmap <- c("white", colorscaleRedYellow11[c(2, 4, 6, 8, 11)])
+
+colorscaleCumulative <- c(colorscaleViridis11[c(3, 6, 9)], "black")
+
+# line types
+linetypeCumulative <- c("solid", "42", "12")
+
+# grid of states for geofacet plot
+us_state_grid_custom <- data.frame(
+  row = c(1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 6, 7),
+  col = c(11, 10, 9, 8, 11, 10, 9, 8, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 11, 11, 7),
+  code = c("ME", "MA", "NH", "VT", "RI", "CT", "NY", "PA", "MI", "MN", "SD", "ND", "MT", "WA", "OR", "ID", "WY", "NE", "IA", "WI", "IN", "WV", "NJ", "DE", "MD", "DC", "OH", "IL", "MO", "KS", "CO", "UT", "NV", "CA", "AZ", "NM", "OK", "AR", "KY", "TN", "NC", "VA", "SC", "GA", "AL", "MS", "LA", "TX", "HI", "AK", "FL"),
+  name = c("Maine", "Massachusetts", "New Hampshire", "Vermont", "Rhode Island", "Connecticut", "New York", "Pennsylvania", "Michigan", "Minnesota", "South Dakota", "North Dakota", "Montana", "Washington", "Oregon", "Idaho", "Wyoming", "Nebraska", "Iowa", "Wisconsin", "Indiana", "West Virginia", "New Jersey", "Delaware", "Maryland", "District of Columbia", "Ohio", "Illinois", "Missouri", "Kansas", "Colorado", "Utah", "Nevada", "California", "Arizona", "New Mexico", "Oklahoma", "Arkansas", "Kentucky", "Tennessee", "North Carolina", "Virginia", "South Carolina", "Georgia", "Alabama", "Mississippi", "Louisiana", "Texas", "Hawaii", "Alaska", "Florida"),
+  stringsAsFactors = FALSE
+)
 ```
+
 
 ```{r import data}
 # all-cause excess mortality estimates
-try(monthlyEstimates <- read_csv(file.path(outDir, "estimates", "AC", "estimatesMonthlyFull.csv")) %>% 
+try(monthlyEstimates <- read_csv(file.path(outDir, "estimates", "AC", "estimatesMonthlyFull.csv")) %>%
   mutate(monthYear = make_date(year = year, month = month)))
 
-try(monthlyEstimatesState <- read_csv(file.path(outDir, "estimates", "AC", "estimatesStateMonths.csv")) %>% 
+try(monthlyEstimatesState <- read_csv(file.path(outDir, "estimates", "AC", "estimatesStateMonths.csv")) %>%
   rename(monthYear = time))
 
 # natural-cause excess mortality estimates
-monthlyEstimatesNC <- read_csv(file.path(outDir, "estimates", "NC", "estimatesMonthly.csv")) %>% 
+monthlyEstimatesNC <- read_csv(file.path(outDir, "estimates", "NC", "estimatesMonthly.csv")) %>%
   mutate(monthYear = make_date(year = year, month = month))
 
 # load natural-cause, covid UCD posterior simulation draws
-load(file.path(outDir, 'modelsAndSimulations', 'modelNC', 'simulationsNCUCD.RData'))
+load(file.path(outDir, "modelsAndSimulations", "modelNC", "simulationsNCUCD.RData"))
+
+# COVID deaths from WONDER
+COVID_StateRaw <- data.table::fread(
+        file.path(inDir, 'CDC', 'COVIDUCDData', 'stateMonth.txt'),
+        na.strings = c("Missing", "Suppressed", "Not Applicable"),
+        keepLeadingZeros = TRUE,
+      )
+
+COVID_MetroDivisionRaw <- data.table::fread(
+        file.path(inDir, 'CDC', 'COVIDUCDData', 'metroDivisionMonth.txt'),
+        na.strings = c("Missing", "Suppressed", "Not Applicable"),
+        keepLeadingZeros = TRUE,
+      )
 
 # other datasets
 # metroRaw <- read_csv(file.path(inDir, "utilities", "FIPSmetroregion4cat.csv"))
 FIPSFixes <- read_csv(file.path(inDir, "FIPSHarmonization", "FIPSFixes.csv"))
 
-popEst <- read_csv(file.path(inDir, "popData", "popEst20202021.csv")) %>% 
+popEst <- read_csv(file.path(inDir, "popData", "popEst20202021.csv")) %>%
   transmute(
     FIPSCode = paste0(STATE, COUNTY),
     pop = POPESTIMATE2020
-  ) %>% 
-  left_join(FIPSFixes, by = "FIPSCode") %>% 
+  ) %>%
+  left_join(FIPSFixes, by = "FIPSCode") %>%
   mutate(FIPSprovisional = coalesce(newFIPSCode, FIPSCode))
 ```
+```{r covid deaths data prep}
+# metro-division-month
+COVID_MetroDivision <- COVID_MetroDivisionRaw %>%
+    separate(`Month Code`, into = c("year", "month"), sep = "/", convert = T) %>%
+  mutate(
+    monthYear = make_date(year, month),
+    metroCat = `Residence 2013 Urbanization Code`,
+    metroCat3 = case_when(
+      metroCat %in% c(1, 2) ~ "Large Metro",
+      metroCat %in% c(3, 4) ~ "Medium or Small Metro",
+      metroCat %in% c(5, 6) ~ "Non Metro"
+    ),
+    census_division = str_match(
+      `Residence Census Division`,
+      "Division \\d{1}: ([\\w\\s]+)"
+    )[, 2]
+  ) %>%
+  group_by(census_division, metroCat3, monthYear) %>% 
+  summarize(
+    totalCOVIDDeaths = sum(Deaths),
+    .groups = "drop"
+  )
 
-```{r simulation data prep}
+# state-month
+COVID_State <- COVID_StateRaw %>%
+  separate(`Month Code`, into = c("year", "month"), sep = "/", convert = T) %>%
+  mutate(monthYear = make_date(year, month)) %>%
+  select(state = `Residence State`, stateFIPS = `Residence State Code`, monthYear, totalCOVIDDeaths = Deaths)
+```
+
+```{r simulation data prep division metro, cache=TRUE}
+# note: V1:V1000 represent draws from the posterior of expected deaths of our model
 simDF <- simulationsDF %>%
   mutate(monthYear = make_date(year = year, month = month)) %>%
   filter(monthYear >= make_date(2020, 3, 1))
 
-metroDivisionMonth <- simDF %>%
+# test that no simulation draws are NA
+testthat::expect_false(simDF |> select(V1:V1000) |> anyNA())
+
+cumsum_na <- function(x, na.rm = TRUE) {
+  if( na.rm ) {
+    x <- tidyr::replace_na(x, 0)
+  }
+  
+  cumsum(x)
+}
+
+cum_diff <- function(x, y, na.rm = TRUE) {
+  cumsum_na(x, na.rm = na.rm) - cumsum_na(y, na.rm = na.rm)
+}
+
+quantile_interval <- function(.x,
+                              .vars,
+                              .newVarName,
+                              low = .05,
+                              med = .5,
+                              up = .95,
+                              na.rm = TRUE) {
+  .x |>
+    mutate(
+      "{{ .newVarName }}Low" := quantile({{ .vars }}, probs = low, na.rm = na.rm),
+      "{{ .newVarName }}Med" := quantile({{ .vars }}, probs = med, na.rm = na.rm),
+      "{{ .newVarName }}Up" := quantile({{ .vars }}, probs = up, na.rm = na.rm)
+    )
+}
+
+# Eugenio's original code to summarize county-month to division-metro-month
+metroDivisionMonthEugenioVersion <- simDF %>%
   group_by(census_division, metroCat3, monthYear) %>%
   summarise(
     across(V1:V1000, ~ (sum(imputedDeaths) - sum(.x))),
@@ -111,116 +219,221 @@ metroDivisionMonth <- simDF %>%
     excMed = quantile(c_across(V1:V1000), 0.5),
     excUp = quantile(c_across(V1:V1000), 0.95)
   ) %>%
+  quantile_interval(c_across(V1:V1000), testExc) %>%
   ungroup() %>%
   select(-c(V1:V1000))
 
-cum_diff <- function(x, y) {
-  cumsum(x) - cumsum(y)
-}
+testthat::test_that(
+  "ensure quantile_interval function returns the same values",
+  {
+    testthat::expect_equivalent(
+      select(metroDivisionMonthEugenioVersion, excLow:excUp),
+      select(metroDivisionMonthEugenioVersion, testExcLow:testExcUp)
+    )
+  }
+)
 
-# summarize county-month to state-month and cumulative to date
-
-stateMonthCumulative <- simDF %>%
-  group_by(state, monthYear) %>%
+# summarize county-month to division-metro-month and cumulative to date
+metroDivisionMonth <- simDF %>%
+  # sum to division-metro-month
+  group_by(census_division, metroCat3, monthYear) %>%
   summarise(
-    across(V1:V1000, sum, na.rm = TRUE),
-    deaths = sum(imputedDeaths, na.rm = TRUE),
-    COVIDDeaths = sum(imputedCOVIDDeaths, na.rm = TRUE),
-    pop = sum(pop),
-    .groups = "drop"
-  ) %>% 
-  group_by(state) %>% 
-  mutate(
     across(
-      c(V1:V1000, deaths, COVIDDeaths),
-      .fns = c(Cumulative = ~ with_order(monthYear, cumsum, .x)),
+      V1:V1000,
+      .fns = c(
+        Sum = ~ sum(.x),
+        Exc = ~ sum(imputedDeaths) - sum(.x)
+      ),
       .names = "{.col}{.fn}"
     ),
+    deaths = sum(imputedDeaths),
+    pop = sum(pop),
+    .groups = "drop"
+  ) %>%
+  # add COVID deaths already aggregated from WONDER extract
+  left_join(
+    COVID_MetroDivision,
+    by = c("census_division", "metroCat3", "monthYear")
+  ) %>%
+  mutate(
     across(
-      c(V1:V1000),
+      c(starts_with("V") & ends_with("Exc")),
+      .fns = c(NC = ~ .x - totalCOVIDDeaths),
+      .names = "{.col}{.fn}"
+  )
+  ) %>% 
+  group_by(census_division, metroCat3) %>%
+  mutate(
+    # cumulative-to-month summations
+    across(
+      c(starts_with("V") & ends_with("Sum"), deaths, totalCOVIDDeaths),
+      .fns = c(Cumulative = ~ with_order(monthYear, cumsum_na, .x, na.rm = TRUE)),
+      .names = "{.col}{.fn}"
+    ),
+    # cumulative-to-month excess mortality
+    across(
+      c(starts_with("V") & ends_with("Sum")),
       .fns = c(ExcCumulative = ~ with_order(monthYear, cum_diff, deaths, .x)),
       .names = "{.col}{.fn}"
     ),
+    # entire period totals
     across(
-      c(V1:V1000, deaths, COVIDDeaths),
-      .fns = c(Total = ~ sum(.x, na.rm = TRUE)),
+      c(starts_with("V") & ends_with("Sum"), deaths, totalCOVIDDeaths),
+      .fns = c(Total = ~ sum(.x)),
       .names = "{.col}{.fn}"
     ),
+    # running relative COVID using period total expected as static denominator
     across(
-      c(V1Total:V1000Total),
-      .fns = c(COVIDCumulativeRel = ~ 100 * COVIDDeathsCumulative / .x),
-      .names = "{.fn}{.col}"
+      c(starts_with("V") & ends_with("SumTotal")),
+      .fns = c(COVIDCumulativeRel = ~ 100 * totalCOVIDDeathsCumulative / .x),
+      .names = "{.col}{.fn}"
     )
   ) %>%
-  ungroup() %>% 
+  ungroup() %>%
   rowwise() %>%
   mutate(
+    # running cumulative relative excess using period total expected as static denominator
     excCumulativeRelLst = list(purrr::map2_dbl(
-        .x = c_across(V1ExcCumulative:V1000ExcCumulative), 
-        .y = c_across(V1Total:V1000Total),
-        ~ 100 * .x / .y
-      )),
-    excCumulativeRelLow = quantile(unlist(excCumulativeRelLst), 0.05),
-    excCumulativeRelMed = quantile(unlist(excCumulativeRelLst), 0.5),
-    excCumulativeRelHigh = quantile(unlist(excCumulativeRelLst), 0.95),
-    COVIDCumulativeRelLow = quantile(
-      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.05
-      ),
-    COVIDCumulativeRelMed = quantile(
-      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.5
-      ),
-    COVIDCumulativeRelUp = quantile(
-      c_across(COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total), 0.95
-      ),
-    expTotalLow = quantile(
-      c_across(V1Total:V1000Total), 0.05
-      ),
-    expTotalMed = quantile(
-      c_across(V1Total:V1000Total), 0.5
-      ),
-    expTotalUp = quantile(
-      c_across(V1Total:V1000Total), 0.95
-      ),
-    expCumulativeLow = quantile(
-      c_across(V1Cumulative:V1000Cumulative), 0.05
-      ),
-    expCumulativeMed = quantile(
-      c_across(V1Cumulative:V1000Cumulative), 0.5
-      ),
-    expCumulativeUp = quantile(
-      c_across(V1Cumulative:V1000Cumulative), 0.95
-      ),
-    excCumulativeLow = quantile(
-      c_across(V1ExcCumulative:V1000ExcCumulative), 0.05
-      ),
-    excCumulativeMed = quantile(
-      c_across(V1ExcCumulative:V1000ExcCumulative), 0.5
-      ),
-    excCumulativeUp = quantile(
-      c_across(V1ExcCumulative:V1000ExcCumulative), 0.95
-      )
+      .x = c_across(starts_with("V") & ends_with("SumExcCumulative")),
+      .y = c_across(starts_with("V") & ends_with("SumTotal")),
+      ~ 100 * .x / .y
+    ))
+  ) %>%
+  quantile_interval(unlist(excCumulativeRelLst), excCumulativeRel) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumTotalCOVIDCumulativeRel")),
+    COVIDCumulativeRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumTotal")), expTotal
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("Exc")), exc
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("ExcNC")), excNC
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
   ) %>%
   ungroup() %>%
-  select(-c(V1:V1000, V1Cumulative:V1000Cumulative, V1ExcCumulative:V1000ExcCumulative, V1Total:V1000Total, COVIDCumulativeRelV1Total:COVIDCumulativeRelV1000Total, excCumulativeRelLst))
+  select(-c(starts_with("V"), excCumulativeRelLst))
+
+testthat::test_that(
+  "quantiles of excess deaths are identical between Eugenio's original code and this version",
+  {
+    testthat::expect_identical(
+      metroDivisionMonthEugenioVersion |> arrange(census_division, metroCat3, monthYear) |> select(c(excLow:excUp)),
+      metroDivisionMonth |> arrange(census_division, metroCat3, monthYear) |> select(c(excLow:excUp))
+    )
+  }
+)
+```
+```{r simulation data prep state, cache=TRUE}
+# summarize county-month to state-month and cumulative to date
+stateMonthCumulative <- simDF %>%
+  # sum to state-month
+  group_by(state, monthYear) %>%
+    summarise(
+    across(
+      V1:V1000,
+      .fns = c(
+        Sum = ~ sum(.x),
+        Exc = ~ sum(imputedDeaths) - sum(.x)
+      ),
+      .names = "{.col}{.fn}"
+    ),
+    deaths = sum(imputedDeaths),
+    pop = sum(pop),
+    .groups = "drop"
+  ) %>%
+  # add COVID deaths already aggregated from WONDER extract
+  left_join(
+    COVID_State,
+    by = c("state", "monthYear")
+  ) %>%
+  mutate(
+    across(
+      c(starts_with("V") & ends_with("Exc")),
+      .fns = c(NC = ~ .x - totalCOVIDDeaths),
+      .names = "{.col}{.fn}"
+  )
+  ) %>% 
+  group_by(state, stateFIPS) %>%
+  mutate(
+    # cumulative-to-month summations
+    across(
+      c(starts_with("V") & ends_with("Sum"), deaths, totalCOVIDDeaths),
+      .fns = c(Cumulative = ~ with_order(monthYear, cumsum_na, .x, na.rm = TRUE)),
+      .names = "{.col}{.fn}"
+    ),
+    # cumulative-to-month excess mortality
+    across(
+      c(starts_with("V") & ends_with("Sum")),
+      .fns = c(ExcCumulative = ~ with_order(monthYear, cum_diff, deaths, .x)),
+      .names = "{.col}{.fn}"
+    ),
+    # entire period totals
+    across(
+      c(starts_with("V") & ends_with("Sum"), deaths, totalCOVIDDeaths),
+      .fns = c(Total = ~ sum(.x)),
+      .names = "{.col}{.fn}"
+    ),
+    # running relative COVID using period total expected as static denominator
+    across(
+      c(starts_with("V") & ends_with("SumTotal")),
+      .fns = c(COVIDCumulativeRel = ~ 100 * totalCOVIDDeathsCumulative / .x),
+      .names = "{.col}{.fn}"
+    )
+  ) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(
+    # running cumulative relative excess using period total expected as static denominator
+    excCumulativeRelLst = list(purrr::map2_dbl(
+      .x = c_across(starts_with("V") & ends_with("SumExcCumulative")),
+      .y = c_across(starts_with("V") & ends_with("SumTotal")),
+      ~ 100 * .x / .y
+    ))
+  ) %>%
+  quantile_interval(unlist(excCumulativeRelLst), excCumulativeRel) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumTotalCOVIDCumulativeRel")),
+    COVIDCumulativeRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumTotal")), expTotal
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("Exc")), exc
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("ExcNC")), excNC
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
+  ) %>%
+  ungroup() %>%
+  select(-c(starts_with("V"), excCumulativeRelLst))
 ```
 
 ```{r plot data prep}
 ## create de-duplicated version of population estimates w FIPS harmonized to our data ##
 # identify changed FIPS that already exist with new value in pop estimates
-popEstExistingNew <- popEst %>% 
+popEstExistingNew <- popEst %>%
   filter(FIPSCode == newFIPSCode)
 
-popEstDedup <- popEst %>% 
+popEstDedup <- popEst %>%
   # remove all FIPS duplicated because new value already exists
   # add non-duplicate, final pop ests for those counties
-  anti_join(popEstExistingNew, by = c("FIPSprovisional")) %>% 
-  bind_rows(popEstExistingNew) %>% 
+  anti_join(popEstExistingNew, by = c("FIPSprovisional")) %>%
+  bind_rows(popEstExistingNew) %>%
   transmute(
     FIPSCode = FIPSprovisional,
     pop
-  ) %>% 
+  ) %>%
   # sum population counts for remaining counties, which are duplicate because their areal units need combining
-  group_by(FIPSCode) %>% 
+  group_by(FIPSCode) %>%
   summarise(pop = sum(pop), .groups = "drop")
 
 ## AC
@@ -241,7 +454,7 @@ plotData <- monthlyEstimates %>%
       "Midwest",
       census_region
     )
-  ) %>% 
+  ) %>%
   left_join(popEstDedup, by = "FIPSCode")
 
 ## NC
@@ -262,22 +475,8 @@ plotDataNC <- monthlyEstimatesNC %>%
       "Midwest",
       census_region
     )
-  ) %>% 
+  ) %>%
   left_join(popEstDedup, by = "FIPSCode")
-
-# color scale for corresponding number of bins
-colorscaleGeyser21 <- colorspace::divergingx_hcl(21)
-
-colorscaleRedYellow11 <- colorspace::sequential_hcl(
-  palette = "Red-Yellow",
-  n = 11L,
-  rev = TRUE
-)
-
-colorscaleViridis11 <- colorspace::sequential_hcl(
-  palette = "viridis",
-  n = 11L
-)
 ```
 
 ```{r heatmap data prep}
@@ -285,8 +484,6 @@ colorscaleViridis11 <- colorspace::sequential_hcl(
 # plotDataHeatmap %>% filter(relExcDeathsMed > 0) %>% pull(relExcDeathsMed) %>% quantile(probs = seq(0, 1, .05), type = 8, digits = 4)
 # .3, .6, .8, .95
 breaksHeatmap <- c(-Inf, 0, .15, .30, .5, 1, Inf)
-
-colorscaleHeatmap <- c("white", colorscaleRedYellow11[c(2, 4, 6, 8, 11)])
 
 plotDataHeatmap <- plotData %>%
   group_by(FIPSCode) %>%
@@ -328,8 +525,8 @@ plotDataHeatmap <- plotData %>%
     monthTest = monthNum == month(monthYearPlot),
     stateAbbr = usdata::state2abbr(state),
     FIPSlabel = as.character(glue::glue("{countyName}, {stateAbbr}"))
-  ) %>% 
-  arrange(metroCat2, FIPSPlotOrder) %>% 
+  ) %>%
+  arrange(metroCat2, FIPSPlotOrder) %>%
   mutate(
     FIPSPlotOrder = as_factor(FIPSlabel)
   )
@@ -337,22 +534,22 @@ plotDataHeatmap <- plotData %>%
 # test that dates modified for plotting still fall within same month as in the original data
 testthat::expect_true(all(plotDataHeatmap[["monthTest"]]))
 
-FIPSTop50 <- plotDataHeatmap %>% 
-  distinct(FIPSCode, pop, metroCat2) %>% 
-  group_by(metroCat2) %>% 
-  arrange(desc(pop), .by_group = TRUE) %>% 
-  slice(1:50) %>% 
+FIPSTop50 <- plotDataHeatmap %>%
+  distinct(FIPSCode, pop, metroCat2) %>%
+  group_by(metroCat2) %>%
+  arrange(desc(pop), .by_group = TRUE) %>%
+  slice(1:50) %>%
   ungroup()
 
-plotDataHeatmapSubset <- plotDataHeatmap %>% 
-  semi_join(FIPSTop50, by = "FIPSCode") %>% 
+plotDataHeatmapSubset <- plotDataHeatmap %>%
+  semi_join(FIPSTop50, by = "FIPSCode") %>%
   filter(metroCat2 %in% c("Large metro", "Nonmetro"))
 ```
 
 # Extreme Excess
 
 ```{r extreme excess, include = TRUE, output='asis'}
-excessSummary <- plotDataHeatmap %>% 
+excessSummary <- plotDataHeatmap %>%
   group_by(
     state,
     county = countyName,
@@ -361,17 +558,17 @@ excessSummary <- plotDataHeatmap %>%
     metroGroup = metroStatus2,
     pop = popMax,
     peakMonth = monthMax1
-  ) %>% 
+  ) %>%
   summarize(
     maxExcess = max(excDeathsRelative),
     monthsOver100Pct = sum(excDeathsRelative > 1),
-    cumulativeExcess = 
-      sum(excDeathsMed, na.rm = TRUE) / 
-      sum(expDeathsMed, na.rm = TRUE),
+    cumulativeExcess =
+      sum(excDeathsMed, na.rm = TRUE) /
+        sum(expDeathsMed, na.rm = TRUE),
     .groups = "drop"
   )
 
-excessExtreme <- excessSummary %>% 
+excessExtreme <- excessSummary %>%
   filter(
     monthsOver100Pct > 2 |
       is.na(monthsOver100Pct) |
@@ -380,7 +577,7 @@ excessExtreme <- excessSummary %>%
       cumulativeExcess > 1
   )
 
-plotExcessExtreme <- plotDataHeatmap %>% 
+plotExcessExtreme <- plotDataHeatmap %>%
   semi_join(excessExtreme, by = "FIPSCode")
 
 readr::write_csv(
@@ -388,11 +585,11 @@ readr::write_csv(
   here::here(outDir, "countiesWithExcessiveExcess.csv")
 )
 
-excessExtreme %>% 
-  knitr::kable(digits = 2) %>% 
+excessExtreme %>%
+  knitr::kable(digits = 2) %>%
   kableExtra::kable_styling(
     bootstrap_options = "condensed"
-  ) %>% 
+  ) %>%
   print()
 ```
 ```{r extreme excess descriptive plots}
@@ -409,7 +606,7 @@ excessExtremeOut <- gExcessExtreme +
   ) +
   ggh4x::stat_difference(
     aes(
-      ymin = excDeathsMed, 
+      ymin = excDeathsMed,
       ymax = imputedCOVIDDeaths
     ),
     levels = c("Covid-19 Deaths", "Excess Deaths", NA),
@@ -534,7 +731,7 @@ Rows (counties) ordered by peak month + second-highest month
 #       label = wave
 #     ),
 #     vjust = 1.5,
-#     color = "grey10", 
+#     color = "grey10",
 #     size = 2.5
 #   ) +
 #   coord_fixed(2628000 * .8, clip = "off") +
@@ -552,7 +749,7 @@ plot_heatmap <- function(.x,
       width = intervalSeconds
     )
   )
-  
+
   heatmapUnfaceted <- gHeatmap +
     geom_tile(
       color = "transparent"
@@ -611,7 +808,7 @@ plot_heatmap <- function(.x,
       legend.title.align = .5,
       legend.key.size = unit(0.5, "cm")
     )
-  
+
   significantTileUnfaceted <- gHeatmap +
     geom_tile(
       aes(
@@ -669,31 +866,31 @@ plot_heatmap <- function(.x,
       legend.title.align = .5,
       legend.key.size = unit(0.5, "cm")
     )
-  
+
   heatmapOutList <- list(heatmapUnfaceted, significantTileUnfaceted)
 }
 
-(heatmapOut <- plotDataHeatmapSubset %>% 
-    mutate(
-      metroCat2 = case_when(
-        metroCat2 == "Large metro" ~ "A. Large metro",
-        metroCat2 == "Nonmetro" ~ "B. Nonmetro",
-        TRUE ~ metroCat2
-      )
-    ) %>% 
-    group_by(metroCat2) %>% 
-    group_map(plot_heatmap) %>% 
-    map(wrap_plots) %>% 
-    map(~ .x[[1]] + .x[[2]]) %>% 
-    wrap_plots(
-      nrow = 1,
-      guides = "collect"
-    ) &
-    theme(
-      legend.position = "bottom",
-      legend.justification = "center",
-      legend.title.align = .5
+(heatmapOut <- plotDataHeatmapSubset %>%
+  mutate(
+    metroCat2 = case_when(
+      metroCat2 == "Large metro" ~ "A. Large metro",
+      metroCat2 == "Nonmetro" ~ "B. Nonmetro",
+      TRUE ~ metroCat2
     )
+  ) %>%
+  group_by(metroCat2) %>%
+  group_map(plot_heatmap) %>%
+  map(wrap_plots) %>%
+  map(~ .x[[1]] + .x[[2]]) %>%
+  wrap_plots(
+    nrow = 1,
+    guides = "collect"
+  ) &
+  theme(
+    legend.position = "bottom",
+    legend.justification = "center",
+    legend.title.align = .5
+  )
 )
 ```
 ```{r export heatmap}
@@ -708,9 +905,9 @@ heatmapOut
 dev.off()
 ```
 ```{r appendix heatmaps, eval=FALSE}
-# heatmapAppendixList <- plotDataHeatmap %>% 
-#   group_by(metroStatus2) %>% 
-#   group_map(plot_heatmap) %>% 
+# heatmapAppendixList <- plotDataHeatmap %>%
+#   group_by(metroStatus2) %>%
+#   group_map(plot_heatmap) %>%
 #    map(wrap_plots)
 
 gHeatmapAppendix <- ggplot(
@@ -730,7 +927,7 @@ heatmapAllCounty <- gHeatmapAppendix +
   scale_fill_manual(
     values = colorscaleHeatmap,
     labels = c(
-      "≤0%",
+      "=0%",
       "0-15%",
       "15-30%",
       "30-55%",
@@ -749,20 +946,20 @@ heatmapAllCounty <- gHeatmapAppendix +
   #     text_x = list(
   #       element_text(size = 9),
   #       element_text()
-#     ),
-#     by_layer_x = TRUE
-#   ),
-#   axes = "all",
-#   remove_labels = "x"
-# ) +
-ggh4x::facet_grid2(
-  cols = vars(metroStatus2),
-  rows = vars(census_division),
-  scales = "free_y",
-  independent = "y",
-  axes = "all",
-  remove_labels = "x"
-) +
+  #     ),
+  #     by_layer_x = TRUE
+  #   ),
+  #   axes = "all",
+  #   remove_labels = "x"
+  # ) +
+  ggh4x::facet_grid2(
+    cols = vars(metroStatus2),
+    rows = vars(census_division),
+    scales = "free_y",
+    independent = "y",
+    axes = "all",
+    remove_labels = "x"
+  ) +
   scale_x_datetime(
     breaks = scales::breaks_width(width = "6 months", offset = "1 month"),
     minor_breaks = scales::breaks_width(width = "3 months", offset = "1 month"),
@@ -822,14 +1019,13 @@ heatmapAllCounty
 #   plot
 #   dev.off()
 # }
-# 
+#
 # pmap(
 #   .l = list(plot = heatmapAppendixList,
 #   plot_name = c("Large", "MedSm", "Non"),
 #   nrows = c(434, 728, 1965)),
 #   .f = ~ saveHeatmap(plot = ..1, plot_name = ..2, nrows = ..3)
 # )
-
 ```
 
 # Geofacet relative excess line graphs
@@ -838,31 +1034,15 @@ Note: Line graphs only depict counties with > 15k population
 
 
 ```{r geofacet data prep}
-plotDataState <- monthlyEstimatesState %>% 
+plotDataState <- monthlyEstimatesState %>%
   filter(monthYear >= date("2020-03-01"), monthYear <= date("2022-02-01"))
 
 plotDataGeofacet <- plotData %>%
-  mutate(plotGroup = "Individual counties") %>% 
+  mutate(plotGroup = "Individual counties") %>%
   # remove small counties for clearer visualization
-  filter(pop > 15000) %>% 
-  bind_rows(plotDataState) %>% 
+  filter(pop > 15000) %>%
+  bind_rows(plotDataState) %>%
   mutate(plotGroup = coalesce(plotGroup, "State total"))
-
-# grid of states for geofacet plot
-us_state_grid_custom <- data.frame(
-  row = c(1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 6, 7),
-  col = c(11, 10, 9, 8, 11, 10, 9, 8, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 8, 7, 6, 5, 4, 3, 11, 11, 7),
-  code = c("ME", "MA", "NH", "VT", "RI", "CT", "NY", "PA", "MI", "MN", "SD", "ND", "MT", "WA", "OR", "ID", "WY", "NE", "IA", "WI", "IN", "WV", "NJ", "DE", "MD", "DC", "OH", "IL", "MO", "KS", "CO", "UT", "NV", "CA", "AZ", "NM", "OK", "AR", "KY", "TN", "NC", "VA", "SC", "GA", "AL", "MS", "LA", "TX", "HI", "AK", "FL"),
-  name = c("Maine", "Massachusetts", "New Hampshire", "Vermont", "Rhode Island", "Connecticut", "New York", "Pennsylvania", "Michigan", "Minnesota", "South Dakota", "North Dakota", "Montana", "Washington", "Oregon", "Idaho", "Wyoming", "Nebraska", "Iowa", "Wisconsin", "Indiana", "West Virginia", "New Jersey", "Delaware", "Maryland", "District of Columbia", "Ohio", "Illinois", "Missouri", "Kansas", "Colorado", "Utah", "Nevada", "California", "Arizona", "New Mexico", "Oklahoma", "Arkansas", "Kentucky", "Tennessee", "North Carolina", "Virginia", "South Carolina", "Georgia", "Alabama", "Mississippi", "Louisiana", "Texas", "Hawaii", "Alaska", "Florida"),
-  stringsAsFactors = FALSE
-)
-#   row = c(1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7),
-#   col = c(12, 11, 11, 12, 4, 10, 8, 5, 3, 6, 2, 1, 11, 12, 4, 10, 9, 6, 7, 5, 3, 8, 2, 1, 2, 10, 9, 4, 5, 7, 3, 8, 1, 6, 11, 7, 9, 3, 6, 4, 5, 8, 11, 6, 7, 8, 5, 4, 2, 9, 1),
-#   code = c("ME", "NH", "VT", "MA", "ND", "NY", "MI", "MN", "MT", "WI", "ID", "WA", "CT", "RI", "SD", "NJ", "PA", "IL", "IN", "IA", "NE", "OH", "WY", "OR", "NV", "MD", "VA", "CO", "KS", "KY", "UT", "WV", "CA", "MO", "DE", "TN", "NC", "AZ", "AR", "NM", "OK", "SC", "DC", "MS", "AL", "GA", "LA", "TX", "AK", "FL", "HI"),
-#   name = c("Maine", "New Hampshire", "Vermont", "Massachusetts", "North Dakota", "New York", "Michigan", "Minnesota", "Montana", "Wisconsin", "Idaho", "Washington", "Connecticut", "Rhode Island", "South Dakota", "New Jersey", "Pennsylvania", "Illinois", "Indiana", "Iowa", "Nebraska", "Ohio", "Wyoming", "Oregon", "Nevada", "Maryland", "Virginia", "Colorado", "Kansas", "Kentucky", "Utah", "West Virginia", "California", "Missouri", "Delaware", "Tennessee", "North Carolina", "Arizona", "Arkansas", "New Mexico", "Oklahoma", "South Carolina", "District of Columbia", "Mississippi", "Alabama", "Georgia", "Louisiana", "Texas", "Alaska", "Florida", "Hawaii"),
-#   stringsAsFactors = FALSE
-# )
-
 ```
 
 ```{r geofacet plot, include=TRUE}
@@ -879,69 +1059,69 @@ gGeofacet <- ggplot(
 )
 
 (geofacetOut <- gGeofacet +
-    geom_hline(
-      yintercept = 0,
-      color = "grey40",
-      linewidth = .2
-    ) +
-    geom_line(
-      # color = "grey10",
-      linewidth = .3
-    ) +
-    scale_alpha_discrete(
-      range = c(.21, 1)
-    ) +
-    scale_color_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 10,
-      order = c(4, 10)
-    ) +
-    scale_x_date(
-      # expand = c(0, 0),
-      breaks = scales::breaks_width(width = "12 months"),
-      minor_breaks = scales::breaks_width(width = "3 months"),
-      labels = scales::label_date_short(),
-      guide = "axis_minor"
-    ) +
-    scale_y_continuous(
-      # expand = c(0, 0),
-      oob = scales::oob_keep,
-      breaks = c(seq.int(-100, 200, 50))
-    ) +
-    coord_cartesian(
-      ylim = c(-50, 200),
-      expand = FALSE,
-      clip = "off"
-    ) +
-    facet_geo(
-      facets = ~ state,
-      grid = us_state_grid_custom
-    ) +
-    labs(
-      y = "Relative excess mortality (%)",
-      x = NULL,
-      color = NULL,
-      linetype = NULL,
-      alpha = NULL
-    ) +
-    guides(
-      color = "legend",
-      alpha = "none"
-    ) +
-    theme_minimal2 +
-    theme(
-      text = element_text(size = 9),
-      panel.border = element_rect(fill = "transparent"),
-      panel.grid.minor = element_blank(),
-      panel.grid.major = element_line(),
-      axis.ticks = element_line(),
-      axis.ticks.length = unit(3.5, "points"),
-      ggh4x.axis.ticks.length.minor = rel(.61),
-      legend.direction = "vertical",
-      legend.position = c(0, 0),
-      legend.justification = "left"
-    )
+  geom_hline(
+    yintercept = 0,
+    color = "grey40",
+    linewidth = .2
+  ) +
+  geom_line(
+    # color = "grey10",
+    linewidth = .3
+  ) +
+  scale_alpha_discrete(
+    range = c(.21, 1)
+  ) +
+  scale_color_discrete_diverging(
+    palette = "Vik",
+    rev = TRUE,
+    nmax = 10,
+    order = c(4, 10)
+  ) +
+  scale_x_date(
+    # expand = c(0, 0),
+    breaks = scales::breaks_width(width = "12 months"),
+    minor_breaks = scales::breaks_width(width = "3 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor"
+  ) +
+  scale_y_continuous(
+    # expand = c(0, 0),
+    oob = scales::oob_keep,
+    breaks = c(seq.int(-100, 200, 50))
+  ) +
+  coord_cartesian(
+    ylim = c(-50, 200),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  facet_geo(
+    facets = ~state,
+    grid = us_state_grid_custom
+  ) +
+  labs(
+    y = "Relative excess mortality (%)",
+    x = NULL,
+    color = NULL,
+    linetype = NULL,
+    alpha = NULL
+  ) +
+  guides(
+    color = "legend",
+    alpha = "none"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9),
+    panel.border = element_rect(fill = "transparent"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks = element_line(),
+    axis.ticks.length = unit(3.5, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.61),
+    legend.direction = "vertical",
+    legend.position = c(0, 0),
+    legend.justification = "left"
+  )
 )
 ```
 ```{r export geofacet}
@@ -958,8 +1138,8 @@ dev.off()
 
 # Facet line graphs of excess vs COVID deaths
 ```{r excess v covid data prep}
-plotDataExcessVSCovid <- plotDataHeatmap %>% 
-  group_by(monthYear, metroStatus2, census_division) %>% 
+plotDataExcessVSCovid <- plotDataHeatmap %>%
+  group_by(monthYear, metroStatus2, census_division) %>%
   summarize(
     across(
       c(
@@ -972,14 +1152,14 @@ plotDataExcessVSCovid <- plotDataHeatmap %>%
       na.rm = TRUE
     ),
     .groups = "drop"
-  ) %>% 
+  ) %>%
   mutate(
     excDeathsRelative = excDeathsMed / expDeathsMed
   )
 
-plotDataExcessVSCovidSubset <- plotDataHeatmap %>% 
-  filter(pop > 20000) %>% 
-  group_by(monthYear, metroStatus2, census_division) %>% 
+plotDataExcessVSCovidSubset <- plotDataHeatmap %>%
+  filter(pop > 20000) %>%
+  group_by(monthYear, metroStatus2, census_division) %>%
   summarize(
     across(
       c(
@@ -992,7 +1172,7 @@ plotDataExcessVSCovidSubset <- plotDataHeatmap %>%
       na.rm = TRUE
     ),
     .groups = "drop"
-  ) %>% 
+  ) %>%
   mutate(
     excDeathsRelative = excDeathsMed / expDeathsMed
   )
@@ -1012,7 +1192,7 @@ gExcessVSCovid <- ggplot(
     ) +
     ggh4x::stat_difference(
       aes(
-        ymin = excDeathsMed, 
+        ymin = excDeathsMed,
         ymax = imputedCOVIDDeaths
       ),
       levels = c("Covid-19 Deaths", "Excess Deaths", NA),
@@ -1102,7 +1282,6 @@ gExcessVSCovid <- ggplot(
       )
     )
 )
-
 ```
 ```{r export excess v covid}
 ragg::agg_png(
@@ -1144,7 +1323,7 @@ gExcessVSCovidSubset <- ggplot(
     ) +
     ggh4x::stat_difference(
       aes(
-        ymin = excDeathsMed, 
+        ymin = excDeathsMed,
         ymax = imputedCOVIDDeaths
       ),
       levels = c("Covid-19 Deaths", "Excess Deaths", NA),
@@ -1222,7 +1401,6 @@ gExcessVSCovidSubset <- ggplot(
       )
     )
 )
-
 ```
 ```{r export excess v covid subset comparison, include=FALSE}
 ragg::agg_png(
@@ -1237,9 +1415,9 @@ dev.off()
 
 # "Cumulative" Excess Deaths
 ```{r cumulative excess data prep}
-plotCumulative <- plotDataHeatmap %>% 
-  arrange(census_region, metroCat2, monthYear) %>% 
-  group_by(census_region, metroCat2, monthYear) %>% 
+plotCumulative <- plotDataHeatmap %>%
+  arrange(census_region, metroCat2, monthYear) %>%
+  group_by(census_region, metroCat2, monthYear) %>%
   summarize(
     across(
       # despite summarizing all of these variables, really only observed values and mean estimates should be aggregated
@@ -1252,8 +1430,8 @@ plotCumulative <- plotDataHeatmap %>%
       na.rm = TRUE
     ),
     .groups = "drop"
-  ) %>% 
-  group_by(census_region, metroCat2) %>% 
+  ) %>%
+  group_by(census_region, metroCat2) %>%
   mutate(
     across(
       c(
@@ -1284,8 +1462,8 @@ plotCumulative <- plotDataHeatmap %>%
         "{census_region}\n{metroAbbr}"
       )
     )
-  ) %>% 
-  ungroup() %>% 
+  ) %>%
+  ungroup() %>%
   mutate(
     labelMargin = if_else(
       monthYear == max(monthYear),
@@ -1329,13 +1507,6 @@ plotCumulative <- plotDataHeatmap %>%
     ),
     pointForLabel = !(is.na(labelPointTop) & is.na(labelPointBottom))
   )
-
-# colorscale
-colorscaleCumulative <- c(colorscaleViridis11[c(3, 6, 9)], "black")
-
-# line types
-linetypeCumulative <- c("solid", "42", "12")
-
 ```
 ```{r cumulative excess plot, include=TRUE}
 gExcessCumulative <- ggplot(
@@ -1520,16 +1691,16 @@ dev.off()
 # Cumulative COVID/excess
 ```{r cumulative covid geofacet data prep}
 plotDataNCState <- plotDataNC %>%
-  group_by(year, month, monthYear, stateFIPS, state) %>% 
+  group_by(year, month, monthYear, stateFIPS, state) %>%
   summarize(
     across(
-      c(deaths, expDeathsMean, excDeathsMean, COVIDDeathsMCD, COVIDDeathsUCD, pop), 
+      c(deaths, expDeathsMean, excDeathsMean, COVIDDeathsMCD, COVIDDeathsUCD, pop),
       sum,
       na.rm = TRUE
     ),
     .groups = "drop"
-  ) %>% 
-  group_by(state) %>% 
+  ) %>%
+  group_by(state) %>%
   mutate(
     expDeathsTotal = sum(expDeathsMean),
     across(
@@ -1543,7 +1714,7 @@ plotDataNCState <- plotDataNC %>%
     excDeathsRelativeCumulative2 = excDeathsMeanCumulative / expDeathsTotal * 100,
     COVIDDeathsMCDRelativeCumulative = COVIDDeathsMCDCumulative / expDeathsTotal * 100,
     COVIDDeathsUCDRelativeCumulative = COVIDDeathsUCDCumulative / expDeathsTotal * 100
-  ) %>% 
+  ) %>%
   ungroup()
 ```
 
@@ -1556,114 +1727,115 @@ gCOVIDGeofacet <- ggplot(
 )
 
 (geofacetCOVIDOut <- gCOVIDGeofacet +
-    # geom_hline(
-    #   yintercept = 0,
-    #   color = "grey40",
-    #   linewidth = .2
-    # ) +
-    ggh4x::stat_difference(
+  # geom_hline(
+  #   yintercept = 0,
+  #   color = "grey40",
+  #   linewidth = .2
+  # ) +
+  ggh4x::stat_difference(
     aes(
-        ymax = COVIDCumulativeRelMed,
-        ymin = excCumulativeRelMed
+      ymax = COVIDCumulativeRelMed,
+      ymin = excCumulativeRelMed
     ),
     levels = c(
       "COVID-19 mortality > natural-cause excess mortality",
-      "Natural-cause excess mortality > COVID-19 mortality", 
+      "Natural-cause excess mortality > COVID-19 mortality",
       NA
-      ),
+    ),
     alpha = .75
-    ) +
-    geom_line(
-      aes(
-        y = excCumulativeRelMed   ,
-        color = "Natural-cause relative excess deaths (cumulative)",
-        linetype = "Natural-cause relative excess deaths (cumulative)"
-        ),
-      linewidth = .3
-    ) +
-    geom_line(
-      aes(
-        y = COVIDCumulativeRelMed,
-        color = "Relative COVID-19 deaths (cumulative)",
-        linetype = "Relative COVID-19 deaths (cumulative)"
-        ),
-      linewidth = .3
-    ) +
-    scale_color_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 2
-    ) +
-    scale_fill_discrete_diverging(
-      palette = "Vik",
-      rev = FALSE,
-      nmax = 10,
-      order = c(5, 6),
-      na.translate = FALSE
-    ) +
-    scale_linetype_manual(values = linetypeCumulative[c(1:2)]) +
-    scale_x_date(
-      # expand = c(0, 0),
-      breaks = scales::breaks_width(width = "12 months"),
-      minor_breaks = scales::breaks_width(width = "3 months"),
-      labels = scales::label_date_short(),
-      guide = "axis_minor"
-    ) +
-    # scale_y_continuous(
-    #   # expand = c(0, 0),
-    #   oob = scales::oob_keep,
-    #   breaks = c(seq.int(-100, 200, 50))
-    # ) +
-    coord_cartesian(
-      ylim = c(0, 35),
-      expand = FALSE,
-      clip = "off"
-    ) +
-    facet_geo(
-      facets = ~ state,
-      grid = us_state_grid_custom
-    ) +
-    labs(
-      y = "Mortality relative to total expected deaths (%)",
-      x = NULL,
-      color = NULL,
-      linetype = NULL,
-      fill = NULL
-    ) +
-    guides(
-      color = guide_legend(nrow = 2),
-      linetype = guide_legend(
-        override.aes = list(
-          size = .2
-        )
-      ),
-      fill = guide_legend(
-        reverse = TRUE,
-        nrow = 2,
-        # title.position = "top",
-        override.aes = list(
-          color = "grey40",
-          size = .2
-        )
+  ) +
+  geom_line(
+    aes(
+      y = excCumulativeRelMed,
+      color = "Natural-cause relative excess deaths (cumulative)",
+      linetype = "Natural-cause relative excess deaths (cumulative)"
+    ),
+    linewidth = .3
+  ) +
+  geom_line(
+    aes(
+      y = COVIDCumulativeRelMed,
+      color = "Relative COVID-19 deaths (cumulative)",
+      linetype = "Relative COVID-19 deaths (cumulative)"
+    ),
+    linewidth = .3
+  ) +
+  scale_color_discrete_diverging(
+    palette = "Vik",
+    rev = TRUE,
+    nmax = 2
+  ) +
+  scale_fill_discrete_diverging(
+    palette = "Vik",
+    rev = FALSE,
+    nmax = 10,
+    order = c(5, 6),
+    na.translate = FALSE
+  ) +
+  scale_linetype_manual(values = linetypeCumulative[c(1:2)]) +
+  scale_x_date(
+    # expand = c(0, 0),
+    breaks = scales::breaks_width(width = "12 months"),
+    minor_breaks = scales::breaks_width(width = "3 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor"
+  ) +
+  # scale_y_continuous(
+  #   # expand = c(0, 0),
+  #   oob = scales::oob_keep,
+  #   breaks = c(seq.int(-100, 200, 50))
+  # ) +
+  coord_cartesian(
+    ylim = c(0, 30),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  facet_geo(
+    facets = ~state,
+    grid = us_state_grid_custom
+  ) +
+  labs(
+    y = "Mortality relative to total expected deaths (%)",
+    x = NULL,
+    color = NULL,
+    linetype = NULL,
+    fill = NULL
+  ) +
+  guides(
+    color = guide_legend(nrow = 2),
+    linetype = guide_legend(
+      override.aes = list(
+        size = .4
       )
-    ) +
-    theme_minimal2 +
-    theme(
-      text = element_text(size = 9),
-      panel.border = element_rect(fill = "transparent"),
-      panel.grid.minor = element_blank(),
-      panel.grid.major = element_line(),
-      axis.ticks = element_line(),
-      axis.ticks.length = unit(3.5, "points"),
-      ggh4x.axis.ticks.length.minor = rel(.61),
-      legend.direction = "horizontal",
-      legend.position = c(0, 1),
-      legend.justification = "left",
-      legend.margin = margin(0, 0, 0, 0, unit = "cm"),
-      legend.box.margin = margin(0, 0, 0, 0, unit = "cm")
+    ),
+    fill = guide_legend(
+      reverse = TRUE,
+      nrow = 2,
+      override.aes = list(
+        color = "grey40",
+        linewidth = .2
+      )
     )
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9),
+    panel.border = element_rect(fill = "transparent"),
+    # plot.margin = margin(0, 0, .5, 0, unit = "cm"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks = element_line(),
+    axis.ticks.length = unit(3.5, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.61),
+    legend.direction = "horizontal",
+    legend.position = "bottom",
+    # legend.position = c(0, 0),
+    # legend.justification = c("left", "bottom"),
+    legend.margin = margin(0, 0, 0, 0, unit = "cm"),
+    legend.box.margin = margin(0, 0, 0, 0, unit = "cm"),
+    legend.key.size = unit(.61, "cm")
+  )
 )
-
 ```
 ```{r export cumulative covid geofacet}
 cairo_pdf(
@@ -1676,9 +1848,9 @@ dev.off()
 ```
 
 ```{r cumulative covid region data prep}
-plotDataNCRegion <- plotDataNC %>% 
-  arrange(census_region, metroCat2, monthYear) %>% 
-  group_by(census_region, metroCat2, monthYear) %>% 
+plotDataNCRegion <- plotDataNC %>%
+  arrange(census_region, metroCat2, monthYear) %>%
+  group_by(census_region, metroCat2, monthYear) %>%
   summarize(
     across(
       # despite summarizing all of these variables, really only observed values and mean estimates should be aggregated
@@ -1687,8 +1859,8 @@ plotDataNCRegion <- plotDataNC %>%
       na.rm = TRUE
     ),
     .groups = "drop"
-  ) %>% 
-  group_by(census_region, metroCat2) %>% 
+  ) %>%
+  group_by(census_region, metroCat2) %>%
   mutate(
     across(
       c(deaths:COVIDDeathsUCD),
@@ -1713,8 +1885,8 @@ plotDataNCRegion <- plotDataNC %>%
         "{census_region}\n{metroAbbr}"
       )
     )
-  ) %>% 
-  ungroup() %>% 
+  ) %>%
+  ungroup() %>%
   mutate(
     labelMargin = if_else(
       monthYear == max(monthYear),
