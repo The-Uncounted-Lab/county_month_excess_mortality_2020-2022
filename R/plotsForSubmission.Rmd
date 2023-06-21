@@ -80,6 +80,11 @@ colorscaleViridis11 <- colorspace::sequential_hcl(
   n = 11L
 )
 
+colorscaleVik10 <- colorspace::diverge_hcl(
+  palette = "Vik",
+  n = 10L
+)
+
 colorscaleHeatmap <- c("white", colorscaleRedYellow11[c(2, 4, 6, 8, 11)])
 
 colorscaleCumulative <- c(colorscaleViridis11[c(3, 6, 9)], "black")
@@ -182,6 +187,7 @@ simDF <- simulationsDF %>%
 # test that no simulation draws are NA
 testthat::expect_false(simDF |> select(V1:V1000) |> anyNA())
 
+# cumulative summation function that can handle NA values by replacing them with 0
 cumsum_na <- function(x, na.rm = TRUE) {
   if( na.rm ) {
     x <- tidyr::replace_na(x, 0)
@@ -190,10 +196,12 @@ cumsum_na <- function(x, na.rm = TRUE) {
   cumsum(x)
 }
 
+# cumulative difference function
 cum_diff <- function(x, y, na.rm = TRUE) {
   cumsum_na(x, na.rm = na.rm) - cumsum_na(y, na.rm = na.rm)
 }
 
+# produce 3 columns of quantiles for prediction intervals
 quantile_interval <- function(.x,
                               .vars,
                               .newVarName,
@@ -201,11 +209,25 @@ quantile_interval <- function(.x,
                               med = .5,
                               up = .95,
                               na.rm = TRUE) {
+
   .x |>
-    mutate(
-      "{{ .newVarName }}Low" := quantile({{ .vars }}, probs = low, na.rm = na.rm),
-      "{{ .newVarName }}Med" := quantile({{ .vars }}, probs = med, na.rm = na.rm),
-      "{{ .newVarName }}Up" := quantile({{ .vars }}, probs = up, na.rm = na.rm)
+    dplyr::mutate(
+      quantileTempLst = list(
+        quantile(
+          {{ .vars }}, probs = c(low, med, up), na.rm = na.rm
+          )
+        )
+    ) |>
+    tidyr::hoist(
+      .col = "quantileTempLst",
+      quantileTempLow = 1L,
+      quantileTempMed = 2L,
+      quantileTempUp = 3L
+    ) |>
+    dplyr::rename(
+      "{{ .newVarName }}Low" := quantileTempLow,
+      "{{ .newVarName }}Med" := quantileTempMed,
+      "{{ .newVarName }}Up" := quantileTempUp
     )
 }
 
@@ -286,15 +308,17 @@ metroDivisionMonth <- simDF %>%
       c(starts_with("V") & ends_with("Sum"), deaths, totalCOVIDDeaths),
       .fns = c(Total = ~ sum(.x)),
       .names = "{.col}{.fn}"
-    ),
+    )
+  ) %>% 
+  ungroup() %>% 
+  mutate(
     # running relative COVID using period total expected as static denominator
     across(
       c(starts_with("V") & ends_with("SumTotal")),
       .fns = c(COVIDCumulativeRel = ~ 100 * totalCOVIDDeathsCumulative / .x),
       .names = "{.col}{.fn}"
     )
-  ) %>%
-  ungroup() %>%
+  ) %>% 
   rowwise() %>%
   mutate(
     # running cumulative relative excess using period total expected as static denominator
@@ -327,7 +351,7 @@ metroDivisionMonth <- simDF %>%
 testthat::test_that(
   "quantiles of excess deaths are identical between Eugenio's original code and this version",
   {
-    testthat::expect_identical(
+    testthat::expect_equivalent(
       metroDivisionMonthEugenioVersion |> arrange(census_division, metroCat3, monthYear) |> select(c(excLow:excUp)),
       metroDivisionMonth |> arrange(census_division, metroCat3, monthYear) |> select(c(excLow:excUp))
     )
@@ -1251,280 +1275,131 @@ geofacetOut
 dev.off()
 ```
 
-# Facet line graphs of excess vs COVID deaths
+# Facet line graphs of excess vs COVID vs non-COVID excess
 ```{r excess v covid data prep}
-plotDataExcessVSCovid <- plotDataHeatmap %>%
-  group_by(monthYear, metroStatus2, census_division) %>%
-  summarize(
-    across(
-      c(
-        expDeathsLow:imputedCOVIDDeaths,
-        deaths:pop,
-        imputedDeaths,
-        excDeathsMed:excDeathsUp
-      ),
-      sum,
-      na.rm = TRUE
-    ),
-    .groups = "drop"
-  ) %>%
+metroDivisionMonthPopRates <- metroDivisionMonth %>% 
   mutate(
-    excDeathsRelative = excDeathsMed / expDeathsMed
+    across(
+      c(totalCOVIDDeaths, excMed, excNCMed),
+    .fns = c(
+      `100k` = ~ 100000 * .x / pop
+    )
   )
-
-plotDataExcessVSCovidSubset <- plotDataHeatmap %>%
-  filter(pop > 20000) %>%
-  group_by(monthYear, metroStatus2, census_division) %>%
-  summarize(
-    across(
-      c(
-        expDeathsLow:imputedCOVIDDeaths,
-        deaths:pop,
-        imputedDeaths,
-        excDeathsMed:excDeathsUp
-      ),
-      sum,
-      na.rm = TRUE
-    ),
-    .groups = "drop"
-  ) %>%
+  ) %>% 
+  pivot_longer(
+    cols = c(ends_with("_100k")),
+    names_to = "outcome"
+  ) %>% 
   mutate(
-    excDeathsRelative = excDeathsMed / expDeathsMed
+    across(
+      c(excLow, excUp, excNCLow, excNCUp),
+    .fns = c(
+      `100k` = ~ 100000 * .x / pop
+    )
+  )
   )
 ```
-```{r excess v covid plot, include=TRUE}
-gExcessVSCovid <- ggplot(
-  plotDataExcessVSCovid,
-  aes(x = monthYear)
-)
 
-(
-  differenceExcessVSCovidOut <- gExcessVSCovid +
-    geom_hline(
+
+```{r excess v covid plot}
+excessVsCOVIDPlot <- metroDivisionMonthPopRates %>%
+  ggplot(
+    aes(
+      x = monthYear,
+      y = value,
+      color = outcome,
+      linetype = outcome
+    )
+  ) +
+  geom_hline(
       yintercept = 0,
-      color = "grey40",
+      color = "grey50",
       linewidth = .2
     ) +
-    ggh4x::stat_difference(
-      aes(
-        ymin = excDeathsMed,
-        ymax = imputedCOVIDDeaths
-      ),
-      levels = c("Covid-19 Deaths", "Excess Deaths", NA),
-      alpha = .75
-    ) +
-    geom_line(
-      aes(
-        y = excDeathsMed,
-        color = "Excess Deaths"
-      ),
-      linewidth = .35
-    ) +
-    geom_line(
-      aes(
-        y = imputedCOVIDDeaths,
-        color = "Covid-19 Deaths"
-      ),
-      linewidth = .35
-    ) +
-    scale_color_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 10,
-      order = c(2, 9)
-    ) +
-    scale_fill_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 10,
-      order = c(4, 7)
-    ) +
-    scale_x_date(
-      breaks = scales::breaks_width(width = "6 months"),
-      minor_breaks = scales::breaks_width(width = "3 months"),
-      labels = scales::label_date_short(),
-      guide = "axis_minor",
-      expand = c(0, 0)
-    ) +
-    scale_y_continuous(
-      breaks = scales::breaks_extended(n = 5),
-      labels = scales::label_comma()
-    ) +
-    ggh4x::facet_nested_wrap(
-      facets = vars(census_division, metroStatus2),
-      ncol = 3,
-      scales = "free_y",
-      nest_line = element_line(),
-      # resect = unit(4, "points"),
-      strip = strip_nested(
-        clip = "off",
-        text_x = list(
-          element_text(size = 9),
-          element_text()
-        ),
-        by_layer_x = TRUE
-      ),
-      axes = "all",
-      remove_labels = "x"
-    ) +
-    # ggh4x::facet_grid2(
-    #   rows = vars(censusDivision),
-    #   cols = vars(metroStatus2),
-    #   scales = "free_y",
-    #   independent = "y",
-    #   strip = strip_nested(clip = "off"),
-    #   axes = "all",
-    #   remove_labels = "x"
-    # ) +
-    labs(
-      y = "Deaths",
-      x = NULL,
-      color = NULL,
-      fill = NULL
-    ) +
-    theme_minimal2 +
-    theme(
-      panel.grid.minor = element_blank(),
-      axis.ticks.x = element_line(),
-      axis.ticks.length.x = unit(3, "points"),
-      ggh4x.axis.ticks.length.minor = rel(.6),
-      legend.position = "bottom",
-      legend.justification = "center",
-      legend.title.align = .5,
-      strip.text.y = element_text(
-        angle = 0,
-        hjust = 0
-      )
+  geom_ribbon(
+    aes(
+      ymin = excLow_100k,
+      ymax = excUp_100k
+    ),
+    fill = colorscaleVik10[6],
+    color = "transparent"
+  ) +
+  geom_line() +
+  scale_color_manual(
+    values = c(colorscaleVik10[10], "grey30", colorscaleVik10[2]),
+    labels = c(
+      "Excess deaths",
+      "Non-COVID-19 excess deaths",
+      "COVID-19 deaths"
     )
-)
+  ) +
+  scale_linetype_manual(
+    values = linetypeCumulative[c(1, 3, 2)],
+     labels = c(
+      "Excess deaths",
+      "Non-COVID-19 excess deaths",
+      "COVID-19 deaths"
+    )
+  ) +
+  scale_x_date(
+    breaks = scales::breaks_width(width = "3 months"),
+    minor_breaks = scales::breaks_width(width = "1 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor",
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(breaks = seq.int(0, 150, 25)) +
+  labs(
+    y = 'Deaths per 100,000 residents',
+    x = NULL,
+    linetype = NULL
+  ) +
+  facet_nested(
+    rows = vars(census_division),
+    cols = vars(metroCat3),
+    space = "free_y", 
+    scales = "free_y",
+    labeller = labeller(
+      .rows = label_wrap_gen(12)
+    )
+  ) +
+  guides(
+    fill = "none",
+    linetype = guide_legend(
+      title = NULL
+    ),
+    color = guide_legend(
+      title = NULL,
+      override.aes = list(fill = "transparent")
+    )
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9),
+    panel.border = element_rect(fill = "transparent"),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks = element_line(),
+    axis.ticks.length = unit(3.5, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.61),
+    strip.text.y = element_text(
+      angle = 0,
+      hjust = 0
+    ),
+    legend.direction = "horizontal",
+    legend.position = "bottom",
+    legend.margin = margin(0, 0, 0, 0, unit = "cm"),
+    legend.box.margin = margin(0, 0, 0, 0, unit = "cm")
+  )
 ```
+
 ```{r export excess v covid}
-ragg::agg_png(
-  filename = here::here("figures", "differenceExcessVsCovid.png"),
-  width = 2100,
-  height = 3300,
-  res = 300
+cairo_pdf(
+  filename = here::here("figures", "excessVsCOVIDPlot.pdf"),
+  width = 10,
+  height = 14
 )
-differenceExcessVSCovidOut
-dev.off()
-```
-```{r excess v covid plot subset comparison}
-# This plot excludes small counties (< 30k population) as a check to see whether
-# regions with COVID > excess are a data artifact
-
-gExcessVSCovidSubset <- ggplot(
-  plotDataExcessVSCovidSubset,
-  aes(x = monthYear)
-)
-
-(
-  differenceExcessVSCovidSubset <- gExcessVSCovidSubset +
-    geom_hline(
-      yintercept = 0,
-      color = "grey40",
-      linewidth = .2
-    ) +
-    geom_line(
-      aes(
-        y = excDeathsMed,
-        color = "Excess Deaths"
-      )
-    ) +
-    geom_line(
-      aes(
-        y = imputedCOVIDDeaths,
-        color = "Covid-19 Deaths"
-      )
-    ) +
-    ggh4x::stat_difference(
-      aes(
-        ymin = excDeathsMed,
-        ymax = imputedCOVIDDeaths
-      ),
-      levels = c("Covid-19 Deaths", "Excess Deaths", NA),
-      alpha = .75
-    ) +
-    scale_color_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 10,
-      order = c(2, 9)
-    ) +
-    scale_fill_discrete_diverging(
-      palette = "Vik",
-      rev = TRUE,
-      nmax = 10,
-      order = c(4, 7)
-    ) +
-    scale_x_date(
-      breaks = scales::breaks_width(width = "6 months"),
-      minor_breaks = scales::breaks_width(width = "3 months"),
-      labels = scales::label_date_short(),
-      guide = "axis_minor",
-      expand = c(0, 0)
-    ) +
-    scale_y_continuous(
-      breaks = scales::breaks_extended(n = 5),
-      labels = scales::label_comma()
-    ) +
-    ggh4x::facet_nested_wrap(
-      facets = vars(census_division, metroStatus2),
-      ncol = 3,
-      scales = "free_y",
-      nest_line = element_line(),
-      # resect = unit(4, "points"),
-      strip = strip_nested(
-        clip = "off",
-        text_x = list(
-          element_text(size = 9),
-          element_text()
-        ),
-        by_layer_x = TRUE
-      ),
-      axes = "all",
-      remove_labels = "x"
-    ) +
-    # ggh4x::facet_grid2(
-    #   rows = vars(censusDivision),
-    #   cols = vars(metroStatus2),
-    #   scales = "free_y",
-    #   independent = "y",
-    #   strip = strip_nested(clip = "off"),
-    #   axes = "all",
-    #   remove_labels = "x"
-    # ) +
-    labs(
-      y = "Deaths",
-      x = NULL,
-      color = NULL,
-      fill = NULL,
-      title = "EXCLUDES COUNTIES < 20K -- NOT FOR PUBLICATION"
-    ) +
-    theme_minimal2 +
-    theme(
-      panel.grid.minor = element_blank(),
-      panel.grid.major.x = element_blank(),
-      axis.ticks.x = element_line(),
-      axis.ticks.length.x = unit(3, "points"),
-      ggh4x.axis.ticks.length.minor = rel(.6),
-      legend.position = "bottom",
-      legend.justification = "center",
-      legend.title.align = .5,
-      strip.text.y = element_text(
-        angle = 0,
-        hjust = 0
-      )
-    )
-)
-```
-```{r export excess v covid subset comparison, include=FALSE}
-ragg::agg_png(
-  filename = here::here("figures", "differenceExcessVSCovidSubsetCheck.png"),
-  width = 2100,
-  height = 3300,
-  res = 300
-)
-differenceExcessVSCovidSubset
+excessVsCOVIDPlot
 dev.off()
 ```
 
@@ -1834,6 +1709,14 @@ plotDataNCState <- plotDataNC %>%
 ```
 
 ```{r cumulative covid geofacet plot}
+scale_fill_discrete_diverging(
+    palette = "Vik",
+    rev = FALSE,
+    nmax = 10,
+    order = c(5, 6),
+    na.translate = FALSE
+  )
+
 gCOVIDGeofacet <- ggplot(
   stateMonthCumulative,
   aes(
@@ -2177,7 +2060,7 @@ layout <- c(
     plot_layout(design = layout)
 )
 ```
-```{r export cumulative excess}
+```{r export cumulative ratio}
 # ragg::agg_png(
 #   filename = here::here("figures", "excessCumulative.png"),
 cairo_pdf(
