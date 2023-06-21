@@ -1300,7 +1300,6 @@ metroDivisionMonthPopRates <- metroDivisionMonth %>%
   )
 ```
 
-
 ```{r excess v covid plot}
 excessVsCOVIDPlot <- metroDivisionMonthPopRates %>%
   ggplot(
@@ -1375,7 +1374,7 @@ excessVsCOVIDPlot <- metroDivisionMonthPopRates %>%
   ) +
   theme_minimal2 +
   theme(
-    text = element_text(size = 9),
+    text = element_text(size = 12),
     panel.border = element_rect(fill = "transparent"),
     panel.grid.minor = element_blank(),
     panel.grid.major = element_line(),
@@ -1394,10 +1393,24 @@ excessVsCOVIDPlot <- metroDivisionMonthPopRates %>%
 ```
 
 ```{r export excess v covid}
+exportWidth <- 10
+exportHeight <- 14
+exportName <- "excessVsCOVIDPlot"
+
 cairo_pdf(
-  filename = here::here("figures", "excessVsCOVIDPlot.pdf"),
-  width = 10,
-  height = 14
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
+)
+excessVsCOVIDPlot
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
 )
 excessVsCOVIDPlot
 dev.off()
@@ -1667,56 +1680,31 @@ layout <- c(
 )
 ```
 ```{r export cumulative excess}
-# ragg::agg_png(
-#   filename = here::here("figures", "excessCumulative.png"),
+exportWidth <- 7.8
+exportHeight <- 4.55
+exportName <- "figure5_excessCumulative"
+
 cairo_pdf(
-  filename = here::here("figures", "figure5_excessCumulative.pdf"),
-  width = 7.8,
-  height = 4.55
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
+)
+excessCumulativeOut
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
 )
 excessCumulativeOut
 dev.off()
 ```
 
 # Cumulative COVID/excess
-```{r cumulative covid geofacet data prep}
-plotDataNCState <- plotDataNC %>%
-  group_by(year, month, monthYear, stateFIPS, state) %>%
-  summarize(
-    across(
-      c(deaths, expDeathsMean, excDeathsMean, COVIDDeathsMCD, COVIDDeathsUCD, pop),
-      sum,
-      na.rm = TRUE
-    ),
-    .groups = "drop"
-  ) %>%
-  group_by(state) %>%
-  mutate(
-    expDeathsTotal = sum(expDeathsMean),
-    across(
-      c(
-        deaths:COVIDDeathsUCD
-      ),
-      ~ with_order(monthYear, cumsum, .x),
-      .names = "{.col}Cumulative"
-    ),
-    excDeathsRelativeMeanCumulative = excDeathsMeanCumulative / expDeathsMeanCumulative * 100,
-    excDeathsRelativeCumulative2 = excDeathsMeanCumulative / expDeathsTotal * 100,
-    COVIDDeathsMCDRelativeCumulative = COVIDDeathsMCDCumulative / expDeathsTotal * 100,
-    COVIDDeathsUCDRelativeCumulative = COVIDDeathsUCDCumulative / expDeathsTotal * 100
-  ) %>%
-  ungroup()
-```
-
 ```{r cumulative covid geofacet plot}
-scale_fill_discrete_diverging(
-    palette = "Vik",
-    rev = FALSE,
-    nmax = 10,
-    order = c(5, 6),
-    na.translate = FALSE
-  )
-
 gCOVIDGeofacet <- ggplot(
   stateMonthCumulative,
   aes(
@@ -1836,10 +1824,24 @@ gCOVIDGeofacet <- ggplot(
 )
 ```
 ```{r export cumulative covid geofacet}
+exportWidth <- 9
+exportHeight <- 6.25
+exportName <- "covid_vs_excess_cumalitve_geofacet"
+
 cairo_pdf(
-  filename = here::here("figures", "covid_vs_excess_cumalitve_geofacet.pdf"),
-  width = 9,
-  height = 6.25
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
+)
+geofacetCOVIDOut
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
 )
 geofacetCOVIDOut
 dev.off()
@@ -1895,7 +1897,7 @@ gExcessCOVIDRatioCumulative <- ggplot(
   )
 )
 
-ExcessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
+excessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
   geom_line(
     linewidth = .5
   ) +
@@ -1946,7 +1948,7 @@ ExcessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
     ggh4x.axis.ticks.length.minor = rel(.61)
   )
 
-ExcessCOVIDRatioCumulativeLabelMargin <- gExcessCOVIDRatioCumulative +
+excessCOVIDRatioCumulativeLabelMargin <- gExcessCOVIDRatioCumulative +
   geom_text_repel(
     aes(label = labelMargin),
     size = 2.5,
@@ -2054,20 +2056,32 @@ layout <- c(
 )
 
 (
-  ExcessCOVIDRatioCumulativeOut <- ExcessCOVIDRatioCumulativePlot +
-    ExcessCOVIDRatioCumulativeLabelMargin +
+  excessCOVIDRatioCumulativeOut <- excessCOVIDRatioCumulativePlot +
+    excessCOVIDRatioCumulativeLabelMargin +
     gLegend +
     plot_layout(design = layout)
 )
 ```
 ```{r export cumulative ratio}
-# ragg::agg_png(
-#   filename = here::here("figures", "excessCumulative.png"),
+exportWidth <- 7.8
+exportHeight <- 4.55
+exportName <- "cumulative_excess_to_covid_ratio"
+
 cairo_pdf(
-  filename = here::here("figures", "cumulative_excess_to_covid_ratio.pdf"),
-  width = 7.8,
-  height = 4.55
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
 )
-ExcessCOVIDRatioCumulativeOut
+excessCOVIDRatioCumulativeOut
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
+)
+excessCOVIDRatioCumulativeOut
 dev.off()
 ```
