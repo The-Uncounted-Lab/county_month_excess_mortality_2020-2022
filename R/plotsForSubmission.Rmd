@@ -502,6 +502,9 @@ metroRegionMonth <- simDF %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
   ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcCumulative")), excCumulative
+  ) %>%
   ungroup() %>%
   select(-c(starts_with("V")))
 ```
@@ -1610,7 +1613,13 @@ metroDivisionMonthPopRates <- metroDivisionMonth %>%
     .fns = c(
       `100k` = ~ 100000 * .x / pop
     )
-  )
+  ),
+  census_region = case_when(
+      census_division %in% c("Mountain", "Pacific") ~ "West",
+      census_division %in% c("East North Central", "West North Central") ~ "Midwest",
+      census_division %in% c("Middle Atlantic", "New England") ~ "Northeast",
+      census_division %in% c("East South Central", "South Atlantic", "West South Central") ~ "South"
+    )
   )
 
 metroDivisionMonthPopLong <- metroDivisionMonthPopRates %>% 
@@ -1676,13 +1685,24 @@ excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
     x = NULL,
     linetype = NULL
   ) +
-  facet_grid(
-    rows = vars(census_division),
+  facet_nested(
+    rows = vars(census_region, census_division),
     cols = vars(metroCat3),
     space = "free_y", 
     scales = "free_y",
+    nest_line = element_line(),
     labeller = labeller(
       .rows = label_wrap_gen(12)
+    ),
+    strip = strip_nested(
+      text_y = list(
+        # element_text(vjust = 0),
+        element_text(
+      angle = 0,
+      hjust = 0
+    )
+    ),
+      by_layer_y = TRUE
     )
   ) +
   guides(
@@ -1704,10 +1724,6 @@ excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
     axis.ticks = element_line(),
     axis.ticks.length = unit(3.5, "points"),
     ggh4x.axis.ticks.length.minor = rel(.61),
-    strip.text.y = element_text(
-      angle = 0,
-      hjust = 0
-    ),
     legend.direction = "horizontal",
     legend.position = "bottom",
     legend.margin = margin(0, 0, 0, 0, unit = "cm"),
@@ -1740,16 +1756,16 @@ dev.off()
 ```
 
 # Cumulative COVID vs cumulative excess
-## facet line graphs
-```{r cumulative covid geofacet plot}
-gExcessVsCovidFacet <- ggplot(
+## metro-division facet line graphs
+```{r cumulative excess vs covid plot}
+gExcessVsCovidFacetCumulative <- ggplot(
   metroDivisionMonthPopRates,
   aes(
     x = monthYear
   )
 )
 
-(excessVsCovidFacetOut <- gExcessVsCovidFacet +
+(excessVsCovidFacetCumulativeOut <- gExcessVsCovidFacetCumulative +
   # geom_hline(
   #   yintercept = 0,
   #   color = "grey40",
@@ -1808,16 +1824,26 @@ gExcessVsCovidFacet <- ggplot(
     expand = FALSE,
     clip = "off"
   ) +
-  facet_grid(
-        rows = vars(census_division),
-        cols = vars(metroCat3),
-        # space = "free_y", 
-        # scales = "free_y",
-        labeller = labeller(
-            .rows = label_wrap_gen(12)
-        )
-    ) +
-
+    facet_nested(
+    rows = vars(census_region, census_division),
+    cols = vars(metroCat3),
+    space = "free_y", 
+    scales = "free_y",
+    nest_line = element_line(),
+    labeller = labeller(
+      .rows = label_wrap_gen(12)
+    ),
+    strip = strip_nested(
+      text_y = list(
+        # element_text(vjust = 0),
+        element_text(
+      angle = 0,
+      hjust = 0
+    )
+    ),
+      by_layer_y = TRUE
+    )
+  ) +
   labs(
     y = "Deaths per 100,000 residents (cumulative)",
     x = NULL,
@@ -1828,10 +1854,11 @@ gExcessVsCovidFacet <- ggplot(
   guides(
     linetype = guide_legend(
             title = NULL,
-            nrows = 2
+            nrow = 2
         ),
         color = guide_legend(
             title = NULL,
+            nrow = 2,
             override.aes = list(fill = "transparent")
         ),
     fill = guide_legend(
@@ -1863,7 +1890,29 @@ gExcessVsCovidFacet <- ggplot(
     )
 )
 ```
+```{r export cumulative excess v covid}
+exportWidth <- 10
+exportHeight <- 14
+exportName <- "excess_vs_covid_cumulative_facet"
 
+cairo_pdf(
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
+)
+excessVsCovidFacetCumulativeOut
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
+)
+excessVsCovidFacetCumulativeOut
+dev.off()
+```
 
 ## geofacet
 ```{r cumulative covid vs excess geofacet plot}
@@ -2009,10 +2058,14 @@ geofacetCOVIDOut
 dev.off()
 ```
 
-## ratio, by region-metro
+## region-metro ratio
 
 ```{r cumulative covid-excess ratio region data prep}
 plotMetroRegionMonth <- metroRegionMonth %>%
+  filter(
+    excCumulativeMed > 100,
+    totalCOVIDDeathsCumulative > 100
+  ) %>% 
   mutate(
     metroAbbr = str_replace_all(
       metroCat3,
@@ -2049,7 +2102,7 @@ plotMetroRegionMonth <- metroRegionMonth %>%
 plotMetroRegionMonthLastObs <- plotMetroRegionMonth %>% 
   filter(monthYear == max(monthYear))
 ```
-```{r cumulative covid region plot, include=TRUE}
+```{r cumulative covid-excess ratio region plot, include=TRUE}
 gExcessCOVIDRatioCumulative <- ggplot(
   plotMetroRegionMonth,
   aes(
