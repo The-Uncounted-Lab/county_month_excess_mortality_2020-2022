@@ -1,0 +1,179 @@
+"Notes"	"Residence Census Region"	"Residence Census Region Code"	"Year"	"Year Code"	"Month"	"Month Code"	Deaths	Population	Crude Rate
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Jan., 2020"	"2020/01"	4792	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Feb., 2020"	"2020/02"	4358	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Mar., 2020"	"2020/03"	4823	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Apr., 2020"	"2020/04"	4702	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"May, 2020"	"2020/05"	4391	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Jun., 2020"	"2020/06"	4142	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Jul., 2020"	"2020/07"	4278	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Aug., 2020"	"2020/08"	4424	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Sep., 2020"	"2020/09"	4494	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Oct., 2020"	"2020/10"	4689	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Nov., 2020"	"2020/11"	5204	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2020"	"2020"	"Dec., 2020"	"2020/12"	6554	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Jan., 2021"	"2021/01"	6393	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Feb., 2021"	"2021/02"	4577	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Mar., 2021"	"2021/03"	4512	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Apr., 2021"	"2021/04"	4511	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"May, 2021"	"2021/05"	4576	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Jun., 2021"	"2021/06"	4258	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Jul., 2021"	"2021/07"	4557	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Aug., 2021"	"2021/08"	4578	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Sep., 2021"	"2021/09"	5044	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Oct., 2021"	"2021/10"	5718	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Nov., 2021"	"2021/11"	5891	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2021"	"2021"	"Dec., 2021"	"2021/12"	6563	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Jan., 2022 (provisional)"	"2022/01"	6367	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Feb., 2022 (provisional)"	"2022/02"	5097	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Mar., 2022 (provisional)"	"2022/03"	4838	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Apr., 2022 (provisional)"	"2022/04"	4558	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"May, 2022 (provisional)"	"2022/05"	4640	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Jun., 2022 (provisional)"	"2022/06"	4504	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Jul., 2022 (provisional)"	"2022/07"	4536	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Aug., 2022 (provisional)"	"2022/08"	4529	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Sep., 2022 (provisional)"	"2022/09"	4396	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Oct., 2022 (provisional)"	"2022/10"	4953	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Nov., 2022 (provisional)"	"2022/11"	4919	Not Applicable	Not Applicable
+	"Census Region 1: Northeast"	"CENS-R1"	"2022 (provisional)"	"2022"	"Dec., 2022 (provisional)"	"2022/12"	5552	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Jan., 2020"	"2020/01"	15960	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Feb., 2020"	"2020/02"	14910	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Mar., 2020"	"2020/03"	15612	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Apr., 2020"	"2020/04"	14768	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"May, 2020"	"2020/05"	14863	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Jun., 2020"	"2020/06"	14163	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Jul., 2020"	"2020/07"	14719	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Aug., 2020"	"2020/08"	15546	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Sep., 2020"	"2020/09"	15546	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Oct., 2020"	"2020/10"	18255	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Nov., 2020"	"2020/11"	22656	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2020"	"2020"	"Dec., 2020"	"2020/12"	23648	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Jan., 2021"	"2021/01"	19545	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Feb., 2021"	"2021/02"	15073	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Mar., 2021"	"2021/03"	14945	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Apr., 2021"	"2021/04"	14696	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"May, 2021"	"2021/05"	14901	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Jun., 2021"	"2021/06"	14278	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Jul., 2021"	"2021/07"	15107	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Aug., 2021"	"2021/08"	16541	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Sep., 2021"	"2021/09"	17664	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Oct., 2021"	"2021/10"	18648	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Nov., 2021"	"2021/11"	19010	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2021"	"2021"	"Dec., 2021"	"2021/12"	21331	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Jan., 2022 (provisional)"	"2022/01"	21559	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Feb., 2022 (provisional)"	"2022/02"	17249	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Mar., 2022 (provisional)"	"2022/03"	15885	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Apr., 2022 (provisional)"	"2022/04"	14408	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"May, 2022 (provisional)"	"2022/05"	14878	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Jun., 2022 (provisional)"	"2022/06"	14328	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Jul., 2022 (provisional)"	"2022/07"	15050	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Aug., 2022 (provisional)"	"2022/08"	15118	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Sep., 2022 (provisional)"	"2022/09"	14721	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Oct., 2022 (provisional)"	"2022/10"	15605	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Nov., 2022 (provisional)"	"2022/11"	15848	Not Applicable	Not Applicable
+	"Census Region 2: Midwest"	"CENS-R2"	"2022 (provisional)"	"2022"	"Dec., 2022 (provisional)"	"2022/12"	18024	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Jan., 2020"	"2020/01"	22332	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Feb., 2020"	"2020/02"	20670	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Mar., 2020"	"2020/03"	21805	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Apr., 2020"	"2020/04"	21623	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"May, 2020"	"2020/05"	22208	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Jun., 2020"	"2020/06"	21330	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Jul., 2020"	"2020/07"	24541	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Aug., 2020"	"2020/08"	25900	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Sep., 2020"	"2020/09"	23432	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Oct., 2020"	"2020/10"	24662	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Nov., 2020"	"2020/11"	26556	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2020"	"2020"	"Dec., 2020"	"2020/12"	31448	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Jan., 2021"	"2021/01"	33313	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Feb., 2021"	"2021/02"	24750	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Mar., 2021"	"2021/03"	22705	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Apr., 2021"	"2021/04"	21870	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"May, 2021"	"2021/05"	21997	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Jun., 2021"	"2021/06"	21151	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Jul., 2021"	"2021/07"	22576	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Aug., 2021"	"2021/08"	29426	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Sep., 2021"	"2021/09"	31263	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Oct., 2021"	"2021/10"	26662	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Nov., 2021"	"2021/11"	24266	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2021"	"2021"	"Dec., 2021"	"2021/12"	26369	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Jan., 2022 (provisional)"	"2022/01"	31377	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Feb., 2022 (provisional)"	"2022/02"	26457	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Mar., 2022 (provisional)"	"2022/03"	23403	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Apr., 2022 (provisional)"	"2022/04"	20632	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"May, 2022 (provisional)"	"2022/05"	21138	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Jun., 2022 (provisional)"	"2022/06"	21022	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Jul., 2022 (provisional)"	"2022/07"	22186	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Aug., 2022 (provisional)"	"2022/08"	22028	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Sep., 2022 (provisional)"	"2022/09"	21375	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Oct., 2022 (provisional)"	"2022/10"	22569	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Nov., 2022 (provisional)"	"2022/11"	22653	Not Applicable	Not Applicable
+	"Census Region 3: South"	"CENS-R3"	"2022 (provisional)"	"2022"	"Dec., 2022 (provisional)"	"2022/12"	25136	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Jan., 2020"	"2020/01"	6062	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Feb., 2020"	"2020/02"	5512	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Mar., 2020"	"2020/03"	6137	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Apr., 2020"	"2020/04"	5804	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"May, 2020"	"2020/05"	5818	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Jun., 2020"	"2020/06"	5820	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Jul., 2020"	"2020/07"	6318	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Aug., 2020"	"2020/08"	6255	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Sep., 2020"	"2020/09"	5916	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Oct., 2020"	"2020/10"	6669	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Nov., 2020"	"2020/11"	7378	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2020"	"2020"	"Dec., 2020"	"2020/12"	8483	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Jan., 2021"	"2021/01"	7661	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Feb., 2021"	"2021/02"	6277	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Mar., 2021"	"2021/03"	6311	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Apr., 2021"	"2021/04"	5941	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"May, 2021"	"2021/05"	6088	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Jun., 2021"	"2021/06"	6265	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Jul., 2021"	"2021/07"	6374	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Aug., 2021"	"2021/08"	7349	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Sep., 2021"	"2021/09"	8045	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Oct., 2021"	"2021/10"	8408	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Nov., 2021"	"2021/11"	7913	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2021"	"2021"	"Dec., 2021"	"2021/12"	7940	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Jan., 2022 (provisional)"	"2022/01"	8310	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Feb., 2022 (provisional)"	"2022/02"	7038	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Mar., 2022 (provisional)"	"2022/03"	6547	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Apr., 2022 (provisional)"	"2022/04"	6004	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"May, 2022 (provisional)"	"2022/05"	6194	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Jun., 2022 (provisional)"	"2022/06"	6038	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Jul., 2022 (provisional)"	"2022/07"	6333	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Aug., 2022 (provisional)"	"2022/08"	6178	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Sep., 2022 (provisional)"	"2022/09"	6035	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Oct., 2022 (provisional)"	"2022/10"	6179	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Nov., 2022 (provisional)"	"2022/11"	6429	Not Applicable	Not Applicable
+	"Census Region 4: West"	"CENS-R4"	"2022 (provisional)"	"2022"	"Dec., 2022 (provisional)"	"2022/12"	7482	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Month"
+"Query Parameters:"
+"Residence 2013 Urbanization: Micropolitan (Nonmetro); NonCore (Nonmetro)"
+"Year/Month: 2020; 2021; 2022 (provisional)"
+"Group By: Residence Census Region; Year; Month"
+"Show Totals: False"
+"Show Zero Values: True"
+"Show Suppressed: True"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Jun 22, 2023 3:33:30 PM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2021,"
+"and from provisional data for years 2022-2023, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Jun 22, 2023 3:33:30"
+"PM"
+"---"
+Messages:
+"1. Selections made to any variable in [Residence Census Regions, Residence HHS Regions, Residence States, Residence 2013"
+"Urbanization] cause equivalent selections in the other variables. More Information:"
+"http://wonder.cdc.gov/wonder/help/faq.html#related-variables."
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. These items in the results table are not fully selected: Census Region 1: Northeast, Census Region 2: Midwest, Census Region"
+"3: South, Census Region 4: West. The Query Description lists the actual values selected."
+"3. Deaths occurring through May 20, 2023 as of June 04, 2023."
