@@ -332,11 +332,11 @@ metroDivisionMonth <- simDF %>%
   # sum to division-metro-month
   group_by(census_division, metroCat3, monthYear) %>%
   summarise(
+    # aggregated expected
     across(
       V1:V1000,
       .fns = c(
-        Sum = ~ sum(.x),
-        Exc = ~ sum(imputedDeaths) - sum(.x)
+        Sum = ~ sum(.x)
       ),
       .names = "{.col}{.fn}"
     ),
@@ -344,15 +344,23 @@ metroDivisionMonth <- simDF %>%
     pop = sum(pop),
     .groups = "drop"
   ) %>%
-  # add COVID deaths already aggregated from WONDER extract
+  # join COVID deaths pre-aggregated from WONDER extract to mitigate suppression
   left_join(
     COVID_MetroDivision,
     by = c("census_division", "metroCat3", "monthYear")
   ) %>%
   mutate(
+    # excess and non-covid excess deaths, monthly counts
+    # relative to expected, monthly
     across(
-      c(starts_with("V") & ends_with("Exc")),
-      .fns = c(NC = ~ .x - totalCOVIDDeaths),
+      c(starts_with("V") & ends_with("Sum")),
+      .fns = c(
+        Exc = ~ deaths - .x,
+        ExcNC = ~ deaths - .x - totalCOVIDDeaths,
+        ExcRel = ~ 100 * (deaths - .x) / .x,
+        ExcNCRel = ~ 100 * (deaths - .x - totalCOVIDDeaths) / .x,
+        COVIDRel = ~ 100 * totalCOVIDDeaths / .x
+        ),
       .names = "{.col}{.fn}"
   )
   ) %>% 
@@ -377,23 +385,36 @@ metroDivisionMonth <- simDF %>%
   ) %>% 
   ungroup() %>% 
   mutate(
-    # running relative COVID using period total expected as static denominator
+    # running cumulative COVID relative to period total expected
     across(
       c(starts_with("V") & ends_with("SumTotal")),
       .fns = c(COVIDCumulativeRel = ~ 100 * totalCOVIDDeathsCumulative / .x),
       .names = "{.col}{.fn}"
+    ),
+    census_region = case_when(
+      census_division %in% c("Mountain", "Pacific") ~ "West",
+      census_division %in% c("East North Central", "West North Central") ~ "Midwest",
+      census_division %in% c("Middle Atlantic", "New England") ~ "Northeast",
+      census_division %in% c("East South Central", "South Atlantic", "West South Central") ~ "South"
     )
   ) %>% 
   rowwise() %>%
   mutate(
-    # running cumulative relative excess using period total expected as static denominator
+    # running cumulative excess relative to period total expected
     excCumulativeRelLst = list(purrr::map2_dbl(
-      .x = c_across(starts_with("V") & ends_with("ExcCumulative")),
+      .x = c_across(starts_with("V") & ends_with("SumExcCumulative")),
+      .y = c_across(starts_with("V") & ends_with("SumTotal")),
+      ~ 100 * .x / .y
+    )),
+    # running cumulative non-COVID excess relative to period total expected
+    excNCCumulativeRelLst = list(purrr::map2_dbl(
+      .x = c_across(starts_with("V") & ends_with("ExcNCCumulative")),
       .y = c_across(starts_with("V") & ends_with("SumTotal")),
       ~ 100 * .x / .y
     ))
   ) %>%
   quantile_interval(unlist(excCumulativeRelLst), excCumulativeRel) %>%
+  quantile_interval(unlist(excNCCumulativeRelLst), excNCCumulativeRel) %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumTotalCOVIDCumulativeRel")),
     COVIDCumulativeRel
@@ -402,10 +423,19 @@ metroDivisionMonth <- simDF %>%
     c_across(starts_with("V") & ends_with("SumTotal")), expTotal
   ) %>%
   quantile_interval(
-    c_across(starts_with("V") & ends_with("Exc")), exc
+    c_across(starts_with("V") & ends_with("SumExc")), exc
   ) %>%
   quantile_interval(
-    c_across(starts_with("V") & ends_with("ExcNC")), excNC
+    c_across(starts_with("V") & ends_with("SumExcNC")), excNC
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcRel")), excRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcNCRel")), excNCRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumCOVIDRel")), COVIDRel
   ) %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
@@ -417,7 +447,7 @@ metroDivisionMonth <- simDF %>%
     c_across(starts_with("V") & ends_with("ExcNCCumulative")), excNCCumulative
   ) %>%
   ungroup() %>%
-  select(-c(starts_with("V"), excCumulativeRelLst))
+  select(-c(starts_with("V"), excCumulativeRelLst, excNCCumulativeRelLst))
 
 testthat::test_that(
   "quantiles of excess deaths are identical between Eugenio's original code and this version",
@@ -450,12 +480,16 @@ metroRegionMonth <- simDF %>%
     deaths_MetroRegion, by = c("census_region", "metroCat3", "monthYear")
   ) %>%
   mutate(
-    # excess and non-covid excess deaths, monthly
+    # excess and non-covid excess deaths, monthly counts
+    # relative to expected, monthly
     across(
       c(starts_with("V") & ends_with("Sum")),
       .fns = c(
         Exc = ~ totalDeaths - .x,
-        ExcNC = ~ totalDeaths - .x - totalCOVIDDeaths
+        ExcNC = ~ totalDeaths - .x - totalCOVIDDeaths,
+        ExcRel = ~ 100 * (totalDeaths - .x) / .x,
+        ExcNCRel = ~ 100 * (totalDeaths - .x - totalCOVIDDeaths) / .x,
+        COVIDRel = ~ 100 * totalCOVIDDeaths / .x
         ),
       .names = "{.col}{.fn}"
   )
@@ -466,7 +500,7 @@ metroRegionMonth <- simDF %>%
     # cumulative-to-month summations
     across(
       c(
-        starts_with("V"), # Sum [expected], SumExc, SumExcNC
+        starts_with("V") & matches("(Sum|SumExc|SumExcNC)$"),
         totalDeaths, 
         totalCOVIDDeaths
       ),
@@ -518,8 +552,7 @@ stateMonthCumulative <- simDF %>%
     across(
       V1:V1000,
       .fns = c(
-        Sum = ~ sum(.x),
-        Exc = ~ sum(imputedDeaths) - sum(.x)
+        Sum = ~ sum(.x)
       ),
       .names = "{.col}{.fn}"
     ),
@@ -533,9 +566,17 @@ stateMonthCumulative <- simDF %>%
     by = c("state", "monthYear")
   ) %>%
   mutate(
+    # excess and non-covid excess deaths, monthly counts
+    # relative to expected, monthly
     across(
-      c(starts_with("V") & ends_with("Exc")),
-      .fns = c(NC = ~ .x - totalCOVIDDeaths),
+      c(starts_with("V") & ends_with("Sum")),
+      .fns = c(
+        Exc = ~ deaths - .x,
+        ExcNC = ~ deaths - .x - totalCOVIDDeaths,
+        ExcRel = ~ 100 * (deaths - .x) / .x,
+        ExcNCRel = ~ 100 * (deaths - .x - totalCOVIDDeaths) / .x,
+        COVIDRel = ~ 100 * totalCOVIDDeaths / .x
+        ),
       .names = "{.col}{.fn}"
   )
   ) %>% 
@@ -589,6 +630,15 @@ stateMonthCumulative <- simDF %>%
   ) %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("ExcNC")), excNC
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcRel")), excRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcNCRel")), excNCRel
+  ) %>%
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumCOVIDRel")), COVIDRel
   ) %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
@@ -1606,34 +1656,17 @@ dev.off()
 # COVID vs non-COVID excess
 ## facet line graphs
 ```{r excess v covid data prep}
-metroDivisionMonthPopRates <- metroDivisionMonth %>% 
-  mutate(
-    across(
-      c(totalCOVIDDeaths:excNCCumulativeUp),
-    .fns = c(
-      `100k` = ~ 100000 * .x / pop
-    )
-  ),
-  census_region = case_when(
-      census_division %in% c("Mountain", "Pacific") ~ "West",
-      census_division %in% c("East North Central", "West North Central") ~ "Midwest",
-      census_division %in% c("Middle Atlantic", "New England") ~ "Northeast",
-      census_division %in% c("East South Central", "South Atlantic", "West South Central") ~ "South"
-    )
-  )
-
-metroDivisionMonthPopLong <- metroDivisionMonthPopRates %>% 
+metroDivisionMonthLong <- metroDivisionMonth %>% 
   pivot_longer(
     cols = c(
-      matches("(totalCOVIDDeaths_|excMed_|excNCMed_)") & 
-        ends_with("_100k")
+      matches("^(COVIDRelMed|excRelMed|excNCRelMed)$")
       ),
     names_to = "outcome"
   )
 ```
 
 ```{r excess v covid plot}
-excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
+excessVsCOVIDPlot <- metroDivisionMonthLong %>%
   ggplot(
     aes(
       x = monthYear,
@@ -1649,27 +1682,27 @@ excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
     ) +
   geom_ribbon(
     aes(
-      ymin = excLow_100k,
-      ymax = excUp_100k
+      ymin = excRelLow,
+      ymax = excRelUp
     ),
     fill = colorscaleVik10[6],
     color = "transparent"
   ) +
   geom_line() +
   scale_color_manual(
-    values = c(colorscaleVik10[10], "grey30", colorscaleVik10[2]),
+    values = c(colorscaleVik10[2], "grey30", colorscaleVik10[10]),
     labels = c(
-      "Excess deaths",
-      "Non-COVID-19 excess deaths",
-      "COVID-19 deaths"
+      "Reported COVID-19 mortality",
+      "Excess natural-cause mortality, excluding reported COVID-19",
+      "Excess natural-cause mortality"
     )
   ) +
   scale_linetype_manual(
-    values = linetypeCumulative[c(1, 3, 2)],
+    values = linetypeCumulative[c(2, 3, 1)],
      labels = c(
-      "Excess deaths",
-      "Non-COVID-19 excess deaths",
-      "COVID-19 deaths"
+      "Reported COVID-19 mortality",
+      "Excess natural-cause mortality, excluding reported COVID-19",
+      "Excess natural-cause mortality"
     )
   ) +
   scale_x_date(
@@ -1679,9 +1712,9 @@ excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
     guide = "axis_minor",
     expand = c(0, 0)
   ) +
-  scale_y_continuous(breaks = seq.int(0, 150, 25)) +
+  scale_y_continuous(breaks = seq.int(0, 200, 50)) +
   labs(
-    y = 'Deaths per 100,000 residents',
+    y = "Mortality relative to expected mortality (%)",
     x = NULL,
     linetype = NULL
   ) +
@@ -1708,10 +1741,12 @@ excessVsCOVIDPlot <- metroDivisionMonthPopLong %>%
   guides(
     fill = "none",
     linetype = guide_legend(
-      title = NULL
+      title = NULL,
+      reverse = TRUE
     ),
     color = guide_legend(
       title = NULL,
+      reverse = TRUE,
       override.aes = list(fill = "transparent")
     )
   ) +
@@ -1759,7 +1794,7 @@ dev.off()
 ## metro-division facet line graphs
 ```{r cumulative excess vs covid plot}
 gExcessVsCovidFacetCumulative <- ggplot(
-  metroDivisionMonthPopRates,
+  metroDivisionMonth,
   aes(
     x = monthYear
   )
@@ -1773,29 +1808,29 @@ gExcessVsCovidFacetCumulative <- ggplot(
   # ) +
   ggh4x::stat_difference(
     aes(
-      ymax = totalCOVIDDeathsCumulative_100k,
-      ymin = excCumulativeMed_100k
+      ymax = COVIDCumulativeRelMed,
+      ymin = excCumulativeRelMed
     ),
     levels = c(
-      "COVID-19 mortality > natural-cause excess mortality",
-      "Natural-cause excess mortality > COVID-19 mortality",
+      "Reported COVID-19 mortality exceeds excess natural-cause mortality",
+      "Excess natural-cause mortality exceeds reported COVID-19 mortality",
       NA
     ),
     alpha = .75
   ) +
   geom_line(
     aes(
-      y = excCumulativeMed_100k,
-      color = "Natural-cause excess deaths (cumulative)",
-      linetype = "Natural-cause excess deaths (cumulative)"
+      y = excCumulativeRelMed,
+      color = "Excess natural-cause mortality (cumulative)",
+      linetype = "Excess natural-cause mortality (cumulative)"
     ),
     linewidth = .3
   ) +
   geom_line(
     aes(
-      y = totalCOVIDDeathsCumulative_100k,
-      color = "Reported COVID-19 deaths (cumulative)",
-      linetype = "Reported COVID-19 deaths (cumulative)"
+      y = COVIDCumulativeRelMed,
+      color = "Reported COVID-19 mortality (cumulative)",
+      linetype = "Reported COVID-19 mortality (cumulative)"
     ),
     linewidth = .3
   ) +
@@ -1819,6 +1854,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
     guide = "axis_minor",
     expand = c(0, 0)
 ) +
+    scale_y_continuous(breaks = seq.int(0, 25, 5)) +
   coord_cartesian(
     ylim = c(0, NA),
     expand = FALSE,
@@ -1845,7 +1881,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
     )
   ) +
   labs(
-    y = "Deaths per 100,000 residents (cumulative)",
+    y = "Mortality relative to total expected mortality (%)",
     x = NULL,
     color = NULL,
     linetype = NULL,
@@ -1853,15 +1889,18 @@ gExcessVsCovidFacetCumulative <- ggplot(
   ) +
   guides(
     linetype = guide_legend(
+            order = 1,
             title = NULL,
-            nrow = 2
+            nrow = 2,
         ),
         color = guide_legend(
+            order = 1,
             title = NULL,
             nrow = 2,
             override.aes = list(fill = "transparent")
         ),
     fill = guide_legend(
+      order = 2,
       reverse = TRUE,
       nrow = 2,
       override.aes = list(
@@ -1935,8 +1974,8 @@ gCOVIDGeofacet <- ggplot(
       ymin = excCumulativeRelMed
     ),
     levels = c(
-      "COVID-19 mortality > natural-cause excess mortality",
-      "Natural-cause excess mortality > COVID-19 mortality",
+      "Reported COVID-19 mortality exceeds excess natural-cause mortality",
+      "Excess natural-cause mortality exceeds reported COVID-19 mortality",
       NA
     ),
     alpha = .75
@@ -1944,16 +1983,16 @@ gCOVIDGeofacet <- ggplot(
   geom_line(
     aes(
       y = excCumulativeRelMed,
-      color = "Natural-cause relative excess deaths (cumulative)",
-      linetype = "Natural-cause relative excess deaths (cumulative)"
+      color = "Excess natural-cause mortality (cumulative)",
+      linetype = "Excess natural-cause mortality (cumulative)"
     ),
     linewidth = .3
   ) +
   geom_line(
     aes(
       y = COVIDCumulativeRelMed,
-      color = "Relative COVID-19 deaths (cumulative)",
-      linetype = "Relative COVID-19 deaths (cumulative)"
+      color = "Reported COVID-19 mortality (cumulative)",
+      linetype = "Reported COVID-19 mortality (cumulative)"
     ),
     linewidth = .3
   ) +
@@ -1992,7 +2031,7 @@ gCOVIDGeofacet <- ggplot(
     grid = us_state_grid_custom
   ) +
   labs(
-    y = "Mortality relative to total expected deaths (%)",
+    y = "Mortality relative to total expected mortality (%)",
     x = NULL,
     color = NULL,
     linetype = NULL,
@@ -2144,7 +2183,7 @@ excessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
     clip = "off"
   ) +
   labs(
-    y = "Ratio of excess deaths to reported COVID-19 deaths (cumulative)",
+    y = "Ratio of excess natural-cause mortality to reported COVID-19 mortality (cumulative)",
     x = NULL,
     color = "group",
     linetype = "group"
