@@ -518,6 +518,12 @@ metroRegionMonth <- simDF %>%
       c(starts_with("V") & ends_with("SumExcCumulative")),
       .fns = c(COVIDRatio = ~ .x / totalCOVIDDeathsCumulative),
       .names = "{.col}{.fn}"
+    ),
+    # ratio of excess to covid (non-cumulative)
+    across(
+      c(starts_with("V") & ends_with("SumExc")),
+      .fns = c(COVIDRatio = ~ .x / totalCOVIDDeaths),
+      .names = "{.col}{.fn}"
     )
   ) %>%
   rowwise() %>%
@@ -532,6 +538,9 @@ metroRegionMonth <- simDF %>%
   ) %>%
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumExcCumulativeCOVIDRatio")), excessCOVIDRatioCumulative
+  ) %>% 
+  quantile_interval(
+    c_across(starts_with("V") & ends_with("SumExcCOVIDRatio")), excessCOVIDRatio
   ) %>% 
   quantile_interval(
     c_across(starts_with("V") & ends_with("SumCumulative")), expCumulative
@@ -2154,6 +2163,11 @@ gExcessCOVIDRatioCumulative <- ggplot(
 )
 
 excessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
+  geom_hline(
+      yintercept = 1,
+      color = "grey50",
+      linewidth = .2
+    ) +
   geom_line(
     linewidth = .5
   ) +
@@ -2174,11 +2188,11 @@ excessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
     oob = scales::oob_keep
   ) +
   scale_y_continuous(
-    trans = scales::pseudo_log_trans(base = 2, sigma = .61),
-    breaks = seq(0, 5, .5)
+    trans = scales::pseudo_log_trans(base = 2, sigma = .1),
+    breaks = c(.8, seq(0, 5, .5))
   ) +
   coord_cartesian(
-    ylim = c(0, 5),
+    ylim = c(.8, 5),
     expand = FALSE,
     clip = "off"
   ) +
@@ -2221,11 +2235,10 @@ excessCOVIDRatioCumulativeLabelMargin <- gExcessCOVIDRatioCumulative +
   ) +
   scale_x_date() +
   scale_y_continuous(
-    trans = scales::pseudo_log_trans(base = 2, sigma = .61),
-    breaks = seq(0, 5, .5)
+    trans = scales::pseudo_log_trans(base = 2, sigma = .1)
   ) +
   coord_cartesian(
-    ylim = c(0, 5),
+    ylim = c(.8, 5),
     xlim = c(ymd("2022-08-01"), ymd("2022-08-10")),
     expand = FALSE,
     clip = "off"
