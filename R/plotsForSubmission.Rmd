@@ -2354,3 +2354,143 @@ ragg::agg_png(
 excessCOVIDRatioCumulativeOut
 dev.off()
 ```
+```{r covid-excess ratio region plot non-cumulative, include=TRUE}
+gExcessCOVIDRatio <- ggplot(
+  plotMetroRegionMonth,
+  aes(
+    x = monthYear,
+    y = excessCOVIDRatioMed,
+    color = census_region,
+    fill = census_region,
+    linetype = metroCat3
+  )
+)
+
+excessCOVIDRatioPlot <- gExcessCOVIDRatio +
+  geom_hline(
+      yintercept = 1,
+      color = "grey50",
+      linewidth = .2
+    ) +
+  geom_line(
+    linewidth = .5
+  ) +
+  geom_point(
+    data = plotMetroRegionMonthLastObs,
+    shape = 23,
+    color = "white",
+    stroke = .1
+  ) +
+  scale_color_manual(values = colorscaleCumulative) +
+  scale_fill_manual(values = colorscaleCumulative) +
+  scale_linetype_manual(values = linetypeCumulative) +
+  scale_x_date(
+    breaks = scales::breaks_width(width = "3 months"),
+    minor_breaks = scales::breaks_width(width = "1 months"),
+    labels = scales::label_date_short(),
+    guide = "axis_minor",
+    oob = scales::oob_keep
+  ) +
+  scale_y_continuous(
+    trans = scales::pseudo_log_trans(base = 2, sigma = 10),
+    breaks = seq.int(-3, 10)
+  ) +
+  coord_cartesian(
+    ylim = c(-3, 9),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  labs(
+    y = "Ratio of excess natural-cause mortality to reported COVID-19 mortality",
+    x = NULL,
+    color = "group",
+    linetype = "group"
+  ) +
+  guides(
+    color = "none",
+    linetype = "none",
+    fill = "none",
+    label = "none"
+  ) +
+  theme_minimal2 +
+  theme(
+    text = element_text(size = 9),
+    panel.grid.minor = element_blank(),
+    panel.grid.major = element_line(),
+    axis.ticks = element_line(),
+    axis.ticks.length = unit(3.5, "points"),
+    ggh4x.axis.ticks.length.minor = rel(.61)
+  )
+
+excessCOVIDRatioLabelMargin <- gExcessCOVIDRatio +
+  geom_text_repel(
+    aes(label = labelMargin),
+    size = 2.5,
+    segment.size = .3,
+    segment.linetype = "16",
+    min.segment.length = 0,
+    direction = "y",
+    hjust = 0,
+    force_pull = .2,
+    xlim = c(ymd("2022-08-02"), Inf),
+    seed = 20230331,
+    show.legend = FALSE,
+    max.overlaps = 40
+  ) +
+  scale_x_date() +
+  scale_y_continuous(
+    trans = scales::pseudo_log_trans(base = 2, sigma = 10)
+  ) +
+  coord_cartesian(
+    ylim = c(-3, 9),
+    xlim = c(ymd("2022-08-01"), ymd("2022-08-10")),
+    expand = FALSE,
+    clip = "off"
+  ) +
+  scale_color_manual(values = colorscaleCumulative) +
+  labs(
+    y = NULL,
+    x = NULL,
+    color = NULL
+  ) +
+  theme_void()
+
+layout <- c(
+  # plot
+  area(t = 1, l = 1, b = 13, r = 8),
+  # margin labels
+  area(t = 1, l = 9, b = 13, r = 11),
+  # legend
+  area(t = 2, l = 5, b = 4, r = 7)
+)
+
+(
+  excessCOVIDRatioOut <- excessCOVIDRatioPlot +
+    excessCOVIDRatioLabelMargin +
+    gLegend +
+    plot_layout(design = layout)
+)
+```
+```{r export non-cumulative ratio}
+exportWidth <- 7.8
+exportHeight <- 4.55
+exportName <- "excess_to_covid_ratio"
+
+cairo_pdf(
+  filename = here::here("figures", paste0(exportName, ".pdf")),
+  width = exportWidth,
+  height = exportHeight
+)
+excessCOVIDRatioOut
+dev.off()
+
+ragg::agg_png(
+  filename = here::here("figures", paste0(exportName, ".png")),
+  width = exportWidth,
+  height = exportHeight,
+  units = "in",
+  res = 300
+)
+excessCOVIDRatioOut
+dev.off()
+```
