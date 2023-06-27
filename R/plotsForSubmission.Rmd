@@ -1715,7 +1715,7 @@ excessVsCOVIDPlot <- metroDivisionMonthLong %>%
     )
   ) +
   scale_x_date(
-    breaks = scales::breaks_width(width = "3 months"),
+    breaks = scales::breaks_width(width = "6 months"),
     minor_breaks = scales::breaks_width(width = "1 months"),
     labels = scales::label_date_short(),
     guide = "axis_minor",
@@ -1738,7 +1738,6 @@ excessVsCOVIDPlot <- metroDivisionMonthLong %>%
     ),
     strip = strip_nested(
       text_y = list(
-        # element_text(vjust = 0),
         element_text(
       angle = 0,
       hjust = 0
@@ -1751,12 +1750,14 @@ excessVsCOVIDPlot <- metroDivisionMonthLong %>%
     fill = "none",
     linetype = guide_legend(
       title = NULL,
-      reverse = TRUE
+      reverse = TRUE,
+      ncol = 1
     ),
     color = guide_legend(
       title = NULL,
       reverse = TRUE,
-      override.aes = list(fill = "transparent")
+      override.aes = list(fill = "transparent"),
+      ncol = 1
     )
   ) +
   theme_minimal2 +
@@ -1776,8 +1777,8 @@ excessVsCOVIDPlot <- metroDivisionMonthLong %>%
 ```
 
 ```{r export excess v covid}
-exportWidth <- 10
-exportHeight <- 14
+exportWidth <- 7
+exportHeight <- 9
 exportName <- "excessVsCOVIDPlot"
 
 cairo_pdf(
@@ -1810,19 +1811,14 @@ gExcessVsCovidFacetCumulative <- ggplot(
 )
 
 (excessVsCovidFacetCumulativeOut <- gExcessVsCovidFacetCumulative +
-  # geom_hline(
-  #   yintercept = 0,
-  #   color = "grey40",
-  #   linewidth = .2
-  # ) +
   ggh4x::stat_difference(
     aes(
       ymax = COVIDCumulativeRelMed,
       ymin = excCumulativeRelMed
     ),
     levels = c(
-      "Reported COVID-19 mortality exceeds excess natural-cause mortality",
-      "Excess natural-cause mortality exceeds reported COVID-19 mortality",
+      "Reported COVID-19 mortality > excess natural-cause mortality",
+      "Excess natural-cause mortality > reported COVID-19 mortality",
       NA
     ),
     alpha = .75
@@ -1833,7 +1829,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
       color = "Excess natural-cause mortality (cumulative)",
       linetype = "Excess natural-cause mortality (cumulative)"
     ),
-    linewidth = .3
+    linewidth = .35
   ) +
   geom_line(
     aes(
@@ -1841,7 +1837,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
       color = "Reported COVID-19 mortality (cumulative)",
       linetype = "Reported COVID-19 mortality (cumulative)"
     ),
-    linewidth = .3
+    linewidth = .35
   ) +
   scale_color_discrete_diverging(
     palette = "Vik",
@@ -1857,7 +1853,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
   ) +
   scale_linetype_manual(values = linetypeCumulative[c(1:2)]) +
   scale_x_date(
-    breaks = scales::breaks_width(width = "3 months"),
+    breaks = scales::breaks_width(width = "6 months"),
     minor_breaks = scales::breaks_width(width = "1 months"),
     labels = scales::label_date_short(),
     guide = "axis_minor",
@@ -1880,7 +1876,6 @@ gExcessVsCovidFacetCumulative <- ggplot(
     ),
     strip = strip_nested(
       text_y = list(
-        # element_text(vjust = 0),
         element_text(
       angle = 0,
       hjust = 0
@@ -1900,27 +1895,28 @@ gExcessVsCovidFacetCumulative <- ggplot(
     linetype = guide_legend(
             order = 1,
             title = NULL,
-            nrow = 2,
+            nrow = 1
         ),
         color = guide_legend(
             order = 1,
             title = NULL,
-            nrow = 2,
+            nrow = 1,
             override.aes = list(fill = "transparent")
         ),
-    fill = guide_legend(
-      order = 2,
-      reverse = TRUE,
-      nrow = 2,
-      override.aes = list(
-        color = "grey40",
-        linewidth = .2
-      )
-    )
+    fill = guide_none()
+    # fill = guide_legend(
+    #   order = 2,
+    #   reverse = TRUE,
+    #   nrow = 2,
+    #   override.aes = list(
+    #     color = "grey40",
+    #     linewidth = .2
+    #   )
+    # )
   ) +
   theme_minimal2 +
     theme(
-        text = element_text(size = 12),
+        text = element_text(size = 11),
         panel.border = element_rect(fill = "transparent"),
         panel.grid.minor = element_blank(),
         panel.grid.major = element_line(),
@@ -1931,7 +1927,7 @@ gExcessVsCovidFacetCumulative <- ggplot(
             angle = 0,
             hjust = 0
         ),
-        legend.direction = "horizontal",
+        legend.direction = "vertical",
         legend.position = "bottom",
         legend.margin = margin(0, 0, 0, 0, unit = "cm"),
         legend.box.margin = margin(0, 0, 0, 0, unit = "cm")
@@ -1939,8 +1935,8 @@ gExcessVsCovidFacetCumulative <- ggplot(
 )
 ```
 ```{r export cumulative excess v covid}
-exportWidth <- 10
-exportHeight <- 14
+exportWidth <- 7
+exportHeight <- 9
 exportName <- "excess_vs_covid_cumulative_facet"
 
 cairo_pdf(
@@ -1956,7 +1952,7 @@ ragg::agg_png(
   width = exportWidth,
   height = exportHeight,
   units = "in",
-  res = 300
+  res = 900
 )
 excessVsCovidFacetCumulativeOut
 dev.off()
@@ -1972,11 +1968,6 @@ gCOVIDGeofacet <- ggplot(
 )
 
 (geofacetCOVIDOut <- gCOVIDGeofacet +
-  # geom_hline(
-  #   yintercept = 0,
-  #   color = "grey40",
-  #   linewidth = .2
-  # ) +
   ggh4x::stat_difference(
     aes(
       ymax = COVIDCumulativeRelMed,
@@ -2084,7 +2075,7 @@ gCOVIDGeofacet <- ggplot(
 ```
 ```{r export cumulative covid geofacet}
 exportWidth <- 9
-exportHeight <- 6.25
+exportHeight <- 7
 exportName <- "covid_vs_excess_cumalitve_geofacet"
 
 cairo_pdf(
@@ -2100,7 +2091,7 @@ ragg::agg_png(
   width = exportWidth,
   height = exportHeight,
   units = "in",
-  res = 300
+  res = 900
 )
 geofacetCOVIDOut
 dev.off()
@@ -2321,7 +2312,7 @@ layout <- c(
   # margin labels
   area(t = 1, l = 9, b = 13, r = 11),
   # legend
-  area(t = 2, l = 5, b = 4, r = 7)
+  area(t = 2, l = 3, b = 4, r = 7)
 )
 
 (
@@ -2332,8 +2323,8 @@ layout <- c(
 )
 ```
 ```{r export cumulative ratio}
-exportWidth <- 7.8
-exportHeight <- 4.55
+exportWidth <- 7
+exportHeight <- 7
 exportName <- "cumulative_excess_to_covid_ratio"
 
 cairo_pdf(
@@ -2461,7 +2452,7 @@ layout <- c(
   # margin labels
   area(t = 1, l = 9, b = 13, r = 11),
   # legend
-  area(t = 2, l = 5, b = 4, r = 7)
+  area(t = 2, l = 3, b = 4, r = 7)
 )
 
 (
@@ -2472,8 +2463,8 @@ layout <- c(
 )
 ```
 ```{r export non-cumulative ratio}
-exportWidth <- 7.8
-exportHeight <- 4.55
+exportWidth <- 7
+exportHeight <- 7
 exportName <- "excess_to_covid_ratio"
 
 cairo_pdf(
