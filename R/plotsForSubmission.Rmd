@@ -2188,7 +2188,7 @@ excessCOVIDRatioCumulativePlot <- gExcessCOVIDRatioCumulative +
     clip = "off"
   ) +
   labs(
-    y = "Ratio of excess natural-cause mortality to reported COVID-19 mortality (cumulative)",
+    y = "Ratio of cumulative excess natural-cause mortality to cumulative reported COVID-19 mortality",
     x = NULL,
     color = "group",
     linetype = "group"
