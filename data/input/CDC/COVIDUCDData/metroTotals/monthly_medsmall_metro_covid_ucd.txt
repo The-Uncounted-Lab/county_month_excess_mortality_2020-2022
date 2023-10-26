@@ -1,0 +1,65 @@
+"Notes"	"Month"	"Month Code"	Deaths	Population	Crude Rate
+	"Mar., 2020"	"2020/03"	801	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	8536	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	7735	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	4167	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	9403	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	9430	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	5837	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	7678	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	16549	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	28035	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	28586	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	12156	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	5353	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	4321	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	3783	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	2167	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	3275	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	16339	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	21236	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	13656	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	10108	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	13678	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	21357	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	13855	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	3827	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	1244	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	1571	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	1975	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	2928	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	3062	Not Applicable	Not Applicable
+"Total"			282648	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Week"
+"Query Parameters:"
+"Title: monthly_medsmall_metro_covid_ucd"
+"Residence 2013 Urbanization: Medium Metro; Small Metro"
+"UCD - ICD-10 Codes: U07.1 (COVID-19)"
+"Year/Month: Mar., 2020; Apr., 2020; May, 2020; Jun., 2020; Jul., 2020; Aug., 2020; Sep., 2020; Oct., 2020; Nov., 2020; Dec.,"
+"2020; 2021; Jan., 2022 (provisional); Feb., 2022 (provisional); Mar., 2022 (provisional); Apr., 2022 (provisional); May, 2022"
+"(provisional); Jun., 2022 (provisional); Jul., 2022 (provisional); Aug., 2022 (provisional)"
+"Group By: Month"
+"Show Totals: True"
+"Show Zero Values: True"
+"Show Suppressed: True"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Oct 10, 2023 4:48:18 PM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2021,"
+"and from provisional data for years 2022-2023, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Oct 10, 2023 4:48:18"
+"PM"
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. Changes to cause of death classification affect reporting trends. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#ICD-10 Changes."
+"3. Deaths occurring through September 23, 2023 as of October 01, 2023."
