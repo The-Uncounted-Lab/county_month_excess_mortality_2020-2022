@@ -137,49 +137,12 @@ The following datasets are available:
        |__estimatesPYears.csv
        |__estimatesStates.csv
        |__estimatesTotal.csv
-    -- ACMCD
-       |__estimatesMonthly.csv
-       |__estimatesMonthlyFull.csv
-       |__estimatesMonthlyTotals.csv
-       |__estimatesPYears.csv
-       |__estimatesPYearsFull.csv
-       |__estimatesStates.csv
-       |__estimatesTotal.csv
-       |__estimatesTotalFull.csv
-    -- ACUCD
-       |__estimatesMonthly.csv
-       |__estimatesMonthlyFull.csv
-       |__estimatesMonthlyTotals.csv
-       |__estimatesPYears.csv
-       |__estimatesPYearsFull.csv
-       |__estimatesStates.csv
-       |__estimatesTotal.csv
-       |__estimatesTotalFull.csv
     -- NC
        |__estimatesMonthly.csv
        |__estimatesMonthlyTotals.csv
        |__estimatesPYears.csv
        |__estimatesStates.csv
        |__estimatesTotal.csv
-    -- NCMCD
-       |__estimatesMonthly.csv
-       |__estimatesMonthlyFull.csv
-       |__estimatesMonthlyTotals.csv
-       |__estimatesPYears.csv
-       |__estimatesPYearsFull.csv
-       |__estimatesStates.csv
-       |__estimatesTotal.csv
-       |__estimatesTotalFull.csv
-    -- NCUCD
-       |__estimatesMonthly.csv
-       |__estimatesMonthlyFull.csv
-       |__estimatesMonthlyTotals.csv
-       |__estimatesPYears.csv
-       |__estimatesPYearsFull.csv
-       |__estimatesStates.csv
-       |__estimatesTotal.csv
-       |__estimatesTotalFull.csv
-       |__estimatesYearly.csv
 
 ## Data Dictionaries and Descriptive Statistics
 
