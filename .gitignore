@@ -4,5 +4,11 @@
 /data/output/estimates/ACUCD
 /data/output/estimates/NCMCD
 /data/output/estimates/NCUCD
+/data/output/cleanedCOVIDMCDData
+/data/output/cleanedCOVIDUCDData
+/data/output/cleanedMortalityACData
+/data/output/cleanedMortalityNCData
+/data/output/cleanedPopData
+/data/output/modelsAndSimulations
 .Rhistory
 .DS_Store
