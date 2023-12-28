@@ -32,7 +32,7 @@ inDir <- here('data','input')
 outDir <- here('data','output')
 
 mortalityDataType <- 'AC'
-COVIDDataType <- 'MCD'
+COVIDDataType <- 'UCD'
 modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
 mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
 COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
@@ -101,10 +101,10 @@ estimatesTotal <- simulationsTotal %>%
             excDeathsMed = quantile(imputedDeaths-expDeaths,probs=c(0.5)),
             excDeathsUp = quantile(imputedDeaths-expDeaths,probs=c(0.95)),
             probPositiveExcess = sum((imputedDeaths-expDeaths)>0,na.rm=T)/n(),
-            relExcDeathsMean = mean((imputedDeaths-expDeaths)/expDeaths),
-            relExcDeathsLow = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.05)),
-            relExcDeathsMed = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.5)),
-            relExcDeathsUp = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.95)),
+            relExcDeathsMean = mean((imputedDeaths-expDeaths)/expDeaths,na.rm=T),
+            relExcDeathsLow = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.05),na.rm=T),
+            relExcDeathsMed = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.5),na.rm=T),
+            relExcDeathsUp = quantile((imputedDeaths-expDeaths)/expDeaths,probs=c(0.95),na.rm=T),
             ratioMean = mean((imputedDeaths-expDeaths)/COVIDDeaths,na.rm=T),
             ratioLow = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.05),na.rm=T),
             ratioMed = quantile((imputedDeaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),

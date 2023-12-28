@@ -34,7 +34,7 @@ i_am('R/cleanMortalityData.Rmd')
 
 inDir <- here('data','input')
 outDir <- here('data','output')
-dataType <- 'AC'
+dataType <- 'NC'
 dataInputFolder <- here(inDir,'CDC',glue('mortality{dataType}Data'))
 dataOutputFolder <- here(outDir,glue('cleanedMortality{dataType}Data'))
 ```

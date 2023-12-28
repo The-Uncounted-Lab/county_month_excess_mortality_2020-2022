@@ -1,0 +1,126 @@
+---
+title: "Excess vs. COVID Plot"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(here)
+library(ggh4x)
+library(scico)
+library(forecast)
+library(glue)
+library(latex2exp)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/excessVSCOVIDPlot.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+COVIDDataType <- 'MCD'
+```
+
+```{r}
+load(here(outDir,'modelsAndSimulations','modelNC',glue('simulationsNC{COVIDDataType}.RData')))
+```
+
+```{r}
+metroDivisionsTotals <- simulationsDF %>%
+  mutate(monthYear = make_date(year,month,1)) %>%
+  filter(monthYear >= make_date(2020,3,1)) %>%
+  group_by(census_division,metroCat3,monthYear) %>%
+  summarise(across(V1:V1000, ~ (sum(imputedDeaths) - sum(.x))),
+            COVIDDeaths = sum(imputedCOVIDDeaths),
+            pop = sum(pop)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excLow = quantile(c_across(V1:V1000),0.05),
+         excMed = quantile(c_across(V1:V1000),0.5),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  select(-c(V1:V1000))
+```
+
+```{r}
+COVIDData <- list.files(
+      here(inDir,'CDC',glue('COVID{COVIDDataType}Data'),'metroDivisionTotals'),
+      pattern = "*.txt"
+    ) %>%
+    map_dfr(
+      ~ data.table::fread(
+        here(inDir,'CDC',glue('COVID{COVIDDataType}Data'),'metroDivisionTotals',.x),
+        na.strings = c("Missing", "Suppressed", "Not Applicable"),
+        keepLeadingZeros = TRUE,
+      ) %>% mutate (file = .x)
+    )
+
+# The code below to assign the correct metro type relies on file naming
+# so you need to be careful to either follow the naming convention we used
+# or to adjust the regular expression and the case_when statement accordingly
+COVIDData <- COVIDData %>%
+  mutate(metroCat3 = str_match(file,'monthly_([\\w]+)_division_[\\w_]+\\.txt$')[,2],
+         metroCat3 = case_when(metroCat3 == 'large_metro' ~ 'Large Metro',
+                               metroCat3 == 'medsmall_metro' ~ 'Medium or Small Metro',
+                               metroCat3 == 'non_metro' ~ 'Non Metro'),
+         census_division = str_match(`Residence Census Division`,'Division \\d{1}: ([\\w\\s]+)')[,2]) %>%
+  separate(`Month Code`,into=c('year','month'),sep='/',convert = T) %>%
+  mutate(monthYear = make_date(year,month,1)) %>%
+  select(census_division,metroCat3,monthYear,totalCOVIDDeaths = Deaths)
+```
+
+```{r}
+metroDivisionsTotals <- metroDivisionsTotals %>%
+  left_join(COVIDData,by=c('census_division','metroCat3','monthYear'))
+```
+
+```{r, fig.height=10, fig.width=6}
+excessVsCOVIDPlot <- metroDivisionsTotals %>%
+  ggplot() +
+  geom_line(mapping=aes(x=monthYear,
+                        y=(excMed - totalCOVIDDeaths)*100000/pop,
+                        linetype='Non COVID-19 Excess Deaths')) +
+  geom_ribbon(mapping=aes(x=monthYear,
+                          ymin=excLow*100000/pop,
+                          ymax=excUp*100000/pop,
+                          fill='Excess Deaths'),
+              fill='gray',alpha=0.5) +
+  geom_line(mapping=aes(x=monthYear,
+                        y=excMed*100000/pop,
+                        linetype='Excess Deaths')) +
+  geom_line(mapping=aes(x=monthYear,
+                        y=totalCOVIDDeaths*100000/pop,
+                        linetype='COVID-19 Deaths')) +
+  scale_y_continuous(breaks = c(0,25,50,75,100)) +
+  labs(y='Deaths per 100,000 Residents',
+       x = '',
+       linetype = '') +
+  facet_nested(census_division ~ metroCat3,
+                    space = "free_y", scales = 'free_y') +
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        legend.position = 'bottom') 
+
+excessVsCOVIDPlot
+```
+
+```{r}
+pdf(here('figures',glue('excessVsCOVIDPlot{COVIDDataType}.pdf')), height = 14, width =10)
+excessVsCOVIDPlot
+dev.off()
+```

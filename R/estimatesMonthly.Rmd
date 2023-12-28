@@ -32,7 +32,7 @@ inDir <- here('data','input')
 outDir <- here('data','output')
 
 mortalityDataType <- 'NC'
-COVIDDataType <- 'MCD'
+COVIDDataType <- 'UCD'
 modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
 mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
 COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))

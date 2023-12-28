@@ -1,0 +1,167 @@
+---
+title: "Estimates of Excess Deaths by State and Month (March 2020-August 2022)"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, echo=F, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(glue)
+library(here)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/estimatesStateMonths.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'UCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',str_c(mortalityDataType,COVIDDataType))
+```
+
+```{r}
+stateData <- data.table::fread(
+  file=here(inDir,'CDC','mortalityACData','states','ACStateMonths.txt'),
+  na.strings = c("Missing", "Suppressed", "Not Applicable"),
+  keepLeadingZeros = TRUE,
+  colClasses = c("character")
+  )
+
+# Setting intuitive names
+stateData <- stateData %>%
+  select('state'='Residence State',
+         'monthCode'='Month Code',
+         'deaths'='Deaths')
+
+# Keeping only the variables we need
+stateData <- stateData %>% select(state,monthCode,deaths)
+
+# We extract month and year from the monthCode variable and then
+# create a time date variable.
+stateData <- stateData %>% 
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(across(c(deaths,year,month),as.integer))
+```
+
+```{r}
+COVIDStateData <- data.table::fread(
+  file=here(inDir,'CDC','COVIDUCDData','states','COVIDStateMonths.txt'),
+  na.strings = c("Missing", "Suppressed", "Not Applicable"),
+  keepLeadingZeros = TRUE,
+  colClasses = c("character")
+  )
+
+# Setting intuitive names
+COVIDStateData <- COVIDStateData %>%
+  select('state'='Residence State',
+         'monthCode'='Month Code',
+         'COVIDDeaths'='Deaths')
+
+# Keeping only the variables we need
+COVIDStateData <- COVIDStateData %>% select(state,monthCode,COVIDDeaths)
+
+# We extract month and year from the monthCode variable and then
+# create a time date variable.
+COVIDStateData <- COVIDStateData %>% 
+  separate(monthCode, into=c('year','month')) %>%
+  mutate(across(c(COVIDDeaths,year,month),as.integer))
+```
+
+```{r}
+monthlyData <- tibble(arrow::read_feather(here(outDir,'ACMonthlyData.feather')))
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(time = make_date(year=year,month=month)) %>%
+  group_by(FIPSCode) %>%
+  mutate(FIPSID = cur_group_id()) %>%
+  ungroup() %>%
+  arrange(FIPSID,year,month)
+```
+
+```{r}
+monthlyData <- monthlyData %>%
+  mutate(time = make_date(year=year,month=month))
+```
+
+```{r}
+# We load the pre-trained models
+load(here('R','RObjects','simMonthly.RData'))
+```
+
+```{r}
+simulationsMonthly <- as_tibble(t(death.draws))
+
+simulationsMonthly <- simulationsMonthly %>% 
+  mutate(year = monthlyData %>% pull(year),
+         month = monthlyData %>% pull(month),
+         time = make_date(year=year,month=month),
+         FIPSCode = monthlyData %>% pull(FIPSCode),
+         state = monthlyData %>% pull(state),
+         pop = monthlyData %>% pull(pop)) %>%
+  relocate(FIPSCode,state,year,month,time,pop)
+```
+
+```{r}
+simulationsStates <- simulationsMonthly %>%
+  filter(between(time,make_date(2020,3),make_date(2022,8))) %>%
+  group_by(state,time,year,month) %>%
+  summarize(across(V1:V1000, ~ sum(.x))) %>%
+  ungroup() %>%
+  left_join(stateData,by=c('state','year','month')) %>%
+  left_join(COVIDStateData,by=c('state','year','month'))
+
+estimatesStates <- simulationsStates %>%
+  pivot_longer(V1:V1000,names_to = 'simNum', values_to = 'expDeaths') %>%
+  group_by(state,time,year,month) %>%
+  summarize(expDeathsMean = mean(expDeaths),
+            expDeathsLow = quantile(expDeaths,probs=c(0.1)),
+            expDeathsMed = quantile(expDeaths,probs=c(0.5)),
+            expDeathsUp = quantile(expDeaths,probs=c(0.9)),
+            excDeathsMean = mean(deaths-expDeaths),
+            excDeathsLow = quantile(deaths-expDeaths,probs=c(0.1)),
+            excDeathsMed = quantile(deaths-expDeaths,probs=c(0.5)),
+            excDeathsUp = quantile(deaths-expDeaths,probs=c(0.9)),
+            probPositiveExcess = sum((deaths-expDeaths)>0,na.rm=T)/n(),
+            relExcDeathsMean = mean((deaths-expDeaths)/expDeaths),
+            relExcDeathsLow = quantile((deaths-expDeaths)/expDeaths,probs=c(0.1)),
+            relExcDeathsMed = quantile((deaths-expDeaths)/expDeaths,probs=c(0.5)),
+            relExcDeathsUp = quantile((deaths-expDeaths)/expDeaths,probs=c(0.9)),
+            ratioMean = mean((deaths-expDeaths)/COVIDDeaths,na.rm=T),
+            ratioLow = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.1),na.rm=T),
+            ratioMed = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.5),na.rm=T),
+            ratioUp = quantile((deaths-expDeaths)/COVIDDeaths,probs=c(0.9),na.rm=T),
+            probPositiveNCExcess = sum(((deaths-expDeaths)/COVIDDeaths)>1,na.rm=T)/n(),
+            deaths = mean(deaths),
+            COVIDDeaths = mean(COVIDDeaths,na.rm=T)) %>%
+  ungroup()
+```
+
+```{r}
+estimatesStates <- estimatesStates %>% 
+  mutate(suppressed = if_else(is.na(deaths),1,0)) %>%
+  select(state,time,year,month,COVIDDeaths,deaths,suppressed,
+         expDeathsMean:probPositiveNCExcess)
+```
+
+```{r}
+estimatesStates %>% write_csv(here(outDir,'estimates','estimatesStateMonths.csv'))
+```

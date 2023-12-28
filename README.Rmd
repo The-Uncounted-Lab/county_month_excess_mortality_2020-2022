@@ -37,7 +37,7 @@ options(
 
 ## Introduction
 
-This repo includes data and code required to replicate the results in the paper ["Excess all-cause mortality across counties in the United States, March 2020 to December 2021" [Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v4) and ["Differences Between Reported COVID-19 Deaths and Estimated Excess Deaths in Counties Across the United States, March 2020 to February 2022" [Link to Pre-Print]](https://www.medrxiv.org/content/10.1101/2023.01.16.23284633v1).
+This repo includes data and code required to replicate the results in the paper ["Excess all-cause mortality across counties in the United States, March 2020 to December 2021" [Link to article in Science Advances]](https://www.science.org/doi/10.1126/sciadv.adf9742) and ["Differences Between Reported COVID-19 Deaths and Estimated Excess Deaths in Counties Across the United States, March 2020 to February 2022" [Link to pre-print]](https://www.medrxiv.org/content/10.1101/2023.01.16.23284633v1).
 
 The aim of this project is to estimate monthly deaths at the county level for the United States for the period March 2020 - August 2022 in the counterfactual scenario of no COVID-19 pandemic. We do so with a Bayesian hierarchical model with a flexible time component and a spatial component. To deal with suppression of death counts < 10, we employ a set of state-year censored Poisson models to estimate the censored death counts. We then adjust the total number of imputed deaths making sure that the sum of non-suppressed and imputed deaths equal the state yearly death count (very unlikely to be suppressed).
 
@@ -108,6 +108,7 @@ The following datasets are available:
 ```{r tree, comment = NA}
 twee(here::here("data", "output", "estimates"))
 ```
+
 ## Data Dictionaries and Descriptive Statistics
 
 The following tables contain variable names, descriptions, and descriptive statistics for each of the datasets in this repository.

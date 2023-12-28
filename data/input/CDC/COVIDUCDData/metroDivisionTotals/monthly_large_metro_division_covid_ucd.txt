@@ -1,0 +1,343 @@
+"Notes"	"Month"	"Month Code"	"Residence Census Division"	"Residence Census Division Code"	Deaths	Population	Crude Rate
+	"Mar., 2020"	"2020/03"	"Division 1: New England"	"CENS-D1"	113	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 2: Middle Atlantic"	"CENS-D2"	3378	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 3: East North Central"	"CENS-D3"	766	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 4: West North Central"	"CENS-D4"	42	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 5: South Atlantic"	"CENS-D5"	389	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 6: East South Central"	"CENS-D6"	53	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 7: West South Central"	"CENS-D7"	376	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 8: Mountain"	"CENS-D8"	97	Not Applicable	Not Applicable
+	"Mar., 2020"	"2020/03"	"Division 9: Pacific"	"CENS-D9"	472	Not Applicable	Not Applicable
+"Total"	"Mar., 2020"	"2020/03"			5686	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 1: New England"	"CENS-D1"	4125	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 2: Middle Atlantic"	"CENS-D2"	30925	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 3: East North Central"	"CENS-D3"	6528	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 4: West North Central"	"CENS-D4"	808	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 5: South Atlantic"	"CENS-D5"	3544	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 6: East South Central"	"CENS-D6"	320	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 7: West South Central"	"CENS-D7"	1374	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 8: Mountain"	"CENS-D8"	919	Not Applicable	Not Applicable
+	"Apr., 2020"	"2020/04"	"Division 9: Pacific"	"CENS-D9"	2239	Not Applicable	Not Applicable
+"Total"	"Apr., 2020"	"2020/04"			50782	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 1: New England"	"CENS-D1"	3030	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 2: Middle Atlantic"	"CENS-D2"	8823	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 3: East North Central"	"CENS-D3"	4539	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 4: West North Central"	"CENS-D4"	944	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 5: South Atlantic"	"CENS-D5"	3492	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 6: East South Central"	"CENS-D6"	351	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 7: West South Central"	"CENS-D7"	787	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 8: Mountain"	"CENS-D8"	699	Not Applicable	Not Applicable
+	"May, 2020"	"2020/05"	"Division 9: Pacific"	"CENS-D9"	2046	Not Applicable	Not Applicable
+"Total"	"May, 2020"	"2020/05"			24711	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 1: New England"	"CENS-D1"	635	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 2: Middle Atlantic"	"CENS-D2"	1699	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 3: East North Central"	"CENS-D3"	1729	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 4: West North Central"	"CENS-D4"	411	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 5: South Atlantic"	"CENS-D5"	1867	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 6: East South Central"	"CENS-D6"	269	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 7: West South Central"	"CENS-D7"	944	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 8: Mountain"	"CENS-D8"	602	Not Applicable	Not Applicable
+	"Jun., 2020"	"2020/06"	"Division 9: Pacific"	"CENS-D9"	1614	Not Applicable	Not Applicable
+"Total"	"Jun., 2020"	"2020/06"			9770	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 1: New England"	"CENS-D1"	153	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 2: Middle Atlantic"	"CENS-D2"	651	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 3: East North Central"	"CENS-D3"	933	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 4: West North Central"	"CENS-D4"	273	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 5: South Atlantic"	"CENS-D5"	4363	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 6: East South Central"	"CENS-D6"	533	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 7: West South Central"	"CENS-D7"	3576	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 8: Mountain"	"CENS-D8"	1728	Not Applicable	Not Applicable
+	"Jul., 2020"	"2020/07"	"Division 9: Pacific"	"CENS-D9"	2812	Not Applicable	Not Applicable
+"Total"	"Jul., 2020"	"2020/07"			15022	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 1: New England"	"CENS-D1"	84	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 2: Middle Atlantic"	"CENS-D2"	485	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 3: East North Central"	"CENS-D3"	891	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 4: West North Central"	"CENS-D4"	410	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 5: South Atlantic"	"CENS-D5"	3982	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 6: East South Central"	"CENS-D6"	582	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 7: West South Central"	"CENS-D7"	2311	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 8: Mountain"	"CENS-D8"	1054	Not Applicable	Not Applicable
+	"Aug., 2020"	"2020/08"	"Division 9: Pacific"	"CENS-D9"	2558	Not Applicable	Not Applicable
+"Total"	"Aug., 2020"	"2020/08"			12357	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 1: New England"	"CENS-D1"	100	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 2: Middle Atlantic"	"CENS-D2"	408	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 3: East North Central"	"CENS-D3"	787	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 4: West North Central"	"CENS-D4"	360	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 5: South Atlantic"	"CENS-D5"	1877	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 6: East South Central"	"CENS-D6"	452	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 7: West South Central"	"CENS-D7"	979	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 8: Mountain"	"CENS-D8"	401	Not Applicable	Not Applicable
+	"Sep., 2020"	"2020/09"	"Division 9: Pacific"	"CENS-D9"	1452	Not Applicable	Not Applicable
+"Total"	"Sep., 2020"	"2020/09"			6816	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 1: New England"	"CENS-D1"	284	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 2: Middle Atlantic"	"CENS-D2"	694	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 3: East North Central"	"CENS-D3"	1375	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 4: West North Central"	"CENS-D4"	650	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 5: South Atlantic"	"CENS-D5"	1553	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 6: East South Central"	"CENS-D6"	459	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 7: West South Central"	"CENS-D7"	1110	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 8: Mountain"	"CENS-D8"	436	Not Applicable	Not Applicable
+	"Oct., 2020"	"2020/10"	"Division 9: Pacific"	"CENS-D9"	1138	Not Applicable	Not Applicable
+"Total"	"Oct., 2020"	"2020/10"			7699	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 1: New England"	"CENS-D1"	628	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 2: Middle Atlantic"	"CENS-D2"	2385	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 3: East North Central"	"CENS-D3"	4748	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 4: West North Central"	"CENS-D4"	1467	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 5: South Atlantic"	"CENS-D5"	2267	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 6: East South Central"	"CENS-D6"	870	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 7: West South Central"	"CENS-D7"	1969	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 8: Mountain"	"CENS-D8"	1285	Not Applicable	Not Applicable
+	"Nov., 2020"	"2020/11"	"Division 9: Pacific"	"CENS-D9"	2154	Not Applicable	Not Applicable
+"Total"	"Nov., 2020"	"2020/11"			17773	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 1: New England"	"CENS-D1"	1591	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 2: Middle Atlantic"	"CENS-D2"	7110	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 3: East North Central"	"CENS-D3"	7473	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 4: West North Central"	"CENS-D4"	1982	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 5: South Atlantic"	"CENS-D5"	5062	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 6: East South Central"	"CENS-D6"	1737	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 7: West South Central"	"CENS-D7"	4064	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 8: Mountain"	"CENS-D8"	2903	Not Applicable	Not Applicable
+	"Dec., 2020"	"2020/12"	"Division 9: Pacific"	"CENS-D9"	10591	Not Applicable	Not Applicable
+"Total"	"Dec., 2020"	"2020/12"			42513	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 1: New England"	"CENS-D1"	1788	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 2: Middle Atlantic"	"CENS-D2"	7885	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 3: East North Central"	"CENS-D3"	4938	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 4: West North Central"	"CENS-D4"	1330	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 5: South Atlantic"	"CENS-D5"	7591	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 6: East South Central"	"CENS-D6"	1878	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 7: West South Central"	"CENS-D7"	6362	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 8: Mountain"	"CENS-D8"	3389	Not Applicable	Not Applicable
+	"Jan., 2021"	"2021/01"	"Division 9: Pacific"	"CENS-D9"	16023	Not Applicable	Not Applicable
+"Total"	"Jan., 2021"	"2021/01"			51184	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 1: New England"	"CENS-D1"	794	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 2: Middle Atlantic"	"CENS-D2"	4989	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 3: East North Central"	"CENS-D3"	1989	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 4: West North Central"	"CENS-D4"	481	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 5: South Atlantic"	"CENS-D5"	4326	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 6: East South Central"	"CENS-D6"	767	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 7: West South Central"	"CENS-D7"	3432	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 8: Mountain"	"CENS-D8"	1525	Not Applicable	Not Applicable
+	"Feb., 2021"	"2021/02"	"Division 9: Pacific"	"CENS-D9"	5954	Not Applicable	Not Applicable
+"Total"	"Feb., 2021"	"2021/02"			24257	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 1: New England"	"CENS-D1"	371	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 2: Middle Atlantic"	"CENS-D2"	3477	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 3: East North Central"	"CENS-D3"	1081	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 4: West North Central"	"CENS-D4"	262	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 5: South Atlantic"	"CENS-D5"	2238	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 6: East South Central"	"CENS-D6"	399	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 7: West South Central"	"CENS-D7"	1588	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 8: Mountain"	"CENS-D8"	522	Not Applicable	Not Applicable
+	"Mar., 2021"	"2021/03"	"Division 9: Pacific"	"CENS-D9"	1616	Not Applicable	Not Applicable
+"Total"	"Mar., 2021"	"2021/03"			11554	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 1: New England"	"CENS-D1"	272	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 2: Middle Atlantic"	"CENS-D2"	3035	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 3: East North Central"	"CENS-D3"	1817	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 4: West North Central"	"CENS-D4"	288	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 5: South Atlantic"	"CENS-D5"	1922	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 6: East South Central"	"CENS-D6"	294	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 7: West South Central"	"CENS-D7"	847	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 8: Mountain"	"CENS-D8"	314	Not Applicable	Not Applicable
+	"Apr., 2021"	"2021/04"	"Division 9: Pacific"	"CENS-D9"	697	Not Applicable	Not Applicable
+"Total"	"Apr., 2021"	"2021/04"			9486	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 1: New England"	"CENS-D1"	179	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 2: Middle Atlantic"	"CENS-D2"	1556	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 3: East North Central"	"CENS-D3"	1562	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 4: West North Central"	"CENS-D4"	233	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 5: South Atlantic"	"CENS-D5"	1512	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 6: East South Central"	"CENS-D6"	255	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 7: West South Central"	"CENS-D7"	655	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 8: Mountain"	"CENS-D8"	357	Not Applicable	Not Applicable
+	"May, 2021"	"2021/05"	"Division 9: Pacific"	"CENS-D9"	527	Not Applicable	Not Applicable
+"Total"	"May, 2021"	"2021/05"			6836	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 1: New England"	"CENS-D1"	77	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 2: Middle Atlantic"	"CENS-D2"	471	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 3: East North Central"	"CENS-D3"	544	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 4: West North Central"	"CENS-D4"	140	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 5: South Atlantic"	"CENS-D5"	724	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 6: East South Central"	"CENS-D6"	106	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 7: West South Central"	"CENS-D7"	407	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 8: Mountain"	"CENS-D8"	241	Not Applicable	Not Applicable
+	"Jun., 2021"	"2021/06"	"Division 9: Pacific"	"CENS-D9"	362	Not Applicable	Not Applicable
+"Total"	"Jun., 2021"	"2021/06"			3072	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 1: New England"	"CENS-D1"	41	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 2: Middle Atlantic"	"CENS-D2"	279	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 3: East North Central"	"CENS-D3"	312	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 4: West North Central"	"CENS-D4"	220	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 5: South Atlantic"	"CENS-D5"	1411	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 6: East South Central"	"CENS-D6"	194	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 7: West South Central"	"CENS-D7"	802	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 8: Mountain"	"CENS-D8"	563	Not Applicable	Not Applicable
+	"Jul., 2021"	"2021/07"	"Division 9: Pacific"	"CENS-D9"	562	Not Applicable	Not Applicable
+"Total"	"Jul., 2021"	"2021/07"			4384	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 1: New England"	"CENS-D1"	174	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 2: Middle Atlantic"	"CENS-D2"	1040	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 3: East North Central"	"CENS-D3"	1232	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 4: West North Central"	"CENS-D4"	648	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 5: South Atlantic"	"CENS-D5"	7230	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 6: East South Central"	"CENS-D6"	1080	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 7: West South Central"	"CENS-D7"	4456	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 8: Mountain"	"CENS-D8"	1209	Not Applicable	Not Applicable
+	"Aug., 2021"	"2021/08"	"Division 9: Pacific"	"CENS-D9"	2530	Not Applicable	Not Applicable
+"Total"	"Aug., 2021"	"2021/08"			19599	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 1: New England"	"CENS-D1"	312	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 2: Middle Atlantic"	"CENS-D2"	1650	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 3: East North Central"	"CENS-D3"	2372	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 4: West North Central"	"CENS-D4"	728	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 5: South Atlantic"	"CENS-D5"	7137	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 6: East South Central"	"CENS-D6"	1693	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 7: West South Central"	"CENS-D7"	5157	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 8: Mountain"	"CENS-D8"	1429	Not Applicable	Not Applicable
+	"Sep., 2021"	"2021/09"	"Division 9: Pacific"	"CENS-D9"	3034	Not Applicable	Not Applicable
+"Total"	"Sep., 2021"	"2021/09"			23512	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 1: New England"	"CENS-D1"	303	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 2: Middle Atlantic"	"CENS-D2"	1751	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 3: East North Central"	"CENS-D3"	2489	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 4: West North Central"	"CENS-D4"	576	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 5: South Atlantic"	"CENS-D5"	3169	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 6: East South Central"	"CENS-D6"	836	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 7: West South Central"	"CENS-D7"	2606	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 8: Mountain"	"CENS-D8"	1240	Not Applicable	Not Applicable
+	"Oct., 2021"	"2021/10"	"Division 9: Pacific"	"CENS-D9"	1887	Not Applicable	Not Applicable
+"Total"	"Oct., 2021"	"2021/10"			14857	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 1: New England"	"CENS-D1"	391	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 2: Middle Atlantic"	"CENS-D2"	1610	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 3: East North Central"	"CENS-D3"	2681	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 4: West North Central"	"CENS-D4"	684	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 5: South Atlantic"	"CENS-D5"	1348	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 6: East South Central"	"CENS-D6"	384	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 7: West South Central"	"CENS-D7"	983	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 8: Mountain"	"CENS-D8"	1552	Not Applicable	Not Applicable
+	"Nov., 2021"	"2021/11"	"Division 9: Pacific"	"CENS-D9"	1612	Not Applicable	Not Applicable
+"Total"	"Nov., 2021"	"2021/11"			11245	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 1: New England"	"CENS-D1"	905	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 2: Middle Atlantic"	"CENS-D2"	3273	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 3: East North Central"	"CENS-D3"	5377	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 4: West North Central"	"CENS-D4"	1233	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 5: South Atlantic"	"CENS-D5"	2013	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 6: East South Central"	"CENS-D6"	530	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 7: West South Central"	"CENS-D7"	1070	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 8: Mountain"	"CENS-D8"	1900	Not Applicable	Not Applicable
+	"Dec., 2021"	"2021/12"	"Division 9: Pacific"	"CENS-D9"	1724	Not Applicable	Not Applicable
+"Total"	"Dec., 2021"	"2021/12"			18025	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 1: New England"	"CENS-D1"	1569	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 2: Middle Atlantic"	"CENS-D2"	8048	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 3: East North Central"	"CENS-D3"	7239	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 4: West North Central"	"CENS-D4"	1706	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 5: South Atlantic"	"CENS-D5"	6897	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 6: East South Central"	"CENS-D6"	1402	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 7: West South Central"	"CENS-D7"	3620	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 8: Mountain"	"CENS-D8"	2367	Not Applicable	Not Applicable
+	"Jan., 2022 (provisional)"	"2022/01"	"Division 9: Pacific"	"CENS-D9"	5426	Not Applicable	Not Applicable
+"Total"	"Jan., 2022 (provisional)"	"2022/01"			38274	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 1: New England"	"CENS-D1"	553	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 2: Middle Atlantic"	"CENS-D2"	2446	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 3: East North Central"	"CENS-D3"	2409	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 4: West North Central"	"CENS-D4"	718	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 5: South Atlantic"	"CENS-D5"	3319	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 6: East South Central"	"CENS-D6"	925	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 7: West South Central"	"CENS-D7"	2338	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 8: Mountain"	"CENS-D8"	1348	Not Applicable	Not Applicable
+	"Feb., 2022 (provisional)"	"2022/02"	"Division 9: Pacific"	"CENS-D9"	3485	Not Applicable	Not Applicable
+"Total"	"Feb., 2022 (provisional)"	"2022/02"			17541	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 1: New England"	"CENS-D1"	97	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 2: Middle Atlantic"	"CENS-D2"	556	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 3: East North Central"	"CENS-D3"	634	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 4: West North Central"	"CENS-D4"	188	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 5: South Atlantic"	"CENS-D5"	841	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 6: East South Central"	"CENS-D6"	219	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 7: West South Central"	"CENS-D7"	595	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 8: Mountain"	"CENS-D8"	378	Not Applicable	Not Applicable
+	"Mar., 2022 (provisional)"	"2022/03"	"Division 9: Pacific"	"CENS-D9"	885	Not Applicable	Not Applicable
+"Total"	"Mar., 2022 (provisional)"	"2022/03"			4393	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 1: New England"	"CENS-D1"	77	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 2: Middle Atlantic"	"CENS-D2"	359	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 3: East North Central"	"CENS-D3"	265	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 4: West North Central"	"CENS-D4"	67	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 5: South Atlantic"	"CENS-D5"	308	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 6: East South Central"	"CENS-D6"	69	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 7: West South Central"	"CENS-D7"	156	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 8: Mountain"	"CENS-D8"	98	Not Applicable	Not Applicable
+	"Apr., 2022 (provisional)"	"2022/04"	"Division 9: Pacific"	"CENS-D9"	289	Not Applicable	Not Applicable
+"Total"	"Apr., 2022 (provisional)"	"2022/04"			1688	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 1: New England"	"CENS-D1"	183	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 2: Middle Atlantic"	"CENS-D2"	643	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 3: East North Central"	"CENS-D3"	367	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 4: West North Central"	"CENS-D4"	103	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 5: South Atlantic"	"CENS-D5"	416	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 6: East South Central"	"CENS-D6"	64	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 7: West South Central"	"CENS-D7"	132	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 8: Mountain"	"CENS-D8"	131	Not Applicable	Not Applicable
+	"May, 2022 (provisional)"	"2022/05"	"Division 9: Pacific"	"CENS-D9"	403	Not Applicable	Not Applicable
+"Total"	"May, 2022 (provisional)"	"2022/05"			2442	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 1: New England"	"CENS-D1"	132	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 2: Middle Atlantic"	"CENS-D2"	529	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 3: East North Central"	"CENS-D3"	414	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 4: West North Central"	"CENS-D4"	127	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 5: South Atlantic"	"CENS-D5"	782	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 6: East South Central"	"CENS-D6"	120	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 7: West South Central"	"CENS-D7"	246	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 8: Mountain"	"CENS-D8"	224	Not Applicable	Not Applicable
+	"Jun., 2022 (provisional)"	"2022/06"	"Division 9: Pacific"	"CENS-D9"	598	Not Applicable	Not Applicable
+"Total"	"Jun., 2022 (provisional)"	"2022/06"			3172	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 1: New England"	"CENS-D1"	100	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 2: Middle Atlantic"	"CENS-D2"	632	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 3: East North Central"	"CENS-D3"	502	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 4: West North Central"	"CENS-D4"	152	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 5: South Atlantic"	"CENS-D5"	971	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 6: East South Central"	"CENS-D6"	167	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 7: West South Central"	"CENS-D7"	500	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 8: Mountain"	"CENS-D8"	270	Not Applicable	Not Applicable
+	"Jul., 2022 (provisional)"	"2022/07"	"Division 9: Pacific"	"CENS-D9"	955	Not Applicable	Not Applicable
+"Total"	"Jul., 2022 (provisional)"	"2022/07"			4249	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 1: New England"	"CENS-D1"	135	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 2: Middle Atlantic"	"CENS-D2"	684	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 3: East North Central"	"CENS-D3"	555	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 4: West North Central"	"CENS-D4"	157	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 5: South Atlantic"	"CENS-D5"	1031	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 6: East South Central"	"CENS-D6"	186	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 7: West South Central"	"CENS-D7"	488	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 8: Mountain"	"CENS-D8"	159	Not Applicable	Not Applicable
+	"Aug., 2022 (provisional)"	"2022/08"	"Division 9: Pacific"	"CENS-D9"	836	Not Applicable	Not Applicable
+"Total"	"Aug., 2022 (provisional)"	"2022/08"			4231	Not Applicable	Not Applicable
+"Total"					467130	Not Applicable	Not Applicable
+"---"
+"Dataset: Provisional Mortality Statistics, 2018 through Last Week"
+"Query Parameters:"
+"Title: monthly_large_metro_division_covid_ucd"
+"Residence 2013 Urbanization: Large Central Metro; Large Fringe Metro"
+"UCD - ICD-10 Codes: U07.1 (COVID-19)"
+"Year/Month: Mar., 2020; Apr., 2020; May, 2020; Jun., 2020; Jul., 2020; Aug., 2020; Sep., 2020; Oct., 2020; Nov., 2020; Dec.,"
+"2020; 2021; Jan., 2022 (provisional); Feb., 2022 (provisional); Mar., 2022 (provisional); Apr., 2022 (provisional); May, 2022"
+"(provisional); Jun., 2022 (provisional); Jul., 2022 (provisional); Aug., 2022 (provisional)"
+"Group By: Month; Residence Census Division"
+"Show Totals: True"
+"Show Zero Values: True"
+"Show Suppressed: True"
+"Calculate Rates Per: 100,000"
+"Rate Options: Default intercensal populations for years 2001-2009 (except Infant Age Groups)"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/mcd-provisional.html for more information."
+"---"
+"Query Date: Oct 12, 2023 12:33:07 PM"
+"---"
+"Suggested Citation: Centers for Disease Control and Prevention, National Center for Health Statistics. National Vital Statistics"
+"System, Provisional Mortality on CDC WONDER Online Database. Data are from the final Multiple Cause of Death Files, 2018-2021,"
+"and from provisional data for years 2022-2023, as compiled from data provided by the 57 vital statistics jurisdictions through"
+"the Vital Statistics Cooperative Program. Accessed at http://wonder.cdc.gov/mcd-icd10-provisional.html on Oct 12, 2023 12:33:07"
+"PM"
+"---"
+Messages:
+"1. Selections made to any variable in [Residence Census Regions, Residence HHS Regions, Residence States, Residence 2013"
+"Urbanization] cause equivalent selections in the other variables. More Information:"
+"http://wonder.cdc.gov/wonder/help/faq.html#related-variables."
+"---"
+Caveats:
+"1. Population and rates are labeled 'Not Applicable' when location of Death's Occurrence, Autopsy, Place of Death, Weekday or"
+"Month are grouped by or limited, due to lack of a valid population. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#NotApplicableRates."
+"2. These items in the results table are not fully selected: Division 1: New England, Division 2: Middle Atlantic, Division 3:"
+"East North Central, Division 4: West North Central, Division 5: South Atlantic, Division 6: East South Central, Division 7: West"
+"South Central, Division 8: Mountain, Division 9: Pacific. The Query Description lists the actual values selected."
+"3. Changes to cause of death classification affect reporting trends. More information:"
+"http://wonder.cdc.gov/wonder/help/mcd-provisional.html#ICD-10 Changes."
+"4. Deaths occurring through September 30, 2023 as of October 08, 2023."

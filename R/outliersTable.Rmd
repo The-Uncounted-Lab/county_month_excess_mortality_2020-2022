@@ -1,0 +1,273 @@
+---
+title: "Summary Table with Posterior Intervals for Outliers - COVID Paper"
+author: "Eugenio Paglino"
+output: html_document
+---
+
+```{r, include=F}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+```{r}
+# Loading necessary packages
+library(lubridate)
+library(gt)
+library(here)
+library(glue)
+library(tidyverse)
+```
+
+```{r}
+rm(list=ls())
+
+i_am('R/outliersTable.Rmd')
+
+inDir <- here('data','input')
+outDir <- here('data','output')
+
+mortalityDataType <- 'NC'
+COVIDDataType <- 'MCD'
+modelFolder <- here(outDir,'modelsAndSimulations',glue('model{mortalityDataType}'))
+mortalityDataInputFolder <- here(outDir,glue('cleanedMortality{mortalityDataType}Data'))
+COVIDDataInputFolder <- here(outDir,glue('cleanedCOVID{COVIDDataType}Data'))
+dataOutputFolder <- here(outDir,'estimates',mortalityDataType)
+```
+
+```{r}
+load(here(modelFolder,glue('simulations{mortalityDataType}{COVIDDataType}.RData')))
+```
+
+```{r}
+simulationsDF <- simulationsDF %>%
+  filter(between(monthYear,make_date(2020,3,1),make_date(2022,8,1)),
+         pop > 30000) %>%
+  group_by(FIPSCode) %>%
+  mutate(totalCOVID = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  filter(totalCOVID > 20) %>%
+  mutate(across(V1:V1000, ~ imputedDeaths-.x))
+```
+
+```{r}
+outliersStatsRel <- simulationsDF %>%
+  group_by(FIPSCode) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/(imputedDeaths-.x)),
+         relExcMed = quantile(c_across(V1:V1000),0.5),
+         relExcLow = quantile(c_across(V1:V1000),0.05),
+         relExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relExcPI = paste0('(',
+                             format(round(relExcLow,3)),
+                             ' - ',
+                             format(round(relExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relExcLow,relExcUp,imputedDeaths))
+```
+
+```{r}
+outliersStatsRelNC <- simulationsDF %>%
+  group_by(FIPSCode) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ (.x-COVIDDeaths)/(imputedDeaths-.x)),
+         relNCExcMed = quantile(c_across(V1:V1000),0.5),
+         relNCExcLow = quantile(c_across(V1:V1000),0.05),
+         relNCExcUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(relNCExcPI = paste0('(',
+                             format(round(relNCExcLow,3)),
+                             ' - ',
+                             format(round(relNCExcUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,relNCExcLow,relNCExcUp,COVIDDeaths,imputedDeaths))
+```
+
+```{r}
+outliersStatsAbs <- simulationsDF %>%
+  group_by(FIPSCode) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(excMed = quantile(c_across(V1:V1000),0.5),
+         excLow = quantile(c_across(V1:V1000),0.05),
+         excUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excPI = paste0('(',
+                             format(as.integer(excLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excLow,excUp,imputedDeaths))
+```
+
+```{r}
+outliersStatsAbsNC <- simulationsDF %>%
+  group_by(FIPSCode) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x - COVIDDeaths),
+         excNCMed = quantile(c_across(V1:V1000),0.5),
+         excNCLow = quantile(c_across(V1:V1000),0.05),
+         excNCUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(excNCPI = paste0('(',
+                             format(as.integer(excNCLow),big.mark=','),
+                             ' - ',
+                             format(as.integer(excNCUp),big.mark=','),
+                             ')')) %>%
+  select(-c(V1:V1000,excNCLow,excNCUp,imputedDeaths,COVIDDeaths))
+```
+
+```{r}
+outliersStatsRatio <- simulationsDF %>%
+  group_by(FIPSCode) %>%
+  summarise(across(V1:V1000, ~ sum(.x)),
+            imputedDeaths = sum(imputedDeaths),
+            COVIDDeaths = sum(imputedCOVIDDeaths)) %>%
+  ungroup() %>%
+  rowwise() %>%
+  mutate(across(V1:V1000, ~ .x/COVIDDeaths),
+         ratioMed = quantile(c_across(V1:V1000),0.5),
+         ratioLow = quantile(c_across(V1:V1000),0.05),
+         ratioUp = quantile(c_across(V1:V1000),0.95)) %>%
+  ungroup() %>%
+  mutate(ratioPI = paste0('(',
+                             format(round(ratioLow,3)),
+                             ' - ',
+                             format(round(ratioUp,3)),
+                             ')')) %>%
+  select(-c(V1:V1000,ratioLow,ratioUp,imputedDeaths))
+```
+
+```{r}
+outliersStats <- outliersStatsAbs %>%
+  left_join(outliersStatsAbsNC,by=c('FIPSCode')) %>%
+  left_join(outliersStatsRatio,by=c('FIPSCode')) %>%
+  left_join(outliersStatsRel,by=c('FIPSCode')) %>%
+  left_join(outliersStatsRelNC,by=c('FIPSCode'))
+```
+
+```{r}
+estimatesTotal <- read_csv(here(dataOutputFolder,'estimatesTotal.csv')) %>%
+  select(FIPSCode,countyName,state,census_division)
+```
+```{r}
+summaryTable <- outliersStats %>%
+  left_join(estimatesTotal,by='FIPSCode') %>%
+  group_by(census_division) %>%
+  slice_max(order_by = ratioMed,n=5) %>%
+  ungroup() %>%
+  arrange(census_division,desc(ratioMed))
+```
+
+```{r}
+summaryTable <- summaryTable %>%
+  mutate(countyName = str_remove(countyName,' County'),
+         countyName = str_remove(countyName,' Municipality'),
+         countyName = str_remove(countyName,' Parish'))
+```
+
+```{r}
+summaryTable %>%
+  select(census_division,countyName,state,
+         'ratioMed',
+         'COVIDDeaths',
+         'excMed',
+         'excPI',
+         'excNCMed',
+         'excNCPI',
+         'relExcMed',
+         'relExcPI',
+         'relNCExcMed',
+         'relNCExcPI') %>%
+  group_by(census_division) %>%
+  gt() %>%
+  cols_label(
+    census_division = 'Census Division',
+    countyName = 'County',
+    state = 'State',
+    'COVIDDeaths' = 'COVID-19 Deaths',
+    'excMed' = 'Median',
+    'excPI' = 'PI (90%)',
+    'excNCMed' = 'Median',
+    'excNCPI' = 'PI (90%)',
+    'ratioMed' = 'Excess/COVID', 
+    'relExcMed' = 'Median',
+    'relExcPI' = 'PI (90%)',
+    'relNCExcMed' = 'Median',
+    'relNCExcPI' = 'PI (90%)') %>%
+  fmt_number(
+    columns = starts_with('COVIDDeaths') | starts_with('excMed') | starts_with('excNCMed'),
+    decimals = 0
+  ) %>%
+  fmt_number(
+    columns = starts_with('ratioMed') | starts_with('relExcMed') | starts_with('relNCExcMed'),
+    decimals = 3
+  ) %>%
+  tab_spanner(
+    label = 'Total',
+    columns = starts_with('exc') & ! starts_with('excNC'),
+    id = 'Total Excess Deaths',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Excluding COVID-19',
+    columns = starts_with('excNC'),
+    id = 'Non-COVID Excess Deaths',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Total',
+    columns = starts_with('relExc'),
+    id = 'Total Relative Excess',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Excluding COVID-19',
+    columns = starts_with('relNCExc'),
+    id = 'Non-COVID-19 Relative Excess',
+    level = 1
+  ) %>%
+  tab_spanner(
+    label = 'Absolute Excess Mortality',
+    columns = starts_with('exc'),
+    id = 'Absolute Excess',
+    level = 2
+  ) %>%
+  tab_spanner(
+    label = 'Relative Excess Mortality',
+    columns = starts_with('rel'),
+    id = 'Relative Excess',
+    level = 2
+  ) %>%
+  cols_align(columns = contains('PI'),
+             align='left') %>%
+  cols_width(countyName ~ px(130),
+             state ~ px(110),
+             starts_with('excMed') | starts_with('excNCMed') | starts_with('COVIDDeaths') ~ px(80),
+             starts_with('relExcMed') | starts_with('relNCExcMed') ~ px(70),
+             starts_with('ratioMed') ~ px(100),
+             starts_with('excPI') | starts_with('excNCPI') ~ px(120),
+             starts_with('ratioPI') | starts_with('relExcPI') | starts_with('relNCExcPI') ~ px(130)) %>%
+  tab_options(table.font.size = '90%',
+              row_group.font.size = '120%',
+              data_row.padding = px(1),
+              row_group.padding = px(4)) %>%
+  gt::gtsave(filename = here('figures',glue('outliersTable{COVIDDataType}.png')),
+             vwidth = 1300,vheight = 1000,zoom=4)
+```

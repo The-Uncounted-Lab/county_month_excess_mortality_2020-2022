@@ -33,7 +33,7 @@ i_am('R/cleanCOVIDData.Rmd')
 
 inDir <- here('data','input')
 outDir <- here('data','output')
-dataType <- 'MCD'
+dataType <- 'UCD'
 dataInputFolder <- here(inDir,'CDC',glue('COVID{dataType}Data'))
 dataOutputFolder <- here(outDir,glue('cleanedCOVID{dataType}Data'))
 ```
@@ -174,10 +174,11 @@ totalData <- fix_FIPS(FIPSFixes,totalData)
 # Import population counts and information on county sets (groups of 
 # counties created by the Census Bureau to have geographical units with
 # at least 50.000 residents).
-popData <- tibble(arrow::read_feather(here(outDir,'cleanedPopData','popDataMonthlyAlt.feather')))
+popData <- tibble(arrow::read_feather(here(outDir,'cleanedPopData','popDataMonthlySmooth.feather')))
 
 popData <- popData %>%
-  filter(year>=2010)
+  mutate(year=year(time),
+         month=month(time))
 
 countyData <- tidycensus::fips_codes %>%
   mutate(FIPSCode = str_c(state_code,county_code)) %>%

@@ -14,12 +14,12 @@ Monthly County Level Excess Mortality in the United States, 2020-2022
 
 This repo includes data and code required to replicate the results in
 the paper [“Excess all-cause mortality across counties in the United
-States, March 2020 to December 2021” \[Link to
-Pre-Print\]](https://www.medrxiv.org/content/10.1101/2022.04.23.22274192v4)
-and [“Differences Between Reported COVID-19 Deaths and Estimated Excess
+States, March 2020 to December 2021” \[Link to article in Science
+Advances\]](https://www.science.org/doi/10.1126/sciadv.adf9742) and
+[“Differences Between Reported COVID-19 Deaths and Estimated Excess
 Deaths in Counties Across the United States, March 2020 to February
 2022” \[Link to
-Pre-Print\]](https://www.medrxiv.org/content/10.1101/2023.01.16.23284633v1).
+pre-print\]](https://www.medrxiv.org/content/10.1101/2023.01.16.23284633v1).
 
 The aim of this project is to estimate monthly deaths at the county
 level for the United States for the period March 2020 - August 2022 in
@@ -137,12 +137,49 @@ The following datasets are available:
        |__estimatesPYears.csv
        |__estimatesStates.csv
        |__estimatesTotal.csv
+    -- ACMCD
+       |__estimatesMonthly.csv
+       |__estimatesMonthlyFull.csv
+       |__estimatesMonthlyTotals.csv
+       |__estimatesPYears.csv
+       |__estimatesPYearsFull.csv
+       |__estimatesStates.csv
+       |__estimatesTotal.csv
+       |__estimatesTotalFull.csv
+    -- ACUCD
+       |__estimatesMonthly.csv
+       |__estimatesMonthlyFull.csv
+       |__estimatesMonthlyTotals.csv
+       |__estimatesPYears.csv
+       |__estimatesPYearsFull.csv
+       |__estimatesStates.csv
+       |__estimatesTotal.csv
+       |__estimatesTotalFull.csv
     -- NC
        |__estimatesMonthly.csv
        |__estimatesMonthlyTotals.csv
        |__estimatesPYears.csv
        |__estimatesStates.csv
        |__estimatesTotal.csv
+    -- NCMCD
+       |__estimatesMonthly.csv
+       |__estimatesMonthlyFull.csv
+       |__estimatesMonthlyTotals.csv
+       |__estimatesPYears.csv
+       |__estimatesPYearsFull.csv
+       |__estimatesStates.csv
+       |__estimatesTotal.csv
+       |__estimatesTotalFull.csv
+    -- NCUCD
+       |__estimatesMonthly.csv
+       |__estimatesMonthlyFull.csv
+       |__estimatesMonthlyTotals.csv
+       |__estimatesPYears.csv
+       |__estimatesPYearsFull.csv
+       |__estimatesStates.csv
+       |__estimatesTotal.csv
+       |__estimatesTotalFull.csv
+       |__estimatesYearly.csv
 
 ## Data Dictionaries and Descriptive Statistics
 
